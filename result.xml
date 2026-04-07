@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\xampp\htdocs\WebDesaWarurejo\phpunit.xml" tests="1" assertions="2" errors="0" failures="1" skipped="0" time="0.709001">
+    <testsuite name="Unit" tests="1" assertions="2" errors="0" failures="1" skipped="0" time="0.709001">
+      <testsuite name="Tests\Unit\ImageUploadServiceTest" file="C:\xampp\htdocs\WebDesaWarurejo\tests\Unit\ImageUploadServiceTest.php" tests="1" assertions="2" errors="0" failures="1" skipped="0" time="0.709001">
+        <testcase name="test_creates_thumbnail_from_path" file="C:\xampp\htdocs\WebDesaWarurejo\tests\Unit\ImageUploadServiceTest.php" line="157" class="Tests\Unit\ImageUploadServiceTest" classname="Tests.Unit.ImageUploadServiceTest" assertions="2" time="0.709001">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Unit\ImageUploadServiceTest::test_creates_thumbnail_from_path&#13;
+Thumbnail creation failed
+Failed asserting that null is not null.
+&#13;
+C:\xampp\htdocs\WebDesaWarurejo\tests\Unit\ImageUploadServiceTest.php:173</failure>
+        </testcase>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

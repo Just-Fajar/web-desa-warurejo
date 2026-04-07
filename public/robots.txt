@@ -1,0 +1,43 @@
+# Robots.txt for Desa Warurejo Website
+# https://www.robotstxt.org/
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /storage/private/
+
+# Sitemap
+Sitemap: {{ url('/sitemap.xml') }}
+
+# Crawl-delay (seconds between requests)
+Crawl-delay: 1
+
+# Common search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Block bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /

@@ -1,0 +1,74 @@
+# Laravel
+*.log
+.env
+.env.*
+!.env.example
+.phpactor.json
+.phpunit.result.cache
+/vendor
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Build & Cache
+/public/build
+/public/hot
+/public/storage
+/.phpunit.cache
+/storage/*.key
+/storage/pail
+/bootstrap/cache/*
+!/bootstrap/cache/.gitkeep
+
+# Uploaded Files (PENTING: Jangan commit file upload user)
+/storage/app/public/berita/*
+!/storage/app/public/berita/.gitkeep
+/storage/app/public/potensi/*
+!/storage/app/public/potensi/.gitkeep
+/storage/app/public/galeri/*
+!/storage/app/public/galeri/.gitkeep
+
+# Logs
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# IDE & Editor
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Composer & Auth
+/auth.json
+composer.phar
+
+# Deployment & Server Config
+Homestead.json
+Homestead.yaml
+.vagrant
+.docker
+
+# Database
+*.sqlite
+*.sqlite-journal
+/database/*.sqlite
+/database/*.sqlite-journal
+
+# Backup files
+*.bak
+*.backup
+*.sql
+*.dump
+
+# Sensitive Configuration
+/config/secrets.php
+/config/local.php
