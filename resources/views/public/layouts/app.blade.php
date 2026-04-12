@@ -1,50 +1,3 @@
-{{--
-    PUBLIC LAYOUT TEMPLATE
-    
-    Master layout untuk semua halaman public website
-    
-    STRUKTUR:
-    - Head: SEO meta tags (auto-generated dari SEOHelper)
-    - Navbar: Navigation menu (sticky)
-    - Main: @yield('content') area
-    - Footer: Contact info & links
-    - WhatsApp FAB: Floating action button (hanya di homepage)
-    
-    SEO FEATURES:
-    - Dynamic meta tags (title, description, keywords)
-    - Open Graph tags (Facebook sharing)
-    - Twitter Card tags (Twitter sharing)
-    - Structured Data JSON-LD (Google rich results)
-    - Canonical URL
-    - Robots meta (index, follow)
-    
-    SEO DATA:
-    $seoData array bisa dipass dari controller:
-    [
-        'title' => 'Custom Title',
-        'description' => 'Custom description...',
-        'image' => 'https://example.com/image.jpg',
-        'type' => 'article',
-    ]
-    
-    STRUCTURED DATA:
-    $structuredData: Custom schema (Article, Event, Product)
-    Default: Organization schema untuk desa
-    
-    USAGE:
-    @extends('public.layouts.app')
-    @section('content')
-        <!-- Your page content -->
-    @endsection
-    
-    @push('styles')
-        <!-- Additional CSS -->
-    @endpush
-    
-    @push('scripts')
-        <!-- Additional JS -->
-    @endpush
---}}
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -97,7 +50,7 @@
     @endif
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/Logo-Kabupaten.png') }}">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

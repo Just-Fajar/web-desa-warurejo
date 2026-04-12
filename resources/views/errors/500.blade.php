@@ -100,7 +100,7 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-red-50 via-white to-orange-50 min-h-screen flex items-center justify-center p-4">
+<body class="bg-linear-to-br from-red-50 via-white to-orange-50 min-h-screen flex items-center justify-center p-4">
     <!-- Background Decorations -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div class="absolute top-10 right-10 w-72 h-72 bg-red-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
@@ -112,7 +112,7 @@
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
             <div class="grid md:grid-cols-2 gap-0">
                 <!-- Left Side - Error Info -->
-                <div class="p-12 flex flex-col justify-center bg-gradient-to-br from-red-600 to-orange-600 text-white">
+                <div class="p-12 flex flex-col justify-center bg-linear-to-br from-red-600 to-orange-600 text-white">
                     <div class="mb-8">
                         <!-- Logo -->
                         <div class="flex items-center space-x-3 mb-6">
@@ -175,7 +175,7 @@
                     <div class="space-y-3">
                         <button 
                            onclick="location.reload()" 
-                           class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                           class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-linear-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                             <i class="fas fa-sync-alt text-xl"></i>
                             <span>Muat Ulang Halaman</span>
                         </button>
@@ -217,7 +217,7 @@
                     <div class="mt-6 pt-6 border-t border-gray-200 text-center">
                         <p class="text-sm text-gray-500">
                             Masalah berlanjut? 
-                            <a href="mailto:admin@warurejo.desa.id" class="text-red-600 hover:text-red-700 font-semibold hover:underline">
+                            <a href="https://wa.me/62085168687700" class="text-red-600 hover:text-red-700 font-semibold hover:underline">
                                 Laporkan ke Admin
                             </a>
                         </p>

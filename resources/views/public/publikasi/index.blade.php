@@ -87,69 +87,120 @@
 
 @section('content')
 <!-- Header Section -->
-<section class="bg-gradient-to-r from-primary-600 to-primary-800 py-8 sm:py-12 md:py-16">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 scroll-reveal">
-        <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Publikasi Desa</h1>
-        <p class="text-base sm:text-lg md:text-xl text-primary-100">Dokumen {{ $kategori }} Desa Warurejo</p>
+<section class="pt-32 pb-4 bg-gray-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto scroll-reveal">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-bold uppercase tracking-wider mb-4">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary-600"></span>
+                DOKUMEN DESA
+            </span>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+                Publikasi <span class="text-primary-600">Desa</span>
+            </h1>
+            <p class="text-base sm:text-lg text-gray-500 max-w-2xl">
+                Arsip Dokumen {{ $kategori }} Resmi Desa Warurejo
+            </p>
+        </div>
     </div>
 </section>
 
 <!-- Main Content -->
-<section class="py-6 sm:py-8 md:py-12 bg-gray-50">
+<section class="py-4 sm:py-8 md:py-12 bg-gray-50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col lg:flex-row gap-6 sm:gap-8">
             <!-- Main Content -->
             <div class="lg:w-3/4">
                 <!-- Filter Section -->
-                <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-6 scroll-reveal">
-                    <div class="flex flex-col gap-4">
-                        <!-- Kategori Dropdown -->
-                        <div class="flex-1">
-                            <label for="kategori" class="block text-sm font-semibold text-gray-700 mb-2">Pilih Kategori</label>
-                            <select id="kategori" 
-                                    class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-primary-600 focus:border-transparent"
-                                    onchange="window.location.href = '{{ route('publikasi.index') }}?kategori=' + this.value + '{{ request('tahun') ? '&tahun=' . request('tahun') : '' }}' + '{{ request('urutkan') ? '&urutkan=' . request('urutkan') : '' }}'">
-                                @foreach($categories as $cat)
-                                    <option value="{{ $cat }}" {{ $kategori === $cat ? 'selected' : '' }}>{{ $cat }}</option>
-                                @endforeach
-                            </select>
+                <div class="mb-8 md:mb-12 bg-white rounded-2xl shadow-sm border border-gray-100 p-3 sm:p-4 scroll-reveal">
+                    <form method="GET" action="{{ route('publikasi.index') }}" class="flex flex-col gap-3">
+                        <div class="relative w-full mb-4 md:mb-2">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </div>
+                            <input 
+                                type="text" 
+                                name="search" 
+                                placeholder="Cari publikasi desa..." 
+                                value="{{ request('search') }}"
+                                class="w-full pl-12 pr-4 py-4 md:text-lg border-2 border-gray-100 rounded-xl focus:ring-0 focus:border-primary-500 transition-colors bg-gray-50/50 focus:bg-white text-gray-800"
+                                autocomplete="off"
+                            >
                         </div>
 
-                        <!-- Urutkan Dropdown -->
-                        <div class="flex-1">
-                            <label for="urutkan" class="block text-sm font-semibold text-gray-700 mb-2">Urutkan</label>
-                            <select id="urutkan" 
-                                    class="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-primary-600 focus:border-transparent"
-                                    onchange="window.location.href = '{{ route('publikasi.index') }}?kategori={{ $kategori }}' + '{{ request('tahun') ? '&tahun=' . request('tahun') : '' }}' + '&urutkan=' + this.value">
-                                <option value="terbaru" {{ request('urutkan', 'terbaru') === 'terbaru' ? 'selected' : '' }}>Terbaru</option>
-                                <option value="terlama" {{ request('urutkan') === 'terlama' ? 'selected' : '' }}>Terlama</option>
-                                <option value="terpopuler" {{ request('urutkan') === 'terpopuler' ? 'selected' : '' }}>Terpopuler</option>
-                            </select>
-                        </div>
+                        {{-- Bottom Row: Filters --}}
+                        <div class="flex flex-col md:flex-row md:items-center gap-4">
+                            <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <!-- Tahun -->
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <select 
+                                        name="tahun" 
+                                        class="w-full pl-10 pr-8 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 bg-gray-50/70 appearance-none"
+                                    >
+                                        <option value="">Semua Tahun</option>
+                                        @foreach($availableYears as $year)
+                                            <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>Tahun {{ $year }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                
+                                <!-- Kategori -->
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                                    </div>
+                                    <select 
+                                        name="kategori" 
+                                        class="w-full pl-10 pr-8 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 bg-gray-50/70 appearance-none"
+                                    >
+                                        @foreach($categories as $cat)
+                                            <option value="{{ $cat }}" {{ request('kategori') == $cat || (!request('kategori') && $cat == 'APBDes') ? 'selected' : '' }}>{{ $cat }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                        <!-- Tahun Filter -->
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Filter Tahun</label>
-                            <div class="flex flex-wrap gap-2">
-                                <a href="{{ route('publikasi.index', ['kategori' => $kategori, 'urutkan' => request('urutkan', 'terbaru')]) }}" 
-                                   class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm transition {{ !request('tahun') ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
-                                    Semua Tahun
+                                <!-- Urutkan -->
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/></svg>
+                                    </div>
+                                    <select 
+                                        name="urutkan" 
+                                        class="w-full pl-10 pr-8 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 bg-gray-50/70 appearance-none"
+                                    >
+                                        <option value="terbaru" {{ request('urutkan', 'terbaru') === 'terbaru' ? 'selected' : '' }}>Terbaru</option>
+                                        <option value="terlama" {{ request('urutkan') === 'terlama' ? 'selected' : '' }}>Terlama</option>
+                                        <option value="terpopuler" {{ request('urutkan') === 'terpopuler' ? 'selected' : '' }}>Terpopuler</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- Action Buttons --}}
+                            <div class="flex items-center gap-2 mt-2 md:mt-0">
+                                @if(request()->anyFilled(['search', 'tahun', 'kategori', 'urutkan']))
+                                <a href="{{ route('publikasi.index') }}" class="px-5 py-3 md:py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors inline-flex items-center">
+                                    Reset
                                 </a>
-                                @foreach($availableYears as $year)
-                                    <a href="{{ route('publikasi.index', ['kategori' => $kategori, 'tahun' => $year, 'urutkan' => request('urutkan', 'terbaru')]) }}" 
-                                       class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm transition {{ request('tahun') == $year ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
-                                        {{ $year }}
-                                    </a>
-                                @endforeach
+                                @endif
+                                <button 
+                                    type="submit" 
+                                    class="px-6 py-3 md:py-2.5 text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 rounded-xl transition-all shadow-md shadow-primary-500/20 active:scale-95 inline-flex items-center justify-center w-full md:w-auto"
+                                >
+                                    Cari
+                                </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
                 <!-- Documents Grid -->
                 <div class="space-y-3 sm:space-y-4">
                     @forelse($publikasi as $item)
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                             <div class="flex flex-col sm:flex-row">
                                 <!-- Thumbnail -->
                                 <div class="sm:w-40 md:w-48 shrink-0">
@@ -213,7 +264,7 @@
                             </div>
                         </div>
                     @empty
-                        <div class="bg-white rounded-lg shadow-md p-6 sm:p-8 md:p-12 text-center">
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 md:p-12 text-center">
                             <i class="fas fa-folder-open text-4xl sm:text-5xl md:text-6xl text-gray-300 mb-3 sm:mb-4"></i>
                             <h3 class="text-lg sm:text-xl font-semibold text-gray-700 mb-2">Tidak Ada Publikasi</h3>
                             <p class="text-gray-500 text-sm sm:text-base">Belum ada dokumen {{ $kategori }} yang dipublikasikan.</p>
@@ -232,7 +283,7 @@
             <!-- Sidebar -->
             <div class="lg:w-1/4">
                 <!-- Publikasi Lainnya -->
-                <div class="bg-white rounded-lg shadow-md p-6 mt-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mt-0 lg:mt-0">
                     <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
                         <i class="fas fa-file-alt mr-2 text-primary-600"></i>
                         Publikasi Lainnya
@@ -242,7 +293,7 @@
                             <a href="{{ route('publikasi.show', $item->id) }}" 
                                class="block group">
                                 <div class="flex gap-3">
-                                    <div class="w-16 h-16 flex-shrink-0 bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg flex items-center justify-center">
+                                    <div class="w-16 h-16 flex-shrink-0 bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl flex items-center justify-center">
                                         <i class="fas fa-file-pdf text-2xl text-primary-600"></i>
                                     </div>
                                     <div class="flex-1">
@@ -267,14 +318,18 @@
                 </div>
 
                 <!-- Info Box -->
-                <div class="bg-gradient-to-br from-primary-600 to-primary-800 rounded-lg shadow-md p-6 mt-6 text-white">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-info-circle text-3xl mr-3"></i>
-                        <h3 class="text-lg font-bold">Informasi</h3>
+                <div class="bg-primary-50 rounded-2xl shadow-sm border border-primary-100 p-6 mt-6 hover:shadow-md transition-all group">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-white p-3 rounded-xl shadow-sm text-primary-600 shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Panduan Unduh</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Dokumen arsip dapat diakses gratis. Klik tombol <span class="font-semibold text-primary-600">"Lihat"</span> untuk mereview atau melanjutkan mengunduh dokumen publikasi asli ke perangkat Anda.
+                            </p>
+                        </div>
                     </div>
-                    <p class="text-sm text-primary-100">
-                        Semua dokumen publikasi desa dapat diakses secara gratis. Klik "Lihat" untuk melihat detail dan preview dokumen. Untuk mengunduh, buka halaman detail dan klik tombol unduh jika tersedia.
-                    </p>
                 </div>
             </div>
         </div>

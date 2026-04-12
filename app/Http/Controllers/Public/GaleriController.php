@@ -35,6 +35,8 @@ class GaleriController extends Controller
         $search = $request->get('search');
         $kategori = $request->get('kategori');
         $urutkan = $request->get('urutkan', 'terbaru'); // terbaru, terlama, terpopuler
+        $date_from = $request->get('date_from');
+        $date_to = $request->get('date_to');
         
         // Build query
         $query = Galeri::with(['admin', 'images'])->published();
@@ -48,6 +50,14 @@ class GaleriController extends Controller
         
         if ($kategori) {
             $query->byKategori($kategori);
+        }
+        
+        if ($date_from) {
+            $query->whereDate('tanggal', '>=', $date_from);
+        }
+        
+        if ($date_to) {
+            $query->whereDate('tanggal', '<=', $date_to);
         }
         
         // Apply sorting
@@ -79,6 +89,6 @@ class GaleriController extends Controller
             'type' => 'website'
         ]);
         
-        return view('public.galeri.index', compact('galeris', 'search', 'kategori', 'seoData'));
+        return view('public.galeri.index', compact('galeris', 'search', 'kategori', 'seoData', 'date_from', 'date_to'));
     }
 }

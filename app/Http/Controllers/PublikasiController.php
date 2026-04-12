@@ -14,6 +14,7 @@ class PublikasiController extends Controller
     {
         $kategori = $request->get('kategori', 'APBDes');
         $tahun = $request->get('tahun');
+        $search = $request->get('search');
         $urutkan = $request->get('urutkan', 'terbaru'); // terbaru, terlama, terpopuler
 
         // Get all available years
@@ -30,6 +31,9 @@ class PublikasiController extends Controller
             ->byKategori($kategori)
             ->when($tahun, function ($query, $tahun) {
                 return $query->byTahun($tahun);
+            })
+            ->when($search, function ($query, $search) {
+                return $query->where('judul', 'like', '%' . $search . '%');
             });
         
         // Apply sorting

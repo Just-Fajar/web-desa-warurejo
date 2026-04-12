@@ -243,7 +243,7 @@
 
         {{-- Makna Filosofis Visi --}}
         <div class="mb-12 sm:mb-16 scroll-reveal">
-            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-8">Makna Filosofis Visi Desa</h3>
+            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-8">Visi Desa</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <!-- Convert the 6 points into small neat cards -->
                 <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:shadow-md transition">

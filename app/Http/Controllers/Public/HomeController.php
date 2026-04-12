@@ -95,8 +95,8 @@ class HomeController extends Controller
         // Cache SEO data for 1 day
         $seoData = Cache::remember('home.seo_data', 86400, function () use ($profil) {
             return SEOHelper::generateMetaTags([
-                'title' => $profil->nama_desa . ' - ' . $profil->kecamatan . ', ' . $profil->kabupaten,
-                'description' => "Website resmi {$profil->nama_desa}, {$profil->kecamatan}, {$profil->kabupaten}. Informasi berita terkini, potensi desa, galeri kegiatan, dan profil desa.",
+                'title' => 'Website Resmi Desa Warurejo',
+                'description' => 'Website resmi Desa Warurejo, Kecamatan Balerejo, Kabupaten Madiun sebagai pusat informasi publik yang menyajikan berita terkini, profil desa, potensi wilayah, dan galeri kegiatan masyarakat.',
                 'keywords' => "desa warurejo, {$profil->kecamatan}, {$profil->kabupaten}, profil desa, berita desa, potensi desa, galeri",
                 'image' => $profil->logo ? asset('storage/' . $profil->logo) : asset('images/logo.png'),
                 'type' => 'website'

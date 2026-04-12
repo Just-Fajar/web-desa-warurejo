@@ -1,34 +1,3 @@
-{{--
-    ADMIN LAYOUT TEMPLATE
-    
-    Master layout untuk seluruh halaman admin panel
-    
-    STRUKTUR:
-    - Sidebar: Menu navigasi (fixed di desktop, toggle di mobile)
-    - Header: Breadcrumb dan user info
-    - Main Content: @yield('content') area
-    
-    DEPENDENCIES:
-    - Alpine.js: Toggle sidebar di mobile (x-data, @click)
-    - Font Awesome: Icons
-    - TailwindCSS: Styling
-    - SweetAlert2: Notifications (dimuat di parent pages)
-    
-    RESPONSIVE:
-    - Mobile: Sidebar hidden, toggle dengan button
-    - Desktop (lg+): Sidebar always visible
-    
-    USAGE:
-    @extends('admin.layouts.app')
-    @section('title', 'Dashboard')
-    @section('content')
-        <!-- Your content here -->
-    @endsection
-    
-    NAVIGATION HIGHLIGHT:
-    Menu aktif detect dengan request()->routeIs()
-    Contoh: 'admin.berita.*' akan highlight semua route berita
---}}
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -37,6 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin') - Desa Warurejo</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/Logo-Kabupaten.png') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     

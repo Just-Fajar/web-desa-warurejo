@@ -32,13 +32,17 @@ class PotensiController extends Controller
         $kategori = $request->get('kategori');
         $search = $request->get('search');
         $urutkan = $request->get('urutkan', 'terbaru'); // terbaru, terlama, terpopuler
+        $date_from = $request->get('date_from');
+        $date_to = $request->get('date_to');
         
         // Build query with filters
-        if ($kategori || $search || $urutkan !== 'terbaru') {
+        if ($kategori || $search || $urutkan !== 'terbaru' || $date_from || $date_to) {
             $potensi = $this->potensiService->searchWithFilters([
                 'kategori' => $kategori,
                 'search' => $search,
-                'urutkan' => $urutkan
+                'urutkan' => $urutkan,
+                'date_from' => $date_from,
+                'date_to' => $date_to
             ]);
         } else {
             $potensi = $this->potensiService->getActivePotensi();
@@ -53,7 +57,7 @@ class PotensiController extends Controller
             'type' => 'website'
         ]);
         
-        return view('public.potensi.index', compact('potensi', 'kategori', 'seoData'));
+        return view('public.potensi.index', compact('potensi', 'kategori', 'seoData', 'date_from', 'date_to'));
     }
 
     /**

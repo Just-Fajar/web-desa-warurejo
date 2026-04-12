@@ -118,29 +118,29 @@
 
                 <div class="space-y-8">
                     {{-- Contact Items --}}
-                    <div class="flex items-start gap-4 group">
-                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-50 text-amber-600 border border-amber-100 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300 shrink-0">
+                    <a href="https://maps.app.goo.gl/G3PAkybFHZyfbzvC9?g_st=aw" target="_blank" class="flex items-start gap-4 group hover:cursor-pointer transition-transform hover:-translate-y-1">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-50 text-amber-600 border border-amber-100 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300 shrink-0 shadow-sm group-hover:shadow-md">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-bold text-gray-900 text-lg mb-1">Alamat Kantor</h3>
-                            <p class="text-gray-500 leading-relaxed">Jl. Flamboyan, Templek, Warurejo, Kec. Balerejo, Kabupaten Madiun, Jawa Timur 63152</p>
+                            <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-amber-600 transition-colors">Alamat Kantor</h3>
+                            <p class="text-gray-500 leading-relaxed group-hover:text-gray-700 transition-colors">Jl. Flamboyan, Templek, Warurejo, Kec. Balerejo, Kabupaten Madiun, Jawa Timur 63152</p>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="flex items-start gap-4 group">
-                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-50 text-amber-600 border border-amber-100 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300 shrink-0">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-amber-50 text-amber-600 border border-amber-100 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300 shrink-0 shadow-sm group-hover:shadow-md">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                             </svg>
                         </div>
-                        <div>
-                            <h3 class="font-bold text-gray-900 text-lg mb-1">Kontak Resmi</h3>
-                            <p class="text-gray-500">desawarurejo@gmail.com</p>
-                            <p class="text-gray-500 mt-0.5">0851-6868-7700</p>
+                        <div class="flex flex-col">
+                            <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-amber-600 transition-colors">Kontak Resmi</h3>
+                            <a href="mailto:desawarurejo@gmail.com" class="text-gray-500 hover:text-amber-600 transition-colors inline-block w-fit">desawarurejo@gmail.com</a>
+                            <a href="https://wa.me/62085168687700?text=Halo%20Admin%20Desa%20Warurejo,%20saya%20ingin%20bertanya" class="text-gray-500 hover:text-amber-600 transition-colors inline-block mt-0.5 w-fit">0851-6868-7700</a>
                         </div>
                     </div>
 

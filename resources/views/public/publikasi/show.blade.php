@@ -101,28 +101,27 @@
 
 @section('content')
 <!-- Header Section -->
-<section class="bg-gradient-to-r from-primary-600 to-primary-800 py-16">
-    <div class="container mx-auto px-4">
-        <nav class="text-sm mb-4">
-            <ol class="flex items-center space-x-2 text-primary-100">
-                <li><a href="{{ route('home') }}" class="hover:text-white">Beranda</a></li>
-                <li><span>/</span></li>
-                <li><a href="{{ route('publikasi.index') }}" class="hover:text-white">Publikasi</a></li>
-                <li><span>/</span></li>
-                <li class="text-white">{{ $publikasi->kategori }}</li>
-            </ol>
-        </nav>
-        <h1 class="text-4xl font-bold text-white mb-2">{{ $publikasi->judul }}</h1>
-        <div class="flex items-center text-primary-100 text-sm">
-            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-            </svg>
-            {{ $publikasi->tanggal_publikasi->format('d F Y') }}
-            {{-- <span class="mx-3">•</span>
-            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-            </svg>
-            {{ $publikasi->jumlah_download }} unduhan --}}
+<section class="pt-32 pb-8 bg-gray-50 border-b border-gray-100">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto scroll-reveal">
+            <nav class="text-sm mb-6">
+                <ol class="flex items-center space-x-2 text-gray-500 font-medium">
+                    <li><a href="{{ route('home') }}" class="hover:text-primary-600 transition-colors">Beranda</a></li>
+                    <li><svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></li>
+                    <li><a href="{{ route('publikasi.index') }}" class="hover:text-primary-600 transition-colors">Publikasi</a></li>
+                    <li><svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></li>
+                    <li class="text-primary-600 font-semibold">{{ $publikasi->kategori }}</li>
+                </ol>
+            </nav>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">{{ $publikasi->judul }}</h1>
+            <div class="flex flex-wrap items-center gap-4 text-gray-500 text-sm font-medium">
+                <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                    <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    {{ $publikasi->tanggal_publikasi->format('d F Y') }}
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -134,7 +133,7 @@
             <!-- Main Content -->
             <div class="lg:w-3/4">
                 <!-- Document Info -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
                     <div class="flex flex-wrap gap-2 mb-4">
                         <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm font-semibold rounded-full">
                             {{ $publikasi->kategori }}
@@ -162,7 +161,7 @@
                 </div>
 
                 <!-- PDF Preview -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="bg-gray-100 px-6 py-3 border-b border-gray-200">
                         <h3 class="text-lg font-semibold text-gray-900">Preview Dokumen</h3>
                     </div>
@@ -184,7 +183,7 @@
             <!-- Sidebar -->
             <div class="lg:w-1/4">
                 <!-- Related Documents -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
                     <h3 class="text-lg font-bold text-gray-900 mb-4">Dokumen Terkait</h3>
                     
                     @if($relatedPublikasi->count() > 0)
@@ -224,7 +223,7 @@
 
                 <!-- Back Button -->
                 <a href="{{ route('publikasi.index', ['kategori' => $publikasi->kategori]) }}"
-                   class="block w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 text-center font-medium rounded-lg transition-colors">
+                   class="block w-full px-4 py-3 bg-white border border-gray-100 shadow-sm hover:bg-gray-50 text-gray-700 text-center font-bold rounded-2xl transition-all hover:-translate-y-1">
                     ← Kembali ke Daftar
                 </a>
             </div>
