@@ -131,19 +131,32 @@
         --}}
     </div>
 
+    <!-- Bulk Actions -->
+    <div id="bulk-actions" class="bg-rose-50 border border-rose-100 rounded-2xl p-4 mb-4 hidden">
+        <div class="flex items-center justify-between">
+            <span class="text-rose-700 font-semibold">
+                <span id="selectedCount">0</span> potensi dipilih
+            </span>
+            <button id="bulkDeleteBtn" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl font-semibold transition text-sm flex items-center">
+                <i class="fas fa-trash mr-2"></i>
+                Hapus Terpilih
+            </button>
+        </div>
+    </div>
+
     <!-- Table Card -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
         <!-- Table Header with Bulk Actions -->
-        <div class="p-4 border-b border-gray-200 bg-gray-50">
+        <div class="p-5 border-b border-gray-100 bg-white">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <!-- Search -->
-                <div class="flex-1">
+                <div class="flex-1 max-w-md">
                     <div class="relative">
                         <input type="text" 
                                id="searchInput"
                                placeholder="Cari potensi desa..." 
-                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                               class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm">
+                        <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                     </div>
@@ -151,7 +164,7 @@
 
                 <!-- Filter -->
                 <div class="flex gap-2">
-                    <select id="kategoriFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <select id="kategoriFilter" class="px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-600 text-sm font-semibold transition-all duration-200">
                         <option value="">Semua Kategori</option>
                         <option value="pertanian">Pertanian</option>
                         <option value="peternakan">Peternakan</option>
@@ -161,74 +174,54 @@
                         <option value="kerajinan">Kerajinan</option>
                         <option value="lainnya">Lainnya</option>
                     </select>
-
-                    {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-                    <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                        <option value="">Semua Status</option>
-                        <option value="active">Aktif</option>
-                        <option value="inactive">Tidak Aktif</option>
-                    </select>
-                    --}}
-
-                    <!-- Bulk Delete Button -->
-                    <button type="button" 
-                            id="bulkDeleteBtn"
-                            class="hidden px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
-                        <svg class="w-5 h-5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                        </svg>
-                        Hapus Dipilih (<span id="selectedCount">0</span>)
-                    </button>
                 </div>
             </div>
         </div>
 
         <!-- Table -->
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200" id="potensiTable">
-                <thead class="bg-gray-50">
+            <table class="min-w-full divide-y divide-gray-100" id="potensiTable">
+                <thead class="bg-gray-50/50">
                     <tr>
-                        <th class="px-6 py-3 text-left">
-                            <input type="checkbox" id="selectAll" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                        <th class="px-6 py-4 text-left w-12">
+                            <!-- No Select All -->
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
                             Potensi
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
                             Kategori
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
                             Lokasi
                         </th>
-                        {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                            Tanggal Upload
                         </th>
-                        --}}
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
                             Aksi
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-gray-50">
                     @forelse($potensi as $item)
-                        <tr class="hover:bg-gray-50 potensi-row" data-kategori="{{ $item->kategori }}" data-status="{{ $item->is_active ? 'active' : 'inactive' }}">
+                        <tr class="hover:bg-slate-50/50 potensi-row transition-colors duration-150" data-kategori="{{ $item->kategori }}" data-status="{{ $item->is_active ? 'active' : 'inactive' }}">
                             <td class="px-6 py-4">
                                 <input type="checkbox" class="potensi-checkbox rounded border-gray-300 text-primary-600 focus:ring-primary-500" value="{{ $item->id }}">
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div class="shrink-0 h-16 w-16 mr-4">
-                                        <img class="h-16 w-16 rounded object-cover" 
+                                    <div class="shrink-0 h-16 w-16 mr-4 relative rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                                        <img class="h-16 w-16 object-cover" 
                                              src="{{ $item->gambar_url }}" 
                                              alt="{{ $item->nama }}"
                                              onerror="this.src='{{ asset('images/default-potensi.jpg') }}'">
                                     </div>
                                     <div>
-                                        <div class="text-sm font-medium text-gray-900">
-                                            {{ Str::limit($item->nama, 50) }}
+                                        <div class="text-sm font-bold text-gray-800">
+                                            {{ Str::limit($item->nama, 60) }}
                                         </div>
-                                        <div class="text-xs text-gray-500 mt-1">
+                                        <div class="text-xs text-gray-500 mt-0.5 line-clamp-1">
                                             {{ Str::limit(strip_tags($item->deskripsi), 80) }}
                                         </div>
                                     </div>
@@ -237,56 +230,47 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @php
                                     $kategoriColors = [
-                                        'pertanian' => 'bg-green-100 text-green-800',
-                                        'peternakan' => 'bg-amber-100 text-amber-800',
-                                        'perikanan' => 'bg-blue-100 text-blue-800',
-                                        'umkm' => 'bg-purple-100 text-purple-800',
-                                        'wisata' => 'bg-pink-100 text-pink-800',
-                                        'kerajinan' => 'bg-indigo-100 text-indigo-800',
-                                        'lainnya' => 'bg-gray-100 text-gray-800'
+                                        'pertanian' => 'bg-green-100 text-green-800 border-green-200',
+                                        'peternakan' => 'bg-amber-100 text-amber-800 border-amber-200',
+                                        'perikanan' => 'bg-blue-100 text-blue-800 border-blue-200',
+                                        'umkm' => 'bg-purple-100 text-purple-800 border-purple-200',
+                                        'wisata' => 'bg-rose-100 text-rose-800 border-rose-200',
+                                        'kerajinan' => 'bg-indigo-100 text-indigo-800 border-indigo-200',
+                                        'lainnya' => 'bg-gray-100 text-gray-800 border-gray-200'
                                     ];
-                                    $bgColor = $kategoriColors[$item->kategori] ?? 'bg-gray-100 text-gray-800';
+                                    $bgColor = $kategoriColors[$item->kategori] ?? 'bg-gray-100 text-gray-800 border-gray-200';
                                 @endphp
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $bgColor }}">
+                                <span class="px-2.5 py-1 inline-flex text-[11px] leading-5 font-bold rounded-full border {{ $bgColor }}">
                                     {{ ucfirst($item->kategori) }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
-                                <div class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="flex items-center bg-gray-50 px-2 py-1 w-max rounded-md border border-gray-100 shrink-0">
+                                    <svg class="w-3.5 h-3.5 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
-                                    {{ Str::limit($item->lokasi ?? '-', 30) }}
+                                    <span title="{{ $item->lokasi ?? '-' }}">{{ Str::limit($item->lokasi ?? '-', 25) }}</span>
                                 </div>
                             </td>
-                            {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if($item->is_active)
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Aktif
-                                    </span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                        Tidak Aktif
-                                    </span>
-                                @endif
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <div class="font-medium text-gray-600">{{ optional($item->created_at)->format('d M Y') ?? '-' }}</div>
+                                <div class="text-[11px] text-gray-400 mt-0.5">{{ optional($item->created_at)->format('H:i') ?? '-' }} WIB</div>
                             </td>
-                            --}}
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end gap-2">
                                     <a href="{{ route('admin.potensi.edit', $item->id) }}" 
-                                       class="text-primary-600 hover:text-primary-900"
+                                       class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white transition-all duration-200"
                                        title="Edit">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                         </svg>
                                     </a>
                                     <form action="{{ route('admin.potensi.destroy', $item->id) }}" method="POST" class="inline delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="text-red-600 hover:text-red-900 delete-btn" title="Hapus">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <button type="button" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-500 hover:text-white transition-all duration-200 delete-btn" title="Hapus">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                             </svg>
                                         </button>
@@ -323,49 +307,36 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     // Search functionality
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-        filterTable();
-    });
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            filterTable();
+        });
+    }
 
     // Kategori filter
-    document.getElementById('kategoriFilter').addEventListener('change', function() {
-        filterTable();
-    });
-
-    // Status filter
-    document.getElementById('statusFilter').addEventListener('change', function() {
-        filterTable();
-    });
+    const kategoriFilter = document.getElementById('kategoriFilter');
+    if (kategoriFilter) {
+        kategoriFilter.addEventListener('change', function() {
+            filterTable();
+        });
+    }
 
     function filterTable() {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const kategoriFilter = document.getElementById('kategoriFilter').value;
-        const statusFilter = document.getElementById('statusFilter').value;
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+        const selectedKategori = kategoriFilter ? kategoriFilter.value : '';
         const rows = document.querySelectorAll('.potensi-row');
 
         rows.forEach(row => {
             const text = row.textContent.toLowerCase();
             const kategori = row.dataset.kategori;
-            const status = row.dataset.status;
             
             const matchSearch = text.includes(searchTerm);
-            const matchKategori = !kategoriFilter || kategori === kategoriFilter;
-            const matchStatus = !statusFilter || status === statusFilter;
+            const matchKategori = !selectedKategori || kategori === selectedKategori;
 
-            row.style.display = (matchSearch && matchKategori && matchStatus) ? '' : 'none';
+            row.style.display = (matchSearch && matchKategori) ? '' : 'none';
         });
     }
-
-    // Select All Checkbox
-    document.getElementById('selectAll').addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('.potensi-checkbox');
-        checkboxes.forEach(checkbox => {
-            if (checkbox.closest('.potensi-row').style.display !== 'none') {
-                checkbox.checked = this.checked;
-            }
-        });
-        updateBulkDeleteButton();
-    });
 
     // Individual Checkboxes
     document.querySelectorAll('.potensi-checkbox').forEach(checkbox => {
@@ -374,14 +345,14 @@
 
     function updateBulkDeleteButton() {
         const checkedBoxes = document.querySelectorAll('.potensi-checkbox:checked');
-        const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+        const bulkActions = document.getElementById('bulk-actions');
         const selectedCount = document.getElementById('selectedCount');
         
         if (checkedBoxes.length > 0) {
-            bulkDeleteBtn.classList.remove('hidden');
+            bulkActions.classList.remove('hidden');
             selectedCount.textContent = checkedBoxes.length;
         } else {
-            bulkDeleteBtn.classList.add('hidden');
+            bulkActions.classList.add('hidden');
         }
     }
 

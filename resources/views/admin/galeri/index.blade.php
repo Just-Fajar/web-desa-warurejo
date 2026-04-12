@@ -72,19 +72,22 @@
 @endif
 
 <!-- Filter Section -->
-<div class="bg-white shadow rounded-lg p-4 mb-6">
+<div class="bg-white shadow-sm border border-gray-100 rounded-3xl p-5 mb-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
         <div>
-            <label class="text-gray-600 text-sm">Cari Galeri: <span id="filterCount" class="text-purple-600 font-semibold"></span></label>
-            <input type="text" 
-                   id="searchInput" 
-                   placeholder="Cari judul..." 
-                   class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+            <label class="text-gray-500 text-sm font-semibold mb-2 block">Cari Galeri: <span id="filterCount" class="text-primary-600"></span></label>
+            <div class="relative">
+                <input type="text" 
+                       id="searchInput" 
+                       placeholder="Ketik judul..." 
+                       class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm">
+                <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
         </div>
         
         <div>
-            <label class="text-gray-600 text-sm">Filter Kategori:</label>
-            <select id="filterKategori" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+            <label class="text-gray-500 text-sm font-semibold mb-2 block">Filter Kategori:</label>
+            <select id="filterKategori" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-600 text-sm font-semibold transition-all">
                 <option value="">Semua Kategori</option>
                 <option value="kegiatan">Kegiatan</option>
                 <option value="infrastruktur">Infrastruktur</option>
@@ -93,66 +96,71 @@
                 <option value="lainnya">Lainnya</option>
             </select>
         </div>
+    </div>
+</div>
 
-        {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-        <div>
-            <label class="text-gray-600 text-sm">Filter Status:</label>
-            <select id="filterStatus" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                <option value="">Semua Status</option>
-                <option value="1">Aktif</option>
-                <option value="0">Non-Aktif</option>
-            </select>
-        </div>
-        --}}
+<!-- Bulk Actions -->
+<div id="bulk-actions" class="bg-rose-50 border border-rose-100 rounded-2xl p-4 mb-6 hidden">
+    <div class="flex items-center justify-between">
+        <span class="text-rose-700 font-semibold">
+            <span id="selectedCount">0</span> galeri dipilih
+        </span>
+        <button id="bulkDeleteBtn" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl font-semibold transition text-sm flex items-center">
+            <i class="fas fa-trash mr-2"></i>
+            Hapus Terpilih
+        </button>
     </div>
 </div>
 
 <!-- Grid Galeri -->
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="galeriGrid">
     @forelse($galeri as $item)
-    <div class="border rounded-lg shadow bg-white overflow-hidden galeri-item hover:shadow-xl transition-shadow" 
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden galeri-item hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col" 
          data-judul="{{ strtolower(strip_tags($item->judul)) }}"
          data-kategori="{{ $item->kategori }}" 
          data-status="{{ $item->is_active }}">
 
         <!-- Thumbnail -->
-        <div class="relative h-48 overflow-hidden bg-gray-200">
+        <div class="relative h-48 overflow-hidden bg-gray-50 flex-shrink-0 group">
+            <!-- Checkbox -->
+            <div class="absolute top-3 left-3 z-10">
+                <input type="checkbox" class="galeri-checkbox w-5 h-5 rounded border-2 border-white bg-white/50 backdrop-blur-sm text-primary-600 focus:ring-primary-500 shadow-sm transition-all" value="{{ $item->id }}">
+            </div>
             @if($item->images && $item->images->count() > 0)
                 <img src="{{ $item->images->first()->image_url }}" 
                      alt="{{ $item->judul }}"
                      class="w-full h-full object-cover"
-                     onerror="this.style.display='none'; this.parentElement.classList.add('bg-gray-300')">
+                     onerror="this.style.display='none'; this.parentElement.classList.add('bg-gray-100')">
                 
                 {{-- Multiple Images Badge --}}
                 @if($item->images->count() > 1)
-                    <div class="absolute top-2 left-2">
-                        <span class="px-2 py-1 bg-black/70 text-white text-xs font-semibold rounded">
-                            <i class="fas fa-images mr-1"></i>{{ $item->images->count() }} Foto
+                    <div class="absolute top-3 right-3">
+                        <span class="px-2.5 py-1 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold tracking-wider rounded-lg border border-white/20">
+                            <i class="fas fa-images mr-1"></i>{{ $item->images->count() }} FOTO
                         </span>
                     </div>
                 @endif
             @else
-                <div class="w-full h-full bg-gray-300 flex items-center justify-center">
-                    <i class="fas fa-image text-gray-500 text-4xl"></i>
+                <div class="w-full h-full flex items-center justify-center border-b border-gray-100">
+                    <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
             @endif
         </div>
 
         <!-- Body -->
-        <div class="p-4">
-            <h3 class="font-semibold text-gray-800 text-sm mb-2">{{ Str::limit($item->judul, 50) }}</h3>
+        <div class="p-5 flex-1 flex flex-col">
+            <h3 class="font-bold text-gray-800 text-sm mb-3 leading-tight">{{ Str::limit($item->judul, 50) }}</h3>
 
             <!-- Badges -->
-            <div class="flex justify-between items-center mb-2">
+            <div class="flex flex-wrap gap-2 mb-3">
                 @php
-                    $badgeClass = match($item->kategori) {
-                        'kegiatan' => 'bg-green-600',
-                        'infrastruktur' => 'bg-blue-500',
-                        'budaya' => 'bg-yellow-500',
-                        'umkm' => 'bg-purple-600',
-                        'lainnya' => 'bg-gray-600',
-                        default => 'bg-gray-500'
-                    };
+                    $kategoriColors = [
+                        'kegiatan' => 'bg-emerald-50 text-emerald-600 border-emerald-200',
+                        'infrastruktur' => 'bg-sky-50 text-sky-600 border-sky-200',
+                        'budaya' => 'bg-amber-50 text-amber-600 border-amber-200',
+                        'umkm' => 'bg-purple-50 text-purple-600 border-purple-200',
+                        'lainnya' => 'bg-gray-50 text-gray-600 border-gray-200'
+                    ];
                     
                     $kategoriLabel = match($item->kategori) {
                         'kegiatan' => 'Kegiatan',
@@ -162,47 +170,31 @@
                         'lainnya' => 'Lainnya',
                         default => ucfirst($item->kategori)
                     };
+                    $badgeClass = $kategoriColors[$item->kategori] ?? 'bg-gray-50 text-gray-600 border-gray-200';
                 @endphp
-                <span class="text-white text-xs px-2 py-1 rounded {{ $badgeClass }}">{{ $kategoriLabel }}</span>
-
-                {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-                <span class="text-white text-xs px-2 py-1 rounded {{ $item->is_active ? 'bg-green-600' : 'bg-gray-500' }}">
-                    {{ $item->is_active ? 'Aktif' : 'Non-Aktif' }}
-                </span>
-                --}}
+                <span class="px-2.5 py-1 text-[10px] uppercase font-bold rounded-md border {{ $badgeClass }}">{{ $kategoriLabel }}</span>
             </div>
 
-            <p class="text-xs text-gray-500 mb-2">
-                <i class="fas fa-calendar mr-1"></i>
-                {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-            </p>
-
-            @if($item->deskripsi)
-            <p class="text-xs text-gray-700">{{ Str::limit($item->deskripsi, 60) }}</p>
-            @endif
+            <div class="mt-auto">
+                <div class="flex items-center text-xs text-gray-400 font-medium mb-3">
+                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                </div>
+            </div>
         </div>
 
         <!-- Footer -->
-        <div class="border-t p-3 flex gap-2">
-            {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-            <button type="button"
-                    onclick="toggleActive({{ $item->id }}, this)"
-                    class="flex-1 {{ $item->is_active ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-500 hover:bg-gray-600' }} text-white py-2 rounded text-sm transition-colors"
-                    title="{{ $item->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
-                <i class="fas fa-{{ $item->is_active ? 'eye' : 'eye-slash' }}"></i>
-            </button>
-            --}}
-
+        <div class="p-3 border-t border-gray-50 bg-gray-50/50 flex gap-2">
             <a href="{{ route('admin.galeri.edit', $item->id) }}" 
-               class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded text-center text-sm">
-                <i class="fas fa-edit"></i>
+               class="flex-1 flex items-center justify-center bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white py-2 rounded-xl text-sm font-medium transition-all duration-200">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg> Edit
             </a>
 
             <form action="{{ route('admin.galeri.destroy', $item->id) }}" method="POST" class="flex-1 delete-form">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded text-sm">
-                    <i class="fas fa-trash"></i>
+                <button type="submit" class="w-full flex items-center justify-center bg-rose-50 text-rose-600 hover:bg-rose-500 hover:text-white py-2 rounded-xl text-sm font-medium transition-all duration-200">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg> Hapus
                 </button>
             </form>
         </div>
@@ -241,16 +233,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Filter functionality
     function filterGaleri() {
-        const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
-        const kategoriFilter = document.getElementById('filterKategori').value.toLowerCase();
-        const statusFilter = document.getElementById('filterStatus').value;
+        const searchInput = document.getElementById('searchInput');
+        const kategoriFilter = document.getElementById('filterKategori');
+        
+        const searchValue = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const filterCategory = kategoriFilter ? kategoriFilter.value.toLowerCase() : '';
         
         let visibleCount = 0;
 
         document.querySelectorAll('.galeri-item').forEach(function(item) {
             const itemJudul = item.dataset.judul.toLowerCase();
             const itemKategori = item.dataset.kategori.toLowerCase();
-            const itemStatus = item.dataset.status.toString();
 
             let showItem = true;
 
@@ -260,12 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Filter by kategori
-            if (kategoriFilter && itemKategori !== kategoriFilter) {
-                showItem = false;
-            }
-            
-            // Filter by status
-            if (statusFilter && itemStatus !== statusFilter) {
+            if (filterCategory && itemKategori !== filterCategory) {
                 showItem = false;
             }
 
@@ -283,9 +271,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Add event listeners
-    document.getElementById('searchInput').addEventListener('keyup', filterGaleri);
-    document.getElementById('filterKategori').addEventListener('change', filterGaleri);
-    document.getElementById('filterStatus').addEventListener('change', filterGaleri);
+    const searchInputEl = document.getElementById('searchInput');
+    if (searchInputEl) searchInputEl.addEventListener('keyup', filterGaleri);
+    
+    const filterKategoriEl = document.getElementById('filterKategori');
+    if (filterKategoriEl) filterKategoriEl.addEventListener('change', filterGaleri);
     
     // Initialize counter
     filterGaleri();
@@ -324,16 +314,81 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+    }, 5000);
+
+    // Individual Checkboxes
+    document.querySelectorAll('.galeri-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateBulkDeleteButton);
     });
 
-    // Auto-hide alerts
-    setTimeout(function() {
-        document.querySelectorAll('.bg-green-100, .bg-red-100').forEach(function(alert) {
-            alert.style.transition = 'opacity 0.5s';
-            alert.style.opacity = '0';
-            setTimeout(() => alert.remove(), 500);
+    function updateBulkDeleteButton() {
+        const checkedBoxes = document.querySelectorAll('.galeri-checkbox:checked');
+        const bulkActions = document.getElementById('bulk-actions');
+        const selectedCount = document.getElementById('selectedCount');
+        
+        if (checkedBoxes.length > 0) {
+            bulkActions.classList.remove('hidden');
+            selectedCount.textContent = checkedBoxes.length;
+        } else {
+            bulkActions.classList.add('hidden');
+        }
+    }
+
+    // Bulk Delete
+    document.getElementById('bulkDeleteBtn').addEventListener('click', function() {
+        const checkedBoxes = document.querySelectorAll('.galeri-checkbox:checked');
+        const ids = Array.from(checkedBoxes).map(cb => cb.value);
+
+        Swal.fire({
+            title: 'Hapus Galeri Terpilih?',
+            html: `Anda akan menghapus <strong>${ids.length} galeri</strong> yang dipilih.<br>Data yang dihapus tidak dapat dikembalikan!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#EF4444',
+            cancelButtonColor: '#6B7280',
+            confirmButtonText: '<i class="fas fa-trash mr-2"></i>Ya, Hapus Semua!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Menghapus...',
+                    html: 'Mohon tunggu sebentar',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                
+                fetch('{{ route("admin.galeri.bulk-delete") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ ids: ids })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil Dihapus!',
+                            text: `${ids.length} galeri telah dihapus`,
+                            confirmButtonColor: '#10B981'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire('Error!', data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                });
+            }
         });
-    }, 5000);
+    });
 });
 
 // Toggle Active Function

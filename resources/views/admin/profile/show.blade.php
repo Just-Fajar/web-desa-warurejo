@@ -45,208 +45,142 @@
 --}}
 @extends('admin.layouts.app')
 
-@section('title', 'Profile')
+@section('title', 'Profil Admin')
 
 @section('breadcrumb')
 <li class="flex items-center text-gray-500 text-sm">
-    <i class="fas fa-chevron-right mx-2 text-gray-400"></i> Profile
+    <i class="fas fa-chevron-right mx-2 text-gray-400"></i> Profil Aktif
 </li>
 @endsection
 
 @section('content')
 
-<div class="px-4 py-6">
+<div class="container mx-auto px-4 py-6 max-w-5xl space-y-8">
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">Profil Anda</h1>
+            <p class="text-sm text-gray-500 mt-1">Detail informasi dan aktivitas akun admin Anda</p>
+        </div>
+        <a href="{{ route('admin.profile.edit') }}" 
+           class="inline-flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-medium transition-all shadow-sm">
+            <i class="fas fa-user-edit mr-2"></i>
+            Edit Profil
+        </a>
+    </div>
 
-        <!-- LEFT CONTENT -->
-        <div class="lg:col-span-2 space-y-6">
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-            <!-- Profile Info -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                    <h2 class="text-lg font-semibold flex items-center">
-                        <i class="fas fa-user-circle text-indigo-500 mr-2"></i>
-                        Informasi Profil
-                    </h2>
-                    <a href="{{ route('admin.profile.edit') }}"
-                        class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700">
-                        <i class="fas fa-edit mr-1"></i> Edit Profil
-                    </a>
+        <!-- KIRI: Foto & Badge -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 text-center relative overflow-hidden group">
+                <!-- Deco Background -->
+                <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-primary-50 to-primary-100 z-0 group-hover:h-36 transition-all duration-300"></div>
+                
+                <!-- Avatar -->
+                <div class="relative z-10 mx-auto mb-5 w-36 h-36">
+                    @if($admin->avatar)
+                        <img src="{{ asset('storage/' . $admin->avatar) }}" 
+                             alt="{{ $admin->name }}" 
+                             class="w-full h-full rounded-full object-cover shadow-lg border-4 border-white transition-transform duration-300 group-hover:scale-105">
+                    @else
+                        <div class="w-full h-full rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-5xl font-bold shadow-lg border-4 border-white transition-transform duration-300 group-hover:scale-105">
+                            {{ strtoupper(substr($admin->name, 0, 1)) }}
+                        </div>
+                    @endif
                 </div>
 
-                <div class="p-6 space-y-4">
+                <div class="relative z-10 space-y-2">
+                    <h3 class="text-xl font-bold text-gray-800">{{ $admin->name }}</h3>
+                    <p class="text-sm font-medium text-primary-600">Administrator</p>
+                </div>
 
-                    <!-- Row -->
-                    <div>
-                        <div class="text-gray-500 text-sm font-medium flex items-center">
-                            <i class="fas fa-user mr-2"></i> Nama Lengkap
+                <div class="relative z-10 mt-6 pt-6 border-t border-gray-50">
+                    <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-sm font-medium border border-emerald-100 shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Akun Aktif
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- KANAN: Detail Info & Aktivitas -->
+        <div class="lg:col-span-2 space-y-6">
+
+            <!-- Detail Kontak & Informasi -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center">
+                        <i class="fas fa-id-card text-sm"></i>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-800">
+                        Informasi Dasar
+                    </h2>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-6">
+                    
+                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 border-b border-gray-50 pb-6">
+                        <div class="w-40 text-sm font-bold text-gray-400 uppercase tracking-wide flex items-center gap-2">
+                            <i class="fas fa-user mb-0.5"></i> Nama Lengkap
                         </div>
-                        <div class="text-gray-800 font-semibold">
+                        <div class="flex-1 text-gray-800 font-medium">
                             {{ $admin->name }}
                         </div>
                     </div>
-                    <hr>
 
-                    <div>
-                        <div class="text-gray-500 text-sm font-medium flex items-center">
-                            <i class="fas fa-envelope mr-2"></i> Email
+                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 border-b border-gray-50 pb-6">
+                        <div class="w-40 text-sm font-bold text-gray-400 uppercase tracking-wide flex items-center gap-2">
+                            <i class="fas fa-envelope mb-0.5"></i> Email Address
                         </div>
-                        <div class="text-gray-800 font-semibold">
+                        <div class="flex-1 text-gray-800 font-medium">
                             {{ $admin->email }}
                         </div>
                     </div>
-                    <hr>
 
-                    <div>
-                        <div class="text-gray-500 text-sm font-medium flex items-center">
-                            <i class="fas fa-calendar mr-2"></i> Terdaftar Sejak
+                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-6">
+                        <div class="w-40 text-sm font-bold text-gray-400 uppercase tracking-wide flex items-center gap-2">
+                            <i class="fas fa-calendar-alt mb-0.5"></i> Tanggal Jadi Admin
                         </div>
-                        <div class="text-gray-800 font-semibold">
-                            {{ $admin->created_at->format('d F Y') }}
+                        <div class="flex-1 text-gray-800 font-medium">
+                            {{ $admin->created_at->format('d F Y') }} <span class="text-gray-400 text-sm font-normal ml-2">({{ $admin->created_at->diffForHumans() }})</span>
                         </div>
                     </div>
 
                 </div>
             </div>
 
-            <!-- Change Password -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-
-                <div class="px-6 py-4 border-b border-gray-100">
-                    <h2 class="text-lg font-semibold flex items-center">
-                        <i class="fas fa-lock text-yellow-500 mr-2"></i>
-                        Ubah Password
+            <!-- Catatan Keamanan / Login -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-sm"></i>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-800">
+                        Riwayat Akses & Sistem
                     </h2>
                 </div>
 
-                <div class="p-6">
-
-                    <form method="POST" action="{{ route('admin.profile.update-password') }}" class="space-y-4" id="formPassword">
-                        @csrf
-                        @method('PUT')
-
-                        <!-- Checkbox Lupa Password -->
-                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                            <label class="flex items-center cursor-pointer">
-                                <input type="checkbox" 
-                                       id="lupaPassword" 
-                                       name="lupa_password"
-                                       class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
-                                <span class="ml-2 text-sm text-gray-700">
-                                    <i class="fas fa-question-circle text-blue-500"></i>
-                                    <strong>Lupa password lama?</strong> Centang ini untuk reset tanpa password lama
-                                </span>
-                            </label>
+                <div class="p-6 md:p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i class="fas fa-sign-in-alt text-gray-400"></i>
+                                <span class="text-sm font-bold text-gray-500 uppercase tracking-wide">Terakhir Login</span>
+                            </div>
+                            <p class="text-lg font-semibold text-gray-800 truncate">Sesi Aktif Saat Ini</p>
                         </div>
-
-                        <div id="fieldPasswordLama">
-                            <label class="block text-sm font-medium text-gray-600 mb-1">
-                                Password Saat Ini <span class="text-red-500" id="requiredOld">*</span>
-                            </label>
-                            <input type="password"
-                                id="current_password"
-                                name="current_password"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none @error('current_password') border-red-500 @enderror">
-                            @error('current_password')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                        <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i class="fas fa-key text-gray-400"></i>
+                                <span class="text-sm font-bold text-gray-500 uppercase tracking-wide">Privilese Keamanan</span>
+                            </div>
+                            <p class="text-lg font-semibold text-gray-800">Akses Penuh</p>
                         </div>
-
-                        <!-- Field Email (muncul saat lupa password) -->
-                        <div id="fieldEmailVerifikasi" style="display:none;">
-                            <label class="block text-sm font-medium text-gray-600 mb-1">
-                                Email Anda (untuk verifikasi) <span class="text-red-500">*</span>
-                            </label>
-                            <input type="email"
-                                id="email_verifikasi"
-                                name="email_verifikasi"
-                                value="{{ $admin->email }}"
-                                placeholder="Masukkan email Anda"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none">
-                            <p class="text-gray-400 text-xs mt-1">Email harus sama dengan email akun Anda</p>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600 mb-1">
-                                Password Baru <span class="text-red-500">*</span>
-                            </label>
-                            <input type="password"
-                                name="password"
-                                required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none @error('password') border-red-500 @enderror">
-                            <p class="text-gray-400 text-sm">Minimal 8 karakter</p>
-                            @error('password')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600 mb-1">
-                                Konfirmasi Password Baru <span class="text-red-500">*</span>
-                            </label>
-                            <input type="password"
-                                name="password_confirmation"
-                                required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none">
-                        </div>
-
-                        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg font-semibold">
-                            <i class="fas fa-key mr-1"></i> Ubah Password
-                        </button>
-
-                    </form>
-
-                </div>
-            </div>
-
-        </div>
-
-        <!-- RIGHT SIDEBAR -->
-        <div class="space-y-6">
-
-            <!-- Avatar -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 text-center">
-
-                @if($admin->avatar)
-                    <div class="mx-auto mb-4 w-32 h-32">
-                        <img src="{{ asset('storage/' . $admin->avatar) }}" 
-                             alt="{{ $admin->name }}" 
-                             class="w-full h-full rounded-full object-cover shadow-md border-4 border-gray-100">
                     </div>
-                @else
-                    <div class="mx-auto mb-4 flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-white text-5xl font-bold shadow-md">
-                        {{ strtoupper(substr($admin->name, 0, 1)) }}
-                    </div>
-                @endif
-
-                <h3 class="text-lg font-semibold">{{ $admin->name }}</h3>
-                <p class="text-gray-500">Administrator</p>
-
-                <span class="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
-                    <i class="fas fa-check-circle mr-1"></i> Aktif
-                </span>
-
-            </div>
-
-            <!-- Stats -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-
-                <h4 class="font-semibold text-gray-700 mb-4 flex items-center">
-                    <i class="fas fa-chart-pie text-blue-500 mr-2"></i>
-                    Aktivitas
-                </h4>
-
-                <div class="flex justify-between text-sm mb-2">
-                    <span class="text-gray-500">Terakhir Login</span>
-                    <span class="font-semibold text-gray-700">Hari ini</span>
                 </div>
-
-                <div class="flex justify-between text-sm">
-                    <span class="text-gray-500">Total Login</span>
-                    <span class="font-semibold text-gray-700">-</span>
-                </div>
-
             </div>
 
         </div>
@@ -254,33 +188,5 @@
     </div>
 
 </div>
-
-@push('scripts')
-<script>
-// Toggle field saat checkbox lupa password di klik
-document.getElementById('lupaPassword').addEventListener('change', function() {
-    const fieldPasswordLama = document.getElementById('fieldPasswordLama');
-    const fieldEmailVerifikasi = document.getElementById('fieldEmailVerifikasi');
-    const inputPasswordLama = document.getElementById('current_password');
-    const inputEmailVerifikasi = document.getElementById('email_verifikasi');
-    const requiredOld = document.getElementById('requiredOld');
-    
-    if (this.checked) {
-        // Lupa password mode: sembunyikan password lama, tampilkan email
-        fieldPasswordLama.style.display = 'none';
-        fieldEmailVerifikasi.style.display = 'block';
-        inputPasswordLama.required = false;
-        inputEmailVerifikasi.required = true;
-        inputPasswordLama.value = '';
-    } else {
-        // Normal mode: tampilkan password lama, sembunyikan email
-        fieldPasswordLama.style.display = 'block';
-        fieldEmailVerifikasi.style.display = 'none';
-        inputPasswordLama.required = true;
-        inputEmailVerifikasi.required = false;
-    }
-});
-</script>
-@endpush
 
 @endsection

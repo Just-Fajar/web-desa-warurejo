@@ -34,361 +34,307 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="space-y-6">
+<div class="space-y-8">
+    <style>
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+        .animate-wave { animation: wave 1.5s infinite; transform-origin: 70% 70%; }
+        .stat-card { @apply bg-white rounded-2xl border border-gray-100 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-lg hover:-translate-y-1 relative overflow-hidden; }
+        .stat-card::after { content: ''; position: absolute; right: -20px; top: -20px; width: 100px; height: 100px; border-radius: 50%; opacity: 0.03; transition: all 0.3s; }
+        .stat-card:hover::after { transform: scale(1.5); }
+        .stat-card.blue::after { background-color: #3b82f6; }
+        .stat-card.green::after { background-color: #10b981; }
+        .stat-card.purple::after { background-color: #8b5cf6; }
+        .stat-card.red::after { background-color: #ef4444; }
+        .stat-card.yellow::after { background-color: #f59e0b; }
+    </style>
+
     <!-- Welcome Message -->
-    <div class="bg-linear-to-r from-primary-600 to-primary-800 rounded-lg shadow-lg p-6 text-white">
-        <h1 class="text-3xl font-bold mb-2">Selamat Datang, {{ auth()->guard('admin')->user()->name }}! 👋</h1>
-        <p class="text-primary-100">Kelola website Desa Warurejo dari dashboard ini</p>
+    <div class="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-800 rounded-3xl shadow-xl p-8 sm:p-10 text-white">
+        <div class="absolute top-[-20%] right-[-5%] w-64 h-64 bg-white opacity-10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-[-20%] right-[15%] w-48 h-48 bg-emerald-300 opacity-20 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold mb-2 tracking-tight">Selamat Datang, {{ auth()->guard('admin')->user()->name }}! <span class="inline-block hover:animate-wave cursor-default">👋</span></h1>
+                <p class="text-emerald-50/90 text-lg font-light">Kelola website, pantau statistik, dan berikan layanan terbaik untuk Desa Warurejo.</p>
+            </div>
+            <div class="hidden md:block">
+                <span class="bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-xl border border-white/20 text-sm font-medium flex items-center gap-2 shadow-inner">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    {{ now()->translatedFormat('d F Y') }}
+                </span>
+            </div>
+        </div>
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
         <!-- Total Berita -->
-        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-600 mb-1">Total Berita</p>
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $totalBerita }}</h3>
-                    <p class="text-xs text-gray-500 mt-1">
-                        <span class="text-green-600 font-medium">{{ $beritaPublished }}</span> Published • 
-                        <span class="text-yellow-600 font-medium">{{ $beritaDraft }}</span> Draft
-                    </p>
-                </div>
-                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+        <div class="stat-card blue group shadow-sm">
+            <div class="flex items-center justify-between mb-4 relative z-10">
+                <div class="w-12 h-12 bg-blue-50/80 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-blue-100">
                     <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                     </svg>
+                </div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Berita</span>
+            </div>
+            <div class="relative z-10">
+                <h3 class="text-3xl font-extrabold text-gray-800">{{ $totalBerita }}</h3>
+                <div class="flex items-center gap-2 mt-3">
+                    <span class="text-[10px] sm:text-xs font-semibold text-green-700 bg-green-100 px-2 py-1 rounded-md flex-1 text-center">{{ $beritaPublished }} Pub</span>
+                    <span class="text-[10px] sm:text-xs font-semibold text-yellow-700 bg-yellow-100 px-2 py-1 rounded-md flex-1 text-center">{{ $beritaDraft }} Dft</span>
                 </div>
             </div>
         </div>
 
         <!-- Total Potensi -->
-        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-600 mb-1">Total Potensi</p>
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $totalPotensi }}</h3>
-                    <p class="text-xs text-gray-500 mt-1">Potensi Desa</p>
-                </div>
-                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="stat-card green group shadow-sm">
+            <div class="flex items-center justify-between mb-4 relative z-10">
+                <div class="w-12 h-12 bg-emerald-50/80 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-emerald-100">
+                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                     </svg>
                 </div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Potensi</span>
+            </div>
+            <div class="relative z-10">
+                <h3 class="text-3xl font-extrabold text-gray-800">{{ $totalPotensi }}</h3>
+                <p class="text-xs text-gray-500 mt-3 bg-gray-50 rounded-md px-2 py-1 font-medium text-center">Potensi Desa</p>
             </div>
         </div>
 
         <!-- Total Galeri -->
-        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-600 mb-1">Total Galeri</p>
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $totalGaleri }}</h3>
-                    <p class="text-xs text-gray-500 mt-1">Foto</p>
-                </div>
-                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+        <div class="stat-card purple group shadow-sm">
+            <div class="flex items-center justify-between mb-4 relative z-10">
+                <div class="w-12 h-12 bg-purple-50/80 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-100">
                     <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                 </div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Galeri</span>
+            </div>
+            <div class="relative z-10">
+                <h3 class="text-3xl font-extrabold text-gray-800">{{ $totalGaleri }}</h3>
+                <p class="text-xs text-gray-500 mt-3 bg-gray-50 rounded-md px-2 py-1 font-medium text-center">Foto Media</p>
             </div>
         </div>
 
         <!-- Total Publikasi -->
-        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-600 mb-1">Total Publikasi</p>
-                    <h3 class="text-3xl font-bold text-gray-800">{{ $totalPublikasi }}</h3>
-                    <p class="text-xs text-gray-500 mt-1">Dokumen</p>
-                </div>
-                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="stat-card red group shadow-sm">
+            <div class="flex items-center justify-between mb-4 relative z-10">
+                <div class="w-12 h-12 bg-rose-50/80 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-rose-100">
+                    <svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                     </svg>
                 </div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Publikasi</span>
+            </div>
+            <div class="relative z-10">
+                <h3 class="text-3xl font-extrabold text-gray-800">{{ $totalPublikasi }}</h3>
+                <p class="text-xs text-gray-500 mt-3 bg-gray-50 rounded-md px-2 py-1 font-medium text-center">Dokumen</p>
             </div>
         </div>
 
         <!-- Total Pengunjung -->
-        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-600 mb-1">Total Pengunjung</p>
-                    <h3 class="text-3xl font-bold text-gray-800">{{ number_format($totalPengunjung) }}</h3>
-                    <p class="text-xs text-gray-500 mt-1">All Time</p>
-                </div>
-                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="stat-card yellow group shadow-sm">
+            <div class="flex items-center justify-between mb-4 relative z-10">
+                <div class="w-12 h-12 bg-amber-50/80 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-amber-100">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                 </div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Visitor</span>
+            </div>
+            <div class="relative z-10">
+                <h3 class="text-3xl font-extrabold text-gray-800">{{ number_format($totalPengunjung) }}</h3>
+                <p class="text-xs text-gray-500 mt-3 bg-gray-50 rounded-md px-2 py-1 font-medium text-center">All Time</p>
             </div>
         </div>
     </div>
 
     <!-- Visitor Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         <!-- Hari Ini -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center justify-between mb-2">
-                <p class="text-sm text-gray-600">Hari Ini</p>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-center">
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Hari Ini</p>
                 @if($pertumbuhanHariIni >= 0)
-                    <span class="text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded">
-                        +{{ number_format($pertumbuhanHariIni, 1) }}%
+                    <span class="text-xs text-emerald-600 flex items-center font-bold bg-emerald-50 px-2 py-1 rounded-md">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+                        {{ number_format($pertumbuhanHariIni, 1) }}%
                     </span>
                 @else
-                    <span class="text-xs text-red-600 font-medium bg-red-50 px-2 py-1 rounded">
-                        {{ number_format($pertumbuhanHariIni, 1) }}%
+                    <span class="text-xs text-rose-600 flex items-center font-bold bg-rose-50 px-2 py-1 rounded-md">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                        {{ number_format(abs($pertumbuhanHariIni), 1) }}%
                     </span>
                 @endif
             </div>
-            <h3 class="text-2xl font-bold text-gray-800">{{ number_format($pengunjungHariIni) }}</h3>
-            <p class="text-xs text-gray-500 mt-1">{{ number_format($pageViewsHariIni) }} page views</p>
+            <h3 class="text-2xl font-extrabold text-gray-800">{{ number_format($pengunjungHariIni) }}</h3>
+            <p class="text-xs text-gray-400 mt-1 flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg> {{ number_format($pageViewsHariIni) }} page views</p>
         </div>
 
         <!-- Minggu Ini -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <p class="text-sm text-gray-600 mb-2">Minggu Ini</p>
-            <h3 class="text-2xl font-bold text-gray-800">{{ number_format($pengunjungMingguIni) }}</h3>
-            <p class="text-xs text-gray-500 mt-1">7 hari terakhir</p>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-center">
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Minggu Ini</p>
+            <h3 class="text-2xl font-extrabold text-gray-800">{{ number_format($pengunjungMingguIni) }}</h3>
+            <p class="text-xs text-gray-400 mt-1">Akumulasi 7 hari terakhir</p>
         </div>
 
         <!-- Bulan Ini -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <p class="text-sm text-gray-600 mb-2">Bulan Ini</p>
-            <h3 class="text-2xl font-bold text-gray-800">{{ number_format($pengunjungBulanIni) }}</h3>
-            <p class="text-xs text-gray-500 mt-1">30 hari terakhir</p>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-center">
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Bulan Ini</p>
+            <h3 class="text-2xl font-extrabold text-gray-800">{{ number_format($pengunjungBulanIni) }}</h3>
+            <p class="text-xs text-gray-400 mt-1">Akumulasi 30 hari terakhir</p>
         </div>
 
         <!-- Rata-rata -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <p class="text-sm text-gray-600 mb-2">Rata-rata Harian</p>
-            <h3 class="text-2xl font-bold text-gray-800">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-center">
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Rata-rata / Hari</p>
+            <h3 class="text-2xl font-extrabold text-gray-800">
                 {{ $pengunjungBulanIni > 0 ? number_format($pengunjungBulanIni / 30, 0) : 0 }}
             </h3>
-            <p class="text-xs text-gray-500 mt-1">Per hari (30 hari)</p>
+            <p class="text-xs text-gray-400 mt-1">Dalam siklus 30 hari</p>
         </div>
     </div>
 
-    <!-- Chart & Quick Actions -->
+    <!-- Chart Row 1: Visitor & Potensi -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Visitor Chart -->
-        <div class="lg:col-span-2 bg-white rounded-lg shadow p-6">
-            <div class="flex items-center justify-between mb-6">
+        <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 p-8 relative">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-gray-50 gap-4">
                 <div>
-                    <h2 class="text-xl font-semibold text-gray-800">Statistik Pengunjung</h2>
-                    <p class="text-sm text-gray-500 mt-1">Data sepanjang tahun <span id="visitorYearLabel">{{ $currentYear }}</span></p>
+                    <h2 class="text-xl font-bold text-gray-800 tracking-tight">Statistik Pengunjung</h2>
+                    <p class="text-sm text-gray-500 mt-1">Tren tahunan untuk <span id="visitorYearLabel" class="font-semibold text-emerald-600">{{ $currentYear }}</span></p>
                 </div>
                 
                 <!-- Year Picker with Navigation -->
                 <div class="flex items-center gap-2">
-                    <button type="button" id="visitorYearPrev" class="p-2 hover:bg-gray-100 rounded transition" title="Tahun Sebelumnya">
-                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button type="button" id="visitorYearPrev" class="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-emerald-50 text-gray-500 hover:text-emerald-600 rounded-xl transition-colors border border-gray-100" title="Tahun Sebelumnya">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                     </button>
                     <input type="number" id="yearFilter" value="{{ $currentYear }}" min="2000" max="2100"
-                           class="w-24 text-center form-input rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm font-semibold">
-                    <button type="button" id="visitorYearNext" class="p-2 hover:bg-gray-100 rounded transition" title="Tahun Berikutnya">
-                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           class="w-20 text-center form-input bg-gray-50 rounded-xl border-gray-100 shadow-none focus:border-emerald-500 focus:ring-emerald-500 focus:bg-white text-sm font-bold text-gray-700">
+                    <button type="button" id="visitorYearNext" class="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-emerald-50 text-gray-500 hover:text-emerald-600 rounded-xl transition-colors border border-gray-100" title="Tahun Berikutnya">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </button>
-                    <button type="button" id="visitorYearReset" class="ml-2 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-lg transition" title="Kembali ke Tahun Ini">
-                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                        </svg>
+                    <button type="button" id="visitorYearReset" class="ml-1 px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl transition-colors" title="Kembali ke Tahun Ini">
                         Tahun Ini
                     </button>
                 </div>
             </div>
 
             <!-- All Time Stats Summary -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-linear-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
-                <div class="text-center">
-                    <p class="text-xs text-gray-600 mb-1">Total Unique Visitors</p>
-                    <p class="text-lg font-bold text-blue-600">{{ number_format($allTimeStats['total_unique_visitors']) }}</p>
-                    <p class="text-xs text-gray-500">All Time</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
+                    <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Unique Visitors</p>
+                    <p class="text-xl font-bold text-blue-600">{{ number_format($allTimeStats['total_unique_visitors']) }}</p>
                 </div>
-                <div class="text-center">
-                    <p class="text-xs text-gray-600 mb-1">Total Page Views</p>
-                    <p class="text-lg font-bold text-indigo-600">{{ number_format($allTimeStats['total_page_views']) }}</p>
-                    <p class="text-xs text-gray-500">All Time</p>
+                <div class="bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
+                    <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Page Views</p>
+                    <p class="text-xl font-bold text-indigo-600">{{ number_format($allTimeStats['total_page_views']) }}</p>
                 </div>
-                <div class="text-center">
-                    <p class="text-xs text-gray-600 mb-1">Hari Aktif</p>
-                    <p class="text-lg font-bold text-purple-600">{{ number_format($allTimeStats['days_active']) }}</p>
-                    <p class="text-xs text-gray-500">Hari</p>
+                <div class="bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
+                    <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Hari Aktif</p>
+                    <p class="text-xl font-bold text-emerald-600">{{ number_format($allTimeStats['days_active']) }}</p>
                 </div>
-                <div class="text-center">
-                    <p class="text-xs text-gray-600 mb-1">Sejak</p>
-                    <p class="text-sm font-bold text-gray-700">{{ $allTimeStats['first_visit_date'] }}</p>
-                    <p class="text-xs text-gray-500">First Visit</p>
+                <div class="bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
+                    <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Sejak (1st Visit)</p>
+                    <p class="text-sm font-bold text-slate-700 mt-1">{{ $allTimeStats['first_visit_date'] }}</p>
                 </div>
             </div>
 
             <!-- Loading Overlay -->
-            <div id="chartLoading" style="display:none;" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-lg">
+            <div id="chartLoading" style="display:none;" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-20 flex items-center justify-center rounded-3xl">
                 <div class="text-center">
-                    <svg class="animate-spin h-10 w-10 text-primary-600 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg class="animate-spin h-10 w-10 text-emerald-600 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <p class="text-sm text-gray-600">Loading data...</p>
+                    <p class="text-sm font-medium text-emerald-800">Menyegarkan data...</p>
                 </div>
             </div>
 
             <!-- Chart Canvas -->
-            <div class="relative">
+            <div class="relative w-full h-[300px]">
                 <canvas id="visitorChart"></canvas>
             </div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
-            <div class="space-y-3">
-                <a href="{{ route('admin.berita.create') }}" 
-                   class="flex items-center justify-between p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition group">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="font-semibold text-gray-800 group-hover:text-blue-600">Tambah Berita</p>
-                            <p class="text-xs text-gray-500">Buat berita baru</p>
-                        </div>
-                    </div>
-                    <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
-
-<a href="{{ route('admin.potensi.create') }}" 
-   class="flex items-center justify-between p-4 bg-green-50 hover:bg-green-100 rounded-lg transition group">
-    <div class="flex items-center">
-        <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-3">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-        </div>
-        <div>
-            <p class="font-semibold text-gray-800 group-hover:text-green-600">Tambah Potensi</p>
-            <p class="text-xs text-gray-500">Buat potensi baru</p>
-        </div>
-    </div>
-    <svg class="w-5 h-5 text-gray-400 group-hover:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-    </svg>
-</a>
-
-
-                <a href="{{ route('admin.galeri.create') }}" class="block">
-                    <div class="flex items-center justify-between p-4 bg-purple-50 hover:bg-purple-100 rounded-lg cursor-pointer transition group">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800 group-hover:text-purple-600">Upload Galeri</p>
-                                <p class="text-xs text-gray-500">Tambah foto ke galeri desa</p>
-                            </div>
-                        </div>
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="{{ route('admin.publikasi.create') }}" class="block">
-                    <div class="flex items-center justify-between p-4 bg-red-50 hover:bg-red-100 rounded-lg cursor-pointer transition group">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center mr-3">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800 group-hover:text-red-600">Upload Publikasi</p>
-                                <p class="text-xs text-gray-500">Tambah dokumen publikasi</p>
-                            </div>
-                        </div>
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="{{ route('admin.struktur-organisasi.index') }}" class="block">
-                    <div class="flex items-center justify-between p-4 bg-yellow-50 hover:bg-yellow-100 rounded-lg cursor-pointer transition group">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center mr-3">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800 group-hover:text-yellow-600">Kelola Struktur Organisasi</p>
-                                <p class="text-xs text-gray-500">Manajemen anggota struktur</p>
-                            </div>
-                        </div>
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Content Statistics Chart -->
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <!-- 1. Distribusi Potensi (Doughnut Chart) -->
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col justify-center">
             <div>
-                <h2 class="text-xl font-semibold text-gray-800">Statistik Konten</h2>
-                <p class="text-sm text-gray-500 mt-1">Data konten tahun <span id="contentYearLabel">{{ $currentContentYear }}</span></p>
+                <h2 class="text-xl font-bold text-gray-800 tracking-tight mb-2">Distribusi Potensi Desa</h2>
+                <p class="text-xs text-gray-500 mb-6">Persentase potensi berdasarkan kategori</p>
             </div>
-            
-            <!-- Year Picker with Navigation -->
-            <div class="flex items-center gap-2">
-                <button type="button" id="contentYearPrev" class="p-2 hover:bg-gray-100 rounded transition" title="Tahun Sebelumnya">
-                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                </button>
-                <input type="number" id="contentYearFilter" value="{{ $currentContentYear }}" min="2000" max="2100"
-                       class="w-24 text-center form-input rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm font-semibold">
-                <button type="button" id="contentYearNext" class="p-2 hover:bg-gray-100 rounded transition" title="Tahun Berikutnya">
-                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </button>
-                <button type="button" id="contentYearReset" class="ml-2 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-lg transition" title="Kembali ke Tahun Ini">
-                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                    </svg>
-                    Tahun Ini
-                </button>
+            <div class="relative h-[256px] w-full flex justify-center">
+                <canvas id="potensiChart"></canvas>
             </div>
         </div>
-        
-        <div class="relative">
-            <canvas id="contentChart"></canvas>
-            
-            <!-- Loading Overlay -->
-            <div id="contentChartLoading" class="absolute inset-0 bg-white bg-opacity-90 items-center justify-center" style="display:none;">
-                <div class="text-center">
-                    <svg class="animate-spin h-10 w-10 text-blue-600 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <p class="text-gray-600 text-sm">Memuat data...</p>
+    </div>
+
+    <!-- Chart Row 2: Content & Top Berita -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        <!-- Content Statistics Chart -->
+        <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 p-8 pb-10 relative">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 border-b border-gray-50 pb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800 tracking-tight">Statistik Konten</h2>
+                    <p class="text-sm text-gray-500 mt-1">Produksi konten tahun <span id="contentYearLabel" class="font-semibold text-emerald-600">{{ $currentContentYear }}</span></p>
                 </div>
+                
+                <!-- Year Picker with Navigation -->
+                <div class="flex items-center gap-2">
+                    <button type="button" id="contentYearPrev" class="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-emerald-50 text-gray-500 hover:text-emerald-600 rounded-xl transition-colors border border-gray-100" title="Tahun Sebelumnya">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <input type="number" id="contentYearFilter" value="{{ $currentContentYear }}" min="2000" max="2100"
+                           class="w-20 text-center form-input bg-gray-50 rounded-xl border-gray-100 shadow-none focus:border-emerald-500 focus:ring-emerald-500 focus:bg-white text-sm font-bold text-gray-700">
+                    <button type="button" id="contentYearNext" class="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-emerald-50 text-gray-500 hover:text-emerald-600 rounded-xl transition-colors border border-gray-100" title="Tahun Berikutnya">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    <button type="button" id="contentYearReset" class="ml-1 px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl transition-colors" title="Kembali ke Tahun Ini">
+                        Tahun Ini
+                    </button>
+                </div>
+            </div>
+            
+            <div class="relative w-full h-[350px]">
+                <canvas id="contentChart"></canvas>
+                
+                <!-- Loading Overlay -->
+                <div id="contentChartLoading" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-20 flex items-center justify-center rounded-3xl" style="display:none;">
+                    <div class="text-center">
+                        <svg class="animate-spin h-10 w-10 text-emerald-600 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <p class="text-sm font-medium text-emerald-800">Mempersiapkan data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Top 5 Berita Terpopuler (Horizontal Bar Chart) -->
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col justify-center">
+            <div>
+                <h2 class="text-xl font-bold text-gray-800 tracking-tight mb-2">Top 5 Berita Populer</h2>
+                <p class="text-xs text-gray-500 mb-6">Artikel dengan jumlah tayangan tertinggi</p>
+            </div>
+            <div class="relative h-[300px] w-full">
+                <canvas id="topBeritaChart"></canvas>
             </div>
         </div>
     </div>
@@ -787,6 +733,14 @@
             visitorChart.destroy();
         }
         
+        let gradientBlue = visitorCtx.createLinearGradient(0, 0, 0, 350);
+        gradientBlue.addColorStop(0, 'rgba(59, 130, 246, 0.6)');
+        gradientBlue.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+        let gradientOrange = visitorCtx.createLinearGradient(0, 0, 0, 350);
+        gradientOrange.addColorStop(0, 'rgba(249, 115, 22, 0.6)');
+        gradientOrange.addColorStop(1, 'rgba(249, 115, 22, 0.0)');
+
         visitorChart = new Chart(visitorCtx, {
             type: 'line',
             data: {
@@ -796,7 +750,7 @@
                         label: 'Unique Visitors',
                         data: chartData.visitors,
                         borderColor: 'rgb(59, 130, 246)',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        backgroundColor: gradientBlue,
                         tension: 0.4,
                         fill: true,
                         borderWidth: 3,
@@ -810,7 +764,7 @@
                         label: 'Page Views',
                         data: chartData.pageViews,
                         borderColor: 'rgb(249, 115, 22)',
-                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        backgroundColor: gradientOrange,
                         tension: 0.4,
                         fill: true,
                         borderWidth: 3,
@@ -972,6 +926,22 @@
             contentChart.destroy();
         }
         
+        let gradBerita = contentCtx.createLinearGradient(0, 0, 0, 350);
+        gradBerita.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+        gradBerita.addColorStop(1, 'rgba(59, 130, 246, 0.05)');
+
+        let gradPotensi = contentCtx.createLinearGradient(0, 0, 0, 350);
+        gradPotensi.addColorStop(0, 'rgba(34, 197, 94, 0.5)');
+        gradPotensi.addColorStop(1, 'rgba(34, 197, 94, 0.05)');
+
+        let gradGaleri = contentCtx.createLinearGradient(0, 0, 0, 350);
+        gradGaleri.addColorStop(0, 'rgba(168, 85, 247, 0.5)');
+        gradGaleri.addColorStop(1, 'rgba(168, 85, 247, 0.05)');
+
+        let gradPublikasi = contentCtx.createLinearGradient(0, 0, 0, 350);
+        gradPublikasi.addColorStop(0, 'rgba(249, 115, 22, 0.5)');
+        gradPublikasi.addColorStop(1, 'rgba(249, 115, 22, 0.05)');
+
         contentChart = new Chart(contentCtx, {
             type: 'line',
             data: {
@@ -981,11 +951,11 @@
                         label: 'Berita',
                         data: chartData.berita,
                         borderColor: 'rgb(59, 130, 246)',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        backgroundColor: gradBerita,
                         tension: 0.4,
                         fill: true,
                         borderWidth: 3,
-                        pointRadius: 4,
+                        pointRadius: 0,
                         pointHoverRadius: 6,
                         pointBackgroundColor: 'rgb(59, 130, 246)',
                         pointBorderColor: '#fff',
@@ -995,11 +965,11 @@
                         label: 'Potensi',
                         data: chartData.potensi,
                         borderColor: 'rgb(34, 197, 94)',
-                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        backgroundColor: gradPotensi,
                         tension: 0.4,
                         fill: true,
                         borderWidth: 3,
-                        pointRadius: 4,
+                        pointRadius: 0,
                         pointHoverRadius: 6,
                         pointBackgroundColor: 'rgb(34, 197, 94)',
                         pointBorderColor: '#fff',
@@ -1009,11 +979,11 @@
                         label: 'Galeri',
                         data: chartData.galeri,
                         borderColor: 'rgb(168, 85, 247)',
-                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                        backgroundColor: gradGaleri,
                         tension: 0.4,
                         fill: true,
                         borderWidth: 3,
-                        pointRadius: 4,
+                        pointRadius: 0,
                         pointHoverRadius: 6,
                         pointBackgroundColor: 'rgb(168, 85, 247)',
                         pointBorderColor: '#fff',
@@ -1023,11 +993,11 @@
                         label: 'Publikasi',
                         data: chartData.publikasi,
                         borderColor: 'rgb(249, 115, 22)',
-                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        backgroundColor: gradPublikasi,
                         tension: 0.4,
                         fill: true,
                         borderWidth: 3,
-                        pointRadius: 4,
+                        pointRadius: 0,
                         pointHoverRadius: 6,
                         pointBackgroundColor: 'rgb(249, 115, 22)',
                         pointBorderColor: '#fff',
@@ -1172,6 +1142,125 @@
         const currentYear = {{ Carbon\Carbon::now()->year }};
         document.getElementById('contentYearFilter').value = currentYear;
         loadContentChartByYear(currentYear);
+    });
+
+    // ---------------- NEW ANALYTICS CHARTS ---------------- //
+    
+    // 1. Distribusi Potensi Desa (Doughnut Chart)
+    const potensiCtx = document.getElementById('potensiChart').getContext('2d');
+    new Chart(potensiCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {!! json_encode($potensiLabels) !!},
+            datasets: [{
+                data: {!! json_encode($potensiTotals) !!},
+                backgroundColor: [
+                    '#10b981', // emerald
+                    '#3b82f6', // blue
+                    '#f59e0b', // amber
+                    '#8b5cf6', // purple
+                    '#f43f5e', // rose
+                    '#14b8a6', // teal
+                    '#64748b'  // slate
+                ],
+                borderWidth: 0,
+                hoverOffset: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '82%',
+            plugins: {
+                legend: { 
+                    position: 'right', 
+                    labels: { 
+                        usePointStyle: true, 
+                        boxWidth: 8, 
+                        font: { size: 11, family: "'Plus Jakarta Sans', sans-serif" } 
+                    } 
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleFont: { family: "'Plus Jakarta Sans', sans-serif" },
+                    bodyFont: { family: "'Plus Jakarta Sans', sans-serif" },
+                    padding: 10,
+                    cornerRadius: 8
+                }
+            }
+        }
+    });
+
+    // 2. Top 5 Berita Populer (Horizontal Bar Chart)
+    const topBeritaCtx = document.getElementById('topBeritaChart').getContext('2d');
+    const rawTitles = {!! json_encode($topBerita->pluck('judul')->toArray()) !!};
+    const topBeritaLabels = {!! json_encode($topBerita->pluck('judul')->map(fn($j) => \Illuminate\Support\Str::limit($j, 15))->toArray()) !!};
+    const topBeritaViews = {!! json_encode($topBerita->pluck('views')->toArray()) !!};
+    let gradBar = topBeritaCtx.createLinearGradient(0, 0, 400, 0);
+    gradBar.addColorStop(0, 'rgba(59, 130, 246, 0.85)'); // blue
+    gradBar.addColorStop(1, 'rgba(16, 185, 129, 0.85)'); // emerald
+
+    new Chart(topBeritaCtx, {
+        type: 'bar',
+        data: {
+            labels: topBeritaLabels,
+            datasets: [{
+                label: 'Views',
+                data: topBeritaViews,
+                backgroundColor: gradBar,
+                hoverBackgroundColor: 'rgba(59, 130, 246, 1)',
+                borderRadius: 8,
+                borderSkipped: false,
+                barThickness: 18
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { 
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleFont: { family: "'Plus Jakarta Sans', sans-serif" },
+                    bodyFont: { family: "'Plus Jakarta Sans', sans-serif" },
+                    padding: 10,
+                    cornerRadius: 8,
+                    callbacks: { 
+                        title: function(context) {
+                            // Show full title on hover
+                            return rawTitles[context[0].dataIndex];
+                        }
+                    } 
+                }
+            },
+            scales: {
+                x: { 
+                    grid: { display: false, drawBorder: false }, 
+                    ticks: { display: false } 
+                },
+                y: { 
+                    grid: { display: false, drawBorder: false }, 
+                    ticks: { font: { size: 12, family: "'Plus Jakarta Sans', sans-serif", weight: '500' } } 
+                }
+            }
+        },
+        plugins: [{
+            id: 'topBeritaLabels',
+            afterDatasetsDraw(chart, args, pluginOptions) {
+                const { ctx, data } = chart;
+                ctx.save();
+                chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
+                    const value = data.datasets[0].data[index];
+                    ctx.font = "bold 11px 'Plus Jakarta Sans'";
+                    ctx.fillStyle = '#1e293b';
+                    ctx.textAlign = 'right';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(value.toLocaleString() + ' views', datapoint.x + 55, datapoint.y);
+                });
+                ctx.restore();
+            }
+        }]
     });
 </script>
 @endsection

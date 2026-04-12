@@ -40,13 +40,13 @@ class BeritaService
     }
 
     /**
-     * Mengambil berita dengan pagination untuk halaman admin
+     * Mengambil berita dengan pagination untuk halaman admin (diurutkan paling baru)
      * @param int $perPage - jumlah item per halaman (default: 15)
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getPaginatedBerita($perPage = 15)
     {
-        return $this->beritaRepository->paginate($perPage);
+        return \App\Models\Berita::with('admin')->orderBy('created_at', 'desc')->paginate($perPage);
     }
 
     /**

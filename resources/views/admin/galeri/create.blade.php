@@ -39,14 +39,17 @@
 @section('title', 'Tambah Galeri Baru')
 
 @section('content')
-<div class="container-fluid px-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
         <div>
-            <h1 class="h3 mb-0 text-gray-800 fw-bold">Tambah Galeri</h1>
-            <p class="text-muted small mb-0">Upload foto ke galeri desa</p>
+            <h1 class="text-2xl font-bold text-gray-800">Tambah Galeri</h1>
+            <p class="text-sm text-gray-500 mt-1">Upload foto ke galeri desa</p>
         </div>
-        <a href="{{ route('admin.galeri.index') }}" class="btn btn-outline-secondary btn-sm">
-            <i class="fas fa-arrow-left me-2"></i> Kembali
+        <a href="{{ route('admin.galeri.index') }}" 
+           class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-primary-600 transition-all shadow-sm">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Kembali
         </a>
     </div>
 
@@ -55,8 +58,8 @@
 
         <div class="row">
             <div class="col-lg-8">
-                <div class="card shadow-sm mb-4 border-0">
-                    <div class="card-body p-4">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-4">
+                    <div class="p-6">
                         
                         <div class="mb-4">
                             <h6 class="text-primary fw-bold mb-0">
@@ -66,7 +69,7 @@
 
                         <!-- JUDUL -->
                             <div class="mb-4">
-                                <label for="judul" class="block text-sm font-medium text-gray-700 mb-2">
+                                <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
                                     Judul Galeri <span class="text-red-500">*</span>
                                 </label>
 
@@ -75,18 +78,17 @@
                                        id="judul"
                                        value="{{ old('judul') }}"
                                        placeholder="Masukkan judul..."
-                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg
-                                              focus:ring-2 focus:ring-primary-500 focus:border-primary-500
-                                              @error('judul') border-red-500 @enderror">
+                                       class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                                              @error('judul') border-red-300 ring-red-100 @enderror">
 
                                 @error('judul')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <!-- DESKRIPSI -->
                             <div class="mb-4">
-                                <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-2">
+                                <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
                                     Deskripsi
                                 </label>
 
@@ -94,12 +96,11 @@
                                           id="deskripsi"
                                           rows="6"
                                           placeholder="Ceritakan detail tentang foto ini..."
-                                          class="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                                                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                                                 @error('deskripsi') border-red-500 @enderror">{{ old('deskripsi') }}</textarea>
+                                          class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                                                 @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi') }}</textarea>
 
                                 @error('deskripsi')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                 @enderror
 
                                 <p class="text-xs text-gray-500 text-right mt-1">
@@ -149,11 +150,10 @@
 
                         <!-- KATEGORI -->
                         <div class="mb-4">
-                            <label class="block text-sm text-gray-700 font-medium mb-2">Kategori <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
 
                             <select name="kategori" required
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white 
-                                           focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium">
 
                                 <option value="">-- Pilih Kategori --</option>
                                 <option value="kegiatan">Kegiatan Desa</option>
@@ -166,13 +166,14 @@
 
                         <!-- TANGGAL -->
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Kejadian</label>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Tanggal Kejadian</label>
 
-                            <input type="date" 
+                            <input type="text" 
+                                   id="tanggal"
                                    name="tanggal"
                                    value="{{ old('tanggal', date('Y-m-d')) }}"
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                                          focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                   placeholder="Pilih tanggal"
+                                   class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium">
                         </div>
 
                         <!-- STATUS (di-comment, belum dibutuhkan) -->
@@ -208,8 +209,21 @@
     </form>
 </div>
 
+@push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endpush
+
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
 <script>
+    flatpickr("#tanggal", {
+        altInput: true,
+        altFormat: "j F Y",
+        dateFormat: "Y-m-d",
+        locale: "id"
+    });
+
 let selectedFiles = [];
 
 // MULTIPLE UPLOAD HANDLER

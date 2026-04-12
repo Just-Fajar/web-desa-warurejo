@@ -80,7 +80,26 @@ class DashboardController extends Controller
         // Quick Stats
         $beritaPublished = Berita::where('status', 'published')->count();
         $beritaDraft = Berita::where('status', 'draft')->count();
-        
+
+        // ------------------ NEW CHART DATA STATS ------------------ //
+
+        // 1. Distribusi Potensi Desa
+        $potensiKategoriData = PotensiDesa::selectRaw('kategori, count(*) as total')
+            ->groupBy('kategori')
+            ->get();
+        $potensiLabels = $potensiKategoriData->pluck('kategori')->map(fn($k) => ucfirst($k))->toArray();
+        $potensiTotals = $potensiKategoriData->pluck('total')->toArray();
+
+        // 2. Top 5 Berita
+        $topBerita = Berita::orderBy('views', 'desc')->take(5)->get(['judul', 'views']);
+
+        // 3. Rasio Kinerja Publikasi (Views vs Downloads)
+        $totalPublikasiViews = Publikasi::sum('views') ?: 0;
+        $totalPublikasiDownloads = Publikasi::sum('jumlah_download') ?: 0;
+        $publikasiConversion = $totalPublikasiViews > 0 
+           ? round(($totalPublikasiDownloads / $totalPublikasiViews) * 100, 1) 
+           : 0;
+
         return view('admin.dashboard.index', compact(
             'totalBerita',
             'totalPotensi',
@@ -104,7 +123,13 @@ class DashboardController extends Controller
             'contentAvailableYears',
             'currentContentYear',
             'beritaPublished',
-            'beritaDraft'
+            'beritaDraft',
+            'potensiLabels',
+            'potensiTotals',
+            'topBerita',
+            'totalPublikasiViews',
+            'totalPublikasiDownloads',
+            'publikasiConversion'
         ));
     }
     

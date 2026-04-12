@@ -20,7 +20,7 @@
     </div>
 
     <!-- Form Card -->
-    <div class="bg-white rounded-lg shadow">
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
         <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data" id="beritaForm">
             @csrf
             
@@ -34,40 +34,40 @@
                            name="judul" 
                            id="judul" 
                            value="{{ old('judul') }}"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @error('judul')  @enderror"
+                           class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
                            placeholder="Masukkan judul berita"
                            required>
                     @error('judul')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Slug (Auto-generated) -->
                 <div>
-                    <label for="slug" class="block text-sm font-medium text-gray-700 mb-2">
-                        Slug <span class="text-xs text-gray-500">(Otomatis dibuatkan dari judul)</span>
+                    <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
+                        Slug <span class="text-xs text-gray-500 font-normal">(Otomatis dibuatkan dari judul)</span>
                     </label>
                     <input type="text" 
                            name="slug" 
                            id="slug" 
                            value="{{ old('slug') }}"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @error('slug')  @enderror"
+                           class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
                            placeholder="slug-otomatis"
                            readonly>
                     @error('slug')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Ringkasan -->
                 <div>
-                    <label for="ringkasan" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="ringkasan" class="block text-sm font-bold text-gray-700 mb-2">
                         Ringkasan/Excerpt
                     </label>
                     <textarea name="ringkasan" 
                               id="ringkasan" 
                               rows="3"
-                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @error('ringkasan')  @enderror"
+                              class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('ringkasan') border-red-300 ring-red-100 @enderror"
                               placeholder="Ringkasan singkat berita (opsional, max 500 karakter)">{{ old('ringkasan') }}</textarea>
                     <p class="mt-1 text-xs text-gray-500">
                         <span id="ringkasanCount">0</span>/500 karakter
@@ -145,7 +145,7 @@
                         </label>
                         <select name="status" 
                                 id="status"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @error('status')  @enderror"
+                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('status') border-red-300 @enderror"
                                 required>
                             {{-- <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft</option> --}}
                             <option value="published" {{ old('status') === 'published' ? 'selected' : '' }} selected>Published</option>
@@ -160,11 +160,12 @@
                         <label for="published_at" class="block text-sm font-medium text-gray-700 mb-2">
                             Tanggal Publikasi <span class="text-xs text-gray-500">(Opsional)</span>
                         </label>
-                        <input type="datetime-local" 
+                        <input type="text" 
                                name="published_at" 
                                id="published_at" 
                                value="{{ old('published_at') }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @error('published_at')  @enderror">
+                               placeholder="Pilih tanggal dan waktu (opsional)"
+                               class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('published_at') border-red-300 @enderror">
                         @error('published_at')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -199,10 +200,42 @@
     </div>
 </div>
 
+@push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    .ck-editor__editable_inline {
+        min-height: 400px;
+        border-radius: 0.75rem !important;
+        border-color: #f3f4f6 !important;
+    }
+    .ck-toolbar {
+        border-top-left-radius: 0.75rem !important;
+        border-top-right-radius: 0.75rem !important;
+        background-color: #f9fafb !important;
+        border-color: #f3f4f6 !important;
+    }
+</style>
+@endpush
+
 @push('scripts')
+<!-- Flatpickr for Modern DatePicker -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+
 <!-- CKEditor 5 -->
 <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
 <script>
+    // Initialize Flatpickr
+    flatpickr("#published_at", {
+        enableTime: true,
+        altInput: true,
+        altFormat: "j F Y, H:i",
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true,
+        locale: "id",
+        placeholder: "Pilih tanggal dipublikasikan"
+    });
+
     // Initialize CKEditor
     let editorInstance;
     ClassicEditor

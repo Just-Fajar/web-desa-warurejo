@@ -32,8 +32,8 @@ class ProfileController extends Controller
             $admin = auth()->guard('admin')->user();
 
             $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|max:255|unique:admins,email,' . $admin->id,
+                'name' => 'sometimes|required|string|max:255',
+                'email' => 'sometimes|required|email|max:255|unique:admins,email,' . $admin->id,
             ]);
 
             $admin->update($validated);

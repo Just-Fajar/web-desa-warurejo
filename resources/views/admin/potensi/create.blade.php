@@ -44,15 +44,17 @@
 @section('title', 'Tambah Potensi Desa')
 
 @section('content')
-<div class="container-fluid px-4"> 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
         <div>
-            <h1 class="h3 mb-0 text-gray-800 fw-bold">Tambah Potensi Desa</h1>
-            <p class="text-muted small mb-0">Tambah informasi potensi yang dimiliki desa.</p>
+            <h1 class="text-2xl font-bold text-gray-800">Tambah Potensi Desa</h1>
+            <p class="text-sm text-gray-500 mt-1">Tambah informasi potensi yang dimiliki desa</p>
         </div>
-
-        <a href="{{ route('admin.potensi.index') }}" class="btn btn-outline-secondary btn-sm">
-            <i class="fas fa-arrow-left me-2"></i> Kembali
+        <a href="{{ route('admin.potensi.index') }}" 
+           class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-primary-600 transition-all shadow-sm">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Kembali
         </a>
     </div>
 
@@ -66,11 +68,11 @@
 @endif
 
     <!-- Form Card -->
-    <div class="card shadow-sm">
-        <div class="card-header bg-white py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Form Tambah Potensi</h6>
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+            <h6 class="m-0 font-bold text-gray-800">Form Tambah Potensi</h6>
         </div>
-        <div class="card-body">
+        <div class="p-6">
             <form action="{{ route('admin.potensi.store') }}" method="POST" enctype="multipart/form-data" id="potensiForm">
                 @csrf
 
@@ -79,8 +81,8 @@
                     <div class="col-md-8">
                         <!-- Nama Potensi -->
                         <div class="mb-4">
-    <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">
-        Nama Potensi <span class="text-red-600">*</span>
+    <label for="nama" class="block text-sm font-bold text-gray-700 mb-2">
+        Nama Potensi <span class="text-red-500">*</span>
     </label>
 
     <input type="text"
@@ -89,21 +91,21 @@
            value="{{ old('nama') }}"
            placeholder="Contoh: Pertanian Padi Organik"
            required
-           class="w-full px-4 py-2 border rounded-lg 
-                  border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                  @error('nama')  @enderror">
+           class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                  @error('nama') border-red-300 ring-red-100 @enderror">
 
     @error('nama')
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
     @enderror
 
     <small class="text-gray-500 text-xs">Slug akan dibuat otomatis dari nama potensi</small>
 </div>
 
                         <!-- Deskripsi Singkat -->
+<!-- Deskripsi Singkat -->
 <div class="mb-4">
-    <label for="deskripsi_singkat" class="block text-sm font-medium text-gray-700 mb-1">
-        Deskripsi Singkat <span class="text-red-600">*</span>
+    <label for="deskripsi_singkat" class="block text-sm font-bold text-gray-700 mb-2">
+        Deskripsi Singkat <span class="text-red-500">*</span>
     </label>
 
     <textarea id="deskripsi_singkat"
@@ -112,12 +114,11 @@
               maxlength="500"
               placeholder="Ringkasan singkat tentang potensi ini (max 500 karakter)"
               required
-              class="w-full px-4 py-2 border rounded-lg 
-                     border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                     @error('deskripsi_singkat') @enderror">{{ old('deskripsi_singkat') }}</textarea>
+              class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                     @error('deskripsi_singkat') border-red-300 ring-red-100 @enderror">{{ old('deskripsi_singkat') }}</textarea>
 
     @error('deskripsi_singkat')
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
     @enderror
 
     <small class="text-gray-500 text-xs"><span id="charCount">0</span>/500 karakter</small>
@@ -125,19 +126,18 @@
 
 <!-- Deskripsi Lengkap -->
 <div class="mb-4">
-    <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-1">
-        Deskripsi Lengkap <span class="text-red-600">*</span>
+    <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
+        Deskripsi Lengkap <span class="text-red-500">*</span>
     </label>
 
     <textarea id="deskripsi"
               name="deskripsi"
               rows="15"
-              class="w-full px-4 py-2 border rounded-lg 
-                     border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                     @error('deskripsi') @enderror">{{ old('deskripsi') }}</textarea>
+              class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                     @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi') }}</textarea>
 
     @error('deskripsi')
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
     @enderror
 </div>
 
@@ -145,32 +145,24 @@
                     <!-- Right Column -->
                     <div class="col-md-4">
                        <!-- Gambar -->
-<div class="mb-3">
-    <label for="gambar" class="form-label" style="font-weight: 600; color: #374151;">
-        Gambar <span class="text-danger">*</span>
+<div class="mb-4">
+    <label for="gambar" class="block text-sm font-bold text-gray-700 mb-2">
+        Gambar <span class="text-red-500">*</span>
     </label>
 
     <input type="file"
-        class="form-control @error('gambar') is-invalid @enderror"
+        class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('gambar') border-red-300 ring-red-100 @enderror"
         id="gambar"
         name="gambar"
         accept="image/*"
         required
-        style="
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid #d1d5db;
-            transition: all .2s;
-        "
-        onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 2px rgba(59,130,246,0.3)'"
-        onblur="this.style.borderColor='#d1d5db'; this.style.boxShadow='none'"
     >
 
     @error('gambar')
-        <div class="text-danger mt-1" style="font-size: 14px;">{{ $message }}</div>
+        <div class="text-red-600 mt-1 text-sm font-medium">{{ $message }}</div>
     @enderror
 
-    <small class="text-muted d-block mt-1">Format: JPG, PNG, WEBP. Max: 2MB</small>
+    <small class="text-gray-500 block mt-1">Format: JPG, PNG, WEBP. Max: 2MB</small>
 
     <!-- Image Preview -->
     <div id="imagePreview"
@@ -195,24 +187,16 @@
 </div>
 
 <!-- Kategori -->
-<div class="mb-3">
-    <label for="kategori" class="form-label" style="font-weight: 600; color: #374151;">
-        Kategori <span class="text-danger">*</span>
+<div class="mb-4">
+    <label for="kategori" class="block text-sm font-bold text-gray-700 mb-2">
+        Kategori <span class="text-red-500">*</span>
     </label>
 
     <select
-        class="form-select @error('kategori') is-invalid @enderror"
+        class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror"
         id="kategori"
         name="kategori"
         required
-        style="
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid #d1d5db;
-            transition: all .2s;
-        "
-        onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 2px rgba(59,130,246,0.3)'"
-        onblur="this.style.borderColor='#d1d5db'; this.style.boxShadow='none'"
     >
         <option value="">-- Pilih Kategori --</option>
         <option value="pertanian" {{ old('kategori') == 'pertanian' ? 'selected' : '' }}>Pertanian</option>
@@ -225,13 +209,13 @@
     </select>
 
     @error('kategori')
-        <div class="text-danger mt-1" style="font-size: 14px;">{{ $message }}</div>
+        <div class="text-red-600 mt-1 text-sm font-medium">{{ $message }}</div>
     @enderror
 </div>
 
 <div class="mb-4">
-    <label for="lokasi" class="block text-sm font-medium text-gray-700 mb-1">
-        Lokasi <span class="text-red-600">*</span>
+    <label for="lokasi" class="block text-sm font-bold text-gray-700 mb-2">
+        Lokasi <span class="text-red-500">*</span>
     </label>
     <input type="text"
            id="lokasi"
@@ -239,41 +223,39 @@
            value="{{ old('lokasi') }}"
            placeholder="Contoh: Dusun Krajan"
            required
-           class="w-full px-4 py-2 border rounded-lg 
-                  border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                  @error('lokasi') @enderror">
+           class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                  @error('lokasi') border-red-300 ring-red-100 @enderror">
     @error('lokasi')
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
     @enderror
 </div>
 
 
 
 <div class="mb-4">
-    <label for="kontak" class="block text-sm font-medium text-gray-700 mb-1">
-        Email <small class="text-gray-500">(Opsional)</small>
+    <label for="kontak" class="block text-sm font-bold text-gray-700 mb-2">
+        Email <small class="text-gray-500 font-normal">(Opsional)</small>
     </label>
-    <input type="text"
+    <input type="email"
            id="kontak"
            name="kontak"
            value="{{ old('kontak') }}"
            placeholder="Contoh: warurejo@gmail.com"
-           class="w-full px-4 py-2 border rounded-lg 
-                  border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                  @error('kontak') @enderror">
+           class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                  @error('kontak') border-red-300 ring-red-100 @enderror">
     @error('kontak')
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
     @enderror
 </div>
 
 
 <div class="mb-4">
-    <label for="whatsapp" class="block text-sm font-medium text-gray-700 mb-1">
-        Nomor WhatsApp <small class="text-gray-500">(Opsional)</small>
+    <label for="whatsapp" class="block text-sm font-bold text-gray-700 mb-2">
+        Nomor WhatsApp <small class="text-gray-500 font-normal">(Opsional)</small>
     </label>
 
-    <div class="flex">
-        <span class="px-4 py-2 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-gray-700 font-medium">
+    <div class="flex relative">
+        <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-gray-100 bg-gray-50 text-gray-500 font-medium sm:text-sm">
             +62
         </span>
         <input type="text"
@@ -283,13 +265,12 @@
                placeholder="8123456789"
                maxlength="15"
                pattern="[0-9]*"
-               class="w-full px-4 py-2 border border-gray-300 rounded-r-lg
-                      focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                      @error('whatsapp') @enderror">
+               class="flex-1 min-w-0 block w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-none rounded-r-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                      @error('whatsapp') border-red-300 ring-red-100 @enderror">
     </div>
 
     @error('whatsapp')
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
     @enderror
 
     <p class="text-xs text-gray-500 mt-1">

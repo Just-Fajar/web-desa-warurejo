@@ -72,24 +72,34 @@
 @endsection
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-6 max-w-4xl space-y-8">
 
-    <div class="bg-white shadow-md rounded-lg border border-gray-200">
-        
-        <div class="border-b px-6 py-4">
-            <h2 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">Edit Profile</h1>
+            <p class="text-sm text-gray-500 mt-1">Sesuaikan informasi profil dan keamanan akun Anda</p>
+        </div>
+        <a href="{{ route('admin.profile.show') }}" 
+           class="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-primary-600 transition-all shadow-sm">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Kembali
+        </a>
+    </div>
+
+    <!-- Card 1: Edit Profile (Foto & Nama) -->
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+            <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
                 <i class="fas fa-user-edit text-primary-600"></i>
-                Edit Profile
+                Informasi Dasar
             </h2>
         </div>
-
-        <div class="p-6">
+        
+        <div class="p-8">
             {{-- Photo Upload Section --}}
-            <div class="mb-8 pb-8 border-b">
-                <h3 class="text-md font-semibold text-gray-700 mb-4 flex items-center gap-2">
-                    <i class="fas fa-camera text-primary-600"></i>
-                    Foto Profil
-                </h3>
+            <div class="mb-8 pb-8 border-b border-gray-100">
+                <h3 class="text-sm font-bold text-gray-700 mb-4">Foto Profil</h3>
 
                 <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
                     {{-- Current Photo Display --}}
@@ -99,18 +109,18 @@
                                 <img id="currentPhoto" 
                                      src="{{ asset('storage/' . $admin->avatar) }}" 
                                      alt="Foto Profil" 
-                                     class="w-32 h-32 rounded-full object-cover border-4 border-gray-200 shadow-md">
+                                     class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg">
                             @else
-                                <div id="currentPhoto" class="w-32 h-32 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center border-4 border-gray-200 shadow-md">
+                                <div id="currentPhoto" class="w-32 h-32 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center border-4 border-white shadow-lg">
                                     <span class="text-4xl font-bold text-white">{{ substr($admin->name, 0, 1) }}</span>
                                 </div>
                             @endif
                             
-                            {{-- Delete Button (only shown if avatar exists) --}}
+                            {{-- Delete Button --}}
                             @if($admin->avatar)
                             <button type="button" 
                                     onclick="deletePhoto()"
-                                    class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                    class="absolute -top-2 -right-2 bg-rose-500 hover:bg-rose-600 text-white rounded-full p-2.5 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-200"
                                     title="Hapus Foto">
                                 <i class="fas fa-trash-alt text-xs"></i>
                             </button>
@@ -120,7 +130,7 @@
 
                     {{-- Upload Controls --}}
                     <div class="flex-1">
-                        <div class="space-y-3">
+                        <div class="space-y-4">
                             {{-- File Input (Hidden) --}}
                             <input type="file" 
                                    id="photoInput" 
@@ -130,40 +140,40 @@
                             {{-- Upload Button --}}
                             <button type="button" 
                                     onclick="document.getElementById('photoInput').click()"
-                                    class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition shadow inline-flex items-center gap-2">
-                                <i class="fas fa-upload"></i>
-                                <span>{{ $admin->avatar ? 'Ubah Foto' : 'Upload Foto' }}</span>
+                                    class="px-5 py-2.5 bg-primary-50 text-primary-600 hover:bg-primary-600 hover:text-white rounded-xl font-medium transition-all shadow-sm border border-primary-100 hover:border-primary-600 inline-flex items-center gap-2">
+                                <i class="fas fa-camera"></i>
+                                <span>{{ $admin->avatar ? 'Ubah Foto Profil' : 'Upload Foto Baru' }}</span>
                             </button>
 
                             {{-- Info Text --}}
-                            <div class="text-sm text-gray-600 space-y-1">
-                                <p><i class="fas fa-info-circle text-primary-600 mr-1"></i> Format: JPG, JPEG, PNG</p>
-                                <p><i class="fas fa-info-circle text-primary-600 mr-1"></i> Ukuran maksimal: 2 MB</p>
-                                <p><i class="fas fa-info-circle text-primary-600 mr-1"></i> Resolusi optimal: 400 x 400 px</p>
+                            <div class="flex gap-4 text-xs text-gray-500">
+                                <span class="flex items-center gap-1"><i class="fas fa-file-image text-gray-400"></i> JPG, PNG</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-weight-hanging text-gray-400"></i> Max 2MB</span>
+                                <span class="flex items-center gap-1"><i class="fas fa-expand text-gray-400"></i> 400x400 px</span>
                             </div>
 
                             {{-- Preview Section (Hidden by default) --}}
-                            <div id="previewSection" class="hidden mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <div id="previewSection" class="hidden mt-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
                                 <div class="flex items-center gap-4">
                                     <img id="previewImage" 
                                          src="" 
                                          alt="Preview" 
-                                         class="w-20 h-20 rounded-full object-cover border-2 border-primary-400">
+                                         class="w-16 h-16 rounded-full object-cover border-2 border-primary-400 shadow-sm">
                                     <div class="flex-1">
-                                        <p class="text-sm font-semibold text-gray-700" id="fileName"></p>
-                                        <p class="text-xs text-gray-500" id="fileSize"></p>
+                                        <p class="text-sm font-bold text-gray-800 line-clamp-1" id="fileName"></p>
+                                        <p class="text-xs text-gray-500 mt-0.5" id="fileSize"></p>
                                     </div>
-                                    <div class="flex gap-2">
+                                    <div class="flex flex-col sm:flex-row gap-2">
                                         <button type="button" 
                                                 onclick="uploadPhoto()"
                                                 id="btnUpload"
-                                                class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition">
-                                            <i class="fas fa-check mr-1"></i>Upload
+                                                class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
+                                            <i class="fas fa-check"></i> Upload
                                         </button>
                                         <button type="button" 
                                                 onclick="cancelPreview()"
-                                                class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white text-sm rounded-lg transition">
-                                            <i class="fas fa-times mr-1"></i>Batal
+                                                class="px-4 py-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 text-sm font-medium rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
+                                            Batal
                                         </button>
                                     </div>
                                 </div>
@@ -173,56 +183,130 @@
                 </div>
             </div>
 
-            {{-- Profile Form --}}
-            <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-6">
+            {{-- Nama Form --}}
+            <form action="{{ route('admin.profile.update') }}" method="POST">
                 @csrf
                 @method('PUT')
-
-                {{-- Nama --}}
+                
                 <div>
-                    <label class="block font-semibold text-gray-700 mb-1">
-                        Nama Lengkap <span class="text-red-500">*</span>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">
+                        Nama Lengkap <span class="text-rose-500">*</span>
                     </label>
-                    <input type="text"
-                           name="name"
-                           value="{{ old('name', $admin->name) }}"
-                           required
-                           class="w-full px-4 py-3 border rounded-lg focus:ring focus:ring-primary-200 @error('name') border-red-500 @enderror">
-
-                    @error('name')
-                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                    @enderror
+                    <input type="text" name="name" value="{{ old('name', $admin->name) }}" required
+                           class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('name') border-rose-300 ring-rose-100 @enderror"
+                           placeholder="Masukkan nama lengkap Anda">
+                    @error('name') <p class="text-sm text-rose-600 mt-1 font-medium">{{ $message }}</p> @enderror
                 </div>
 
-                {{-- Email --}}
-                <div>
-                    <label class="block font-semibold text-gray-700 mb-1">
-                        Email <span class="text-red-500">*</span>
-                    </label>
-                    <input type="email"
-                           name="email"
-                           value="{{ old('email', $admin->email) }}"
-                           required
-                           class="w-full px-4 py-3 border rounded-lg focus:ring focus:ring-primary-200 @error('email') border-red-500 @enderror">
-
-                    @error('email')
-                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                {{-- Button --}}
-                <div class="pt-6 border-t flex items-center justify-between">
-                    <a href="{{ route('admin.profile.show') }}"
-                       class="px-5 py-3 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
-                        <i class="fas fa-times mr-2"></i>Batal
-                    </a>
-
-                    <button type="submit"
-                            class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition shadow">
-                        <i class="fas fa-save mr-2"></i>Simpan Perubahan
+                <div class="mt-8 flex justify-end">
+                    <button type="submit" class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium transition-all shadow-sm flex items-center gap-2">
+                        <i class="fas fa-save"></i>
+                        Simpan Nama
                     </button>
                 </div>
+            </form>
+        </div>
+    </div>
 
+    <!-- Card 2: Keamanan Akun (Email & Password) -->
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+            <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                <i class="fas fa-shield-alt text-emerald-500"></i>
+                Keamanan & Kredensial
+            </h2>
+        </div>
+
+        <div class="p-8">
+            <!-- Form Update Email -->
+            <form action="{{ route('admin.profile.update') }}" method="POST" class="mb-10">
+                @csrf
+                @method('PUT')
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">
+                        Alamat Email <span class="text-rose-500">*</span>
+                    </label>
+                    <p class="text-xs text-gray-500 mb-4">Email ini digunakan untuk login ke dashboard admin.</p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="flex-1 relative">
+                            <span class="absolute left-4 top-3.5 text-gray-400">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <input type="email" name="email" value="{{ old('email', $admin->email) }}" required
+                                   class="w-full pl-11 pr-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('email') border-rose-300 ring-rose-100 @enderror">
+                        </div>
+                        <button type="submit" class="px-6 py-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl font-medium transition-all shadow-sm whitespace-nowrap flex justify-center items-center gap-2">
+                            <i class="fas fa-sync-alt text-primary-600"></i> Perbarui Email
+                        </button>
+                    </div>
+                    @error('email') <p class="text-sm text-rose-600 mt-1 font-medium">{{ $message }}</p> @enderror
+                </div>
+            </form>
+
+            <div class="relative border-t border-gray-100 mb-10">
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                    Ubah Password
+                </div>
+            </div>
+
+            <!-- Form Update Password -->
+            <form action="{{ route('admin.profile.update-password') }}" method="POST">
+                @csrf
+                @method('PUT')
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">
+                            Password Saat Ini <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-3.5 text-gray-400">
+                                <i class="fas fa-unlock-alt"></i>
+                            </span>
+                            <input type="password" name="current_password" required
+                                   class="w-full pl-11 pr-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('current_password') border-rose-300 ring-rose-100 @enderror"
+                                   placeholder="Masukkan password saat ini untuk memverifikasi">
+                        </div>
+                        @error('current_password') <p class="text-sm text-rose-600 mt-1 font-medium">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">
+                                Password Baru <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-3.5 text-gray-400">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                                <input type="password" name="password" required
+                                       class="w-full pl-11 pr-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('password') border-rose-300 ring-rose-100 @enderror"
+                                       placeholder="Minimal 8 karakter">
+                            </div>
+                            @error('password') <p class="text-sm text-rose-600 mt-1 font-medium">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">
+                                Konfirmasi Password Baru <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-3.5 text-gray-400">
+                                    <i class="fas fa-check-double"></i>
+                                </span>
+                                <input type="password" name="password_confirmation" required
+                                       class="w-full pl-11 pr-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium"
+                                       placeholder="Ketik ulang password baru">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-end">
+                        <button type="submit" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-medium transition-all shadow-sm flex items-center gap-2">
+                            <i class="fas fa-check-circle"></i>
+                            Simpan Password Baru
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

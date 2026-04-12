@@ -68,7 +68,7 @@
     @endif
 
     <!-- Filters -->
-    <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-5 mb-6">
         <form method="GET" action="{{ route('admin.publikasi.index') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <!-- Search -->
             <div>
@@ -76,12 +76,12 @@
                        name="search" 
                        placeholder="Cari judul..." 
                        value="{{ request('search') }}"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent">
+                       class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm">
             </div>
 
             <!-- Kategori Filter -->
             <div>
-                <select name="kategori" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent">
+                <select name="kategori" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-600 text-sm font-semibold transition-all">
                     <option value="">Semua Kategori</option>
                     <option value="APBDes" {{ request('kategori') == 'APBDes' ? 'selected' : '' }}>APBDes</option>
                     <option value="RPJMDes" {{ request('kategori') == 'RPJMDes' ? 'selected' : '' }}>RPJMDes</option>
@@ -91,7 +91,7 @@
 
             <!-- Tahun Filter -->
             <div>
-                <select name="tahun" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent">
+                <select name="tahun" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-600 text-sm font-semibold transition-all">
                     <option value="">Semua Tahun</option>
                     @foreach($availableYears as $year)
                         <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}</option>
@@ -99,23 +99,13 @@
                 </select>
             </div>
 
-            {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-            <div>
-                <select name="status" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent">
-                    <option value="">Semua Status</option>
-                    <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Published</option>
-                    <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                </select>
-            </div>
-            --}}
-
             <!-- Filter Button -->
             <div class="flex gap-2">
-                <button type="submit" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg font-semibold transition">
-                    <i class="fas fa-search mr-1"></i>
+                <button type="submit" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2.5 rounded-xl font-semibold transition text-sm flex items-center justify-center">
+                    <i class="fas fa-search mr-1.5"></i>
                     Filter
                 </button>
-                <a href="{{ route('admin.publikasi.index') }}" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition">
+                <a href="{{ route('admin.publikasi.index') }}" class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl transition flex items-center justify-center" title="Reset Reset">
                     <i class="fas fa-redo"></i>
                 </a>
             </div>
@@ -136,89 +126,89 @@
     </div>
 
     <!-- Table -->
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <table class="min-w-full divide-y divide-gray-100">
+                <thead class="bg-gray-50/50">
                     <tr>
-                        <th class="px-6 py-3 text-left">
-                            <input type="checkbox" id="select-all" class="rounded border-gray-300 text-primary-600 focus:ring-primary-600">
+                        <th class="px-6 py-4 text-left w-12">
+                            <!-- No Select All -->
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tahun</th>
-                        {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        --}}
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah Lihat</th>
-                        {{-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Unduh</th> --}}
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Judul</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Kategori</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Tahun</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Tanggal</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Jumlah Lihat</th>
+                        <th class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-gray-50">
                     @forelse($publikasi as $item)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-slate-50/50 transition-colors duration-150">
                         <td class="px-6 py-4">
                             <input type="checkbox" class="row-checkbox rounded border-gray-300 text-primary-600 focus:ring-primary-600" value="{{ $item->id }}">
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center">
-                                <i class="fas fa-file-pdf text-red-500 text-xl mr-3"></i>
+                                <div class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-500 rounded-xl mr-4 shrink-0 shadow-sm border border-red-100">
+                                    <i class="fas fa-file-pdf text-lg"></i>
+                                </div>
                                 <div>
-                                    <div class="text-sm font-medium text-gray-900">{{ $item->judul }}</div>
+                                    <div class="text-sm font-bold text-gray-800">{{ Str::limit($item->judul, 60) }}</div>
                                     @if($item->deskripsi)
-                                        <div class="text-xs text-gray-500">{{ Str::limit($item->deskripsi, 50) }}</div>
+                                        <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">{{ Str::limit($item->deskripsi, 60) }}</div>
                                     @endif
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full
-                                {{ $item->kategori === 'APBDes' ? 'bg-blue-100 text-blue-800' : '' }}
-                                {{ $item->kategori === 'RPJMDes' ? 'bg-green-100 text-green-800' : '' }}
-                                {{ $item->kategori === 'RKPDes' ? 'bg-purple-100 text-purple-800' : '' }}">
+                            @php
+                                $kategoriColors = [
+                                    'APBDes' => 'bg-sky-50 text-sky-600 border-sky-200',
+                                    'RPJMDes' => 'bg-emerald-50 text-emerald-600 border-emerald-200',
+                                    'RKPDes' => 'bg-purple-50 text-purple-600 border-purple-200'
+                                ];
+                                $badgeClass = $kategoriColors[$item->kategori] ?? 'bg-gray-50 text-gray-600 border-gray-200';
+                            @endphp
+                            <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md border {{ $badgeClass }}">
                                 {{ $item->kategori }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $item->tahun }}</td>
-                        {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-                        <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full
-                                {{ $item->status === 'published' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-                                {{ ucfirst($item->status) }}
-                            </span>
-                        </td>
-                        --}}
-                        <td class="px-6 py-4 text-sm text-gray-500">
+                        <td class="px-6 py-4 text-sm font-semibold text-gray-600">{{ $item->tahun }}</td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-500">
                             {{ \Carbon\Carbon::parse($item->tanggal_publikasi)->format('d M Y') }}
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-900">
-                            <i class="far fa-eye text-gray-400 mr-1"></i>
-                            {{ number_format($item->views) }}
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            <span class="inline-flex items-center justify-center px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                                {{ number_format($item->views) }}
+                            </span>
                         </td>
-                        {{-- <td class="px-6 py-4 text-sm text-gray-900">
-                            <i class="fas fa-download text-gray-400 mr-1"></i>
-                            {{ number_format($item->jumlah_download) }}
-                        </td> --}}
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center gap-2">
                                 <a href="{{ route('publikasi.show', $item->id) }}" 
                                    target="_blank"
-                                   class="text-blue-600 hover:text-blue-800 transition"
+                                   class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-500 hover:text-white transition-all duration-200"
                                    title="Lihat">
-                                    <i class="fas fa-eye"></i>
+                                    <i class="fas fa-external-link-alt text-xs"></i>
                                 </a>
                                 <a href="{{ route('admin.publikasi.edit', $item->id) }}" 
-                                   class="text-yellow-600 hover:text-yellow-800 transition"
+                                   class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white transition-all duration-200"
                                    title="Edit">
-                                    <i class="fas fa-edit"></i>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
                                 </a>
                                 <form action="{{ route('admin.publikasi.destroy', $item->id) }}" method="POST" class="inline delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="text-red-600 hover:text-red-800 transition delete-btn" title="Hapus">
-                                        <i class="fas fa-trash"></i>
+                                    <button type="button" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-500 hover:text-white transition-all duration-200 delete-btn" title="Hapus">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
                                     </button>
                                 </form>
                             </div>
@@ -257,13 +247,6 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-// Select All Checkbox
-document.getElementById('select-all').addEventListener('change', function() {
-    const checkboxes = document.querySelectorAll('.row-checkbox');
-    checkboxes.forEach(checkbox => checkbox.checked = this.checked);
-    updateBulkActions();
-});
-
 // Individual Checkbox
 document.querySelectorAll('.row-checkbox').forEach(checkbox => {
     checkbox.addEventListener('change', updateBulkActions);

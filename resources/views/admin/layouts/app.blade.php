@@ -18,6 +18,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 <body class="bg-gray-100" x-data="{ sidebarOpen: false }">
     
@@ -27,60 +28,86 @@
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
             class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-0"
             id="sidebar">
-            <div class="flex flex-col h-full">
+            <div class="flex flex-col h-full bg-white shadow-xl">
                 <!-- Logo -->
-                <div class="flex items-center justify-center h-16 bg-gradient-to-r from-primary-600 to-primary-700 text-white">
-                    <i class="fas fa-home-lg-alt text-2xl mr-2"></i>
-                    <h1 class="text-xl font-bold">Admin Warurejo</h1>
+                <div class="flex items-center justify-center h-20 bg-primary-600 text-white relative overflow-hidden">
+                    <!-- Deco shapes -->
+                    <div class="absolute -top-6 -left-6 w-20 h-20 bg-white opacity-10 rounded-full blur-xl"></div>
+                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-primary-400 opacity-30 rounded-full blur-2xl"></div>
+                    
+                    <div class="relative flex items-center gap-3 z-10">
+                        <div class="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center">
+                            <i class="fas fa-leaf text-xl text-primary-600"></i>
+                        </div>
+                        <h1 class="text-xl font-bold tracking-wide">Desa<span class="font-normal opacity-80">Warurejo</span></h1>
+                    </div>
                 </div>
 
                 <!-- Navigation -->
-                <nav class="flex-1 overflow-y-auto py-4">
+                <nav class="flex-1 overflow-y-auto py-6 px-3 space-y-1.5 custom-scrollbar">
+                    <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Menu Utama</p>
+                    
                     <a href="{{ route('admin.dashboard') }}" 
-                       class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors {{ request()->routeIs('admin.dashboard') ? 'bg-primary-50 text-primary-600 border-r-4 border-primary-600' : '' }}">
-                        <i class="fas fa-chart-line w-5 mr-3"></i>
+                       class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.dashboard') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
+                        <div class="{{ request()->routeIs('admin.dashboard') ? 'bg-primary-100 text-primary-600 shadow-sm' : 'bg-white text-gray-500 shadow-sm group-hover:text-primary-600 group-hover:bg-primary-50 transition-colors border border-gray-100' }} w-8 h-8 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-pie text-sm"></i>
+                        </div>
                         <span>Dashboard</span>
                     </a>
 
                     <a href="{{ route('admin.berita.index') }}" 
-                       class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors {{ request()->routeIs('admin.berita.*') ? 'bg-primary-50 text-primary-600 border-r-4 border-primary-600' : '' }}">
-                        <i class="fas fa-newspaper w-5 mr-3"></i>
+                       class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.berita.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
+                        <div class="{{ request()->routeIs('admin.berita.*') ? 'bg-primary-100 text-primary-600 shadow-sm' : 'bg-white text-gray-500 shadow-sm group-hover:text-primary-600 group-hover:bg-primary-50 transition-colors border border-gray-100' }} w-8 h-8 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-newspaper text-sm"></i>
+                        </div>
                         <span>Berita</span>
                     </a>
 
                     <a href="{{ route('admin.potensi.index') }}" 
-                       class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors {{ request()->routeIs('admin.potensi.*') ? 'bg-primary-50 text-primary-600 border-r-4 border-primary-600' : '' }}">
-                        <i class="fas fa-seedling w-5 mr-3"></i>
+                       class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.potensi.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
+                        <div class="{{ request()->routeIs('admin.potensi.*') ? 'bg-primary-100 text-primary-600 shadow-sm' : 'bg-white text-gray-500 shadow-sm group-hover:text-primary-600 group-hover:bg-primary-50 transition-colors border border-gray-100' }} w-8 h-8 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-seedling text-sm"></i>
+                        </div>
                         <span>Potensi Desa</span>
                     </a>
 
                     <a href="{{ route('admin.galeri.index') }}" 
-                       class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors {{ request()->routeIs('admin.galeri.*') ? 'bg-primary-50 text-primary-600 border-r-4 border-primary-600' : '' }}">
-                        <i class="fas fa-images w-5 mr-3"></i>
+                       class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.galeri.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
+                        <div class="{{ request()->routeIs('admin.galeri.*') ? 'bg-primary-100 text-primary-600 shadow-sm' : 'bg-white text-gray-500 shadow-sm group-hover:text-primary-600 group-hover:bg-primary-50 transition-colors border border-gray-100' }} w-8 h-8 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-images text-sm"></i>
+                        </div>
                         <span>Galeri</span>
                     </a>
 
                     <a href="{{ route('admin.publikasi.index') }}" 
-                       class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors {{ request()->routeIs('admin.publikasi.*') ? 'bg-primary-50 text-primary-600 border-r-4 border-primary-600' : '' }}">
-                        <i class="fas fa-file-pdf w-5 mr-3"></i>
+                       class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.publikasi.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
+                        <div class="{{ request()->routeIs('admin.publikasi.*') ? 'bg-primary-100 text-primary-600 shadow-sm' : 'bg-white text-gray-500 shadow-sm group-hover:text-primary-600 group-hover:bg-primary-50 transition-colors border border-gray-100' }} w-8 h-8 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-file-pdf text-sm"></i>
+                        </div>
                         <span>Publikasi</span>
                     </a>
 
-                    <div class="border-t border-gray-200 my-2"></div>
+                    <div class="py-2">
+                        <hr class="border-gray-100">
+                    </div>
+
+                    <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Sistem</p>
 
                     <a href="{{ route('admin.struktur-organisasi.index') }}" 
-                       class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors {{ request()->routeIs('admin.struktur-organisasi.*') ? 'bg-primary-50 text-primary-600 border-r-4 border-primary-600' : '' }}">
-                        <i class="fas fa-sitemap w-5 mr-3"></i>
-                        <span>Struktur Organisasi</span>
+                       class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.struktur-organisasi.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
+                        <div class="{{ request()->routeIs('admin.struktur-organisasi.*') ? 'bg-primary-100 text-primary-600 shadow-sm' : 'bg-white text-gray-500 shadow-sm group-hover:text-primary-600 group-hover:bg-primary-50 transition-colors border border-gray-100' }} w-8 h-8 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-sitemap text-sm"></i>
+                        </div>
+                        <span>Struktur Org.</span>
                     </a>
                 </nav>
 
                 <!-- User Info & Logout -->
-                <div class="border-t border-gray-200 p-4">
+                <div class="p-4 border-t border-gray-100 bg-gray-50/50">
                     <form action="{{ route('admin.logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="w-full px-4 py-2 text-sm text-center text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors flex items-center justify-center">
-                            <i class="fas fa-sign-out-alt mr-2"></i>
+                        <button type="submit" class="w-full px-4 py-3 text-sm font-semibold text-rose-500 hover:text-white bg-white hover:bg-rose-500 shadow-sm rounded-xl transition-all duration-200 flex items-center justify-center gap-2 border border-rose-100 hover:border-rose-500 group">
+                            <i class="fas fa-sign-out-alt transform group-hover:-translate-x-1 transition-transform"></i>
                             Logout
                         </button>
                     </form>
@@ -146,6 +173,10 @@
                                  x-transition:leave-end="transform opacity-0 scale-95"
                                  class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50 border border-gray-200"
                                  style="display: none;">
+                                <a href="{{ route('admin.profile.show') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-user w-5 mr-3"></i>
+                                    Profil
+                                </a>
                                 <a href="{{ route('admin.profile.edit') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     <i class="fas fa-user-edit w-5 mr-3"></i>
                                     Edit Profil
