@@ -6,52 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-/**
- * PotensiDesa Model
- * 
- * Model untuk showcase potensi desa (ekonomi, wisata, UMKM, dll)
- * 
- * FILLABLE:
- * - nama: Nama potensi (auto-generate slug)
- * - slug: SEO-friendly URL (unique, auto dari nama)
- * - kategori: Kategori potensi (pertanian/peternakan/perikanan/umkm/wisata/kerajinan/lainnya)
- * - deskripsi: Deskripsi lengkap (support HTML)
- * - gambar: Path foto di storage/
- * - lokasi: Alamat/lokasi potensi
- * - kontak: Nomor telepon/kontak person
- * - whatsapp: Nomor WhatsApp untuk quick contact
- * - is_active: Published status
- * - urutan: Order priority (ASC)
- * - views: View counter
- * 
- * ACCESSORS:
- * - gambar_url: Full URL ke gambar (fallback default-potensi.jpg)
- * - excerpt: Short description (150 chars, strip HTML)
- * 
- * SCOPES:
- * - active(): Filter is_active = true
- * - byKategori($kategori): Filter by kategori
- * - ordered(): Order by urutan ASC, created_at DESC
- * 
- * MUTATORS:
- * - setNamaAttribute: Auto-generate slug saat set nama
- * 
- * CONSTANTS:
- * 7 kategori: pertanian, peternakan, perikanan, umkm, wisata, kerajinan, lainnya
- * 
- * METHODS:
- * - getKategoriList(): Array kategori untuk dropdown
- * - incrementViews(): Increment view counter
- * 
- * AUTO-BEHAVIORS (boot method):
- * 1. Slug auto-generated dari nama (unique dengan suffix -1, -2, dst)
- * 2. Urutan auto-increment jika kosong (ambil max urutan + 1)
- * 
- * SEO:
- * - Slug-based URLs: /potensi/{slug}
- * - Meta tags di public view
- * - Sitemap integration
- */
 class PotensiDesa extends Model
 {
     use HasFactory;

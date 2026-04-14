@@ -11,23 +11,7 @@ return new class extends Migration
      * 
      * Tabel galeri untuk dokumentasi foto/video kegiatan desa
      * 
-     * Kategori Galeri:
-     * - kegiatan: Acara desa, gotong royong, rapat
-     * - infrastruktur: Pembangunan jalan, gedung, fasilitas
-     * - budaya: Upacara adat, seni budaya, festival
-     * - umum: Foto-foto umum lainnya
      * 
-     * Struktur:
-     * - admin_id: Yang upload galeri
-     * - judul: Judul/caption galeri
-     * - deskripsi: Keterangan detail (optional)
-     * - gambar: Featured image (1 gambar utama)
-     * - kategori: Jenis galeri (enum)
-     * - tanggal: Tanggal foto/video diambil
-     * - is_active: Show/hide di public
-     * 
-     * Note: Untuk multiple images, lihat tabel galeri_images
-     * (1 galeri bisa punya banyak foto dalam album)
      */
     public function up(): void
     {

@@ -1,34 +1,3 @@
-{{--
-    ADMIN DASHBOARD
-    
-    Halaman utama admin panel dengan statistik dan overview
-    
-    SECTIONS:
-    1. Welcome Message: Greeting dengan nama admin
-    2. Statistics Cards: Total berita/potensi/galeri/publikasi/struktur
-    3. Visitor Charts: Line chart (daily) + Pie chart (sources)
-    4. Recent Activity: Latest berita & potensi
-    
-    DATA DARI CONTROLLER:
-    - $totalBerita, $beritaPublished, $beritaDraft
-    - $totalPotensi, $totalGaleri, $totalPublikasi, $totalStruktur
-    - $visitorStatsJson: JSON untuk Chart.js
-    - $latestBerita, $latestPotensi: Collection
-    
-    CHARTS:
-    - Chart.js library (loaded via CDN)
-    - visitorChart: Line chart (7 hari terakhir)
-    - sourceChart: Doughnut chart (Direct/Referral/Social)
-    
-    FEATURES:
-    - Real-time statistics counts
-    - Publish/Draft breakdown
-    - Responsive grid layout (1/2/5 columns)
-    - Quick links ke management pages
-    
-    Route: /admin/dashboard
-    Controller: App\Http\Controllers\Admin\DashboardController@index
---}}
 @extends('admin.layouts.app')
 
 @section('title', 'Dashboard')

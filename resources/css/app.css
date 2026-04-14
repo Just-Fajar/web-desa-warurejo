@@ -1,35 +1,4 @@
 /**
- * Main Application Stylesheet
- * 
- * Framework: Tailwind CSS v4 dengan custom theme
- * Build: Vite + PostCSS
- * Output: public/build/assets/app-[hash].css
- * 
- * STRUKTUR FILE:
- * 1. Theme Configuration - Custom color palette
- * 2. Base Layer - Global styles (body, headings)
- * 3. Components Layer - Reusable UI components
- * 4. Utilities Layer - Helper classes
- * 5. Custom Animations - Keyframes dan transitions
- * 6. Navigation Styles - Header menu interactions
- * 7. Tribute Card Styles - Special component styles
- * 
- * CUSTOM THEME:
- * - Primary colors: Sky blue palette (#0ea5e9)
- * - Base font: System UI (native look)
- * - Background: Subtle gradient + dot pattern
- * 
- * USAGE:
- * Class utility components bisa dipakai di semua Blade templates:
- * - .btn-primary, .btn-secondary, .btn-danger
- * - .form-input, .form-label, .form-error
- * - .card, .card-header, .card-body
- * - .alert-success, .alert-error, .alert-warning
- * - .badge-primary, .badge-success
- * 
- * Build Commands:
- * - npm run dev: Development dengan hot reload
- * - npm run build: Production build (minified, optimized)
  */
 
 @import "tailwindcss";

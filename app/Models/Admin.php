@@ -7,43 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-/**
- * Admin Model
- * 
- * Eloquent model untuk admin authentication
- * Extends Laravel Authenticatable untuk login system
- * 
- * FILLABLE:
- * - name: Nama lengkap admin
- * - email: Email untuk login (unique)
- * - password: Hashed password (bcrypt)
- * - phone: Nomor telepon admin
- * - avatar: Path foto profil di storage/
- * 
- * HIDDEN:
- * - password: Jangan expose di JSON response
- * - remember_token: Token untuk "remember me" feature
- * 
- * RELATIONSHIPS:
- * - berita(): hasMany - Admin bisa punya banyak berita
- * - galeri(): hasMany - Admin bisa upload banyak galeri
- * 
- * ACCESSORS:
- * - avatar_url: Full URL ke avatar (fallback ke default-avatar.png)
- * 
- * AUTHENTICATION:
- * Guard: 'admin' (defined di config/auth.php)
- * Usage:
- * - auth()->guard('admin')->attempt($credentials)
- * - auth()->guard('admin')->user()
- * - auth()->guard('admin')->logout()
- * 
- * DEFAULT CREDENTIALS (WAJIB GANTI!):
- * Email: admin@warurejo.desa.id
- * Password: password123
- * 
- * Seeder: database/seeders/AdminSeeder.php
- */
 class Admin extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;

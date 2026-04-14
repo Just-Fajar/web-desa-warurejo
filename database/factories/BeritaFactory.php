@@ -16,21 +16,7 @@ class BeritaFactory extends Factory
      * 
      * Factory untuk generate dummy data berita (untuk testing/development)
      * 
-     * Generate data random:
-     * - judul: 6 kata random
-     * - slug: auto-generate dari judul + unique number
-     * - ringkasan: 2 paragraf random
-     * - konten: 5 paragraf random (bisa diganti dengan real content)
-     * - gambar_utama: Path dummy (ganti dengan real image di seeder)
-     * - status: Random 'published' atau 'draft'
-     * - views: 0-1000 random
-     * - published_at: Jika published, tanggal 30 hari terakhir
-     * 
-     * USAGE:
-     * - Berita::factory()->count(10)->create() // 10 berita random
-     * - Berita::factory()->published()->create() // Force published
-     * - Berita::factory()->draft()->create() // Force draft
-     * - Berita::factory()->popular()->create() // High views
+     *
      *
      * @return array<string, mixed>
      */

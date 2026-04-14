@@ -1,31 +1,3 @@
-{{--
-    ADMIN PUBLIKASI EDIT
-    
-    Form edit dokumen publikasi existing
-    
-    FEATURES:
-    - Pre-filled form dengan data existing
-    - Display current PDF info (filename, size)
-    - Optional replace PDF file
-    - Update kategori, tahun, deskripsi
-    - Download link to current PDF
-    - Toggle active status
-    
-    FORM FIELDS:
-    Same as create, pre-filled dengan $publikasi data
-    
-    FILE HANDLING:
-    - Display current file info (name, size, upload date)
-    - Optional new upload (replace existing)
-    - Keep old file jika tidak upload baru
-    - Download button untuk preview
-    
-    VALIDATION:
-    Same as create, file optional di edit
-    
-    Route: PUT /admin/publikasi/{id}/update
-    Controller: AdminPublikasiController@update
---}}
 @extends('admin.layouts.app')
 
 @section('title', 'Edit Publikasi')

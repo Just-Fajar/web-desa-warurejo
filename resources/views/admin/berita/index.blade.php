@@ -1,33 +1,3 @@
-{{--
-    ADMIN BERITA INDEX
-    
-    Halaman list semua berita dengan fitur CRUD
-    
-    FEATURES:
-    - Statistics cards (Total/Published/Draft)
-    - Search filter (judul/kategori/status)
-    - Sorting (terbaru/terlama/A-Z)
-    - Pagination (10 items per page)
-    - Delete confirmation (SweetAlert2)
-    - Quick view excerpt + thumbnail
-    - Status badges (Published=green, Draft=yellow)
-    
-    SEARCH & FILTER:
-    - Keyword: Search di judul
-    - Kategori: Dropdown (Pengumuman/Event/Berita)
-    - Status: Dropdown (Published/Draft)
-    - Sort: Dropdown (Terbaru/Terlama/A-Z/Z-A)
-    
-    ACTIONS:
-    - Edit: Navigate ke admin.berita.edit
-    - Delete: POST ke admin.berita.destroy dengan confirmation
-    
-    DATA:
-    $berita: Paginated collection dari BeritaRepository
-    
-    Route: /admin/berita
-    Controller: App\Http\Controllers\Admin\BeritaController@index
---}}
 @extends('admin.layouts.app')
 
 

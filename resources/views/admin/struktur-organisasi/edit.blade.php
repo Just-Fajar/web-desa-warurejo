@@ -1,36 +1,3 @@
-{{--
-    ADMIN STRUKTUR ORGANISASI EDIT
-    
-    Form edit anggota struktur organisasi existing
-    
-    FEATURES:
-    - Pre-filled form dengan data existing
-    - Update photo (optional, keep existing if not changed)
-    - Preview current photo
-    - Update jabatan & periode
-    - Change hierarki level & urutan
-    - Toggle active status
-    
-    FORM FIELDS:
-    Same as create, pre-filled dengan $struktur data
-    
-    PHOTO HANDLING:
-    - Display current photo preview
-    - Optional new upload (replace existing)
-    - Keep old photo jika tidak upload baru
-    - Delete photo option
-    
-    VALIDATION:
-    Same as create, foto optional di edit
-    
-    PERIODE HANDLING:
-    - Display current periode
-    - Update periode mulai/selesai
-    - Validation selesai >= mulai
-    
-    Route: PUT /admin/struktur-organisasi/{id}/update
-    Controller: StrukturOrganisasiController@update
---}}
 @extends('admin.layouts.app')
 
 @section('title', 'Edit Anggota Struktur Organisasi')

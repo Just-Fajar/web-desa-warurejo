@@ -1,34 +1,3 @@
-{{--
-    ADMIN POTENSI EDIT
-    
-    Form edit potensi desa existing
-    
-    FEATURES:
-    - Pre-filled form dengan data existing
-    - Update gambar (optional, keep existing if not changed)
-    - Preview current image
-    - Change kategori & kontak info
-    - Toggle active status
-    - View counter display (read-only)
-    
-    FORM FIELDS:
-    Same as create, pre-filled dengan $potensi data
-    
-    SLUG HANDLING:
-    - Slug editable (unique validation exclude current ID)
-    - Auto-update jika nama berubah
-    
-    IMAGE HANDLING:
-    - Display current image preview
-    - Optional new upload (akan replace existing)
-    - Keep old image jika tidak upload baru
-    
-    VALIDATION:
-    Same as create, gambar optional di edit
-    
-    Route: PUT /admin/potensi/{id}/update
-    Controller: AdminPotensiController@update
---}}
 @extends('admin.layouts.app')
 
 @section('title', 'Edit Potensi Desa')

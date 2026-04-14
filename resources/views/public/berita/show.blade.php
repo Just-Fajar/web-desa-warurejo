@@ -1,53 +1,3 @@
-{{--
-    PUBLIC BERITA DETAIL
-    
-    Halaman detail artikel berita dengan full content
-    
-    FEATURES:
-    - Breadcrumb navigation (Home > Berita > Judul)
-    - Featured image full-width (responsive height)
-    - Category & date badges
-    - Author info (admin name)
-    - Full HTML content (sanitized dari TinyMCE)
-    - View counter increment
-    - Social share buttons (Facebook, Twitter, WhatsApp)
-    - Related articles (3 berita terkait)
-    - Back to list button
-    
-    CONTENT RENDERING:
-    - {!! $berita->konten !!} - Raw HTML dari TinyMCE
-    - Already sanitized di BeritaService dengan HTMLPurifier
-    - Support images, videos, tables, formatted text
-    
-    SEO OPTIMIZATION:
-    - Dynamic title: {judul} - Desa Warurejo
-    - Meta description dari excerpt
-    - Open Graph tags untuk social sharing
-    - Article structured data (JSON-LD)
-    - Canonical URL
-    
-    SOCIAL SHARING:
-    - Facebook: Share dengan title + URL
-    - Twitter: Tweet dengan title + URL + hashtags
-    - WhatsApp: Share message dengan title + URL
-    
-    RELATED ARTICLES:
-    - Same kategori berita
-    - Exclude current article
-    - Limit 3 articles
-    - Random or latest
-    
-    TRACKING:
-    - View counter auto-increment via BeritaService
-    - Analytics tracking (visitor stats)
-    
-    DATA:
-    $berita: Berita model with relationships (admin, category)
-    $relatedBerita: Collection of related articles
-    
-    Route: /berita/{slug}
-    Controller: Public\BeritaController@show
---}}
 @extends('public.layouts.app')
 
 @section('title', $berita->judul . ' - Desa Warurejo')
@@ -56,7 +6,7 @@
 {{-- Breadcrumb --}}
 <section class="bg-gray-100 pt-24 pb-3 sm:pt-28 sm:pb-4 lg:pt-32">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center text-xs sm:text-sm text-gray-600 scroll-reveal">
+        <div class="flex items-center flex-wrap text-xs sm:text-sm text-gray-600 scroll-reveal overflow-hidden min-w-0">
             <a href="{{ route('home') }}" class="hover:text-primary-600 shrink-0">Beranda</a>
             <svg class="w-3 h-3 sm:w-4 sm:h-4 mx-1.5 sm:mx-2 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
@@ -65,7 +15,7 @@
             <svg class="w-3 h-3 sm:w-4 sm:h-4 mx-1.5 sm:mx-2 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
             </svg>
-            <span class="text-gray-800 font-semibold truncate">{{ Str::limit($berita->judul, 50) }}</span>
+            <span class="text-gray-800 font-semibold truncate min-w-0">{{ Str::limit($berita->judul, 40) }}</span>
         </div>
     </div>
 </section>
@@ -85,12 +35,12 @@
                         {{ $berita->judul }}
                     </h1>
 
-                    <div class="flex items-center text-[13px] sm:text-[14px] text-gray-500 mb-6 font-medium">
+                    <div class="flex flex-wrap items-center text-[13px] sm:text-[14px] text-gray-500 mb-6 font-medium gap-y-1">
                         <span class="text-gray-800">{{ $berita->admin->name ?? $berita->admin->username ?? 'Administrator' }}</span>
                         <span class="mx-2 text-gray-300">-</span>
                         <span class="text-[#e32] font-semibold">Berita</span>
                         <span class="mx-2 text-gray-300">|</span>
-                        <span>{{ \Carbon\Carbon::parse($berita->published_at ?? $berita->created_at)->locale('id')->isoFormat('dddd, D MMMM Y HH:mm') }} WIB</span>
+                        <span>{{ \Carbon\Carbon::parse($berita->published_at ?? $berita->created_at)->locale('id')->isoFormat('dddd, D MMM Y HH:mm') }} WIB</span>
                     </div>
 
                     {{-- Featured Image --}}

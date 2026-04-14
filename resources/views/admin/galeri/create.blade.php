@@ -1,39 +1,3 @@
-{{--
-    ADMIN GALERI CREATE
-    
-    Form upload galeri foto dengan multi-image support
-    
-    FEATURES:
-    - Multi-photo upload (drag & drop atau browse)
-    - Preview thumbnails sebelum upload
-    - Image validation (max 5MB per file, JPG/PNG/WEBP)
-    - Kategori selection (kegiatan/infrastruktur/budaya/umum)
-    - Active/draft status toggle
-    - TinyMCE editor untuk deskripsi
-    
-    FORM FIELDS:
-    - judul: Judul galeri (required)
-    - deskripsi: Deskripsi rich text (optional)
-    - kategori: Dropdown kategori (required)
-    - tanggal: Date picker tanggal event (default today)
-    - images[]: Multiple file upload (required, min 1 image)
-    - is_active: Boolean toggle (default true)
-    
-    VALIDATION:
-    - Judul max 255 chars
-    - Images: max 5MB each, mimes:jpg,jpeg,png,webp
-    - Min 1 image required
-    - Kategori must be in enum list
-    
-    JAVASCRIPT:
-    - Drag & drop file handler
-    - Preview image before upload
-    - Remove image dari preview
-    - TinyMCE initialization
-    
-    Route: POST /admin/galeri/store
-    Controller: AdminGaleriController@store
---}}
 @extends('admin.layouts.app')
 
 @section('title', 'Tambah Galeri Baru')

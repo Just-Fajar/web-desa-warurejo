@@ -11,30 +11,6 @@ return new class extends Migration
      * 
      * Tabel potensi_desa untuk showcase kekayaan dan potensi desa
      * 
-     * Kategori Potensi:
-     * - pertanian: Sawah, ladang, tanaman unggulan
-     * - peternakan: Sapi, kambing, ayam, dll
-     * - perikanan: Tambak, kolam, hasil perikanan
-     * - umkm: Usaha mikro kecil menengah warga
-     * - wisata: Tempat wisata, destinasi menarik
-     * - kerajinan: Kerajinan tangan, produk lokal
-     * - lainnya: Potensi lain yang tidak termasuk kategori
-     * 
-     * Struktur:
-     * - nama: Nama potensi
-     * - slug: URL-friendly (SEO)
-     * - kategori: Jenis potensi (enum)
-     * - deskripsi: Detail lengkap potensi (support HTML)
-     * - gambar: Featured image di storage/potensi
-     * - lokasi: Alamat/lokasi potensi (optional)
-     * - kontak: Nomor HP/WA untuk kontak (optional)
-     * - is_active: Show/hide di public
-     * - urutan: Custom sorting untuk prioritas tampilan
-     * 
-     * Indexes untuk filter:
-     * - kategori: Filter by kategori di public
-     * - is_active: Query hanya yang aktif
-     * - urutan: Sort custom order
      */
     public function up(): void
     {

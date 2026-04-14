@@ -10,27 +10,6 @@ return new class extends Migration
      * Run the migrations.
      * 
      * Tabel visitors untuk tracking pengunjung website (PRIVACY-SAFE)
-     * 
-     * Features:
-     * - Anonymous tracking: Tidak simpan data personal
-     * - Device fingerprinting: Kombinasi IP + User-Agent + Accept-Language (di-hash SHA-256)
-     * - Daily counting: 1 device = 1 unique visitor per hari (anti spam)
-     * - Page tracking: Halaman apa yang dikunjungi
-     * 
-     * Struktur:
-     * - ip_address: IP yang di-anonymize (last octet = 0), support IPv4 & IPv6
-     * - user_agent: Browser info untuk analytics
-     * - device_fingerprint: SHA-256 hash untuk identify unique device
-     * - visit_date: Tanggal kunjungan (untuk daily stats)
-     * - last_visit_at: Timestamp kunjungan terakhir
-     * - visit_count: Total berapa kali device ini visit
-     * - referer: Dari mana datangnya (Google, Facebook, dll)
-     * - page_url: Halaman yang dikunjungi
-     * 
-     * Privacy Compliance:
-     * - GDPR compliant (IP anonymized)
-     * - No personal identifiable information (PII)
-     * - Hash tidak bisa di-reverse engineer
      */
     public function up(): void
     {

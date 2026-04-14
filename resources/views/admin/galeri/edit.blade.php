@@ -1,36 +1,3 @@
-{{--
-    ADMIN GALERI EDIT
-    
-    Form edit galeri existing dengan management multi-image
-    
-    FEATURES:
-    - Edit judul, deskripsi, kategori, tanggal
-    - View existing images dengan preview
-    - Delete existing images (soft delete)
-    - Upload additional images
-    - Reorder images (drag & drop urutan)
-    - Toggle active status
-    
-    EXISTING IMAGES MANAGEMENT:
-    - Display thumbnails dari GaleriImage relationship
-    - Delete button per image (AJAX delete)
-    - Urutan images sortable
-    
-    FORM FIELDS:
-    Same as create + image deletion checkboxes
-    
-    VALIDATION:
-    Same as create, images optional di edit
-    
-    JAVASCRIPT:
-    - Sortable.js untuk reorder images
-    - Delete image confirmation (SweetAlert2)
-    - AJAX delete image request
-    - Add new images preview
-    
-    Route: PUT /admin/galeri/{id}/update
-    Controller: AdminGaleriController@update
---}}
 @extends('admin.layouts.app')
 
 @section('title', 'Edit Galeri')

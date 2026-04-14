@@ -15,10 +15,6 @@ class GaleriRepository extends BaseRepository
     }
 
     /**
-     * Mengambil galeri yang aktif dengan pagination
-     * - Include relasi admin dan images untuk prevent N+1 query
-     * - Filter hanya yang published (is_active = true)
-     * - Sort terbaru dahulu
      * 
      * @param int $perPage - jumlah item per halaman (default: 24)
      * @return \Illuminate\Pagination\LengthAwarePaginator

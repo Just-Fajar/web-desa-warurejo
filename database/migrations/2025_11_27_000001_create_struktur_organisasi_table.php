@@ -11,27 +11,6 @@ return new class extends Migration
      * 
      * Tabel struktur_organisasi untuk hierarki pemerintahan desa
      * 
-     * Level Hierarki (dari atas ke bawah):
-     * - kepala: Kepala Desa (top level)
-     * - sekretaris: Sekretaris Desa
-     * - kaur: Kepala Urusan (dibawah sekretaris)
-     * - staff_kaur: Staff/Staf Urusan (dibawah kaur)
-     * - kasi: Kepala Seksi
-     * - staff_kasi: Staff/Staf Seksi (dibawah kasi)
-     * 
-     * Struktur:
-     * - nama: Nama lengkap anggota
-     * - jabatan: Jabatan detail (contoh: "Kaur Keuangan")
-     * - foto: Foto profile di storage/struktur-organisasi
-     * - deskripsi: Bio/keterangan (optional)
-     * - urutan: Custom sorting dalam level yang sama
-     * - level: Posisi hierarki (enum)
-     * - atasan_id: Foreign key ke parent (untuk nested structure)
-     * - is_active: Show/hide (untuk anggota non-aktif)
-     * 
-     * Self-referencing Foreign Key:
-     * atasan_id → struktur_organisasi.id (untuk hierarki nested)
-     * onDelete('set null'): Jika atasan dihapus, bawahan jadi null
      */
     public function up(): void
     {
