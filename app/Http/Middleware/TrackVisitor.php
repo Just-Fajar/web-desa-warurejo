@@ -17,10 +17,13 @@ class TrackVisitor
      * Middleware ini OTOMATIS track semua visitor tanpa user action:
      * - Generate anonymous device fingerprint (SHA-256 hash)
      * - Simpan ke database dengan anonymized IP
-     * - Update daily statistics
-     * - Anti spam: 1 visitor per device per hari
+     * - Update daily statistics (page_views SETIAP request, unique_visitors hanya baru)
+     * - Deteksi section halaman untuk breakdown per-section
      * - Skip route admin dan asset files
      * - Silent fail: error tidak mengganggu user experience
+     * 
+     * PENTING: page_views dihitung SETIAP halaman dibuka (termasuk refresh)
+     *          unique_visitors dihitung per device per hari
      * 
      * PRIVACY: Tidak simpan data personal, hanya hash anonymous
      * 
@@ -39,8 +42,9 @@ class TrackVisitor
             
             // Check jika sudah visit hari ini
             $today = now()->toDateString();
-            $visitor = Visitor::where('device_fingerprint', $fingerprint)
-                              ->where('visit_date', $today)
+            
+            $visitor = Visitor::where('device_fingerprint', '=', $fingerprint)
+                              ->where('visit_date', '=', $today)
                               ->first();
             
             if (!$visitor) {
@@ -55,17 +59,15 @@ class TrackVisitor
                     'page_url' => $request->fullUrl(),
                     'referer' => $request->header('referer'),
                 ]);
-                
-                // Update daily stats
-                $this->updateDailyStats($today);
             } else {
-                // Update last visit (tapi tidak menambah counter hari ini - ANTI SPAM)
+                // Update last visit dan increment visit_count
                 $visitor->update([
                     'last_visit_at' => now(),
                     'page_url' => $request->fullUrl(),
                     'visit_count' => DB::raw('visit_count + 1'),
                 ]);
             }
+
         } catch (\Exception $e) {
             // Silent fail - tidak mengganggu user experience
             Log::error('Visitor tracking error: ' . $e->getMessage());
@@ -113,12 +115,12 @@ class TrackVisitor
     
     /**
      * Update daily visitor statistics
-     * Increment unique_visitors dan page_views untuk hari ini
-     * Untuk chart di dashboard admin
+
      */
     private function updateDailyStats(string $date): void
     {
         try {
+
             DailyVisitorStat::updateOrCreate(
                 ['date' => $date],
                 [

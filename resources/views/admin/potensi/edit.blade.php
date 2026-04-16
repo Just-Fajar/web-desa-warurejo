@@ -43,201 +43,156 @@
         </div>
     @endif
 
-    <!-- Form Card -->
-    <div class="bg-white rounded-lg shadow">
-        <div class="border-b border-gray-100 px-6 py-4">
-            <h6 class="m-0 text-primary-600 font-semibold">Form Edit Potensi</h6>
-        </div>
+    <form action="{{ route('admin.potensi.update', $potensi->id) }}" method="POST" enctype="multipart/form-data" id="potensiForm">
+        @csrf
+        @method('PUT')
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <!-- Left Column -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Konten Potensi -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-primary-600 mb-4">Konten Potensi</h2>
 
-        <div class="p-6">
-            <form action="{{ route('admin.potensi.update', $potensi->id) }}" method="POST" enctype="multipart/form-data" id="potensiForm">
-                @csrf
-                @method('PUT')                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Left Column -->
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Nama Potensi -->
+                    <!-- Nama Potensi -->
+                    <div class="mb-4">
+                        <label for="nama" class="block text-sm font-bold text-gray-700 mb-2">Nama Potensi <span class="text-red-500">*</span></label>
+                        <input type="text" id="nama" name="nama" value="{{ old('nama', $potensi->nama) }}" placeholder="Contoh: Pertanian Padi Organik" required class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('nama') border-red-300 ring-red-100 @enderror">
+                        @error('nama') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        <p class="text-xs text-gray-500 mt-1">Slug saat ini: <strong>{{ $potensi->slug }}</strong></p>
+                    </div>
+
+                    <!-- Lokasi -->
+                    <div class="mb-4">
+                        <label for="lokasi" class="block text-sm font-bold text-gray-700 mb-2">Lokasi <span class="text-red-500">*</span></label>
+                        <input type="text" id="lokasi" name="lokasi" value="{{ old('lokasi', $potensi->lokasi) }}" placeholder="Contoh: Dusun Krajan" required class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('lokasi') border-red-300 ring-red-100 @enderror">
+                        @error('lokasi') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <!-- Deskripsi Singkat -->
+                    <div class="mb-4">
+                        <label for="deskripsi_singkat" class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Singkat <span class="text-red-500">*</span></label>
+                        <textarea id="deskripsi_singkat" name="deskripsi_singkat" rows="3" maxlength="500" placeholder="Ringkasan singkat tentang potensi ini (max 500 karakter)" required class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('deskripsi_singkat') border-red-300 ring-red-100 @enderror">{{ old('deskripsi_singkat', $potensi->deskripsi_singkat) }}</textarea>
+                        @error('deskripsi_singkat') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        <p class="text-xs text-gray-500 mt-1"><span id="charCount">0</span>/500 karakter</p>
+                    </div>
+
+                    <!-- Deskripsi Lengkap -->
+                    <div class="mb-4">
+                        <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Lengkap <span class="text-red-500">*</span></label>
+                        <textarea id="deskripsi" name="deskripsi" rows="15" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi', $potensi->deskripsi) }}</textarea>
+                        @error('deskripsi') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Kontak -->
                         <div>
-                            <label for="nama" class="block text-sm font-medium text-gray-700">Nama Potensi <span class="text-red-600">*</span></label>
-                            <input type="text"
-                                   id="nama"
-                                   name="nama"
-                                   value="{{ old('nama', $potensi->nama) }}"
-                                   placeholder="Contoh: Pertanian Padi Organik"
-                                   required
-                                   class="w-full px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('nama') @enderror">
-                            @error('nama')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                            <p class="text-xs text-gray-500 mt-1">Slug saat ini: <strong>{{ $potensi->slug }}</strong></p>
+                            <label for="kontak" class="block text-sm font-bold text-gray-700 mb-2">Email <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
+                            <input type="email" id="kontak" name="kontak" value="{{ old('kontak', $potensi->kontak) }}" placeholder="Contoh: email@gmail.com" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('kontak') border-red-300 ring-red-100 @enderror">
+                            @error('kontak') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
 
-                        <!-- Deskripsi Singkat -->
-                        <div>
-                            <label for="deskripsi_singkat" class="block text-sm font-medium text-gray-700">Deskripsi Singkat <span class="text-red-600">*</span></label>
-                            <textarea id="deskripsi_singkat"
-                                      name="deskripsi_singkat"
-                                      rows="3"
-                                      maxlength="500"
-                                      placeholder="Ringkasan singkat tentang potensi ini (max 500 karakter)"
-                                      required
-                                      class="w-full px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('deskripsi_singkat')  @enderror">{{ old('deskripsi_singkat', $potensi->deskripsi_singkat) }}</textarea>
-                            @error('deskripsi_singkat')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                            <p class="text-xs text-gray-500 mt-1"><span id="charCount">0</span>/500 karakter</p>
-                        </div>
-
-                        <!-- Deskripsi Lengkap -->
-                        <div>
-                            <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi Lengkap <span class="text-red-600">*</span></label>
-                            <textarea id="deskripsi"
-                                      name="deskripsi"
-                                      rows="15"
-                                      class="w-full px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('deskripsi') @enderror">{{ old('deskripsi', $potensi->deskripsi) }}</textarea>
-                            @error('deskripsi')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        
-                    <!-- Right Column -->
-                    <div class="space-y-6">
-                        <!-- Gambar -->
-                        <div>
-                            <label for="gambar" class="block text-sm font-medium text-gray-700">Gambar</label>
-
-                            @if($potensi->gambar)
-                                <div class="mb-3" id="currentImageWrapper">
-                                    <img src="{{ Storage::url($potensi->gambar) }}"
-                                         alt="{{ $potensi->nama }}"
-                                         id="currentImage"
-                                         class="rounded-md shadow-sm w-full object-cover"
-                                         style="max-height: 220px;">
-                                    <p class="text-xs text-gray-500 mt-2">Gambar saat ini</p>
-                                </div>
-                            @endif
-
-                            <input type="file"
-                                   id="gambar"
-                                   name="gambar"
-                                   accept="image/*"
-                                   class="w-full px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('gambar')  @enderror">
-                            @error('gambar')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-
-                            <p class="text-xs text-gray-500 mt-2">
-                                Format: JPG, PNG, WEBP. Max: 2MB<br>
-                                <em>Biarkan kosong jika tidak ingin mengubah gambar</em>
-                            </p>
-
-                            <!-- New Image Preview (kept hidden initially using inline style so jQuery.show() works) -->
-                            <div id="imagePreview" class="mt-3" style="display: none;">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Preview Gambar Baru:</label>
-                                <img id="preview" src="" alt="Preview" class="rounded-md shadow-sm w-full object-cover" style="max-height: 220px;">
-                                <button type="button" class="mt-3 inline-flex items-center px-3 py-1 bg-red-600 text-white rounded" id="removeImage">
-                                    <i class="fas fa-times me-2"></i> Batalkan
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Kategori -->
-                        <div>
-                            <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori <span class="text-red-600">*</span></label>
-                            <select id="kategori" name="kategori" required class="w-full px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('kategori')  @enderror">
-                                <option value="">-- Pilih Kategori --</option>
-                                <option value="pertanian" {{ old('kategori', $potensi->kategori) == 'pertanian' ? 'selected' : '' }}>Pertanian</option>
-                                <option value="peternakan" {{ old('kategori', $potensi->kategori) == 'peternakan' ? 'selected' : '' }}>Peternakan</option>
-                                <option value="perikanan" {{ old('kategori', $potensi->kategori) == 'perikanan' ? 'selected' : '' }}>Perikanan</option>
-                                <option value="umkm" {{ old('kategori', $potensi->kategori) == 'umkm' ? 'selected' : '' }}>UMKM</option>
-                                <option value="wisata" {{ old('kategori', $potensi->kategori) == 'wisata' ? 'selected' : '' }}>Wisata</option>
-                                <option value="kerajinan" {{ old('kategori', $potensi->kategori) == 'kerajinan' ? 'selected' : '' }}>Kerajinan</option>
-                                <option value="lainnya" {{ old('kategori', $potensi->kategori) == 'lainnya' ? 'selected' : '' }}>Lainnya</option>
-                            </select>
-                            @error('kategori')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Lokasi -->
-                        <div>
-                            <label for="lokasi" class="block text-sm font-medium text-gray-700">Lokasi <span class="text-red-600">*</span></label>
-                            <input type="text" id="lokasi" name="lokasi" value="{{ old('lokasi', $potensi->lokasi) }}" placeholder="Contoh: Dusun Krajan" required class="w-full px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('lokasi')  @enderror">
-                            @error('lokasi')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Kontak (Optional) -->
-                        <div>
-                            <label for="kontak" class="block text-sm font-medium text-gray-700">Email<span class="text-xs text-gray-500">(Opsional)</span></label>
-                            <input type="text" id="kontak" name="kontak" value="{{ old('kontak', $potensi->kontak) }}" placeholder="Contoh: email@gmail.com" class="w-full px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('kontak')  @enderror">
-                            @error('kontak')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-dr
                         <!-- WhatsApp -->
                         <div>
-                            <label for="whatsapp" class="block text-sm font-medium text-gray-700">Nomor WhatsApp <span class="text-xs text-gray-500">(Opsional)</span></label>
+                            <label for="whatsapp" class="block text-sm font-bold text-gray-700 mb-2">Nomor WhatsApp <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
                             <div class="flex">
-                                <span class="inline-flex items-center px-4 py-2 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md text-gray-700">+62</span>
-                                <input type="text" id="whatsapp" name="whatsapp" value="{{ old('whatsapp', $potensi->whatsapp) }}" placeholder="8123456789" maxlength="15" pattern="[0-9]*" class="w-full px-4 py-2 border rounded-r-md border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('whatsapp')  @enderror">
+                                <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-gray-100 bg-gray-50 text-gray-500 font-medium sm:text-sm">+62</span>
+                                <input type="text" id="whatsapp" name="whatsapp" value="{{ old('whatsapp', $potensi->whatsapp) }}" placeholder="8123456789" maxlength="15" pattern="[0-9]*" class="flex-1 min-w-0 w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-none rounded-r-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('whatsapp') border-red-300 ring-red-100 @enderror">
                             </div>
-                            @error('whatsapp')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                            <p class="text-xs text-gray-500 mt-1">Masukkan nomor tanpa awalan 0 atau +62. Contoh: 8123456789</p>
-                        </div>
-
-                        <!-- Status (di-comment, belum dibutuhkan) -->
-                        {{-- <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Status Publikasi</label>
-                            
-                            <div class="flex items-center">
-                                <input type="checkbox" 
-                                       id="is_active" 
-                                       name="is_active" 
-                                       value="1"
-                                       {{ old('is_active', $potensi->is_active) == 1 ? 'checked' : '' }}
-                                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
-                                <label for="is_active" class="ml-2 text-sm font-medium text-gray-700">
-                                    Aktifkan potensi ini (tampilkan di halaman public)
-                                </label>
-                            </div>
-                            
-                            @error('is_active')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                            
-                            <small class="text-gray-500 text-xs mt-1 block">Jika dicentang, potensi ini akan ditampilkan di halaman publik</small>
-                        </div> --}}
-                        <input type="hidden" name="is_active" value="1">
-
-                        <!-- Meta Info -->
-                        <div class="bg-blue-50 border border-blue-100 rounded p-3 text-sm text-blue-700">
-                            <strong>Info:</strong><br>
-                            Dibuat: {{ $potensi->created_at->format('d/m/Y H:i') }}<br>
-                            Terakhir diubah: {{ $potensi->updated_at->format('d/m/Y H:i') }}
+                            @error('whatsapp') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                     </div>
                 </div>
 
-                <!-- Submit Buttons -->
-                <div class="border-t pt-4 mt-6 flex items-center justify-between">
-                    <a href="{{ route('admin.potensi.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition">
-                        <i class="fas fa-times me-2"></i> Batal
-                    </a>
-
-                    <div class="flex gap-3">
-                        <button type="submit" name="action" value="publish" class="inline-flex items-center px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                            <i class="fas fa-check me-2"></i> Perbarui & Publikasikan
-                        </button>
+                <!-- Informasi Section -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-primary-600 mb-4">Informasi</h2>
+                    <div class="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500 font-medium">Dibuat:</span> 
+                            <span class="text-gray-800">{{ $potensi->created_at->format('d M Y H:i') }}</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500 font-medium">Diupdate:</span> 
+                            <span class="text-gray-800">{{ $potensi->updated_at->format('d M Y H:i') }}</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500 font-medium">Views:</span> 
+                            <span class="text-gray-800">{{ number_format($potensi->views ?? 0) }}</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500 font-medium">Penulis:</span> 
+                            <span class="text-gray-800">{{ $potensi->admin->name ?? 'Desa Warurejo' }}</span>
+                        </div>
                     </div>
                 </div>
-            </form>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
+                
+                <!-- Media Upload -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-primary-600 mb-4">Media</h2>
+
+                    <div class="border-2 border-dashed rounded-lg p-4 text-center relative hover:border-primary-400 transition cursor-pointer">
+                        <input type="file" id="gambar" name="gambar" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+
+                        <!-- Placeholder -->
+                        <div id="uploadPlaceholder" class="{{ $potensi->gambar ? 'hidden' : '' }}">
+                            <svg class="w-12 h-12 mx-auto mb-3 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M28 8H12a4 4 0 00-4 4v20m32-12v8M8 32l9.172-9.172a4 4 0 015.656 0L28 28l4 4m4-24h8m-4-4v8m-12 4h.02"/>
+                            </svg>
+                            <h3 class="font-medium text-gray-700">Upload / Ganti Gambar</h3>
+                            <p class="text-xs text-gray-500">Format JPG, PNG, WEBP — Max 2MB</p>
+                        </div>
+
+                        <!-- Preview -->
+                        <div id="previewContainer" class="{{ $potensi->gambar ? '' : 'hidden' }}">
+                            <img id="preview" src="{{ $potensi->gambar ? Storage::url($potensi->gambar) : '' }}" class="rounded-lg shadow w-full object-cover max-h-60">
+                            <p class="text-xs text-gray-500 mt-2 italic">Klik area untuk mengganti gambar</p>
+                        </div>
+                    </div>
+                    @error('gambar') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- Pengaturan -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan</h2>
+
+                    <!-- Kategori -->
+                    <div class="mb-4">
+                        <label for="kategori" class="block text-sm font-bold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
+                        <select id="kategori" name="kategori" required class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror">
+                            <option value="">-- Pilih Kategori --</option>
+                            <option value="pertanian" {{ old('kategori', $potensi->kategori) == 'pertanian' ? 'selected' : '' }}>Pertanian</option>
+                            <option value="peternakan" {{ old('kategori', $potensi->kategori) == 'peternakan' ? 'selected' : '' }}>Peternakan</option>
+                            <option value="perikanan" {{ old('kategori', $potensi->kategori) == 'perikanan' ? 'selected' : '' }}>Perikanan</option>
+                            <option value="umkm" {{ old('kategori', $potensi->kategori) == 'umkm' ? 'selected' : '' }}>UMKM</option>
+                            <option value="wisata" {{ old('kategori', $potensi->kategori) == 'wisata' ? 'selected' : '' }}>Wisata</option>
+                            <option value="kerajinan" {{ old('kategori', $potensi->kategori) == 'kerajinan' ? 'selected' : '' }}>Kerajinan</option>
+                            <option value="lainnya" {{ old('kategori', $potensi->kategori) == 'lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        </select>
+                        @error('kategori') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <input type="hidden" name="is_active" value="1">
+                    
+                    <hr class="my-4">
+                    
+                    <button type="submit" name="action" value="publish" class="w-full px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition">
+                        Update Perubahan
+                    </button>
+                    
+                    <div class="mt-3 text-center">
+                        <a href="{{ route('admin.potensi.index') }}" class="text-sm text-gray-500 hover:text-gray-700">
+                            Batal
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 @endsection
 
@@ -313,19 +268,11 @@ $(document).ready(function() {
             const reader = new FileReader();
             reader.onload = function(e) {
                 $('#preview').attr('src', e.target.result);
-                $('#imagePreview').show();
-                $('#currentImage').hide();
+                $('#uploadPlaceholder').addClass('hidden');
+                $('#previewContainer').removeClass('hidden');
             }
             reader.readAsDataURL(file);
         }
-    });
-
-    // Remove Image / Cancel new selection
-    $('#removeImage').on('click', function() {
-        $('#gambar').val('');
-        $('#imagePreview').hide();
-        $('#preview').attr('src', '');
-        $('#currentImage').show();
     });
 
     // WhatsApp Number Validation

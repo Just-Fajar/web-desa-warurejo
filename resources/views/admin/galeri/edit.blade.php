@@ -34,34 +34,57 @@
 
                     <!-- Judul -->
                     <div class="mb-4">
-                        <label for="judul" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
                             Judul Galeri <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
                                id="judul" 
                                name="judul" 
                                value="{{ old('judul', $galeri->judul) }}"
-                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 @error('judul') border-red-500 @enderror"
+                               class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
                                required>
                         @error('judul')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Deskripsi -->
                     <div class="mb-4">
-                        <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
                             Deskripsi
                         </label>
                         <textarea id="deskripsi" 
                                   name="deskripsi" 
                                   rows="6"
-                                  class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 @error('deskripsi') border-red-500 @enderror">{{ old('deskripsi', $galeri->deskripsi) }}</textarea>
+                                  class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi', $galeri->deskripsi) }}</textarea>
                         @error('deskripsi')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                         @enderror
                     </div>
 
+                </div>
+
+                <!-- Informasi Section -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-primary-600 mb-4">Informasi</h2>
+                    <div class="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500 font-medium">Dibuat:</span> 
+                            <span class="text-gray-800">{{ \Carbon\Carbon::parse($galeri->created_at)->format('d M Y H:i') }}</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500 font-medium">Diupdate:</span> 
+                            <span class="text-gray-800">{{ \Carbon\Carbon::parse($galeri->updated_at)->format('d M Y H:i') }}</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500 font-medium">Views:</span> 
+                            <span class="text-gray-800">{{ number_format($galeri->views ?? 0) }}</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-500 font-medium">Penulis:</span> 
+                            <span class="text-gray-800">{{ $galeri->admin->name ?? 'Admin Desa' }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -110,9 +133,9 @@
 
                     <!-- Kategori -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
                         <select name="kategori"
-                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 @error('kategori') border-red-500 @enderror"
+                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror"
                                 required>
                             <option value="">-- Pilih Kategori --</option>
                             <option value="kegiatan" {{ old('kategori', $galeri->kategori) == 'kegiatan' ? 'selected' : '' }}>Kegiatan Desa</option>
@@ -125,11 +148,13 @@
 
                     <!-- Tanggal -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Kejadian</label>
-                        <input type="date"
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Tanggal Kejadian</label>
+                        <input type="text"
+                               id="tanggal"
                                name="tanggal"
                                value="{{ old('tanggal', $galeri->tanggal ? $galeri->tanggal->format('Y-m-d') : '') }}"
-                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 @error('tanggal') border-red-500 @enderror"
+                               placeholder="Pilih tanggal"
+                               class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('tanggal') border-red-300 ring-red-100 @enderror"
                                required>
                     </div>
 
@@ -160,8 +185,21 @@
     </form>
 </div>
 
+@push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endpush
+
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
 <script>
+flatpickr("#tanggal", {
+    altInput: true,
+    altFormat: "j F Y",
+    dateFormat: "Y-m-d",
+    locale: "id"
+});
+
 function previewImage(event) {
     const file = event.target.files[0];
 

@@ -17,7 +17,7 @@ class VisitorStatisticsService
      */
     public function getTodayVisitors(): int
     {
-        return Visitor::whereDate('visit_date', Carbon::today())
+        return Visitor::whereDate('visit_date', '=', Carbon::today())
                       ->distinct()
                       ->count('device_fingerprint');
     }
@@ -29,7 +29,7 @@ class VisitorStatisticsService
      */
     public function getWeeklyVisitors(): int
     {
-        return Visitor::whereDate('visit_date', '>=', Carbon::now()->subDays(7))
+        return Visitor::whereDate('visit_date', '>=', Carbon::now()->subDays(7), 'and')
                       ->distinct()
                       ->count('device_fingerprint');
     }
@@ -41,7 +41,7 @@ class VisitorStatisticsService
      */
     public function getMonthlyVisitors(): int
     {
-        return Visitor::whereDate('visit_date', '>=', Carbon::now()->subDays(30))
+        return Visitor::whereDate('visit_date', '>=', Carbon::now()->subDays(30), 'and')
                       ->distinct()
                       ->count('device_fingerprint');
     }
@@ -58,13 +58,16 @@ class VisitorStatisticsService
 
     /**
      * Menghitung total page views hari ini
-     * Satu visitor bisa menghasilkan multiple page views
+     * Page views = total semua halaman yang dibuka (termasuk oleh orang yang sama)
+     * 1 orang buka beranda → 1 page view
+     * Orang yang sama pindah ke berita → jadi 2 page views
+     * Dia refresh → jadi 3 page views
      * 
      * @return int - total halaman yang dikunjungi hari ini
      */
     public function getTodayPageViews(): int
     {
-        return Visitor::whereDate('visit_date', Carbon::today())->count();
+        return Visitor::whereDate('visit_date', '=', Carbon::today())->count('*');
     }
     
     /**
@@ -80,7 +83,7 @@ class VisitorStatisticsService
         $startDate = Carbon::now()->subDays($days - 1)->toDateString();
         $endDate = Carbon::today()->toDateString();
         
-        $stats = DailyVisitorStat::whereBetween('date', [$startDate, $endDate])
+        $stats = DailyVisitorStat::whereBetween('date', [$startDate, $endDate], 'and')
                                  ->orderBy('date', 'asc')
                                  ->get();
         
@@ -119,7 +122,7 @@ class VisitorStatisticsService
     public function getVisitorGrowth(): float
     {
         $today = $this->getTodayVisitors();
-        $yesterday = Visitor::whereDate('visit_date', Carbon::yesterday())
+        $yesterday = Visitor::whereDate('visit_date', '=', Carbon::yesterday())
                             ->distinct()
                             ->count('device_fingerprint');
         
@@ -135,7 +138,7 @@ class VisitorStatisticsService
      */
     public function getMostVisitedPages(int $limit = 10): array
     {
-        return Visitor::whereDate('visit_date', Carbon::today())
+        return Visitor::whereDate('visit_date', '=', Carbon::today())
                       ->select('page_url', DB::raw('count(*) as visit_count'))
                       ->groupBy('page_url')
                       ->orderByDesc('visit_count')
@@ -151,7 +154,7 @@ class VisitorStatisticsService
     {
         $cutoffDate = Carbon::now()->subDays($daysToKeep)->toDateString();
         
-        return Visitor::where('visit_date', '<', $cutoffDate)->delete();
+        return Visitor::where('visit_date', '<', $cutoffDate, 'and')->delete();
     }
 
     /**
@@ -162,11 +165,11 @@ class VisitorStatisticsService
     {
         $yesterday = Carbon::yesterday()->toDateString();
         
-        $uniqueVisitors = Visitor::whereDate('visit_date', Carbon::yesterday())
+        $uniqueVisitors = Visitor::whereDate('visit_date', '=', Carbon::yesterday())
                                  ->distinct()
                                  ->count('device_fingerprint');
         
-        $pageViews = Visitor::whereDate('visit_date', Carbon::yesterday())->count();
+        $pageViews = Visitor::whereDate('visit_date', '=', Carbon::yesterday())->count('*');
         
         DailyVisitorStat::updateOrCreate(
             ['date' => $yesterday],
@@ -179,7 +182,8 @@ class VisitorStatisticsService
 
     /**
      * Get yearly chart data for specified year
-     * Returns monthly aggregated data for better visualization
+     * Returns monthly aggregated data with REAL per-section breakdown
+     * Data comes directly from daily_visitor_stats table (real tracking data)
      */
     public function getYearlyChartData(?int $year = null): array
     {
@@ -193,20 +197,20 @@ class VisitorStatisticsService
             $monthStart = Carbon::create($year, $month, 1)->toDateString();
             $monthEnd = Carbon::create($year, $month, 1)->endOfMonth()->toDateString();
             
-            // Get data from DailyVisitorStat
-            $stats = DailyVisitorStat::whereBetween('date', [$monthStart, $monthEnd])->get();
+            // Get data from DailyVisitorStat (REAL data)
+            $stats = DailyVisitorStat::whereBetween('date', [$monthStart, $monthEnd], 'and')->get();
             
             $uniqueVisitors = $stats->sum('unique_visitors');
             $pageViews = $stats->sum('page_views');
             
             // If no daily stats, fallback to raw Visitor data
             if ($uniqueVisitors == 0 && $pageViews == 0) {
-                $uniqueVisitors = Visitor::whereBetween('visit_date', [$monthStart, $monthEnd])
+                $uniqueVisitors = Visitor::whereBetween('visit_date', [$monthStart, $monthEnd], 'and')
                                          ->distinct()
                                          ->count('device_fingerprint');
-                $pageViews = Visitor::whereBetween('visit_date', [$monthStart, $monthEnd])->count();
+                $pageViews = Visitor::whereBetween('visit_date', [$monthStart, $monthEnd], 'and')->count('*');
             }
-            
+
             $monthlyData[] = [
                 'month' => Carbon::create($year, $month, 1)->format('M'),
                 'unique_visitors' => $uniqueVisitors,
@@ -227,7 +231,7 @@ class VisitorStatisticsService
      */
     public function getAvailableYears(): array
     {
-        $years = Visitor::selectRaw('YEAR(visit_date) as year')
+        $years = Visitor::selectRaw('YEAR(visit_date) as year', [])
                         ->distinct()
                         ->orderByDesc('year')
                         ->pluck('year')
@@ -251,7 +255,7 @@ class VisitorStatisticsService
         
         return [
             'total_unique_visitors' => $this->getTotalVisitors(),
-            'total_page_views' => Visitor::count(),
+            'total_page_views' => Visitor::count('*'),
             'first_visit_date' => $firstVisit ? Carbon::parse($firstVisit)->format('d M Y') : '-',
             'last_visit_date' => $lastVisit ? Carbon::parse($lastVisit)->format('d M Y') : '-',
             'days_active' => $firstVisit ? Carbon::parse($firstVisit)->diffInDays(Carbon::today()) + 1 : 0,

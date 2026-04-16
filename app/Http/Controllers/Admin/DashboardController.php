@@ -84,14 +84,34 @@ class DashboardController extends Controller
         // ------------------ NEW CHART DATA STATS ------------------ //
 
         // 1. Distribusi Potensi Desa
-        $potensiKategoriData = PotensiDesa::selectRaw('kategori, count(*) as total')
+        $potensiRowData = PotensiDesa::selectRaw('kategori, count(*) as total')
             ->groupBy('kategori')
-            ->get();
-        $potensiLabels = $potensiKategoriData->pluck('kategori')->map(fn($k) => ucfirst($k))->toArray();
-        $potensiTotals = $potensiKategoriData->pluck('total')->toArray();
+            ->pluck('total', 'kategori');
+            
+        $potensiLabels = [];
+        $potensiTotals = [];
+        foreach (PotensiDesa::getKategoriList() as $key => $label) {
+            $potensiLabels[] = $label;
+            $potensiTotals[] = $potensiRowData->get($key, 0); // fallback 0 jika belum ada data
+        }
 
-        // 2. Top 5 Berita
+        // 1b. Distribusi Galeri
+        $galeriRowData = Galeri::selectRaw('kategori, count(*) as total')
+            ->groupBy('kategori')
+            ->pluck('total', 'kategori');
+            
+        $galeriLabels = [];
+        $galeriTotals = [];
+        foreach (Galeri::getKategoriList() as $key => $label) {
+            $galeriLabels[] = $label;
+            $galeriTotals[] = $galeriRowData->get($key, 0); // fallback 0 jika belum ada data
+        }
+
+        // 2. Top 5 Konten Terpopuler
         $topBerita = Berita::orderBy('views', 'desc')->take(5)->get(['judul', 'views']);
+        $topPotensi = PotensiDesa::orderBy('views', 'desc')->take(5)->get(['nama as judul', 'views']);
+        $topGaleri = Galeri::orderBy('views', 'desc')->take(5)->get(['judul', 'views']);
+        $topPublikasi = Publikasi::orderBy('views', 'desc')->take(5)->get(['judul', 'views']);
 
         // 3. Rasio Kinerja Publikasi (Views vs Downloads)
         $totalPublikasiViews = Publikasi::sum('views') ?: 0;
@@ -126,7 +146,12 @@ class DashboardController extends Controller
             'beritaDraft',
             'potensiLabels',
             'potensiTotals',
+            'galeriLabels',
+            'galeriTotals',
             'topBerita',
+            'topPotensi',
+            'topGaleri',
+            'topPublikasi',
             'totalPublikasiViews',
             'totalPublikasiDownloads',
             'publikasiConversion'

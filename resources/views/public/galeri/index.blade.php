@@ -165,17 +165,17 @@
                                         Dokumentasi Desa
                                     </span>
                                     @php
-                                        $kategoriTextColors = [
-                                            'kegiatan' => 'text-green-600',
-                                            'infrastruktur' => 'text-amber-600',
-                                            'budaya' => 'text-purple-600',
-                                            'umkm' => 'text-blue-600',
-                                            'lainnya' => 'text-rose-600',
+                                        $kategoriColors = [
+                                            'kegiatan' => 'bg-emerald-50 text-emerald-600 border-emerald-200',
+                                            'infrastruktur' => 'bg-amber-50 text-amber-600 border-amber-200',
+                                            'budaya' => 'bg-purple-50 text-purple-600 border-purple-200',
+                                            'umkm' => 'bg-blue-50 text-blue-600 border-blue-200',
+                                            'lainnya' => 'bg-rose-50 text-rose-600 border-rose-200',
                                         ];
-                                        $textColor = $kategoriTextColors[strtolower($galeri->kategori ?? '')] ?? 'text-gray-600';
+                                        $badgeClass = $kategoriColors[strtolower($galeri->kategori ?? '')] ?? 'bg-gray-50 text-gray-600 border-gray-200';
                                     @endphp
-                                    <span class="bg-gray-50 {{ $textColor }} px-2.5 py-1 rounded-md text-xs font-bold border border-gray-100 uppercase">
-                                        {{ $galeri->kategori ?? 'Galeri' }}
+                                    <span class="{{ $badgeClass }} px-2.5 py-1 rounded-md text-xs font-bold border uppercase">
+                                        {{ $galeri->kategori == 'kegiatan' ? 'Kegiatan Desa' : ($galeri->kategori ?? 'Galeri') }}
                                     </span>
                                     <span class="text-gray-300">|</span>
                                     <span class="text-gray-500 text-xs font-medium">

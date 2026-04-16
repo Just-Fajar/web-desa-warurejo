@@ -116,10 +116,10 @@
                 @php
                     $kategoriColors = [
                         'kegiatan' => 'bg-emerald-50 text-emerald-600 border-emerald-200',
-                        'infrastruktur' => 'bg-sky-50 text-sky-600 border-sky-200',
-                        'budaya' => 'bg-amber-50 text-amber-600 border-amber-200',
-                        'umkm' => 'bg-purple-50 text-purple-600 border-purple-200',
-                        'lainnya' => 'bg-gray-50 text-gray-600 border-gray-200'
+                        'infrastruktur' => 'bg-amber-50 text-amber-600 border-amber-200',
+                        'budaya' => 'bg-purple-50 text-purple-600 border-purple-200',
+                        'umkm' => 'bg-blue-50 text-blue-600 border-blue-200',
+                        'lainnya' => 'bg-rose-50 text-rose-600 border-rose-200'
                     ];
                     
                     $kategoriLabel = match($item->kategori) {
