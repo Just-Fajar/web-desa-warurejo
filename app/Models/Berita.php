@@ -46,8 +46,8 @@ class Berita extends Model
      */
     public function getGambarUtamaUrlAttribute()
     {
-        return $this->gambar_utama 
-            ? asset('storage/' . $this->gambar_utama) 
+        return $this->gambar_utama
+            ? asset('storage/' . $this->gambar_utama)
             : asset('images/logo-web-desa.jpg');
     }
 
@@ -59,8 +59,8 @@ class Berita extends Model
      */
     public function getExcerptAttribute()
     {
-        return $this->ringkasan 
-            ? $this->ringkasan 
+        return $this->ringkasan
+            ? $this->ringkasan
             : Str::limit(strip_tags($this->konten), 150);
     }
 
@@ -71,8 +71,8 @@ class Berita extends Model
      */
     public function getFormattedDateAttribute()
     {
-        return $this->published_at 
-            ? $this->published_at->format('d F Y') 
+        return $this->published_at
+            ? $this->published_at->format('d F Y')
             : $this->created_at->format('d F Y');
     }
 
@@ -132,7 +132,7 @@ class Berita extends Model
             if (empty($berita->slug)) {
                 $berita->slug = Str::slug($berita->judul);
             }
-            
+
             // Ensure unique slug
             $originalSlug = $berita->slug;
             $count = 1;

@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{{ $documentationTitle }}</title>
     <link rel="stylesheet" type="text/css" href="{{ l5_swagger_asset($documentation, 'swagger-ui.css') }}">
-    <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-32x32.png') }}" sizes="32x32"/>
-    <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-16x16.png') }}" sizes="16x16"/>
-    
+    <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-32x32.png') }}"
+        sizes="32x32" />
+    <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-16x16.png') }}"
+        sizes="16x16" />
+
     {{-- Base styling untuk Swagger UI container --}}
     <style>
-    html
-    {
-        box-sizing: border-box;
-        overflow: -moz-scrollbars-vertical;
-        overflow-y: scroll;
-    }
-    *,
-    *:before,
-    *:after
-    {
-        box-sizing: inherit;
-    }
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
 
-    body {
-      margin:0;
-      background: #fafafa;
-    }
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
     </style>
-    
+
     {{-- Dark Mode Styling (optional) - diaktifkan via config --}}
     @if(config('l5-swagger.defaults.ui.display.dark_mode'))
         <style>
@@ -35,10 +37,12 @@
             #dark-mode .scheme-container {
                 background: #1b1b1b;
             }
+
             #dark-mode .scheme-container,
-            #dark-mode .opblock .opblock-section-header{
+            #dark-mode .opblock .opblock-section-header {
                 box-shadow: 0 1px 2px 0 rgba(255, 255, 255, 0.15);
             }
+
             #dark-mode .operation-filter-input,
             #dark-mode .dialog-ux .modal-ux,
             #dark-mode input[type=email],
@@ -46,10 +50,11 @@
             #dark-mode input[type=password],
             #dark-mode input[type=search],
             #dark-mode input[type=text],
-            #dark-mode textarea{
+            #dark-mode textarea {
                 background: #343434;
                 color: #e7e7e7;
             }
+
             #dark-mode .title,
             #dark-mode li,
             #dark-mode p,
@@ -69,9 +74,10 @@
             #dark-mode .parameter__name,
             #dark-mode .parameter__type,
             #dark-mode .prop-format,
-            #dark-mode .loading-container .loading:after{
+            #dark-mode .loading-container .loading:after {
                 color: #e7e7e7;
             }
+
             #dark-mode .opblock-description-wrapper p,
             #dark-mode .opblock-external-docs-wrapper p,
             #dark-mode .opblock-title_normal p,
@@ -79,40 +85,50 @@
             #dark-mode table thead tr td,
             #dark-mode table thead tr th,
             #dark-mode .response-col_links,
-            #dark-mode .swagger-ui{
+            #dark-mode .swagger-ui {
                 color: wheat;
             }
+
             #dark-mode .parameter__extension,
             #dark-mode .parameter__in,
-            #dark-mode .model-title{
+            #dark-mode .model-title {
                 color: #949494;
             }
+
             #dark-mode table thead tr td,
-            #dark-mode table thead tr th{
-                border-color: rgba(120,120,120,.2);
+            #dark-mode table thead tr th {
+                border-color: rgba(120, 120, 120, .2);
             }
-            #dark-mode .opblock .opblock-section-header{
+
+            #dark-mode .opblock .opblock-section-header {
                 background: transparent;
             }
-            #dark-mode .opblock.opblock-post{
-                background: rgba(73,204,144,.25);
+
+            #dark-mode .opblock.opblock-post {
+                background: rgba(73, 204, 144, .25);
             }
-            #dark-mode .opblock.opblock-get{
-                background: rgba(97,175,254,.25);
+
+            #dark-mode .opblock.opblock-get {
+                background: rgba(97, 175, 254, .25);
             }
-            #dark-mode .opblock.opblock-put{
-                background: rgba(252,161,48,.25);
+
+            #dark-mode .opblock.opblock-put {
+                background: rgba(252, 161, 48, .25);
             }
-            #dark-mode .opblock.opblock-delete{
-                background: rgba(249,62,62,.25);
+
+            #dark-mode .opblock.opblock-delete {
+                background: rgba(249, 62, 62, .25);
             }
-            #dark-mode .loading-container .loading:before{
-                border-color: rgba(255,255,255,10%);
-                border-top-color: rgba(255,255,255,.6);
+
+            #dark-mode .loading-container .loading:before {
+                border-color: rgba(255, 255, 255, 10%);
+                border-top-color: rgba(255, 255, 255, .6);
             }
-            #dark-mode svg:not(:root){
+
+            #dark-mode svg:not(:root) {
                 fill: #e7e7e7;
             }
+
             #dark-mode .opblock-summary-description {
                 color: #fafafa;
             }
@@ -121,68 +137,69 @@
 </head>
 
 <body @if(config('l5-swagger.defaults.ui.display.dark_mode')) id="dark-mode" @endif>
-{{-- Container untuk Swagger UI - akan di-render oleh JavaScript --}}
-<div id="swagger-ui"></div>
+    {{-- Container untuk Swagger UI - akan di-render oleh JavaScript --}}
+    <div id="swagger-ui"></div>
 
-{{-- Swagger UI Core Libraries --}}
-<script src="{{ l5_swagger_asset($documentation, 'swagger-ui-bundle.js') }}"></script>
-<script src="{{ l5_swagger_asset($documentation, 'swagger-ui-standalone-preset.js') }}"></script>
+    {{-- Swagger UI Core Libraries --}}
+    <script src="{{ l5_swagger_asset($documentation, 'swagger-ui-bundle.js') }}"></script>
+    <script src="{{ l5_swagger_asset($documentation, 'swagger-ui-standalone-preset.js') }}"></script>
 
-{{-- Swagger UI Initialization Script --}}
-<script>
-    window.onload = function() {
-        // Array untuk multiple documentation files (jika ada)
-        const urls = [];
+    {{-- Swagger UI Initialization Script --}}
+    <script>
+        window.onload = function () {
+            // Array untuk multiple documentation files (jika ada)
+            const urls = [];
 
-        @foreach($urlsToDocs as $title => $url)
-            urls.push({name: "{{ $title }}", url: "{{ $url }}"});
-        @endforeach
+            @foreach($urlsToDocs as $title => $url)
+                urls.push({ name: "{{ $title }}", url: "{{ $url }}" });
+            @endforeach
 
         // Initialize Swagger UI dengan konfigurasi Laravel
         const ui = SwaggerUIBundle({
-            dom_id: '#swagger-ui', // Target element untuk render
-            urls: urls, // Multiple documentation files
-            "urls.primaryName": "{{ $documentationTitle }}", // Judul primary documentation
-            operationsSorter: {!! isset($operationsSorter) ? '"' . $operationsSorter . '"' : 'null' !!}, // Sorting: 'alpha' atau 'method'
-            configUrl: {!! isset($configUrl) ? '"' . $configUrl . '"' : 'null' !!}, // Custom config URL
-            validatorUrl: {!! isset($validatorUrl) ? '"' . $validatorUrl . '"' : 'null' !!}, // Validator service URL
-            oauth2RedirectUrl: "{{ route('l5-swagger.'.$documentation.'.oauth2_callback', [], $useAbsolutePath) }}", // OAuth2 callback
+                dom_id: '#swagger-ui', // Target element untuk render
+                urls: urls, // Multiple documentation files
+                "urls.primaryName": "{{ $documentationTitle }}", // Judul primary documentation
+                operationsSorter: {!! isset($operationsSorter) ? '"' . $operationsSorter . '"' : 'null' !!}, // Sorting: 'alpha' atau 'method'
+                configUrl: {!! isset($configUrl) ? '"' . $configUrl . '"' : 'null' !!}, // Custom config URL
+                validatorUrl: {!! isset($validatorUrl) ? '"' . $validatorUrl . '"' : 'null' !!}, // Validator service URL
+                oauth2RedirectUrl: "{{ route('l5-swagger.' . $documentation . '.oauth2_callback', [], $useAbsolutePath) }}", // OAuth2 callback
 
-            // Inject CSRF token ke semua API requests (Laravel requirement)
-            requestInterceptor: function(request) {
-                request.headers['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
-                return request;
-            },
+                // Inject CSRF token ke semua API requests (Laravel requirement)
+                requestInterceptor: function (request) {
+                    request.headers['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
+                    return request;
+                },
 
-            // Swagger UI Presets
-            presets: [
-                SwaggerUIBundle.presets.apis, // API preset untuk display
-                SwaggerUIStandalonePreset // Standalone mode (no topbar)
-            ],
+                // Swagger UI Presets
+                presets: [
+                    SwaggerUIBundle.presets.apis, // API preset untuk display
+                    SwaggerUIStandalonePreset // Standalone mode (no topbar)
+                ],
 
-            // Plugins aktif
-            plugins: [
-                SwaggerUIBundle.plugins.DownloadUrl // Enable download OpenAPI spec
-            ],
+                // Plugins aktif
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl // Enable download OpenAPI spec
+                ],
 
-            layout: "StandaloneLayout", // Layout type
-            docExpansion : "{!! config('l5-swagger.defaults.ui.display.doc_expansion', 'none') !!}", // 'none', 'list', 'full'
-            deepLinking: true, // Enable deep linking untuk shareable URLs
-            filter: {!! config('l5-swagger.defaults.ui.display.filter') ? 'true' : 'false' !!}, // Search filter bar
-            persistAuthorization: "{!! config('l5-swagger.defaults.ui.authorization.persist_authorization') ? 'true' : 'false' !!}", // Persist auth di localStorage
+                layout: "StandaloneLayout", // Layout type
+                docExpansion: "{!! config('l5-swagger.defaults.ui.display.doc_expansion', 'none') !!}", // 'none', 'list', 'full'
+                deepLinking: true, // Enable deep linking untuk shareable URLs
+                filter: {!! config('l5-swagger.defaults.ui.display.filter') ? 'true' : 'false' !!}, // Search filter bar
+                persistAuthorization: "{!! config('l5-swagger.defaults.ui.authorization.persist_authorization') ? 'true' : 'false' !!}", // Persist auth di localStorage
 
-        })
+            })
 
-        // Expose UI instance ke global scope
-        window.ui = ui
+            // Expose UI instance ke global scope
+            window.ui = ui
 
-        // Initialize OAuth2 jika di-enable di config
-        @if(in_array('oauth2', array_column(config('l5-swagger.defaults.securityDefinitions.securitySchemes'), 'type')))
-        ui.initOAuth({
-            usePkceWithAuthorizationCodeGrant: "{!! (bool)config('l5-swagger.defaults.ui.authorization.oauth2.use_pkce_with_authorization_code_grant') !!}" // PKCE untuk security
-        })
-        @endif
+            // Initialize OAuth2 jika di-enable di config
+            @if(in_array('oauth2', array_column(config('l5-swagger.defaults.securityDefinitions.securitySchemes'), 'type')))
+                ui.initOAuth({
+                    usePkceWithAuthorizationCodeGrant: "{!! (bool) config('l5-swagger.defaults.ui.authorization.oauth2.use_pkce_with_authorization_code_grant') !!}" // PKCE untuk security
+                })
+            @endif
     }
-</script>
+    </script>
 </body>
+
 </html>

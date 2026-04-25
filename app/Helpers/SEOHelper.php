@@ -20,7 +20,7 @@ class SEOHelper
     public static function generateMetaTags(array $data = []): array
     {
         $profil = ProfilDesa::getInstance();
-        
+
         $defaults = [
             'title' => $profil->nama_desa ?? 'Desa Warurejo',
             'description' => "Website resmi {$profil->nama_desa}, {$profil->kecamatan}, {$profil->kabupaten}, {$profil->provinsi}. Informasi berita, potensi desa, galeri, dan profil desa.",
@@ -33,10 +33,10 @@ class SEOHelper
             'twitter_card' => 'summary_large_image',
             'author' => $profil->nama_desa ?? 'Desa Warurejo',
         ];
-        
+
         return array_merge($defaults, $data);
     }
-    
+
     /**
      * Generate structured data (JSON-LD) untuk Organization schema
      * Type: GovernmentOrganization (khusus untuk organisasi pemerintahan)
@@ -48,7 +48,7 @@ class SEOHelper
     public static function getOrganizationSchema(): array
     {
         $profil = ProfilDesa::getInstance();
-        
+
         $schema = [
             "@context" => "https://schema.org",
             "@type" => "GovernmentOrganization",
@@ -57,15 +57,15 @@ class SEOHelper
             "logo" => $profil->logo ? asset('storage/' . $profil->logo) : asset('images/logo.png'),
             "description" => $profil->visi ?? "Website resmi desa",
         ];
-        
+
         if ($profil->telepon) {
             $schema["telephone"] = $profil->telepon;
         }
-        
+
         if ($profil->email) {
             $schema["email"] = $profil->email;
         }
-        
+
         if ($profil->alamat_lengkap) {
             $schema["address"] = [
                 "@type" => "PostalAddress",
@@ -76,7 +76,7 @@ class SEOHelper
                 "addressCountry" => "ID"
             ];
         }
-        
+
         if ($profil->latitude && $profil->longitude) {
             $schema["geo"] = [
                 "@type" => "GeoCoordinates",
@@ -84,10 +84,10 @@ class SEOHelper
                 "longitude" => (string) $profil->longitude
             ];
         }
-        
+
         return $schema;
     }
-    
+
     /**
      * Generate structured data untuk Article/NewsArticle schema
      * Khusus untuk halaman detail berita
@@ -100,7 +100,7 @@ class SEOHelper
     public static function getArticleSchema($berita): array
     {
         $profil = ProfilDesa::getInstance();
-        
+
         return [
             "@context" => "https://schema.org",
             "@type" => "NewsArticle",
@@ -127,7 +127,7 @@ class SEOHelper
             ]
         ];
     }
-    
+
     /**
      * Generate structured data untuk Place schema
      * Khusus untuk halaman detail potensi desa (wisata, tempat, dll)
@@ -146,18 +146,18 @@ class SEOHelper
             "description" => strip_tags(substr($potensi->deskripsi, 0, 200)),
             "image" => asset('storage/' . $potensi->gambar),
         ];
-        
+
         if ($potensi->lokasi) {
             $schema["address"] = $potensi->lokasi;
         }
-        
+
         if ($potensi->kontak) {
             $schema["telephone"] = $potensi->kontak;
         }
-        
+
         return $schema;
     }
-    
+
     /**
      * Generate breadcrumb structured data (JSON-LD)
      * Untuk tampilkan breadcrumb navigation di Google Search results
@@ -169,7 +169,7 @@ class SEOHelper
     public static function getBreadcrumbSchema(array $items): array
     {
         $listItems = [];
-        
+
         foreach ($items as $index => $item) {
             $listItems[] = [
                 "@type" => "ListItem",
@@ -178,7 +178,7 @@ class SEOHelper
                 "item" => $item['url']
             ];
         }
-        
+
         return [
             "@context" => "https://schema.org",
             "@type" => "BreadcrumbList",

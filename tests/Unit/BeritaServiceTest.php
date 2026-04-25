@@ -30,7 +30,7 @@ class BeritaServiceTest extends TestCase
         $this->beritaRepository = app(BeritaRepository::class);
         $this->imageUploadService = app(ImageUploadService::class);
         $this->htmlSanitizer = app(HtmlSanitizerService::class);
-        
+
         $this->beritaService = new BeritaService(
             $this->beritaRepository,
             $this->imageUploadService,

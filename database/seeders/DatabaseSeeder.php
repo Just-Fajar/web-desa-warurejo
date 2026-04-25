@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('✅ Database seeding selesai!');
         $this->command->info('🎉 Semua data berhasil di-seed ke database.');
         $this->command->newLine();
-        
+
         // Summary
         $this->command->table(
             ['Model', 'Jumlah Data'],

@@ -34,8 +34,8 @@ class PotensiDesa extends Model
     // Accessors
     public function getGambarUrlAttribute()
     {
-        return $this->gambar 
-            ? asset('storage/' . $this->gambar) 
+        return $this->gambar
+            ? asset('storage/' . $this->gambar)
             : asset('images/default-potensi.jpg');
     }
 
@@ -99,7 +99,7 @@ class PotensiDesa extends Model
             if (empty($potensi->slug)) {
                 $potensi->slug = Str::slug($potensi->nama);
             }
-            
+
             // Ensure unique slug
             $originalSlug = $potensi->slug;
             $count = 1;

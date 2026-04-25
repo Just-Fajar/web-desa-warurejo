@@ -81,38 +81,38 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Authenticated Routes
     Route::middleware('admin')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
-        
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard/visitor-chart', [DashboardController::class, 'getVisitorChartByYear'])->name('dashboard.visitor-chart');
         Route::get('/dashboard/content-chart', [DashboardController::class, 'getContentChartByYear'])->name('dashboard.content-chart');
-        
+
         // Berita Management
         Route::post('berita/bulk-delete', [AdminBeritaController::class, 'bulkDelete'])->name('berita.bulk-delete');
         Route::resource('berita', AdminBeritaController::class);
-        
+
         // Potensi Management
         Route::post('potensi/bulk-delete', [AdminPotensiController::class, 'bulkDelete'])->name('potensi.bulk-delete');
         Route::resource('potensi', AdminPotensiController::class);
-        
+
         // Galeri Management
         Route::post('galeri/bulk-delete', [AdminGaleriController::class, 'bulkDelete'])->name('galeri.bulk-delete');
         Route::post('galeri/{galeri}/toggle-active', [AdminGaleriController::class, 'toggleActive'])->name('galeri.toggle-active');
         Route::resource('galeri', AdminGaleriController::class);
-        
+
         // Publikasi Management
         Route::post('publikasi/bulk-delete', [AdminPublikasiController::class, 'bulkDelete'])->name('publikasi.bulk-delete');
         Route::resource('publikasi', AdminPublikasiController::class);
-        
+
         // Struktur Organisasi Management
         Route::post('struktur-organisasi/bulk-delete', [StrukturOrganisasiController::class, 'bulkDelete'])->name('struktur-organisasi.bulk-delete');
         Route::resource('struktur-organisasi', StrukturOrganisasiController::class);
-        
+
         // Profil Desa Management
         Route::prefix('profil-desa')->name('profil-desa.')->group(function () {
             Route::get('/', [ProfilDesaController::class, 'edit'])->name('edit');
             Route::put('/', [ProfilDesaController::class, 'update'])->name('update');
         });
-        
+
         // Admin Profile Management
         Route::prefix('profile')->name('profile.')->group(function () {
             Route::get('/', [AdminProfileController::class, 'show'])->name('show');

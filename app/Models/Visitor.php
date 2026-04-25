@@ -46,11 +46,11 @@ class Visitor extends Model
     public static function uniqueVisitorsCount($date = null)
     {
         $query = static::query();
-        
+
         if ($date) {
             $query->where('visit_date', $date);
         }
-        
+
         return $query->distinct('device_fingerprint')->count();
     }
 }

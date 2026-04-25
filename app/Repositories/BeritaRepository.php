@@ -75,13 +75,13 @@ class BeritaRepository extends BaseRepository
         $query = $this->model
             ->with('admin') // Eager load admin to prevent N+1
             ->where('status', $status);
-        
+
         if ($status === 'published') {
             $query->latest();
         } else {
             $query->orderBy('created_at', 'desc');
         }
-        
+
         return $query->paginate($perPage);
     }
 
@@ -93,7 +93,7 @@ class BeritaRepository extends BaseRepository
     {
         return $this->model
             ->with('admin') // Eager load admin to prevent N+1
-            ->where(function($query) use ($keyword) {
+            ->where(function ($query) use ($keyword) {
                 $query->where('judul', 'like', "%{$keyword}%")
                     ->orWhere('ringkasan', 'like', "%{$keyword}%")
                     ->orWhere('konten', 'like', "%{$keyword}%");
@@ -129,7 +129,7 @@ class BeritaRepository extends BaseRepository
             ->latest()
             ->paginate($perPage);
     }
-    
+
     /**
      * Advanced search dengan multiple filters
      * Filters: keyword, date_from, date_to, sort (latest/popular/oldest)
@@ -138,26 +138,26 @@ class BeritaRepository extends BaseRepository
     public function advancedSearch(array $filters, $perPage = 12)
     {
         $query = $this->model->with('admin')->published();
-        
+
         // Search by keyword
         if (!empty($filters['search'])) {
             $keyword = $filters['search'];
-            $query->where(function($q) use ($keyword) {
+            $query->where(function ($q) use ($keyword) {
                 $q->where('judul', 'like', "%{$keyword}%")
-                  ->orWhere('ringkasan', 'like', "%{$keyword}%")
-                  ->orWhere('konten', 'like', "%{$keyword}%");
+                    ->orWhere('ringkasan', 'like', "%{$keyword}%")
+                    ->orWhere('konten', 'like', "%{$keyword}%");
             });
         }
-        
+
         // Filter by date range
         if (!empty($filters['date_from'])) {
             $query->whereDate('published_at', '>=', $filters['date_from']);
         }
-        
+
         if (!empty($filters['date_to'])) {
             $query->whereDate('published_at', '<=', $filters['date_to']);
         }
-        
+
         // Sort by
         $sortBy = $filters['sort'] ?? 'latest';
         switch ($sortBy) {
@@ -172,10 +172,10 @@ class BeritaRepository extends BaseRepository
                 $query->latest();
                 break;
         }
-        
+
         return $query->paginate($perPage);
     }
-    
+
     /**
      * Get search suggestions untuk autocomplete dropdown
      * Return array dengan title dan URL untuk quick navigation
@@ -188,7 +188,7 @@ class BeritaRepository extends BaseRepository
             ->select('judul', 'slug')
             ->limit($limit)
             ->get()
-            ->map(function($berita) {
+            ->map(function ($berita) {
                 return [
                     'title' => $berita->judul,
                     'url' => route('berita.show', $berita->slug)

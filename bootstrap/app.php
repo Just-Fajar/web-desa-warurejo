@@ -25,9 +25,9 @@ return Application::configure(basePath: dirname(__DIR__))
      * - health: Health check endpoint untuk monitoring (/up)
      */
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        api: __DIR__.'/../routes/api.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        api: __DIR__ . '/../routes/api.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
     /**
@@ -45,7 +45,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminAuthenticate::class,
             'admin.guest' => \App\Http\Middleware\RedirectIfAdmin::class,
         ]);
-        
+
         /**
          * TrackVisitor Middleware - OTOMATIS track semua visitor
          * Applied ke semua web routes (public pages)
@@ -59,7 +59,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\TrackVisitor::class,
         ]);
-        
+
         /**
          * API Rate Limiting
          * 60 requests per minute per IP untuk prevent abuse

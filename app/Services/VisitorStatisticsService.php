@@ -18,10 +18,10 @@ class VisitorStatisticsService
     public function getTodayVisitors(): int
     {
         return Visitor::whereDate('visit_date', '=', Carbon::today())
-                      ->distinct()
-                      ->count('device_fingerprint');
+            ->distinct()
+            ->count('device_fingerprint');
     }
-    
+
     /**
      * Menghitung unique visitors 7 hari terakhir
      * 
@@ -30,10 +30,10 @@ class VisitorStatisticsService
     public function getWeeklyVisitors(): int
     {
         return Visitor::whereDate('visit_date', '>=', Carbon::now()->subDays(7), 'and')
-                      ->distinct()
-                      ->count('device_fingerprint');
+            ->distinct()
+            ->count('device_fingerprint');
     }
-    
+
     /**
      * Menghitung unique visitors 30 hari terakhir
      * 
@@ -42,10 +42,10 @@ class VisitorStatisticsService
     public function getMonthlyVisitors(): int
     {
         return Visitor::whereDate('visit_date', '>=', Carbon::now()->subDays(30), 'and')
-                      ->distinct()
-                      ->count('device_fingerprint');
+            ->distinct()
+            ->count('device_fingerprint');
     }
-    
+
     /**
      * Menghitung total unique visitors sepanjang waktu
      * 
@@ -69,7 +69,7 @@ class VisitorStatisticsService
     {
         return Visitor::whereDate('visit_date', '=', Carbon::today())->count('*');
     }
-    
+
     /**
      * Mengambil data chart pengunjung untuk periode tertentu
      * - Mengisi tanggal yang kosong dengan nilai 0
@@ -82,28 +82,28 @@ class VisitorStatisticsService
     {
         $startDate = Carbon::now()->subDays($days - 1)->toDateString();
         $endDate = Carbon::today()->toDateString();
-        
+
         $stats = DailyVisitorStat::whereBetween('date', [$startDate, $endDate], 'and')
-                                 ->orderBy('date', 'asc')
-                                 ->get();
-        
+            ->orderBy('date', 'asc')
+            ->get();
+
         // Fill missing dates with zeros
         $filledStats = [];
         $currentDate = Carbon::parse($startDate);
-        
+
         while ($currentDate->lte(Carbon::parse($endDate))) {
             $dateStr = $currentDate->toDateString();
             $stat = $stats->firstWhere('date', $dateStr);
-            
+
             $filledStats[] = [
                 'date' => $dateStr,
                 'unique_visitors' => $stat ? $stat->unique_visitors : 0,
                 'page_views' => $stat ? $stat->page_views : 0,
             ];
-            
+
             $currentDate->addDay();
         }
-        
+
         return [
             'labels' => array_map(fn($s) => Carbon::parse($s['date'])->format('d M'), $filledStats),
             'visitors' => array_column($filledStats, 'unique_visitors'),
@@ -123,13 +123,13 @@ class VisitorStatisticsService
     {
         $today = $this->getTodayVisitors();
         $yesterday = Visitor::whereDate('visit_date', '=', Carbon::yesterday())
-                            ->distinct()
-                            ->count('device_fingerprint');
-        
+            ->distinct()
+            ->count('device_fingerprint');
+
         if ($yesterday == 0) {
             return $today > 0 ? 100.0 : 0.0;
         }
-        
+
         return round((($today - $yesterday) / $yesterday) * 100, 1);
     }
 
@@ -139,12 +139,12 @@ class VisitorStatisticsService
     public function getMostVisitedPages(int $limit = 10): array
     {
         return Visitor::whereDate('visit_date', '=', Carbon::today())
-                      ->select('page_url', DB::raw('count(*) as visit_count'))
-                      ->groupBy('page_url')
-                      ->orderByDesc('visit_count')
-                      ->limit($limit)
-                      ->get()
-                      ->toArray();
+            ->select('page_url', DB::raw('count(*) as visit_count'))
+            ->groupBy('page_url')
+            ->orderByDesc('visit_count')
+            ->limit($limit)
+            ->get()
+            ->toArray();
     }
 
     /**
@@ -153,7 +153,7 @@ class VisitorStatisticsService
     public function cleanupOldData(int $daysToKeep = 90): int
     {
         $cutoffDate = Carbon::now()->subDays($daysToKeep)->toDateString();
-        
+
         return Visitor::where('visit_date', '<', $cutoffDate, 'and')->delete();
     }
 
@@ -164,13 +164,13 @@ class VisitorStatisticsService
     public function aggregateYesterdayStats(): void
     {
         $yesterday = Carbon::yesterday()->toDateString();
-        
+
         $uniqueVisitors = Visitor::whereDate('visit_date', '=', Carbon::yesterday())
-                                 ->distinct()
-                                 ->count('device_fingerprint');
-        
+            ->distinct()
+            ->count('device_fingerprint');
+
         $pageViews = Visitor::whereDate('visit_date', '=', Carbon::yesterday())->count('*');
-        
+
         DailyVisitorStat::updateOrCreate(
             ['date' => $yesterday],
             [
@@ -190,24 +190,24 @@ class VisitorStatisticsService
         $year = $year ?? Carbon::now()->year;
         $startDate = Carbon::create($year, 1, 1)->toDateString();
         $endDate = Carbon::create($year, 12, 31)->toDateString();
-        
+
         // Get monthly data
         $monthlyData = [];
         for ($month = 1; $month <= 12; $month++) {
             $monthStart = Carbon::create($year, $month, 1)->toDateString();
             $monthEnd = Carbon::create($year, $month, 1)->endOfMonth()->toDateString();
-            
+
             // Get data from DailyVisitorStat (REAL data)
             $stats = DailyVisitorStat::whereBetween('date', [$monthStart, $monthEnd], 'and')->get();
-            
+
             $uniqueVisitors = $stats->sum('unique_visitors');
             $pageViews = $stats->sum('page_views');
-            
+
             // If no daily stats, fallback to raw Visitor data
             if ($uniqueVisitors == 0 && $pageViews == 0) {
                 $uniqueVisitors = Visitor::whereBetween('visit_date', [$monthStart, $monthEnd], 'and')
-                                         ->distinct()
-                                         ->count('device_fingerprint');
+                    ->distinct()
+                    ->count('device_fingerprint');
                 $pageViews = Visitor::whereBetween('visit_date', [$monthStart, $monthEnd], 'and')->count('*');
             }
 
@@ -217,7 +217,7 @@ class VisitorStatisticsService
                 'page_views' => $pageViews,
             ];
         }
-        
+
         return [
             'labels' => array_column($monthlyData, 'month'),
             'visitors' => array_column($monthlyData, 'unique_visitors'),
@@ -232,16 +232,16 @@ class VisitorStatisticsService
     public function getAvailableYears(): array
     {
         $years = Visitor::selectRaw('YEAR(visit_date) as year', [])
-                        ->distinct()
-                        ->orderByDesc('year')
-                        ->pluck('year')
-                        ->toArray();
-        
+            ->distinct()
+            ->orderByDesc('year')
+            ->pluck('year')
+            ->toArray();
+
         // If no data yet, return current year
         if (empty($years)) {
             return [Carbon::now()->year];
         }
-        
+
         return $years;
     }
 
@@ -252,7 +252,7 @@ class VisitorStatisticsService
     {
         $firstVisit = Visitor::min('visit_date');
         $lastVisit = Visitor::max('visit_date');
-        
+
         return [
             'total_unique_visitors' => $this->getTotalVisitors(),
             'total_page_views' => Visitor::count('*'),
@@ -268,46 +268,46 @@ class VisitorStatisticsService
     public function getYearlyContentChartData(?int $year = null): array
     {
         $year = $year ?? Carbon::now()->year;
-        
+
         // Get all models
         $beritaModel = app(\App\Models\Berita::class);
         $potensiModel = app(\App\Models\PotensiDesa::class);
         $galeriModel = app(\App\Models\Galeri::class);
         $publikasiModel = app(\App\Models\Publikasi::class);
-        
+
         // Initialize arrays for 12 months
         $months = [];
         $beritaData = [];
         $potensiData = [];
         $galeriData = [];
         $publikasiData = [];
-        
+
         for ($month = 1; $month <= 12; $month++) {
             $monthName = Carbon::create($year, $month, 1)->format('M');
             $months[] = $monthName;
-            
+
             // Count content for each category in this month
             $beritaData[] = $beritaModel
                 ->whereYear('created_at', $year)
                 ->whereMonth('created_at', $month)
                 ->count();
-            
+
             $potensiData[] = $potensiModel
                 ->whereYear('created_at', $year)
                 ->whereMonth('created_at', $month)
                 ->count();
-            
+
             $galeriData[] = $galeriModel
                 ->whereYear('created_at', $year)
                 ->whereMonth('created_at', $month)
                 ->count();
-            
+
             $publikasiData[] = $publikasiModel
                 ->whereYear('tanggal_publikasi', $year)
                 ->whereMonth('tanggal_publikasi', $month)
                 ->count();
         }
-        
+
         return [
             'labels' => $months,
             'berita' => $beritaData,
@@ -326,38 +326,38 @@ class VisitorStatisticsService
         $potensiModel = app(\App\Models\PotensiDesa::class);
         $galeriModel = app(\App\Models\Galeri::class);
         $publikasiModel = app(\App\Models\Publikasi::class);
-        
+
         $years = [];
-        
+
         // Get years from Berita
         $beritaYears = $beritaModel->selectRaw('YEAR(created_at) as year')
             ->distinct()
             ->pluck('year')
             ->toArray();
-        
+
         // Get years from Potensi
         $potensiYears = $potensiModel->selectRaw('YEAR(created_at) as year')
             ->distinct()
             ->pluck('year')
             ->toArray();
-        
+
         // Get years from Galeri
         $galeriYears = $galeriModel->selectRaw('YEAR(created_at) as year')
             ->distinct()
             ->pluck('year')
             ->toArray();
-        
+
         // Get years from Publikasi
         $publikasiYears = $publikasiModel->selectRaw('YEAR(tanggal_publikasi) as year')
             ->whereNotNull('tanggal_publikasi')
             ->distinct()
             ->pluck('year')
             ->toArray();
-        
+
         // Merge and sort years
         $years = array_unique(array_merge($beritaYears, $potensiYears, $galeriYears, $publikasiYears));
         rsort($years); // Sort descending
-        
+
         // If no years found, return current year
         return empty($years) ? [Carbon::now()->year] : array_values($years);
     }

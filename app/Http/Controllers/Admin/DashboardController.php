@@ -39,7 +39,7 @@ class DashboardController extends Controller
         $totalPotensi = PotensiDesa::count();
         $totalGaleri = Galeri::count();
         $totalPublikasi = Publikasi::count();
-        
+
         // Visitor Statistics (Real Data)
         $pengunjungHariIni = $this->visitorService->getTodayVisitors();
         $pengunjungMingguIni = $this->visitorService->getWeeklyVisitors();
@@ -47,36 +47,36 @@ class DashboardController extends Controller
         $totalPengunjung = $this->visitorService->getTotalVisitors();
         $pertumbuhanHariIni = $this->visitorService->getVisitorGrowth();
         $pageViewsHariIni = $this->visitorService->getTodayPageViews();
-        
+
         // Chart Data untuk Visitor Statistics
         $currentYear = Carbon::now()->year;
         $visitorChartData = $this->visitorService->getYearlyChartData($currentYear);
         $availableYears = $this->visitorService->getAvailableYears();
         $allTimeStats = $this->visitorService->getAllTimeStats();
-        
+
         // Recent Activities
         $recentBerita = Berita::with('admin')
             ->latest()
             ->take(5)
             ->get();
-        
+
         $recentPotensi = PotensiDesa::latest()
             ->take(5)
             ->get();
-        
+
         $recentGaleri = Galeri::latest()
             ->take(5)
             ->get();
-        
+
         $recentPublikasi = Publikasi::orderBy('tanggal_publikasi', 'desc')
             ->take(5)
             ->get();
-        
+
         // Monthly Stats untuk Chart (content) - yearly data
         $currentContentYear = Carbon::now()->year;
         $monthlyStats = $this->visitorService->getYearlyContentChartData($currentContentYear);
         $contentAvailableYears = $this->visitorService->getContentAvailableYears();
-        
+
         // Quick Stats
         $beritaPublished = Berita::where('status', 'published')->count();
         $beritaDraft = Berita::where('status', 'draft')->count();
@@ -87,7 +87,7 @@ class DashboardController extends Controller
         $potensiRowData = PotensiDesa::selectRaw('kategori, count(*) as total')
             ->groupBy('kategori')
             ->pluck('total', 'kategori');
-            
+
         $potensiLabels = [];
         $potensiTotals = [];
         foreach (PotensiDesa::getKategoriList() as $key => $label) {
@@ -99,7 +99,7 @@ class DashboardController extends Controller
         $galeriRowData = Galeri::selectRaw('kategori, count(*) as total')
             ->groupBy('kategori')
             ->pluck('total', 'kategori');
-            
+
         $galeriLabels = [];
         $galeriTotals = [];
         foreach (Galeri::getKategoriList() as $key => $label) {
@@ -116,9 +116,9 @@ class DashboardController extends Controller
         // 3. Rasio Kinerja Publikasi (Views vs Downloads)
         $totalPublikasiViews = Publikasi::sum('views') ?: 0;
         $totalPublikasiDownloads = Publikasi::sum('jumlah_download') ?: 0;
-        $publikasiConversion = $totalPublikasiViews > 0 
-           ? round(($totalPublikasiDownloads / $totalPublikasiViews) * 100, 1) 
-           : 0;
+        $publikasiConversion = $totalPublikasiViews > 0
+            ? round(($totalPublikasiDownloads / $totalPublikasiViews) * 100, 1)
+            : 0;
 
         return view('admin.dashboard.index', compact(
             'totalBerita',
@@ -157,7 +157,7 @@ class DashboardController extends Controller
             'publikasiConversion'
         ));
     }
-    
+
     /**
      * AJAX: Mengambil data chart pengunjung berdasarkan tahun tertentu
      * Digunakan saat user mengubah filter tahun di chart visitor statistics
@@ -169,13 +169,13 @@ class DashboardController extends Controller
     {
         $year = $request->input('year', Carbon::now()->year);
         $chartData = $this->visitorService->getYearlyChartData($year);
-        
+
         return response()->json([
             'success' => true,
             'data' => $chartData
         ]);
     }
-    
+
     /**
      * AJAX: Mengambil data chart konten (berita, potensi, galeri) berdasarkan tahun
      * Digunakan saat user mengubah filter tahun di chart content statistics
@@ -187,13 +187,13 @@ class DashboardController extends Controller
     {
         $year = $request->input('year', Carbon::now()->year);
         $chartData = $this->visitorService->getYearlyContentChartData($year);
-        
+
         return response()->json([
             'success' => true,
             'data' => $chartData
         ]);
     }
-    
+
     /**
      * Private method: Menghitung statistik konten per bulan untuk 6 bulan terakhir
      * Menghasilkan data untuk chart content statistics (berita, potensi, galeri)
@@ -206,27 +206,27 @@ class DashboardController extends Controller
         $beritaData = [];
         $potensiData = [];
         $galeriData = [];
-        
+
         // Data 6 bulan terakhir
         for ($i = 5; $i >= 0; $i--) {
             $date = Carbon::now()->subMonths($i);
             $monthYear = $date->format('M Y');
             $months[] = $monthYear;
-            
+
             // Hitung data per bulan
             $beritaData[] = Berita::whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
                 ->count();
-                
+
             $potensiData[] = PotensiDesa::whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
                 ->count();
-                
+
             $galeriData[] = Galeri::whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
                 ->count();
         }
-        
+
         return [
             'months' => $months,
             'berita' => $beritaData,

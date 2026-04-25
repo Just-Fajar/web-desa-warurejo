@@ -24,7 +24,7 @@ class BeritaFactory extends Factory
     {
         $judul = fake()->sentence(6);
         $status = fake()->randomElement(['published', 'draft']);
-        
+
         return [
             'admin_id' => Admin::factory(),
             'judul' => $judul,
@@ -46,7 +46,7 @@ class BeritaFactory extends Factory
      */
     public function published(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => 'published',
             'published_at' => fake()->dateTimeBetween('-30 days', 'now'),
         ]);
@@ -60,7 +60,7 @@ class BeritaFactory extends Factory
      */
     public function draft(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => 'draft',
             'published_at' => null,
         ]);
@@ -74,7 +74,7 @@ class BeritaFactory extends Factory
      */
     public function popular(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'views' => fake()->numberBetween(500, 5000),
         ]);
     }

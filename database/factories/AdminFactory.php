@@ -33,7 +33,7 @@ class AdminFactory extends Factory
      */
     public function withEmail(string $email): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email' => $email,
         ]);
     }
@@ -43,7 +43,7 @@ class AdminFactory extends Factory
      */
     public function withPassword(string $password): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'password' => Hash::make($password),
         ]);
     }

@@ -102,7 +102,7 @@ class HomeController extends Controller
                 'type' => 'website'
             ]);
         });
-        
+
         $structuredData = SEOHelper::getOrganizationSchema();
 
         // Kirim data ke view

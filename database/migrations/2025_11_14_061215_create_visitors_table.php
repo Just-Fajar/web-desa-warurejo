@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('referer', 500)->nullable(); // Dari mana datangnya
             $table->string('page_url', 500); // Halaman yang dikunjungi
             $table->timestamps();
-            
+
             // Composite index untuk query cepat
             $table->index(['device_fingerprint', 'visit_date']);
         });

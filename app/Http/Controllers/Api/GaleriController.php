@@ -52,8 +52,8 @@ class GaleriController extends Controller
                             'urutan' => $image->urutan,
                         ];
                     }),
-                    'thumbnail' => $item->images->first() 
-                        ? asset('storage/' . $item->images->first()->path) 
+                    'thumbnail' => $item->images->first()
+                        ? asset('storage/' . $item->images->first()->path)
                         : null,
                     'created_at' => $item->created_at->toIso8601String(),
                 ];
@@ -122,8 +122,8 @@ class GaleriController extends Controller
                     'judul' => $item->judul,
                     'kategori' => $item->kategori,
                     'tanggal' => $item->tanggal,
-                    'thumbnail' => $item->images->first() 
-                        ? asset('storage/' . $item->images->first()->path) 
+                    'thumbnail' => $item->images->first()
+                        ? asset('storage/' . $item->images->first()->path)
                         : null,
                     'image_count' => $item->images->count(),
                     'views' => $item->views,

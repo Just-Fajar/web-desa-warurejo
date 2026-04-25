@@ -27,7 +27,7 @@ class PotensiCrudTest extends TestCase
     public function test_guest_cannot_access_admin_potensi(): void
     {
         $response = $this->get(route('admin.potensi.index'));
-        
+
         $response->assertRedirect(route('admin.login'));
     }
 
@@ -37,11 +37,11 @@ class PotensiCrudTest extends TestCase
     public function test_admin_can_view_potensi_list(): void
     {
         $this->actingAs($this->admin, 'admin');
-        
+
         PotensiDesa::factory()->count(3)->create();
-        
+
         $response = $this->get(route('admin.potensi.index'));
-        
+
         $response->assertStatus(200);
         $response->assertViewIs('admin.potensi.index');
         $response->assertViewHas('potensi');
@@ -53,9 +53,9 @@ class PotensiCrudTest extends TestCase
     public function test_admin_can_view_create_potensi_form(): void
     {
         $this->actingAs($this->admin, 'admin');
-        
+
         $response = $this->get(route('admin.potensi.create'));
-        
+
         $response->assertStatus(200);
         $response->assertViewIs('admin.potensi.create');
     }
@@ -66,27 +66,27 @@ class PotensiCrudTest extends TestCase
     public function test_admin_can_create_potensi(): void
     {
         Storage::fake('public');
-        
+
         $this->actingAs($this->admin, 'admin');
-        
+
         $data = [
             'nama' => 'Potensi Test',
             'deskripsi' => '<p>Deskripsi potensi lengkap</p>',
             'gambar' => UploadedFile::fake()->image('potensi.jpg'),
             'is_active' => true,
         ];
-        
+
         $response = $this->post(route('admin.potensi.store'), $data);
-        
+
         $response->assertRedirect(route('admin.potensi.index'));
         $response->assertSessionHas('success');
-        
+
         $this->assertDatabaseHas('potensi_desa', [
             'nama' => 'Potensi Test',
             'slug' => 'potensi-test',
             'is_active' => true,
         ]);
-        
+
         Storage::disk('public')->assertExists('potensi/' . PotensiDesa::first()->gambar);
     }
 
@@ -96,11 +96,11 @@ class PotensiCrudTest extends TestCase
     public function test_admin_can_view_edit_potensi_form(): void
     {
         $this->actingAs($this->admin, 'admin');
-        
+
         $potensi = PotensiDesa::factory()->create();
-        
+
         $response = $this->get(route('admin.potensi.edit', $potensi));
-        
+
         $response->assertStatus(200);
         $response->assertViewIs('admin.potensi.edit');
         $response->assertViewHas('potensi', $potensi);
@@ -112,20 +112,20 @@ class PotensiCrudTest extends TestCase
     public function test_admin_can_update_potensi(): void
     {
         $this->actingAs($this->admin, 'admin');
-        
+
         $potensi = PotensiDesa::factory()->create([
             'nama' => 'Original Name'
         ]);
-        
+
         $response = $this->put(route('admin.potensi.update', $potensi), [
             'nama' => 'Updated Name',
             'deskripsi' => $potensi->deskripsi,
             'is_active' => true,
         ]);
-        
+
         $response->assertRedirect(route('admin.potensi.index'));
         $response->assertSessionHas('success');
-        
+
         $this->assertDatabaseHas('potensi_desa', [
             'id' => $potensi->id,
             'nama' => 'Updated Name',
@@ -138,16 +138,16 @@ class PotensiCrudTest extends TestCase
     public function test_admin_can_delete_potensi(): void
     {
         Storage::fake('public');
-        
+
         $this->actingAs($this->admin, 'admin');
-        
+
         $potensi = PotensiDesa::factory()->create();
-        
+
         $response = $this->delete(route('admin.potensi.destroy', $potensi));
-        
+
         $response->assertRedirect(route('admin.potensi.index'));
         $response->assertSessionHas('success');
-        
+
         $this->assertDatabaseMissing('potensi_desa', ['id' => $potensi->id]);
     }
 
@@ -157,17 +157,17 @@ class PotensiCrudTest extends TestCase
     public function test_admin_can_bulk_delete_potensi(): void
     {
         $this->actingAs($this->admin, 'admin');
-        
+
         $potensi1 = PotensiDesa::factory()->create();
         $potensi2 = PotensiDesa::factory()->create();
         $potensi3 = PotensiDesa::factory()->create();
-        
+
         $response = $this->post(route('admin.potensi.bulk-delete'), [
             'ids' => [$potensi1->id, $potensi2->id]
         ]);
-        
+
         $response->assertRedirect(route('admin.potensi.index'));
-        
+
         $this->assertDatabaseMissing('potensi_desa', ['id' => $potensi1->id]);
         $this->assertDatabaseMissing('potensi_desa', ['id' => $potensi2->id]);
         $this->assertDatabaseHas('potensi_desa', ['id' => $potensi3->id]);
@@ -179,12 +179,12 @@ class PotensiCrudTest extends TestCase
     public function test_potensi_validation_requires_nama(): void
     {
         $this->actingAs($this->admin, 'admin');
-        
+
         $response = $this->post(route('admin.potensi.store'), [
             'deskripsi' => 'Test deskripsi',
             'is_active' => true,
         ]);
-        
+
         $response->assertSessionHasErrors('nama');
     }
 
@@ -194,12 +194,12 @@ class PotensiCrudTest extends TestCase
     public function test_potensi_validation_requires_deskripsi(): void
     {
         $this->actingAs($this->admin, 'admin');
-        
+
         $response = $this->post(route('admin.potensi.store'), [
             'nama' => 'Test Potensi',
             'is_active' => true,
         ]);
-        
+
         $response->assertSessionHasErrors('deskripsi');
     }
 
@@ -209,18 +209,18 @@ class PotensiCrudTest extends TestCase
     public function test_slug_is_auto_generated_from_nama(): void
     {
         Storage::fake('public');
-        
+
         $this->actingAs($this->admin, 'admin');
-        
+
         $data = [
             'nama' => 'Potensi Wisata Alam',
             'deskripsi' => '<p>Deskripsi</p>',
             'gambar' => UploadedFile::fake()->image('potensi.jpg'),
             'is_active' => true,
         ];
-        
+
         $response = $this->post(route('admin.potensi.store'), $data);
-        
+
         $this->assertDatabaseHas('potensi_desa', [
             'nama' => 'Potensi Wisata Alam',
             'slug' => 'potensi-wisata-alam',
@@ -234,9 +234,9 @@ class PotensiCrudTest extends TestCase
     {
         $active = PotensiDesa::factory()->create(['is_active' => true]);
         $inactive = PotensiDesa::factory()->create(['is_active' => false]);
-        
+
         $response = $this->get(route('potensi.index'));
-        
+
         $response->assertSee($active->nama);
         $response->assertDontSee($inactive->nama);
     }

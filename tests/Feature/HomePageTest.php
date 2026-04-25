@@ -42,7 +42,7 @@ class HomePageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertViewHas('latest_berita');
-        
+
         // Check if berita titles are displayed
         foreach ($berita as $item) {
             $response->assertSee($item->judul);
@@ -62,7 +62,7 @@ class HomePageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertViewHas('potensi');
-        
+
         // Check if potensi section exists (view might use nama_potensi accessor or $item->nama)
         // Since view uses Blade @forelse, just verify the potensi variable is passed
         $this->assertNotNull($response->viewData('potensi'));
@@ -91,7 +91,7 @@ class HomePageTest extends TestCase
     public function test_homepage_only_shows_published_berita(): void
     {
         $admin = Admin::factory()->create();
-        
+
         // Create published berita
         $publishedBerita = Berita::factory()
             ->for($admin)

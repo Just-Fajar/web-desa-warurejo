@@ -24,7 +24,7 @@ class GaleriFactory extends Factory
             Galeri::KATEGORI_BUDAYA,
             Galeri::KATEGORI_UMUM,
         ]);
-        
+
         return [
             'admin_id' => Admin::factory(),
             'judul' => fake()->sentence(4),
@@ -41,7 +41,7 @@ class GaleriFactory extends Factory
      */
     public function active(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_active' => true,
         ]);
     }
@@ -51,7 +51,7 @@ class GaleriFactory extends Factory
      */
     public function inactive(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_active' => false,
         ]);
     }
@@ -61,7 +61,7 @@ class GaleriFactory extends Factory
      */
     public function kategori(string $kategori): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'kategori' => $kategori,
         ]);
     }
@@ -71,7 +71,7 @@ class GaleriFactory extends Factory
      */
     public function recent(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'tanggal' => fake()->dateTimeBetween('-7 days', 'now'),
         ]);
     }

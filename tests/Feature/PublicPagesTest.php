@@ -20,7 +20,7 @@ class PublicPagesTest extends TestCase
     {
         // Create profil desa
         ProfilDesa::factory()->warurejo()->create();
-        
+
         $response = $this->get(route('home'));
 
         $response->assertStatus(200);
@@ -51,12 +51,12 @@ class PublicPagesTest extends TestCase
         $response = $this->get(route('berita.index'));
 
         $response->assertStatus(200);
-        
+
         // Should see published berita
         foreach ($published as $berita) {
             $response->assertSee($berita->judul);
         }
-        
+
         // Should NOT see draft berita
         foreach ($draft as $berita) {
             $response->assertDontSee($berita->judul);
@@ -133,12 +133,12 @@ class PublicPagesTest extends TestCase
         $response = $this->get(route('potensi.index'));
 
         $response->assertStatus(200);
-        
+
         // Should see active potensi
         foreach ($active as $potensi) {
             $response->assertSee($potensi->nama);
         }
-        
+
         // Should NOT see inactive potensi
         foreach ($inactive as $potensi) {
             $response->assertDontSee($potensi->nama);
@@ -183,7 +183,7 @@ class PublicPagesTest extends TestCase
         $response = $this->get(route('galeri.index'));
 
         $response->assertStatus(200);
-        
+
         // Should see active galeri
         foreach ($active as $galeri) {
             $response->assertSee($galeri->judul);
@@ -212,7 +212,7 @@ class PublicPagesTest extends TestCase
     public function test_kontak_page_loads(): void
     {
         ProfilDesa::factory()->warurejo()->create();
-        
+
         $response = $this->get(route('kontak.index'));
 
         $response->assertStatus(200);

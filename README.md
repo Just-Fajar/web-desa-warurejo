@@ -54,15 +54,15 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 
 ### 📊 Project Quality Score
 
-| Aspek | Score | Keterangan |
-|-------|-------|------------|
-| **Architecture** | 98/100 ⭐⭐⭐⭐⭐ | Enterprise-level design pattern |
-| **Code Quality** | 96/100 ⭐⭐⭐⭐⭐ | Production-ready |
-| **Security** | 96/100 ⭐⭐⭐⭐⭐ | Hardened & compliant |
-| **Performance** | 92/100 ⭐⭐⭐⭐⭐ | Highly optimized |
-| **Testing** | 77/100 ⭐⭐⭐⭐ | Good coverage |
-| **Documentation** | 98/100 ⭐⭐⭐⭐⭐ | Comprehensive |
-| **Overall** | **96/100** ⭐⭐⭐⭐⭐ | **A+ Grade** |
+| Aspek             | Score                 | Keterangan                      |
+| ----------------- | --------------------- | ------------------------------- |
+| **Architecture**  | 98/100 ⭐⭐⭐⭐⭐     | Enterprise-level design pattern |
+| **Code Quality**  | 96/100 ⭐⭐⭐⭐⭐     | Production-ready                |
+| **Security**      | 96/100 ⭐⭐⭐⭐⭐     | Hardened & compliant            |
+| **Performance**   | 92/100 ⭐⭐⭐⭐⭐     | Highly optimized                |
+| **Testing**       | 77/100 ⭐⭐⭐⭐       | Good coverage                   |
+| **Documentation** | 98/100 ⭐⭐⭐⭐⭐     | Comprehensive                   |
+| **Overall**       | **96/100** ⭐⭐⭐⭐⭐ | **A+ Grade**                    |
 
 ---
 
@@ -71,6 +71,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 ### 🎨 Halaman Publik
 
 #### **1. Homepage**
+
 - Hero section dengan gambar desa
 - Statistik desa real-time
 - Berita terbaru dengan lazy loading
@@ -79,6 +80,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Responsive & mobile-friendly
 
 #### **2. Profil Desa**
+
 - Visi & Misi
 - Sejarah desa
 - Struktur organisasi (hierarchical)
@@ -87,6 +89,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Peta lokasi (Google Maps)
 
 #### **3. Berita & Artikel**
+
 - List berita dengan pagination
 - Detail artikel dengan view counter
 - Advanced search & filters
@@ -95,6 +98,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - SEO optimized
 
 #### **4. Potensi Desa**
+
 - 7 kategori potensi (Pertanian, Pariwisata, UMKM, Peternakan, Perikanan, Kerajinan, Lainnya)
 - Informasi lengkap & gambar
 - Lokasi & kontak WhatsApp
@@ -102,6 +106,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Status aktif/non-aktif
 
 #### **5. Galeri**
+
 - 4 kategori (Kegiatan, Infrastruktur, Budaya, Umum)
 - Single & multi-photo galleries
 - Lightbox viewer
@@ -109,6 +114,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Lazy loading images
 
 #### **6. Publikasi & Dokumen**
+
 - Download dokumen PDF
 - Preview dokumen
 - Kategori publikasi
@@ -118,6 +124,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 ### 🔐 Panel Admin
 
 #### **Dashboard**
+
 - Statistik konten real-time
 - Chart pengunjung (Chart.js)
 - Aktivitas terbaru
@@ -125,6 +132,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Dark mode support (belum ada)
 
 #### **Manajemen Berita**
+
 - Full CRUD operations
 - TinyMCE rich text editor
 - Image upload dengan auto-resize
@@ -134,6 +142,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Search & filters
 
 #### **Manajemen Potensi**
+
 - CRUD potensi desa
 - 7 kategori lengkap
 - Upload gambar
@@ -142,6 +151,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Bulk operations
 
 #### **Manajemen Galeri**
+
 - Single & bulk upload (hingga 10 foto)
 - Image compression otomatis
 - 4 kategori galeri
@@ -150,6 +160,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Delete multiple
 
 #### **Manajemen Publikasi**
+
 - Upload PDF documents
 - Preview & download
 - Kategori & tags
@@ -157,6 +168,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Search & filters
 
 #### **Struktur Organisasi**
+
 - Hierarchical tree structure
 - Jabatan & bidang
 - Photo upload
@@ -164,6 +176,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Atasan-bawahan relationship
 
 #### **Profil Desa** (BELUM ADA)
+
 - Edit visi & misi
 - Update sejarah
 - Informasi geografis
@@ -171,6 +184,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - Google Maps integration
 
 #### **Admin Profile**
+
 - Update profile info
 - Change password
 - Upload photo
@@ -179,6 +193,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 ### 🌐 REST API (v1)
 
 **Authentication:**
+
 - `POST /api/v1/login` - Get API token
 - `POST /api/v1/logout` - Revoke token
 - `POST /api/v1/logout-all` - Revoke all tokens
@@ -186,23 +201,27 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - `GET /api/v1/tokens` - List tokens
 
 **Berita:**
+
 - `GET /api/v1/berita` - List (paginated, search, filter)
 - `GET /api/v1/berita/latest` - Latest articles
 - `GET /api/v1/berita/popular` - Popular articles
 - `GET /api/v1/berita/{slug}` - Single article
 
 **Potensi:**
+
 - `GET /api/v1/potensi` - List (paginated, search)
 - `GET /api/v1/potensi/featured` - Featured items
 - `GET /api/v1/potensi/{slug}` - Single item
 
 **Galeri:**
+
 - `GET /api/v1/galeri` - List (paginated, filter)
 - `GET /api/v1/galeri/latest` - Latest galleries
 - `GET /api/v1/galeri/categories` - Categories
 - `GET /api/v1/galeri/{id}` - Single gallery
 
 **Features:**
+
 - ✅ Laravel Sanctum authentication
 - ✅ Rate limiting (60 req/min)
 - ✅ Pagination support
@@ -216,6 +235,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 ## 🛠️ Tech Stack
 
 ### Backend
+
 - **Framework:** Laravel 12.x (Latest)
 - **PHP:** 8.2+ with OPcache
 - **Database:** MySQL 8.0+ / SQLite (dev)
@@ -224,6 +244,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - **Authentication:** Laravel Sanctum
 
 ### Frontend
+
 - **CSS Framework:** Tailwind CSS 4.1 (Latest)
 - **JavaScript:** Alpine.js 3.15
 - **Build Tool:** Vite 7.0
@@ -231,22 +252,24 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - **Charts:** Chart.js
 
 ### Key Packages
+
 ```json
 {
-  "darkaonline/l5-swagger": "^9.0",      // API Documentation
-  "intervention/image": "^3.11",          // Image Processing
-  "mews/purifier": "^3.4",                // HTML Purification
-  "spatie/laravel-sitemap": "*"           // SEO Sitemap
+    "darkaonline/l5-swagger": "^9.0", // API Documentation
+    "intervention/image": "^3.11", // Image Processing
+    "mews/purifier": "^3.4", // HTML Purification
+    "spatie/laravel-sitemap": "*" // SEO Sitemap
 }
 ```
 
 ### Development Tools
+
 ```json
 {
-  "barryvdh/laravel-debugbar": "^3.16",   // Debug Toolbar
-  "laravel/pail": "^1.2.2",               // Log Viewer
-  "laravel/pint": "^1.24",                // Code Style
-  "phpunit/phpunit": "^11.5.3"            // Testing
+    "barryvdh/laravel-debugbar": "^3.16", // Debug Toolbar
+    "laravel/pail": "^1.2.2", // Log Viewer
+    "laravel/pint": "^1.24", // Code Style
+    "phpunit/phpunit": "^11.5.3" // Testing
 }
 ```
 
@@ -433,11 +456,13 @@ MAIL_FROM_ADDRESS=noreply@warurejo.desa.id
 ### Cache Drivers
 
 **Development:**
+
 ```env
 CACHE_STORE=file  # No setup needed
 ```
 
 **Production (Recommended):**
+
 ```env
 CACHE_STORE=redis
 REDIS_HOST=127.0.0.1
@@ -594,18 +619,21 @@ Overall Coverage: 77% ✅
 ### Test Areas Covered
 
 ✅ **Service Layer:**
+
 - HTML Sanitization (XSS prevention)
 - Cache management
 - Image upload & processing
 - Business logic
 
 ✅ **Feature Tests:**
+
 - Page loading
 - Data display
 - Error handling (404s)
 - Pagination
 
 ✅ **Model Factories:**
+
 - AdminFactory
 - BeritaFactory (with states: published, draft, popular)
 - PotensiDesaFactory (with states: inactive, kategori)
@@ -649,21 +677,25 @@ curl -X GET http://localhost:8000/api/v1/me \
 ### Example Endpoints
 
 **Get Berita List:**
+
 ```bash
 GET /api/v1/berita?page=1&per_page=10&search=keyword&sort=latest
 ```
 
 **Get Single Berita:**
+
 ```bash
 GET /api/v1/berita/{slug}
 ```
 
 **Get Potensi by Category:**
+
 ```bash
 GET /api/v1/potensi?kategori=pertanian&page=1
 ```
 
 **Get Latest Galeri:**
+
 ```bash
 GET /api/v1/galeri/latest?limit=6
 ```
@@ -692,6 +724,7 @@ http://localhost:8000/api/documentation
 ### Implemented Security Features
 
 ✅ **Rate Limiting** (Admin Login)
+
 ```php
 // 5 attempts per minute
 Route::post('/login', [AdminAuthController::class, 'login'])
@@ -699,6 +732,7 @@ Route::post('/login', [AdminAuthController::class, 'login'])
 ```
 
 ✅ **Custom HTML Sanitizer** (269 lines)
+
 - Removes dangerous tags: `<script>`, `<iframe>`, `<object>`
 - Removes event handlers: `onclick`, `onerror`, `onload`
 - Removes dangerous protocols: `javascript:`, `data:`
@@ -706,33 +740,39 @@ Route::post('/login', [AdminAuthController::class, 'login'])
 - Auto-enhancement: `rel="noopener"`, `loading="lazy"`
 
 ✅ **CSRF Protection**
+
 - All 17 forms protected with `@csrf` token
 - Automatic token validation
 - Token rotation on each request
 
 ✅ **XSS Prevention**
+
 - Blade template escaping `{{ }}`
 - HTML sanitization on save
 - Input validation on all forms
 
 ✅ **SQL Injection Prevention**
+
 - Eloquent ORM (parameterized queries)
 - Never use raw SQL with user input
 - Proper query bindings
 
 ✅ **File Upload Security**
+
 - Type validation (images only)
 - Size limit (2MB max)
 - MIME type verification
 - Secure storage path
 
 ✅ **Authentication & Authorization**
+
 - Custom admin guard
 - Middleware protection
 - Bcrypt password hashing (cost 12)
 - Session security
 
 ✅ **HTTPS Redirect** (Production)
+
 ```php
 // Automatic HTTPS enforcement
 URL::forceScheme('https');
@@ -791,6 +831,7 @@ Cache::remember('home.seo_data', 86400, fn() => ...);       // 1 day
 ```
 
 **Auto Cache Invalidation:**
+
 ```php
 // Automatically clear cache on CRUD operations
 public function createBerita($data) {
@@ -803,6 +844,7 @@ public function createBerita($data) {
 #### **2. Database Optimization**
 
 **Composite Indexes:**
+
 ```php
 // Berita table
 $table->index(['status', 'published_at']);
@@ -815,6 +857,7 @@ Berita::where('status', 'published')
 ```
 
 **N+1 Query Fixes:**
+
 ```php
 // Before (N+1 problem):
 $berita = Berita::all();
@@ -842,6 +885,7 @@ foreach ($berita as $item) {
 ```
 
 **Lazy Loading:**
+
 ```blade
 <img src="{{ $image }}" loading="lazy" alt="...">
 ```
@@ -852,26 +896,26 @@ foreach ($berita as $item) {
 // Vite build optimization
 export default defineConfig({
     build: {
-        minify: 'terser',
+        minify: "terser",
         rollupOptions: {
             output: {
                 manualChunks: {
-                    'alpine': ['alpinejs'],
-                }
-            }
-        }
-    }
+                    alpine: ["alpinejs"],
+                },
+            },
+        },
+    },
 });
 ```
 
 ### Performance Metrics
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Homepage Load | 2.5s | 0.8s | **68% faster** |
-| Database Queries | 50+ | 12 | **76% reduction** |
-| Image Size | 2MB | 300KB | **85% smaller** |
-| Cache Hit Rate | 0% | 85% | **85% cached** |
+| Metric           | Before | After | Improvement       |
+| ---------------- | ------ | ----- | ----------------- |
+| Homepage Load    | 2.5s   | 0.8s  | **68% faster**    |
+| Database Queries | 50+    | 12    | **76% reduction** |
+| Image Size       | 2MB    | 300KB | **85% smaller**   |
+| Cache Hit Rate   | 0%     | 85%   | **85% cached**    |
 
 ### Performance Commands
 
@@ -986,32 +1030,39 @@ docker-compose -f docker-compose.prod.yml up -d
 ## 📸 Screenshots (belum ada)
 
 ### 🏠 Homepage - Public View
+
 ![Homepage](https://github.com/user-attachments/assets/homepage-warurejo.png)
-*Tampilan homepage dengan hero section, statistik desa, berita terbaru, dan galeri foto*
+_Tampilan homepage dengan hero section, statistik desa, berita terbaru, dan galeri foto_
 
 ### 🔐 Admin Login
+
 ![Admin Login](https://github.com/user-attachments/assets/admin-login.png)
-*Halaman login admin dengan rate limiting protection (5 attempts/minute)*
+_Halaman login admin dengan rate limiting protection (5 attempts/minute)_
 
 ### 📊 Admin Dashboard
+
 ![Admin Dashboard](https://github.com/user-attachments/assets/admin-dashboard.png)
-*Dashboard admin dengan statistik real-time, chart pengunjung, dan quick actions*
+_Dashboard admin dengan statistik real-time, chart pengunjung, dan quick actions_
 
 ### 📰 Berita Management - Advanced Search
+
 ![Berita Search](https://github.com/user-attachments/assets/berita-search.png)
-*Sistem pencarian berita dengan filter tanggal dan sorting options*
+_Sistem pencarian berita dengan filter tanggal dan sorting options_
 
 ### 🏞️ Potensi Desa
+
 ![Potensi Desa](https://github.com/user-attachments/assets/potensi-desa.png)
-*Showcase potensi desa dengan 7 kategori (Kerajinan, Wisata, UMKM, dll)*
+_Showcase potensi desa dengan 7 kategori (Kerajinan, Wisata, UMKM, dll)_
 
 ### 🖼️ Galeri dengan Filter
+
 ![Galeri](https://github.com/user-attachments/assets/galeri-filter.png)
-*Galeri dengan filter kategori dan multi-photo support*
+_Galeri dengan filter kategori dan multi-photo support_
 
 ### 📄 Publikasi & Dokumen
+
 ![Publikasi](https://github.com/user-attachments/assets/publikasi-dokumen.png)
-*Sistem manajemen dokumen dengan preview dan download tracking*
+_Sistem manajemen dokumen dengan preview dan download tracking_
 
 ---
 
@@ -1056,6 +1107,7 @@ Saya adalah seorang full-stack developer dengan fokus pada pengembangan aplikasi
 - **Testing:** PHPUnit, Pest, Feature Tests, Unit Tests
 
 ### Connect With Me
+
 - 💼 LinkedIn: [-](#)
 - 🐦 Twitter: [-](#)
 - 📧 Email: muhammadfajar.a123@gmail.com
@@ -1117,6 +1169,7 @@ Jika Anda memiliki pertanyaan atau membutuhkan bantuan:
 ## 🎯 Roadmap
 
 ### Version 1.0 (Current) ✅
+
 - [x] Core CRUD functionality
 - [x] Admin panel
 - [x] REST API
@@ -1126,6 +1179,7 @@ Jika Anda memiliki pertanyaan atau membutuhkan bantuan:
 - [x] Documentation
 
 ### Version 1.1 (Planned)
+
 - [ ] Activity logging
 - [ ] Email notifications
 - [ ] Advanced analytics
@@ -1133,6 +1187,7 @@ Jika Anda memiliki pertanyaan atau membutuhkan bantuan:
 - [ ] Enhanced error tracking
 
 ### Version 2.0 (Future)
+
 - [ ] Progressive Web App (PWA)
 - [ ] Multi-language support (i18n)
 - [ ] Comment system

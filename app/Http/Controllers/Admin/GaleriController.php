@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+
 class GaleriController extends Controller
 {
     protected $imageUploadService;
@@ -56,21 +57,21 @@ class GaleriController extends Controller
     {
         try {
             DB::beginTransaction();
-            
+
             $data = $request->validated();
             $data['admin_id'] = auth('admin')->id();
-            
+
             // Remove 'images' from data since it's handled separately
             unset($data['images']);
-            
+
             // Create galeri record
             $galeri = Galeri::create($data);
-            
+
             // Handle multiple images upload
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $index => $image) {
                     $imagePath = $this->imageUploadService->upload($image, 'galeri');
-                    
+
                     GaleriImage::create([
                         'galeri_id' => $galeri->id,
                         'image_path' => $imagePath,
@@ -78,20 +79,19 @@ class GaleriController extends Controller
                     ]);
                 }
             }
-            
+
             DB::commit();
-            
+
             // Clear cache
             Cache::forget('home.galeri');
             Cache::forget('profil_desa');
-            
+
             return redirect()
                 ->route('admin.galeri.index')
                 ->with('success', 'Galeri berhasil ditambahkan!');
-                
         } catch (\Exception $e) {
             DB::rollBack();
-            
+
             return redirect()
                 ->back()
                 ->withInput()
@@ -127,27 +127,27 @@ class GaleriController extends Controller
     {
         try {
             $data = $request->validated();
-            
+
             // Handle image update
             if ($request->hasFile('gambar')) {
                 // Delete old image
                 if ($galeri->gambar) {
                     $this->imageUploadService->delete($galeri->gambar);
                 }
-                
+
                 // Upload new image
                 $data['gambar'] = $this->imageUploadService->upload(
-                    $request->file('gambar'), 
+                    $request->file('gambar'),
                     'galeri'
                 );
             }
-            
+
             $galeri->update($data);
-            
+
             // Clear cache
             Cache::forget('home.galeri');
             Cache::forget('profil_desa');
-            
+
             return redirect()
                 ->route('admin.galeri.index')
                 ->with('success', 'Galeri berhasil diperbarui!');
@@ -171,13 +171,13 @@ class GaleriController extends Controller
             if ($galeri->gambar) {
                 $this->imageUploadService->delete($galeri->gambar);
             }
-            
+
             $galeri->delete();
-            
+
             // Clear cache
             Cache::forget('home.galeri');
             Cache::forget('profil_desa');
-            
+
             return redirect()
                 ->route('admin.galeri.index')
                 ->with('success', 'Galeri berhasil dihapus!');
@@ -198,30 +198,30 @@ class GaleriController extends Controller
     {
         try {
             $ids = $request->input('ids', []);
-            
+
             if (empty($ids)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Tidak ada galeri yang dipilih'
                 ], 400);
             }
-            
+
             $galeriList = Galeri::whereIn('id', $ids)->get();
-            
+
             // Delete image files
             foreach ($galeriList as $galeri) {
                 if ($galeri->gambar) {
                     $this->imageUploadService->delete($galeri->gambar);
                 }
             }
-            
+
             // Delete records
             Galeri::whereIn('id', $ids)->delete();
-            
+
             // Clear cache
             Cache::forget('home.galeri');
             Cache::forget('profil_desa');
-            
+
             return response()->json([
                 'success' => true,
                 'message' => count($ids) . ' galeri berhasil dihapus'
@@ -245,13 +245,13 @@ class GaleriController extends Controller
         try {
             $galeri->is_active = !$galeri->is_active;
             $galeri->save();
-            
+
             // Clear cache
             Cache::forget('home.galeri');
             Cache::forget('profil_desa');
-            
+
             $status = $galeri->is_active ? 'aktif' : 'non-aktif';
-            
+
             return response()->json([
                 'success' => true,
                 'message' => "Status galeri berhasil diubah menjadi {$status}",

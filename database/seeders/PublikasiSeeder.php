@@ -42,7 +42,7 @@ class PublikasiSeeder extends Seeder
                 'tanggal_publikasi' => Carbon::now()->subDays(15),
                 'status' => 'published',
             ],
-            
+
             // RPJMDes
             [
                 'judul' => 'Rencana Pembangunan Jangka Menengah Desa (RPJMDes) 2024-2029',
@@ -62,7 +62,7 @@ class PublikasiSeeder extends Seeder
                 'tanggal_publikasi' => Carbon::now()->subMonths(4),
                 'status' => 'published',
             ],
-            
+
             // RKPDes
             [
                 'judul' => 'Rencana Kerja Pemerintah Desa (RKPDes) Tahun 2025',

@@ -47,7 +47,7 @@ class ProfilDesaFactory extends Factory
      */
     public function warurejo(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'nama_desa' => 'Desa Warurejo',
             'kecamatan' => 'Balerejo',
             'kabupaten' => 'Madiun',

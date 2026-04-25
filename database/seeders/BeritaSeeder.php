@@ -23,7 +23,7 @@ class BeritaSeeder extends Seeder
 
         // Get admin untuk foreign key
         $admin = Admin::first();
-        
+
         if (!$admin) {
             $this->command->error('Admin tidak ditemukan. Jalankan AdminSeeder terlebih dahulu.');
             return;
@@ -59,13 +59,13 @@ class BeritaSeeder extends Seeder
 
         foreach ($judulBerita as $index => $judul) {
             $status = $index < 15 ? 'published' : 'draft'; // 15 published, 5 draft
-            $publishedAt = $status === 'published' 
-                ? Carbon::now()->subDays(rand(1, 90)) 
+            $publishedAt = $status === 'published'
+                ? Carbon::now()->subDays(rand(1, 90))
                 : null;
 
             // Generate paragraf yang realistis
             $paragraphs = $this->generateParagraphs($judul, rand(3, 6));
-            
+
             Berita::create([
                 'admin_id' => $admin->id,
                 'judul' => $judul,
@@ -115,19 +115,19 @@ class BeritaSeeder extends Seeder
         // Paragraf isi
         $kontenTemplates = [
             "<p>Kegiatan ini dihadiri oleh Kepala Desa beserta perangkat desa, tokoh masyarakat, serta perwakilan dari berbagai organisasi kemasyarakatan. Dalam sambutannya, Kepala Desa menyampaikan pentingnya partisipasi aktif seluruh warga dalam pembangunan desa.</p>",
-            
+
             "<p>Menurut keterangan Sekretaris Desa, program ini merupakan bagian dari upaya pemerintah desa dalam meningkatkan kualitas pelayanan kepada masyarakat. \"Kami berkomitmen untuk terus berinovasi dan memberikan yang terbaik bagi warga desa,\" ujarnya.</p>",
-            
+
             "<p>Para peserta terlihat sangat antusias mengikuti kegiatan dari awal hingga akhir. Berbagai pertanyaan dan masukan disampaikan untuk perbaikan program ke depannya. Hal ini menunjukkan tingginya kepedulian masyarakat terhadap pembangunan desa.</p>",
-            
+
             "<p>Pemerintah desa mengalokasikan anggaran khusus untuk mendukung terlaksananya program ini. Dana berasal dari APBDes yang telah disetujui melalui musyawarah desa. Transparansi penggunaan anggaran menjadi prioritas utama dalam pelaksanaan program.</p>",
-            
+
             "<p>Kegiatan dilaksanakan di Balai Desa Warurejo dengan menerapkan protokol kesehatan yang ketat. Panitia menyediakan hand sanitizer, masker, dan mengatur jarak tempat duduk untuk memastikan keamanan dan kenyamanan peserta.</p>",
-            
+
             "<p>Beberapa warga menyampaikan apresiasi yang tinggi terhadap inisiatif pemerintah desa. Mereka berharap program serupa dapat terus dilaksanakan secara berkala untuk kemajuan bersama.</p>",
-            
+
             "<p>Kedepannya, pemerintah desa akan terus menggali potensi lokal dan memberdayakan masyarakat. Kolaborasi dengan berbagai pihak terus diperkuat untuk mewujudkan visi desa yang mandiri dan sejahtera.</p>",
-            
+
             "<p>Tim dokumentasi desa mengabadikan seluruh rangkaian kegiatan untuk arsip dan publikasi di website resmi desa. Transparansi informasi menjadi komitmen pemerintah desa dalam menjalankan tata kelola pemerintahan yang baik.</p>",
         ];
 

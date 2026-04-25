@@ -64,8 +64,8 @@ class StrukturOrganisasi extends Model
     // Accessors
     public function getFotoUrlAttribute()
     {
-        return $this->foto 
-            ? asset('storage/' . $this->foto) 
+        return $this->foto
+            ? asset('storage/' . $this->foto)
             : asset('images/default-avatar.png');
     }
 

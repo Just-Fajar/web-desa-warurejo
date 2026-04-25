@@ -32,21 +32,21 @@ class ImageCompressionService
         $extension = $file->getClientOriginalExtension();
         $filename = time() . '_' . uniqid() . '.' . $extension;
         $fullPath = $path . '/' . $filename;
-        
+
         // Load image
         $image = $this->manager->read($file);
-        
+
         // Get original dimensions
         $originalWidth = $image->width();
-        
+
         // Resize jika lebih besar dari maxWidth, maintain aspect ratio
         if ($originalWidth > $maxWidth) {
             $image->scale(width: $maxWidth);
         }
-        
+
         // Optimize berdasarkan tipe file
         $extension = strtolower($extension);
-        
+
         // Encode dengan quality setting
         switch ($extension) {
             case 'jpg':
@@ -64,13 +64,13 @@ class ImageCompressionService
             default:
                 $encoded = $image->encode();
         }
-        
+
         // Save ke storage
         Storage::disk('public')->put($fullPath, (string) $encoded);
-        
+
         return $fullPath;
     }
-    
+
     /**
      * Convert ke WebP untuk better compression
      * 
@@ -84,23 +84,23 @@ class ImageCompressionService
     {
         $filename = time() . '_' . uniqid() . '.webp';
         $fullPath = $path . '/' . $filename;
-        
+
         // Load and resize image
         $image = $this->manager->read($file);
-        
+
         if ($image->width() > $maxWidth) {
             $image->scale(width: $maxWidth);
         }
-        
+
         // Encode to WebP
         $encoded = $image->toWebp($quality);
-        
+
         // Save to storage
         Storage::disk('public')->put($fullPath, (string) $encoded);
-        
+
         return $fullPath;
     }
-    
+
     /**
      * Generate thumbnail
      * 
@@ -115,22 +115,22 @@ class ImageCompressionService
     {
         $filename = time() . '_thumb_' . uniqid() . '.webp';
         $fullPath = $path . '/' . $filename;
-        
+
         // Load image
         $image = $this->manager->read($file);
-        
+
         // Cover fit (crop to exact dimensions while maintaining aspect ratio)
         $image->cover($width, $height);
-        
+
         // Encode to WebP
         $encoded = $image->toWebp($quality);
-        
+
         // Save to storage
         Storage::disk('public')->put($fullPath, (string) $encoded);
-        
+
         return $fullPath;
     }
-    
+
     /**
      * Resize image with aspect ratio
      * 
@@ -146,17 +146,17 @@ class ImageCompressionService
         $extension = strtolower($file->getClientOriginalExtension());
         $filename = time() . '_' . uniqid() . '.' . $extension;
         $fullPath = $path . '/' . $filename;
-        
+
         // Load image
         $image = $this->manager->read($file);
-        
+
         // Scale to fit within maxWidth and maxHeight while maintaining aspect ratio
         if ($maxHeight) {
             $image->scale(width: $maxWidth, height: $maxHeight);
         } else {
             $image->scale(width: $maxWidth);
         }
-        
+
         // Encode based on extension
         switch ($extension) {
             case 'jpg':
@@ -172,13 +172,13 @@ class ImageCompressionService
             default:
                 $encoded = $image->encode();
         }
-        
+
         // Save to storage
         Storage::disk('public')->put($fullPath, (string) $encoded);
-        
+
         return $fullPath;
     }
-    
+
     /**
      * Delete image from storage
      * 
@@ -190,14 +190,14 @@ class ImageCompressionService
         if (!$path) {
             return false;
         }
-        
+
         if (Storage::disk('public')->exists($path)) {
             return Storage::disk('public')->delete($path);
         }
-        
+
         return false;
     }
-    
+
     /**
      * Get image file size in KB
      * 
@@ -210,10 +210,10 @@ class ImageCompressionService
             $sizeInBytes = Storage::disk('public')->size($path);
             return round($sizeInBytes / 1024, 2); // Convert to KB
         }
-        
+
         return null;
     }
-    
+
     /**
      * Batch compress multiple images
      * 
@@ -226,13 +226,13 @@ class ImageCompressionService
     public function batchCompress(array $files, string $path = 'images', int $maxWidth = 1920, int $quality = 85): array
     {
         $paths = [];
-        
+
         foreach ($files as $file) {
             if ($file instanceof UploadedFile) {
                 $paths[] = $this->compressAndStore($file, $path, $maxWidth, $quality);
             }
         }
-        
+
         return $paths;
     }
 }

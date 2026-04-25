@@ -105,7 +105,7 @@ class BeritaService
 
         if (isset($data['gambar_utama'])) {
             $data['gambar_utama'] = $this->uploadImage($data['gambar_utama']);
-            
+
             // Generate thumbnail (optional)
             if ($data['gambar_utama']) {
                 $this->generateThumbnail($data['gambar_utama']);
@@ -164,14 +164,14 @@ class BeritaService
             // Delete old image
             if ($berita->gambar_utama) {
                 $this->imageUploadService->delete($berita->gambar_utama);
-                
+
                 // Delete old thumbnail if exists
                 $oldThumbnail = 'thumbnails/berita/' . pathinfo($berita->gambar_utama, PATHINFO_FILENAME) . '_thumb.' . pathinfo($berita->gambar_utama, PATHINFO_EXTENSION);
                 $this->imageUploadService->delete($oldThumbnail);
             }
-            
+
             $data['gambar_utama'] = $this->uploadImage($data['gambar_utama']);
-            
+
             // Generate new thumbnail
             if ($data['gambar_utama']) {
                 $this->generateThumbnail($data['gambar_utama']);
@@ -214,11 +214,11 @@ class BeritaService
     public function deleteBerita($id)
     {
         $berita = $this->beritaRepository->find($id);
-        
+
         // Delete image if exists
         if ($berita->gambar_utama) {
             $this->imageUploadService->delete($berita->gambar_utama);
-            
+
             // Delete thumbnail if exists
             $thumbnailPath = 'thumbnails/berita/' . pathinfo($berita->gambar_utama, PATHINFO_FILENAME) . '_thumb.' . pathinfo($berita->gambar_utama, PATHINFO_EXTENSION);
             $this->imageUploadService->delete($thumbnailPath);
@@ -255,7 +255,7 @@ class BeritaService
     {
         return $this->beritaRepository->search($keyword, $perPage);
     }
-    
+
     /**
      * Advanced search dengan multiple filters (kategori, status, tanggal, dll)
      * @param array $filters - array filter yang akan diaplikasikan
@@ -266,7 +266,7 @@ class BeritaService
     {
         return $this->beritaRepository->advancedSearch($filters, $perPage);
     }
-    
+
     /**
      * Mendapatkan saran pencarian untuk autocomplete
      * @param string $query - partial keyword dari user
@@ -296,7 +296,7 @@ class BeritaService
             1200,          // max width
             null           // max height (auto aspect ratio)
         );
-        
+
         return $path;
     }
 
@@ -319,7 +319,7 @@ class BeritaService
                 400,                   // width
                 300                    // height
             );
-            
+
             return $thumbnailPath;
         } catch (\Exception $e) {
             Log::error('Thumbnail generation failed: ' . $e->getMessage());

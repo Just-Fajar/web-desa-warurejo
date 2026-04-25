@@ -2,14 +2,12 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Berita;
-use App\Models\PotensiDesa;
 use App\Models\Galeri;
+use App\Models\PotensiDesa;
 use App\Services\ImageUploadService;
+use Illuminate\Console\Command;
 use Intervention\Image\Laravel\Facades\Image;
-use Intervention\Image\Interfaces\ImageInterface;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * @phpstan-ignore-next-line
@@ -36,9 +34,13 @@ class OptimizeImages extends Command
     protected $description = 'Optimize existing images by resizing, compressing, and optionally generating WebP versions';
 
     protected $imageService;
+
     protected $optimizedCount = 0;
+
     protected $failedCount = 0;
+
     protected $skippedCount = 0;
+
     protected $webpCount = 0;
 
     /**
@@ -47,14 +49,14 @@ class OptimizeImages extends Command
     public function handle()
     {
         $this->imageService = app(ImageUploadService::class);
-        
+
         $type = $this->option('type');
         $maxWidth = (int) $this->option('max-width');
         $quality = (int) $this->option('quality');
         $generateWebp = $this->option('webp');
         $webpQuality = (int) $this->option('webp-quality');
 
-        $this->info("Starting image optimization...");
+        $this->info('Starting image optimization...');
         $this->info("Type: {$type} | Max Width: {$maxWidth}px | Quality: {$quality}%");
         if ($generateWebp) {
             $this->info("WebP generation: ENABLED | WebP Quality: {$webpQuality}%");
@@ -74,18 +76,18 @@ class OptimizeImages extends Command
         }
 
         $this->newLine();
-        $this->info("Optimization complete!");
-        
+        $this->info('Optimization complete!');
+
         $tableData = [
             ['Optimized', $this->optimizedCount],
             ['Skipped', $this->skippedCount],
             ['Failed', $this->failedCount],
         ];
-        
+
         if ($generateWebp) {
             $tableData[] = ['WebP Generated', $this->webpCount];
         }
-        
+
         $this->table(['Status', 'Count'], $tableData);
 
         return 0;
@@ -93,8 +95,8 @@ class OptimizeImages extends Command
 
     protected function optimizeBeritaImages($maxWidth, $quality, $generateWebp = false, $webpQuality = 80)
     {
-        $this->info("📰 Optimizing Berita images...");
-        
+        $this->info('📰 Optimizing Berita images...');
+
         Berita::whereNotNull('gambar_utama')
             ->chunk(50, function ($beritas) use ($maxWidth, $quality, $generateWebp, $webpQuality) {
                 foreach ($beritas as $berita) {
@@ -112,8 +114,8 @@ class OptimizeImages extends Command
 
     protected function optimizePotensiImages($maxWidth, $quality, $generateWebp = false, $webpQuality = 80)
     {
-        $this->info("🌾 Optimizing Potensi images...");
-        
+        $this->info('🌾 Optimizing Potensi images...');
+
         PotensiDesa::whereNotNull('gambar')
             ->chunk(50, function ($potensis) use ($maxWidth, $quality, $generateWebp, $webpQuality) {
                 foreach ($potensis as $potensi) {
@@ -131,8 +133,8 @@ class OptimizeImages extends Command
 
     protected function optimizeGaleriImages($maxWidth, $quality, $generateWebp = false, $webpQuality = 80)
     {
-        $this->info("📸 Optimizing Galeri images...");
-        
+        $this->info('📸 Optimizing Galeri images...');
+
         Galeri::whereNotNull('gambar')
             ->chunk(50, function ($galeris) use ($maxWidth, $quality, $generateWebp, $webpQuality) {
                 foreach ($galeris as $galeri) {
@@ -152,43 +154,44 @@ class OptimizeImages extends Command
     {
         try {
             $fullPath = storage_path('app/public/' . $imagePath);
-            
+
             // Check if file exists
             if (!file_exists($fullPath)) {
                 $this->warn("  ⚠️  File not found: {$title}");
                 $this->skippedCount++;
+
                 return;
             }
 
             // Get original file size
             $originalSize = filesize($fullPath);
-            
+
             // Load image
             /** @var \Intervention\Image\Interfaces\ImageInterface $image */
             /** @phpstan-ignore-next-line */
             // @phpcs:ignore
             $image = Image::read($fullPath);
-            
+
             // Get original dimensions
             $originalWidth = $image->width();
             $originalHeight = $image->height();
-            
+
             // Skip if already smaller than max width
             if ($originalWidth <= $maxWidth) {
                 $this->line("  ⏭️  Already optimized: {$title} ({$originalWidth}x{$originalHeight})");
                 $this->skippedCount++;
-                
+
                 // Still generate WebP if requested
                 if ($generateWebp) {
                     $this->generateWebP($fullPath, $imagePath, $webpQuality, $title);
                 }
-                
+
                 return;
             }
 
             // Resize image maintaining aspect ratio
             $image->scale(width: $maxWidth);
-            
+
             // Save with compression
             $extension = pathinfo($imagePath, PATHINFO_EXTENSION);
             if (in_array(strtolower($extension), ['jpg', 'jpeg'])) {
@@ -205,21 +208,20 @@ class OptimizeImages extends Command
             $newSize = filesize($fullPath);
             $savedBytes = $originalSize - $newSize;
             $savedPercent = round(($savedBytes / $originalSize) * 100, 1);
-            
+
             $this->info("  ✅ Optimized: {$title}");
             $this->line("      {$originalWidth}x{$originalHeight} → {$maxWidth}x{$image->height()}");
-            $this->line("      " . $this->formatBytes($originalSize) . " → " . $this->formatBytes($newSize) . " (saved {$savedPercent}%)");
-            
+            $this->line('      ' . $this->formatBytes($originalSize) . ' → ' . $this->formatBytes($newSize) . " (saved {$savedPercent}%)");
+
             $this->optimizedCount++;
-            
+
             // Generate WebP version if requested
             if ($generateWebp) {
                 $this->generateWebP($fullPath, $imagePath, $webpQuality, $title);
             }
-
         } catch (\Exception $e) {
             $this->error("  ❌ Failed: {$title}");
-            $this->error("      " . $e->getMessage());
+            $this->error('      ' . $e->getMessage());
             $this->failedCount++;
         }
     }
@@ -234,30 +236,30 @@ class OptimizeImages extends Command
             $pathInfo = pathinfo($imagePath);
             $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
             $fullWebpPath = storage_path('app/public/' . $webpPath);
-            
+
             // Check if WebP already exists
             if (file_exists($fullWebpPath)) {
-                $this->line("      🔄 WebP already exists");
+                $this->line('      🔄 WebP already exists');
+
                 return;
             }
-            
+
             // Load image and convert to WebP
             /** @var \Intervention\Image\Interfaces\ImageInterface $image */
             /** @phpstan-ignore-next-line */
             // @phpcs:ignore
             $image = Image::read($fullPath);
             $image->toWebp($quality)->save($fullWebpPath);
-            
+
             // Get file sizes
             $originalSize = filesize($fullPath);
             $webpSize = filesize($fullWebpPath);
             $savedPercent = round((($originalSize - $webpSize) / $originalSize) * 100, 1);
-            
-            $this->line("      🌐 WebP created: " . $this->formatBytes($webpSize) . " (saved {$savedPercent}%)");
+
+            $this->line('      🌐 WebP created: ' . $this->formatBytes($webpSize) . " (saved {$savedPercent}%)");
             $this->webpCount++;
-            
         } catch (\Exception $e) {
-            $this->warn("      ⚠️  WebP generation failed: " . $e->getMessage());
+            $this->warn('      ⚠️  WebP generation failed: ' . $e->getMessage());
         }
     }
 

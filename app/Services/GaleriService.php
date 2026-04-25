@@ -143,7 +143,7 @@ class GaleriService
     public function deleteGaleri($id)
     {
         $galeri = $this->galeriRepository->find($id);
-        
+
         // Delete image if exists
         if ($galeri->gambar) {
             Storage::disk('public')->delete($galeri->gambar);

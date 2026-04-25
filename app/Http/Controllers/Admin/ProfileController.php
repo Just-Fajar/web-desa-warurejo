@@ -77,7 +77,6 @@ class ProfileController extends Controller
                 if (strtolower($request->email_verifikasi) !== strtolower($admin->email)) {
                     return back()->withErrors(['email_verifikasi' => 'Email tidak sesuai dengan akun Anda!']);
                 }
-
             } else {
                 // Mode NORMAL: Perlu password lama
                 $validated = $request->validate([
@@ -96,13 +95,12 @@ class ProfileController extends Controller
                 'password' => Hash::make($validated['password'])
             ]);
 
-            $message = $lupaPassword 
-                ? 'Password berhasil direset!' 
+            $message = $lupaPassword
+                ? 'Password berhasil direset!'
                 : 'Password berhasil diubah!';
 
             return redirect()->route('admin.profile.show')
                 ->with('success', $message);
-                
         } catch (\Exception $e) {
             Log::error('Error updating admin password', [
                 'admin_id' => auth()->guard('admin')->id(),
@@ -138,14 +136,14 @@ class ProfileController extends Controller
             // Upload and process new photo
             $file = $request->file('photo');
             $filename = 'admin_' . $admin->id . '_' . time() . '.' . $file->getClientOriginalExtension();
-            
+
             // Create image manager with GD driver
             $manager = new ImageManager(new Driver());
-            
+
             // Read and resize image to 400x400
             $image = $manager->read($file);
             $image->cover(400, 400);
-            
+
             // Save to storage
             $path = 'admins/photos/' . $filename;
             Storage::disk('public')->put($path, (string) $image->encode());

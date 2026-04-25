@@ -8,13 +8,35 @@ class HtmlSanitizerService
      * Allowed HTML tags for rich text content
      */
     protected array $allowedTags = [
-        'p', 'br', 'strong', 'em', 'u', 's', 'strike',
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-        'ul', 'ol', 'li',
-        'a', 'img',
-        'blockquote', 'code', 'pre',
-        'table', 'thead', 'tbody', 'tr', 'th', 'td',
-        'div', 'span'
+        'p',
+        'br',
+        'strong',
+        'em',
+        'u',
+        's',
+        'strike',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'ul',
+        'ol',
+        'li',
+        'a',
+        'img',
+        'blockquote',
+        'code',
+        'pre',
+        'table',
+        'thead',
+        'tbody',
+        'tr',
+        'th',
+        'td',
+        'div',
+        'span'
     ];
 
     /**
@@ -67,9 +89,19 @@ class HtmlSanitizerService
     protected function removeDangerousTags(string $html): string
     {
         $dangerousTags = [
-            'script', 'iframe', 'object', 'embed',
-            'applet', 'meta', 'link', 'style',
-            'form', 'input', 'button', 'select', 'textarea'
+            'script',
+            'iframe',
+            'object',
+            'embed',
+            'applet',
+            'meta',
+            'link',
+            'style',
+            'form',
+            'input',
+            'button',
+            'select',
+            'textarea'
         ];
 
         foreach ($dangerousTags as $tag) {

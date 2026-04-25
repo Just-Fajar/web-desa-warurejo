@@ -45,17 +45,17 @@ class ImageUploadService
         try {
             // Generate unique filename
             $filename = $this->generateFilename($image);
-            
+
             // Full path
             $path = $folder . '/' . $filename;
-            
+
             // Read and process image
             $imageResource = $this->manager->read($image->getRealPath());
-            
+
             // Get original dimensions for aspect ratio calculation
             $originalWidth = $imageResource->width();
             $originalHeight = $imageResource->height();
-            
+
             // Resize if needed (maintain aspect ratio)
             if ($maxWidth && $originalWidth > $maxWidth) {
                 if ($maxHeight) {
@@ -66,7 +66,7 @@ class ImageUploadService
                     $imageResource->scale(width: $maxWidth);
                 }
             }
-            
+
             // Encode with quality optimization
             $extension = strtolower($image->getClientOriginalExtension());
 
@@ -89,14 +89,13 @@ class ImageUploadService
                     $encoded = $imageResource->toJpeg(quality: $quality);
                     break;
             }
-            
+
             // Save to storage
             Storage::disk('public')->put($path, (string) $encoded);
-            
+
             Log::info("Image uploaded successfully: {$path} (Original: {$originalWidth}x{$originalHeight}, Quality: {$quality})");
-            
+
             return $path;
-            
         } catch (\Exception $e) {
             Log::error('Image upload failed: ' . $e->getMessage());
             return null;
@@ -115,14 +114,14 @@ class ImageUploadService
     public function uploadMultiple(array $images, $folder = 'uploads')
     {
         $uploadedPaths = [];
-        
+
         foreach ($images as $image) {
             $path = $this->upload($image, $folder);
             if ($path) {
                 $uploadedPaths[] = $path;
             }
         }
-        
+
         return $uploadedPaths;
     }
 
@@ -162,13 +161,13 @@ class ImageUploadService
     public function deleteMultiple(array $paths)
     {
         $deletedCount = 0;
-        
+
         foreach ($paths as $path) {
             if ($this->delete($path)) {
                 $deletedCount++;
             }
         }
-        
+
         return $deletedCount;
     }
 
@@ -185,7 +184,7 @@ class ImageUploadService
         $extension = $image->getClientOriginalExtension();
         $timestamp = time();
         $random = Str::random(10);
-        
+
         return "{$timestamp}_{$random}.{$extension}";
     }
 
@@ -232,21 +231,20 @@ class ImageUploadService
         try {
             $filename = $this->generateFilename($image);
             $path = $folder . '/' . $filename;
-            
+
             $imageResource = $this->manager->read($image->getRealPath());
-            
+
             // Create thumbnail with cover (crop to fit)
             $imageResource->cover($width, $height);
-            
+
             // Save as WebP for better compression
             $encoded = $imageResource->toWebp(quality: $quality);
-            
+
             Storage::disk('public')->put($path, (string) $encoded);
-            
+
             Log::info("Thumbnail created successfully: {$path}");
-            
+
             return $path;
-            
         } catch (\Exception $e) {
             Log::error('Thumbnail creation failed: ' . $e->getMessage());
             return null;
@@ -276,27 +274,26 @@ class ImageUploadService
 
             // Get file content from storage
             $fileContent = Storage::disk('public')->get($imagePath);
-            
+
             // Load image from content
             $imageResource = $this->manager->read($fileContent);
-            
+
             // Generate unique thumbnail filename (use WebP for better compression)
             $timestamp = time();
             $random = Str::random(8);
             $filename = "thumb_{$timestamp}_{$random}.webp";
             $thumbnailPath = $folder . '/' . $filename;
-            
+
             // Create thumbnail with cover
             $imageResource->cover($width, $height);
             $encoded = $imageResource->toWebp(quality: $quality);
-            
+
             // Save thumbnail
             Storage::disk('public')->put($thumbnailPath, (string) $encoded);
-            
+
             Log::info("Thumbnail created from path: {$thumbnailPath}");
-            
+
             return $thumbnailPath;
-            
         } catch (\Exception $e) {
             Log::error('Thumbnail from path creation failed: ' . $e->getMessage());
             return null;

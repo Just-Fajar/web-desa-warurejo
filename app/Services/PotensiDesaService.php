@@ -169,7 +169,7 @@ class PotensiDesaService
     public function deletePotensi($id)
     {
         $potensi = $this->potensiRepository->find($id);
-        
+
         // Delete image if exists
         if ($potensi->gambar) {
             Storage::disk('public')->delete($potensi->gambar);
@@ -209,7 +209,7 @@ class PotensiDesaService
     {
         return $this->potensiRepository->search($keyword);
     }
-    
+
     /**
      * Advanced search dengan multiple filters
      * Filters: keyword, kategori, sorting, dll

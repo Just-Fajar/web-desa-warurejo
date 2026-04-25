@@ -181,7 +181,8 @@
 
                             <div class="mt-8">
                                 <p class="text-lg md:text-xl font-bold text-gray-800">
-                                    {{ strtoupper($profil->nama_kepala_desa ?? 'Sunarto') }}</p>
+                                    {{ strtoupper($profil->nama_kepala_desa ?? 'Sunarto') }}
+                                </p>
                                 <p class="text-gray-600">Kepala {{ $profil->nama_desa }}</p>
                             </div>
 
@@ -455,7 +456,8 @@
             <div class="text-center mb-10 md:mb-16 section-header scroll-reveal">
                 <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Galeri Desa</h2>
                 <p class="text-gray-500 text-lg md:text-xl">Potret keindahan, kegiatan warga, dan pembangunan di
-                    {{ $profil->nama_desa }}.</p>
+                    {{ $profil->nama_desa }}.
+                </p>
             </div>
 
             @php
@@ -535,7 +537,8 @@
                             <div class="flex items-center gap-4 mb-3 md:mb-4">
                                 <div class="w-10 h-1 bg-primary-500 rounded-full"></div>
                                 <h3 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white whitespace-nowrap truncate">
-                                    {{ $item['kategori'] }}</h3>
+                                    {{ $item['kategori'] }}
+                                </h3>
                             </div>
                             <p
                                 class="text-gray-200 text-sm md:text-base line-clamp-2 md:line-clamp-3 md:pl-14 opacity-90 max-w-2xl font-medium">

@@ -73,15 +73,15 @@ class ProfilDesa extends Model
     // Accessors
     public function getLogoUrlAttribute()
     {
-        return $this->logo 
-            ? asset('storage/' . $this->logo) 
+        return $this->logo
+            ? asset('storage/' . $this->logo)
             : asset('images/default-logo.png');
     }
 
     public function getGambarKantorUrlAttribute()
     {
-        return $this->gambar_kantor 
-            ? asset('storage/' . $this->gambar_kantor) 
+        return $this->gambar_kantor
+            ? asset('storage/' . $this->gambar_kantor)
             : asset('images/default-kantor.jpg');
     }
 

@@ -34,7 +34,7 @@ class PotensiController extends Controller
         $urutkan = $request->get('urutkan', 'terbaru'); // terbaru, terlama, terpopuler
         $date_from = $request->get('date_from');
         $date_to = $request->get('date_to');
-        
+
         // Build query with filters
         if ($kategori || $search || $urutkan !== 'terbaru' || $date_from || $date_to) {
             $potensi = $this->potensiService->searchWithFilters([
@@ -47,7 +47,7 @@ class PotensiController extends Controller
         } else {
             $potensi = $this->potensiService->getActivePotensi();
         }
-        
+
         // SEO Data
         $title = $kategori ? "Potensi Desa - {$kategori}" : 'Potensi Desa';
         $seoData = SEOHelper::generateMetaTags([
@@ -56,7 +56,7 @@ class PotensiController extends Controller
             'keywords' => 'potensi desa warurejo, wisata desa, ekonomi desa, pertanian desa',
             'type' => 'website'
         ]);
-        
+
         return view('public.potensi.index', compact('potensi', 'kategori', 'seoData', 'date_from', 'date_to'));
     }
 
@@ -74,10 +74,10 @@ class PotensiController extends Controller
     {
         try {
             $potensi = $this->potensiService->getPotensiBySlug($slug);
-            
+
             // Get related potensi
             $relatedPotensi = $this->potensiService->getRelatedPotensi($potensi, 3);
-            
+
             // SEO Data
             $excerpt = strip_tags(substr($potensi->deskripsi, 0, 160));
             $seoData = SEOHelper::generateMetaTags([
@@ -87,17 +87,17 @@ class PotensiController extends Controller
                 'image' => asset('storage/' . $potensi->gambar),
                 'type' => 'article'
             ]);
-            
+
             // Structured Data for Place
             $structuredData = SEOHelper::getPlaceSchema($potensi);
-            
+
             // Breadcrumb
             $breadcrumb = SEOHelper::getBreadcrumbSchema([
                 ['name' => 'Home', 'url' => route('home')],
                 ['name' => 'Potensi Desa', 'url' => route('potensi.index')],
                 ['name' => $potensi->nama, 'url' => route('potensi.show', $potensi->slug)]
             ]);
-            
+
             return view('public.potensi.show', compact('potensi', 'relatedPotensi', 'seoData', 'structuredData', 'breadcrumb'));
         } catch (\Exception $e) {
             abort(404, 'Potensi desa tidak ditemukan');

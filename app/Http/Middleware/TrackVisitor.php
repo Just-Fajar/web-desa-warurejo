@@ -39,14 +39,14 @@ class TrackVisitor
         try {
             // Generate device fingerprint (anonymous, tidak ada data personal)
             $fingerprint = $this->generateFingerprint($request);
-            
+
             // Check jika sudah visit hari ini
             $today = now()->toDateString();
-            
+
             $visitor = Visitor::where('device_fingerprint', '=', $fingerprint)
-                              ->where('visit_date', '=', $today)
-                              ->first();
-            
+                ->where('visit_date', '=', $today)
+                ->first();
+
             if (!$visitor) {
                 // Visitor baru atau belum visit hari ini
                 // Langsung create tanpa user interaction
@@ -67,16 +67,15 @@ class TrackVisitor
                     'visit_count' => DB::raw('visit_count + 1'),
                 ]);
             }
-
         } catch (\Exception $e) {
             // Silent fail - tidak mengganggu user experience
             Log::error('Visitor tracking error: ' . $e->getMessage());
         }
-        
+
         // Lanjutkan request seperti biasa (user tidak tahu ada tracking)
         return $next($request);
     }
-    
+
     /**
      * Generate anonymous device fingerprint untuk identify unique visitor
      * Kombinasi: IP + User-Agent + Accept-Language
@@ -87,13 +86,13 @@ class TrackVisitor
     {
         // Kombinasi IP + User-Agent + Accept-Language
         $data = ($request->ip() ?? 'unknown')
-              . '|' . ($request->userAgent() ?? 'unknown')
-              . '|' . ($request->header('Accept-Language') ?? 'unknown');
-        
+            . '|' . ($request->userAgent() ?? 'unknown')
+            . '|' . ($request->header('Accept-Language') ?? 'unknown');
+
         // Hash SHA-256 (tidak bisa di-reverse engineer)
         return hash('sha256', $data);
     }
-    
+
     /**
      * Anonymize IP address untuk privacy compliance (GDPR)
      * Replace last octet dengan 0
@@ -112,7 +111,7 @@ class TrackVisitor
         }
         return $ip;
     }
-    
+
     /**
      * Update daily visitor statistics
 

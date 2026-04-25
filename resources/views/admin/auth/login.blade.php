@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,88 +9,133 @@
     <link rel="icon" type="image/png" href="{{ asset('images/Logo-Kabupaten.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
         .bg-animated {
             background: linear-gradient(-45deg, #064e3b, #0f766e, #047857, #1e3a8a);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
         }
+
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
+
         .glass-panel {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .input-glass {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             transition: all 0.3s ease;
         }
+
         .input-glass:focus {
             background: rgba(255, 255, 255, 0.1);
-            border-color: #34d399; /* emerald-400 */
+            border-color: #34d399;
+            /* emerald-400 */
             box-shadow: 0 0 15px rgba(52, 211, 153, 0.3);
             outline: none;
         }
+
         .input-glass::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
+
         /* Custom scrollbar to avoid weird shifts */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #064e3b; }
-        ::-webkit-scrollbar-thumb { background: #34d399; border-radius: 4px; }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #064e3b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #34d399;
+            border-radius: 4px;
+        }
     </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center bg-animated text-white relative overflow-hidden">
-    
+
     <!-- Decorative background elements -->
-    <div class="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-50 animate-blob pointer-events-none"></div>
-    <div class="fixed top-[20%] right-[-10%] w-[500px] h-[500px] bg-teal-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-50 animate-blob animation-delay-2000 pointer-events-none"></div>
-    <div class="fixed bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-blob animation-delay-4000 pointer-events-none"></div>
+    <div
+        class="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-50 animate-blob pointer-events-none">
+    </div>
+    <div
+        class="fixed top-[20%] right-[-10%] w-[500px] h-[500px] bg-teal-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-50 animate-blob animation-delay-2000 pointer-events-none">
+    </div>
+    <div
+        class="fixed bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-blob animation-delay-4000 pointer-events-none">
+    </div>
 
     <!-- Main Container -->
-    <div class="w-full max-w-[1000px] flex rounded-[2rem] glass-panel shadow-2xl relative z-10 mx-4 overflow-hidden transform transition-all duration-700 animate-[fadeInUp_0.8s_ease-out]">
-        
+    <div
+        class="w-full max-w-[1000px] flex rounded-[2rem] glass-panel shadow-2xl relative z-10 mx-4 overflow-hidden transform transition-all duration-700 animate-[fadeInUp_0.8s_ease-out]">
+
         <!-- Left Side: Branding / Welcome (Hidden on mobile) -->
-        <div class="hidden lg:flex w-1/2 p-12 flex-col justify-between border-r border-white/10 relative overflow-hidden group">
+        <div
+            class="hidden lg:flex w-1/2 p-12 flex-col justify-between border-r border-white/10 relative overflow-hidden group">
             <!-- Background Image overlay for left side -->
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2832&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay group-hover:scale-105 transition-transform duration-1000"></div>
+            <div
+                class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2832&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay group-hover:scale-105 transition-transform duration-1000">
+            </div>
             <!-- Gradient overlay for better text readability -->
             <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/90 via-emerald-900/40 to-transparent"></div>
-            
+
             <div class="relative z-10 flex items-center gap-3">
-                <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo" class="w-10 h-10 object-contain drop-shadow-lg">
+                <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo"
+                    class="w-10 h-10 object-contain drop-shadow-lg">
                 <span class="text-xl font-bold tracking-wide">SID - Warurejo</span>
             </div>
-            
+
             <div class="relative z-10 mt-12 mb-auto">
                 <h1 class="text-4xl xl:text-5xl font-extrabold leading-tight mb-6">
-                    Sistem<br>Informasi<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-300">Desa</span>
+                    Sistem<br>Informasi<br><span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-300">Desa</span>
                 </h1>
                 <p class="text-emerald-50 text-lg max-w-md font-light leading-relaxed">
                     Kelola data, informasi, dan pelayanan masyarakat desa dengan lebih efisien dan terintegrasi.
                 </p>
-                
+
                 <div class="mt-8 flex gap-4">
                     <div class="w-12 h-1 bg-emerald-400 rounded-full"></div>
                     <div class="w-4 h-1 bg-emerald-400/30 rounded-full"></div>
                     <div class="w-4 h-1 bg-emerald-400/30 rounded-full"></div>
                 </div>
             </div>
-            
+
             <div class="relative z-10 mt-8">
-                <p class="text-sm text-emerald-100/60 flex items-center gap-2 bg-black/20 fit-content px-4 py-2 rounded-full inline-flex backdrop-blur-md border border-white/5">
-                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <p
+                    class="text-sm text-emerald-100/60 flex items-center gap-2 bg-black/20 fit-content px-4 py-2 rounded-full inline-flex backdrop-blur-md border border-white/5">
+                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
                     Akses Khusus Administrator
                 </p>
             </div>
@@ -98,10 +144,11 @@
         <!-- Right Side: Login Form -->
         <div class="w-full lg:w-1/2 p-8 sm:p-10 lg:p-12 relative bg-white/5">
             <div class="max-w-md mx-auto h-full flex flex-col justify-center">
-                
+
                 <!-- Mobile Header (Visible only on mobile) -->
                 <div class="lg:hidden text-center mb-8">
-                    <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo" class="w-16 h-16 mx-auto mb-4 drop-shadow-lg">
+                    <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo"
+                        class="w-16 h-16 mx-auto mb-4 drop-shadow-lg">
                     <h2 class="text-2xl font-bold text-white">Login Admin</h2>
                     <p class="text-emerald-100/70 text-sm mt-1">Desa Warurejo</p>
                 </div>
@@ -112,16 +159,26 @@
                 </div>
 
                 @if(session('success'))
-                    <div class="mb-6 p-4 rounded-xl bg-emerald-500/20 border border-emerald-500/50 text-emerald-100 text-sm flex items-start gap-3 backdrop-blur-sm animate-[fadeIn_0.5s_ease]">
-                        <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div
+                        class="mb-6 p-4 rounded-xl bg-emerald-500/20 border border-emerald-500/50 text-emerald-100 text-sm flex items-start gap-3 backdrop-blur-sm animate-[fadeIn_0.5s_ease]">
+                        <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                         <p>{{ session('success') }}</p>
                     </div>
                 @endif
 
                 @if($errors->any())
-                    <div class="mb-6 p-4 rounded-xl bg-red-500/20 border border-red-500/50 text-red-100 text-sm backdrop-blur-sm animate-[fadeIn_0.5s_ease]">
+                    <div
+                        class="mb-6 p-4 rounded-xl bg-red-500/20 border border-red-500/50 text-red-100 text-sm backdrop-blur-sm animate-[fadeIn_0.5s_ease]">
                         <div class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-5 h-5 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                             <ul class="list-disc list-inside space-y-1">
                                 @foreach($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -139,19 +196,15 @@
                         <label for="email" class="block text-sm font-medium text-emerald-50 mb-2">Email Address</label>
                         <div class="relative group">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-emerald-200/50 group-focus-within:text-emerald-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                <svg class="h-5 w-5 text-emerald-200/50 group-focus-within:text-emerald-400 transition-colors"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
                             </div>
-                            <input 
-                                type="email"
-                                id="email"
-                                name="email"
-                                value="{{ old('email') }}"
-                                required
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" required
                                 placeholder="Masukkan Email"
-                                class="input-glass w-full pl-12 pr-4 py-3.5 rounded-xl text-sm"
-                            >
+                                class="input-glass w-full pl-12 pr-4 py-3.5 rounded-xl text-sm">
                         </div>
                     </div>
 
@@ -162,18 +215,14 @@
                         </div>
                         <div class="relative group">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-emerald-200/50 group-focus-within:text-emerald-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                <svg class="h-5 w-5 text-emerald-200/50 group-focus-within:text-emerald-400 transition-colors"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                             </div>
-                            <input 
-                                type="password"
-                                id="password"
-                                name="password"
-                                required
-                                placeholder="••••••••"
-                                class="input-glass w-full pl-12 pr-12 py-3.5 rounded-xl text-sm"
-                            >
+                            <input type="password" id="password" name="password" required placeholder="••••••••"
+                                class="input-glass w-full pl-12 pr-12 py-3.5 rounded-xl text-sm">
                         </div>
                     </div>
 
@@ -181,45 +230,49 @@
                     <div class="flex items-center justify-between mt-6">
                         <label class="flex items-center gap-3 cursor-pointer group">
                             <div class="relative flex items-center justify-center">
-                                <input 
-                                    type="checkbox"
-                                    id="remember"
-                                    name="remember"
-                                    class="peer sr-only"
-                                >
-                                <div class="w-5 h-5 rounded border border-white/20 bg-white/5 peer-checked:bg-emerald-500 peer-checked:border-emerald-500 transition-all duration-200"></div>
-                                <svg class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                <input type="checkbox" id="remember" name="remember" class="peer sr-only">
+                                <div
+                                    class="w-5 h-5 rounded border border-white/20 bg-white/5 peer-checked:bg-emerald-500 peer-checked:border-emerald-500 transition-all duration-200">
+                                </div>
+                                <svg class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200 pointer-events-none"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <span class="text-sm text-emerald-100/80 group-hover:text-white transition-colors">Ingat saya</span>
+                            <span class="text-sm text-emerald-100/80 group-hover:text-white transition-colors">Ingat
+                                saya</span>
                         </label>
                     </div>
 
                     <!-- Button -->
-                    <button 
-                        type="submit"
+                    <button type="submit"
                         class="w-full mt-8 py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 
                                hover:from-emerald-400 hover:to-teal-300 text-white font-bold text-sm tracking-wide
                                shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_30px_rgba(52,211,153,0.5)] 
-                               transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden group"
-                    >
+                               transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden group">
                         <span class="relative z-10 flex items-center justify-center gap-2">
                             MASUK SEKARANG
-                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </span>
                         <!-- Button hover glare effect -->
-                        <div class="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover:animate-[glare_0.6s_ease-out]"></div>
+                        <div
+                            class="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover:animate-[glare_0.6s_ease-out]">
+                        </div>
                     </button>
                 </form>
 
                 <!-- Back Link -->
                 <div class="mt-8 text-center border-t border-white/10 pt-6 relative z-10">
-                    <a href="{{ route('home') }}" class="text-sm text-emerald-100/60 hover:text-white inline-flex items-center gap-2 transition-colors group">
-                        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    <a href="{{ route('home') }}"
+                        class="text-sm text-emerald-100/60 hover:text-white inline-flex items-center gap-2 transition-colors group">
+                        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                         Kembali ke Halaman Utama
                     </a>
@@ -238,20 +291,49 @@
 
     <style>
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
+
         @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
         }
-        .animation-delay-2000 { animation-delay: 2s; }
-        .animation-delay-4000 { animation-delay: 4s; }
+
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+
         @keyframes glare {
-            100% { transform: translateX(100%); }
+            100% {
+                transform: translateX(100%);
+            }
         }
     </style>
 </body>
+
 </html>

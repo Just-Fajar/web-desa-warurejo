@@ -34,7 +34,7 @@ class PotensiPageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertViewHas('potensi');
-        
+
         // Check if first potensi is displayed
         $response->assertSee($potensi->first()->nama);
     }

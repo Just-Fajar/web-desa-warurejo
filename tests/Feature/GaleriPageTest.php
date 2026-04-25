@@ -48,7 +48,7 @@ class GaleriPageTest extends TestCase
     public function test_galeri_index_does_not_display_inactive_items(): void
     {
         $admin = Admin::factory()->create();
-        
+
         $active = Galeri::factory()
             ->for($admin)
             ->create([
@@ -74,7 +74,7 @@ class GaleriPageTest extends TestCase
     public function test_galeri_index_filters_by_category(): void
     {
         $admin = Admin::factory()->create();
-        
+
         $kegiatanGaleri = Galeri::factory()
             ->for($admin)
             ->kategori(Galeri::KATEGORI_KEGIATAN)
@@ -133,7 +133,7 @@ class GaleriPageTest extends TestCase
     public function test_galeri_ordered_by_date(): void
     {
         $admin = Admin::factory()->create();
-        
+
         $older = Galeri::factory()
             ->for($admin)
             ->create([

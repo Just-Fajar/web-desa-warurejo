@@ -153,7 +153,7 @@ class BeritaController extends Controller
     {
         try {
             $ids = $request->input('ids', []);
-            
+
             if (empty($ids)) {
                 return response()->json([
                     'success' => false,
@@ -175,11 +175,11 @@ class BeritaController extends Controller
                 'success' => true,
                 'message' => "{$count} berita berhasil dihapus."
             ]);
-            
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
             ], 500);
         }
-    }} 
+    }
+}

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum('status', ['draft', 'published'])->default('published');
             $table->integer('jumlah_download')->default(0);
             $table->timestamps();
-            
+
             // Indexes
             $table->index('kategori');
             $table->index('tahun');

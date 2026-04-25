@@ -31,7 +31,7 @@ class StrukturOrganisasiController extends Controller
     {
         $strukturOrganisasi = $this->strukturOrganisasiService->getPaginatedStrukturOrganisasi(15);
         $levels = StrukturOrganisasi::getLevels();
-        
+
         return view('admin.struktur-organisasi.index', compact('strukturOrganisasi', 'levels'));
     }
 
@@ -44,13 +44,13 @@ class StrukturOrganisasiController extends Controller
     public function create()
     {
         $levels = StrukturOrganisasi::getLevels();
-        
+
         // Get potential atasan (kepala, sekretaris, kaur, kasi)
         $potentialAtasan = StrukturOrganisasi::active()
             ->whereIn('level', ['kepala', 'sekretaris', 'kaur', 'kasi'])
             ->ordered()
             ->get();
-        
+
         return view('admin.struktur-organisasi.create', compact('levels', 'potentialAtasan'));
     }
 
@@ -65,7 +65,7 @@ class StrukturOrganisasiController extends Controller
     {
         try {
             $data = $request->validated();
-            
+
             // Handle foto upload
             if ($request->hasFile('foto')) {
                 $data['foto'] = $request->file('foto');
@@ -107,14 +107,14 @@ class StrukturOrganisasiController extends Controller
     {
         $strukturOrganisasi = $this->strukturOrganisasiService->getStrukturOrganisasiById($id);
         $levels = StrukturOrganisasi::getLevels();
-        
+
         // Get potential atasan
         $potentialAtasan = StrukturOrganisasi::active()
             ->whereIn('level', ['kepala', 'sekretaris', 'kaur', 'kasi'])
             ->where('id', '!=', $id) // exclude current item
             ->ordered()
             ->get();
-        
+
         return view('admin.struktur-organisasi.edit', compact('strukturOrganisasi', 'levels', 'potentialAtasan'));
     }
 
@@ -128,7 +128,7 @@ class StrukturOrganisasiController extends Controller
     {
         try {
             $data = $request->validated();
-            
+
             // Handle foto upload
             if ($request->hasFile('foto')) {
                 $data['foto'] = $request->file('foto');
@@ -183,7 +183,7 @@ class StrukturOrganisasiController extends Controller
     {
         try {
             $ids = $request->input('ids', []);
-            
+
             if (empty($ids)) {
                 return response()->json([
                     'success' => false,

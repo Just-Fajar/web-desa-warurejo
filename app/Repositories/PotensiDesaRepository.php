@@ -91,7 +91,7 @@ class PotensiDesaRepository extends BaseRepository
                 ->where('id', $id)
                 ->update(['urutan' => $position + 1]);
         }
-        
+
         return true;
     }
 
@@ -104,7 +104,7 @@ class PotensiDesaRepository extends BaseRepository
         $potensi = $this->find($id);
         $potensi->is_active = !$potensi->is_active;
         $potensi->save();
-        
+
         return $potensi;
     }
 
@@ -129,14 +129,14 @@ class PotensiDesaRepository extends BaseRepository
     {
         return $this->model
             ->active()
-            ->where(function($query) use ($keyword) {
+            ->where(function ($query) use ($keyword) {
                 $query->where('nama', 'like', "%{$keyword}%")
                     ->orWhere('deskripsi', 'like', "%{$keyword}%");
             })
             ->ordered()
             ->get();
     }
-    
+
     /**
      * Advanced search dengan multiple filters
      * Filters: search (keyword), kategori, urutkan (terbaru/terpopuler/terlama)
@@ -145,21 +145,21 @@ class PotensiDesaRepository extends BaseRepository
     public function searchWithFilters(array $filters)
     {
         $query = $this->model->active();
-        
+
         // Search by keyword
         if (!empty($filters['search'])) {
             $keyword = $filters['search'];
-            $query->where(function($q) use ($keyword) {
+            $query->where(function ($q) use ($keyword) {
                 $q->where('nama', 'like', "%{$keyword}%")
-                  ->orWhere('deskripsi', 'like', "%{$keyword}%");
+                    ->orWhere('deskripsi', 'like', "%{$keyword}%");
             });
         }
-        
+
         // Filter by kategori
         if (!empty($filters['kategori'])) {
             $query->byKategori($filters['kategori']);
         }
-        
+
         // Filter by date range
         if (!empty($filters['date_from'])) {
             $query->whereDate('created_at', '>=', $filters['date_from']);
@@ -167,7 +167,7 @@ class PotensiDesaRepository extends BaseRepository
         if (!empty($filters['date_to'])) {
             $query->whereDate('created_at', '<=', $filters['date_to']);
         }
-        
+
         // Sort by
         $sortBy = $filters['urutkan'] ?? 'terbaru';
         switch ($sortBy) {
@@ -182,7 +182,7 @@ class PotensiDesaRepository extends BaseRepository
                 $query->latest();
                 break;
         }
-        
+
         return $query->paginate(12);
     }
 }

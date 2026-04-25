@@ -41,7 +41,7 @@ class Admin extends Authenticatable
     }
 
     // Accessors
-    
+
     /**
      * Get avatar URL dengan fallback
      * 
@@ -52,8 +52,8 @@ class Admin extends Authenticatable
      */
     public function getAvatarUrlAttribute()
     {
-        return $this->avatar 
-            ? asset('storage/' . $this->avatar) 
+        return $this->avatar
+            ? asset('storage/' . $this->avatar)
             : asset('images/default-avatar.png');
     }
 }

@@ -1,43 +1,66 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>403 - Akses Ditolak | Desa Warurejo</title>
-    
+
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <style>
         @keyframes lock-shake {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-5deg);
+            }
+
+            75% {
+                transform: rotate(5deg);
+            }
         }
-        
+
         .lock-animation {
             animation: lock-shake 0.5s ease-in-out infinite;
         }
-        
+
         @keyframes pulse-border {
-            0%, 100% { border-color: rgb(239, 68, 68); }
-            50% { border-color: rgb(239, 68, 68, 0.5); }
+
+            0%,
+            100% {
+                border-color: rgb(239, 68, 68);
+            }
+
+            50% {
+                border-color: rgb(239, 68, 68, 0.5);
+            }
         }
-        
+
         .pulse-border {
             animation: pulse-border 2s ease-in-out infinite;
         }
     </style>
 </head>
+
 <body class="bg-linear-to-br from-red-50 via-white to-red-50 min-h-screen flex items-center justify-center p-4">
     <!-- Background Decorations -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-10 left-10 w-72 h-72 bg-red-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div class="absolute bottom-10 right-10 w-72 h-72 bg-red-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000"></div>
+        <div
+            class="absolute top-10 left-10 w-72 h-72 bg-red-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse">
+        </div>
+        <div
+            class="absolute bottom-10 right-10 w-72 h-72 bg-red-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000">
+        </div>
     </div>
 
     <!-- Main Content -->
@@ -49,13 +72,14 @@
                     <div class="mb-8">
                         <!-- Logo -->
                         <div class="flex items-center space-x-3 mb-6">
-                            <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo Desa" class="h-16 w-16 bg-white rounded-full p-2">
+                            <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo Desa"
+                                class="h-16 w-16 bg-white rounded-full p-2">
                             <div>
                                 <h2 class="text-2xl font-bold">Desa Warurejo</h2>
                                 <p class="text-red-100 text-sm">Kabupaten Madiun</p>
                             </div>
                         </div>
-                        
+
                         <!-- 403 Number with Lock Icon -->
                         <div class="mb-6">
                             <div class="flex items-center space-x-4 mb-4">
@@ -65,10 +89,10 @@
                                 <h1 class="text-7xl font-black text-white/90">403</h1>
                             </div>
                         </div>
-                        
+
                         <h3 class="text-3xl font-bold mb-3">Akses Ditolak</h3>
                         <p class="text-red-100 text-lg leading-relaxed mb-6">
-                            Maaf, Anda tidak memiliki izin untuk mengakses halaman ini. 
+                            Maaf, Anda tidak memiliki izin untuk mengakses halaman ini.
                             Halaman ini hanya dapat diakses oleh pengguna dengan hak akses tertentu.
                         </p>
 
@@ -79,7 +103,7 @@
                                 <div>
                                     <div class="font-semibold text-sm mb-2">Halaman Terlindungi</div>
                                     <p class="text-red-100 text-xs leading-relaxed">
-                                        Halaman ini dilindungi untuk menjaga keamanan dan privasi data. 
+                                        Halaman ini dilindungi untuk menjaga keamanan dan privasi data.
                                         Jika Anda merasa ini adalah kesalahan, silakan hubungi administrator.
                                     </p>
                                 </div>
@@ -121,21 +145,20 @@
 
                     <!-- Navigation Links -->
                     <div class="space-y-3">
-                        <a href="{{ route('home') }}" 
-                           class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                        <a href="{{ route('home') }}"
+                            class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                             <i class="fas fa-home text-xl"></i>
                             <span>Kembali ke Beranda</span>
                         </a>
 
-                        <a href="{{ route('admin.login') }}" 
-                           class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
+                        <a href="{{ route('admin.login') }}"
+                            class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
                             <i class="fas fa-sign-in-alt text-xl text-red-600"></i>
                             <span>Login Admin</span>
                         </a>
 
-                        <button 
-                           onclick="window.history.back()" 
-                           class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
+                        <button onclick="window.history.back()"
+                            class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
                             <i class="fas fa-arrow-left text-xl text-red-600"></i>
                             <span>Halaman Sebelumnya</span>
                         </button>
@@ -145,19 +168,23 @@
                     <div class="mt-8 pt-6 border-t border-gray-200">
                         <h5 class="font-semibold text-gray-800 mb-3 text-sm">Halaman Publik yang Tersedia:</h5>
                         <div class="grid grid-cols-2 gap-2">
-                            <a href="{{ route('berita.index') }}" class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
+                            <a href="{{ route('berita.index') }}"
+                                class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
                                 <i class="fas fa-newspaper text-green-600"></i>
                                 <span>Berita</span>
                             </a>
-                            <a href="{{ route('potensi.index') }}" class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
+                            <a href="{{ route('potensi.index') }}"
+                                class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
                                 <i class="fas fa-seedling text-green-600"></i>
                                 <span>Potensi</span>
                             </a>
-                            <a href="{{ route('galeri.index') }}" class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
+                            <a href="{{ route('galeri.index') }}"
+                                class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
                                 <i class="fas fa-images text-green-600"></i>
                                 <span>Galeri</span>
                             </a>
-                            <a href="{{ route('profil.sejarah') }}" class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
+                            <a href="{{ route('profil.sejarah') }}"
+                                class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
                                 <i class="fas fa-info-circle text-green-600"></i>
                                 <span>Profil</span>
                             </a>
@@ -167,8 +194,9 @@
                     <!-- Contact -->
                     <div class="mt-6 pt-6 border-t border-gray-200 text-center">
                         <p class="text-sm text-gray-500">
-                            Butuh bantuan? 
-                            <a href="https://wa.me/62085168687700" class="text-red-600 hover:text-red-700 font-semibold hover:underline">
+                            Butuh bantuan?
+                            <a href="https://wa.me/62085168687700"
+                                class="text-red-600 hover:text-red-700 font-semibold hover:underline">
                                 Hubungi Administrator
                             </a>
                         </p>
@@ -186,4 +214,5 @@
         </div>
     </div>
 </body>
+
 </html>

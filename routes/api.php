@@ -19,10 +19,10 @@ use App\Http\Controllers\Api\GaleriController;
 
 // Public API Routes (No Authentication Required)
 Route::prefix('v1')->group(function () {
-    
+
     // Authentication
     Route::post('/login', [AuthController::class, 'login']);
-    
+
     // Berita Routes
     Route::prefix('berita')->name('api.berita.')->group(function () {
         Route::get('/', [BeritaController::class, 'index'])->name('index');
@@ -30,14 +30,14 @@ Route::prefix('v1')->group(function () {
         Route::get('/popular', [BeritaController::class, 'popular'])->name('popular');
         Route::get('/{slug}', [BeritaController::class, 'show'])->name('show');
     });
-    
+
     // Potensi Routes
     Route::prefix('potensi')->name('api.potensi.')->group(function () {
         Route::get('/', [PotensiController::class, 'index'])->name('index');
         Route::get('/featured', [PotensiController::class, 'featured'])->name('featured');
         Route::get('/{slug}', [PotensiController::class, 'show'])->name('show');
     });
-    
+
     // Galeri Routes
     Route::prefix('galeri')->name('api.galeri.')->group(function () {
         Route::get('/', [GaleriController::class, 'index'])->name('index');
@@ -49,7 +49,7 @@ Route::prefix('v1')->group(function () {
 
 // Protected API Routes (Authentication Required)
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
-    
+
     // Auth Management
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/logout-all', [AuthController::class, 'logoutAll']);

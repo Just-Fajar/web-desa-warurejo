@@ -56,27 +56,27 @@ class PotensiController extends Controller
     {
         try {
             $data = $request->validated();
-            
+
             // Auto-generate slug
             $data['slug'] = Str::slug($data['nama']);
-            
+
             // Handle is_active checkbox (default true if not exists)
             $data['is_active'] = $request->has('is_active') ? 1 : 0;
-            
+
             // Handle image upload
             if ($request->hasFile('gambar')) {
                 $data['gambar'] = $this->imageUploadService->upload(
-                    $request->file('gambar'), 
+                    $request->file('gambar'),
                     'potensi'
                 );
             }
-            
+
             PotensiDesa::create($data);
-            
+
             // Clear cache
             Cache::forget('home.potensi');
             Cache::forget('profil_desa');
-            
+
             return redirect()
                 ->route('admin.potensi.index')
                 ->with('success', 'Potensi berhasil ditambahkan!');
@@ -118,35 +118,35 @@ class PotensiController extends Controller
     {
         try {
             $data = $request->validated();
-            
+
             // Handle is_active checkbox
             $data['is_active'] = $request->has('is_active') ? 1 : 0;
-            
+
             // Update slug if nama changed
             if ($data['nama'] !== $potensi->nama) {
                 $data['slug'] = Str::slug($data['nama']);
             }
-            
+
             // Handle image upload
             if ($request->hasFile('gambar')) {
                 // Delete old image
                 if ($potensi->gambar) {
                     $this->imageUploadService->delete($potensi->gambar);
                 }
-                
+
                 // Upload new image
                 $data['gambar'] = $this->imageUploadService->upload(
-                    $request->file('gambar'), 
+                    $request->file('gambar'),
                     'potensi'
                 );
             }
-            
+
             $potensi->update($data);
-            
+
             // Clear cache
             Cache::forget('home.potensi');
             Cache::forget('profil_desa');
-            
+
             return redirect()
                 ->route('admin.potensi.index')
                 ->with('success', 'Potensi berhasil diperbarui!');
@@ -170,13 +170,13 @@ class PotensiController extends Controller
             if ($potensi->gambar) {
                 $this->imageUploadService->delete($potensi->gambar);
             }
-            
+
             $potensi->delete();
-            
+
             // Clear cache
             Cache::forget('home.potensi');
             Cache::forget('profil_desa');
-            
+
             return redirect()
                 ->route('admin.potensi.index')
                 ->with('success', 'Potensi berhasil dihapus!');
@@ -197,30 +197,30 @@ class PotensiController extends Controller
     {
         try {
             $ids = $request->input('ids', []);
-            
+
             if (empty($ids)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Tidak ada potensi yang dipilih'
                 ], 400);
             }
-            
+
             $potensiList = PotensiDesa::whereIn('id', $ids)->get();
-            
+
             // Delete images
             foreach ($potensiList as $potensi) {
                 if ($potensi->gambar) {
                     $this->imageUploadService->delete($potensi->gambar);
                 }
             }
-            
+
             // Delete records
             PotensiDesa::whereIn('id', $ids)->delete();
-            
+
             // Clear cache
             Cache::forget('home.potensi');
             Cache::forget('profil_desa');
-            
+
             return response()->json([
                 'success' => true,
                 'message' => count($ids) . ' potensi berhasil dihapus'

@@ -167,7 +167,7 @@ class VisitorStatisticsServiceTest extends TestCase
 
         // Check using whereDate to handle datetime comparison
         $stat = DailyVisitorStat::whereDate('date', $yesterday)->first();
-        
+
         $this->assertNotNull($stat);
         $this->assertEquals(2, $stat->unique_visitors);
         $this->assertEquals(2, $stat->page_views);

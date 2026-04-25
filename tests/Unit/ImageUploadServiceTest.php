@@ -159,7 +159,7 @@ class ImageUploadServiceTest extends TestCase
         // First upload an image
         $file = UploadedFile::fake()->image('test.jpg', 800, 600);
         $originalPath = $this->imageService->upload($file, 'images');
-        
+
         $this->assertNotNull($originalPath, 'Original image upload failed');
 
         // Then create thumbnail from the uploaded image
@@ -205,7 +205,7 @@ class ImageUploadServiceTest extends TestCase
     {
         // Create invalid UploadedFile (0 bytes)
         $invalidFile = UploadedFile::fake()->create('invalid.jpg', 0);
-        
+
         $result = $this->imageService->upload($invalidFile, 'test');
 
         $this->assertNull($result);

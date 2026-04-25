@@ -22,7 +22,7 @@ class GaleriRequest extends FormRequest
     public function rules(): array
     {
         $galeriId = $this->route('galeri') ? $this->route('galeri')->id : null;
-        
+
         $rules = [
             'judul' => 'required|string|max:255',
             'kategori' => 'required|in:kegiatan,infrastruktur,budaya,umkm,lainnya',

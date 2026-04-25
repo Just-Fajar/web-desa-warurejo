@@ -39,7 +39,7 @@ class ProfilDesaRequest extends FormRequest
             'gambar_header.image' => 'File gambar header harus berupa gambar',
             'gambar_header.mimes' => 'Format gambar header harus JPEG, JPG, PNG, atau WEBP',
             'gambar_header.max' => 'Ukuran gambar header maksimal 5MB',
-            
+
             'struktur_organisasi.image' => 'File struktur organisasi harus berupa gambar',
             'struktur_organisasi.mimes' => 'Format struktur organisasi harus JPEG, JPG, PNG, atau WEBP',
             'struktur_organisasi.max' => 'Ukuran struktur organisasi maksimal 5MB',

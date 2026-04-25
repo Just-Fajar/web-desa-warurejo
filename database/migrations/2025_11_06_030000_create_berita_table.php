@@ -6,27 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     * 
-     * Tabel berita untuk menyimpan artikel/berita desa
-     * 
-     * Struktur:
-     * - admin_id: Foreign key ke tabel admins (author)
-     * - judul: Judul berita
-     * - slug: URL-friendly version dari judul (unique)
-     * - ringkasan: Excerpt/preview berita (optional)
-     * - konten: Full content berita (support HTML dari TinyMCE)
-     * - gambar_utama: Path gambar featured di storage/berita
-     * - status: 'draft' atau 'published'
-     * - views: Counter jumlah pembaca
-     * - published_at: Timestamp kapan dipublish (untuk scheduled post)
-     * 
-     * Indexes untuk performance:
-     * - status: Query berita published/draft
-     * - published_at: Sort by tanggal publish
-     * - created_at: Sort by tanggal buat
-     */
+
     public function up(): void
     {
         Schema::create('berita', function (Blueprint $table) {

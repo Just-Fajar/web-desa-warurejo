@@ -234,4 +234,3 @@ class PublikasiController extends Controller
         return response()->json(['success' => true, 'message' => count($ids) . ' publikasi berhasil dihapus']);
     }
 }
-

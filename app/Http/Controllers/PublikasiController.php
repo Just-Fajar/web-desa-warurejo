@@ -35,7 +35,7 @@ class PublikasiController extends Controller
             ->when($search, function ($query, $search) {
                 return $query->where('judul', 'like', '%' . $search . '%');
             });
-        
+
         // Apply sorting
         switch ($urutkan) {
             case 'terpopuler':
@@ -49,7 +49,7 @@ class PublikasiController extends Controller
                 $query->latest();
                 break;
         }
-        
+
         $publikasi = $query->paginate(10);
 
         // Get sidebar publikasi (other categories)
@@ -78,7 +78,7 @@ class PublikasiController extends Controller
     public function show($id)
     {
         $publikasi = Publikasi::published()->findOrFail($id);
-        
+
         // Get related publikasi (same category)
         $relatedPublikasi = Publikasi::published()
             ->byKategori($publikasi->kategori)
@@ -99,7 +99,7 @@ class PublikasiController extends Controller
         $publikasi->incrementDownload();
 
         $filePath = storage_path('app/public/' . $publikasi->file_dokumen);
-        
+
         if (!file_exists($filePath)) {
             abort(404, 'File tidak ditemukan');
         }

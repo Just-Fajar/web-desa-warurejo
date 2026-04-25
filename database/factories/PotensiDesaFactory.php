@@ -28,7 +28,7 @@ class PotensiDesaFactory extends Factory
             PotensiDesa::KATEGORI_KERAJINAN,
             PotensiDesa::KATEGORI_LAINNYA,
         ]);
-        
+
         return [
             'nama' => ucwords($nama),
             'slug' => Str::slug($nama) . '-' . fake()->unique()->numberBetween(1, 1000),
@@ -47,7 +47,7 @@ class PotensiDesaFactory extends Factory
      */
     public function active(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_active' => true,
         ]);
     }
@@ -57,7 +57,7 @@ class PotensiDesaFactory extends Factory
      */
     public function inactive(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'is_active' => false,
         ]);
     }
@@ -67,7 +67,7 @@ class PotensiDesaFactory extends Factory
      */
     public function kategori(string $kategori): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'kategori' => $kategori,
         ]);
     }

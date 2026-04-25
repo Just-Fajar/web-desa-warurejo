@@ -16,7 +16,7 @@ class SitemapController extends Controller
     public function index(): Response
     {
         $sitemap = Sitemap::create();
-        
+
         // Homepage
         $sitemap->add(
             Url::create(route('home'))
@@ -24,7 +24,7 @@ class SitemapController extends Controller
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                 ->setPriority(1.0)
         );
-        
+
         // Profil Pages
         $sitemap->add(
             Url::create(route('profil.visi-misi'))
@@ -32,21 +32,21 @@ class SitemapController extends Controller
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                 ->setPriority(0.8)
         );
-        
+
         $sitemap->add(
             Url::create(route('profil.sejarah'))
                 ->setLastModificationDate(now())
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                 ->setPriority(0.8)
         );
-        
+
         $sitemap->add(
             Url::create(route('profil.struktur-organisasi'))
                 ->setLastModificationDate(now())
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                 ->setPriority(0.8)
         );
-        
+
         // Berita Index
         $sitemap->add(
             Url::create(route('berita.index'))
@@ -54,7 +54,7 @@ class SitemapController extends Controller
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                 ->setPriority(0.9)
         );
-        
+
         // All Berita Articles
         Berita::where('is_published', true)
             ->orderBy('created_at', 'desc')
@@ -67,7 +67,7 @@ class SitemapController extends Controller
                         ->setPriority(0.7)
                 );
             });
-        
+
         // Potensi Desa Index
         $sitemap->add(
             Url::create(route('potensi.index'))
@@ -75,7 +75,7 @@ class SitemapController extends Controller
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
                 ->setPriority(0.9)
         );
-        
+
         // All Potensi Desa
         PotensiDesa::where('is_active', true)
             ->orderBy('created_at', 'desc')
@@ -88,7 +88,7 @@ class SitemapController extends Controller
                         ->setPriority(0.7)
                 );
             });
-        
+
         // Galeri
         $sitemap->add(
             Url::create(route('galeri.index'))
@@ -96,7 +96,7 @@ class SitemapController extends Controller
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
                 ->setPriority(0.8)
         );
-        
+
         // Peta Desa
         $sitemap->add(
             Url::create(route('peta-desa'))
@@ -104,7 +104,7 @@ class SitemapController extends Controller
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                 ->setPriority(0.7)
         );
-        
+
         // Kontak
         $sitemap->add(
             Url::create(route('kontak.index'))
@@ -112,7 +112,7 @@ class SitemapController extends Controller
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
                 ->setPriority(0.7)
         );
-        
+
         return response($sitemap->render(), 200, [
             'Content-Type' => 'application/xml'
         ]);

@@ -25,7 +25,7 @@ class DailyVisitorStat extends Model
     public function scopeBetweenDates($query, $startDate, $endDate)
     {
         return $query->whereBetween('date', [$startDate, $endDate])
-                     ->orderBy('date', 'asc');
+            ->orderBy('date', 'asc');
     }
 
     /**

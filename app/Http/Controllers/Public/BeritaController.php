@@ -32,13 +32,13 @@ class BeritaController extends Controller
     public function index(Request $request)
     {
         $perPage = 12;
-        
+
         // Get filter parameters
         $search = $request->get('search');
         $dateFrom = $request->get('date_from');
         $dateTo = $request->get('date_to');
         $sortBy = $request->get('sort', 'latest'); // latest, popular, oldest
-        
+
         // Apply filters
         if ($search || $dateFrom || $dateTo || $sortBy !== 'latest') {
             $berita = $this->beritaService->searchWithFilters([
@@ -50,7 +50,7 @@ class BeritaController extends Controller
         } else {
             $berita = $this->beritaService->getPublishedBerita($perPage);
         }
-        
+
         // SEO Data
         $seoData = SEOHelper::generateMetaTags([
             'title' => 'Berita Desa - Desa Warurejo',
@@ -58,10 +58,10 @@ class BeritaController extends Controller
             'keywords' => 'berita desa warurejo, informasi desa, kegiatan desa, pengumuman desa',
             'type' => 'website'
         ]);
-        
+
         return view('public.berita.index', compact('berita', 'seoData'));
     }
-    
+
     /**
      * API endpoint untuk search autocomplete suggestions
      * Return JSON array dengan title dan URL berita
@@ -72,13 +72,13 @@ class BeritaController extends Controller
     public function autocomplete(Request $request)
     {
         $query = $request->get('q', '');
-        
+
         if (strlen($query) < 2) {
             return response()->json([]);
         }
-        
+
         $suggestions = $this->beritaService->getSearchSuggestions($query, 5);
-        
+
         return response()->json($suggestions);
     }
 
@@ -97,10 +97,10 @@ class BeritaController extends Controller
     {
         try {
             $berita = $this->beritaService->getBeritaBySlug($slug);
-            
+
             // Get related berita (same category or recent)
             $relatedBerita = $this->beritaService->getLatestBerita(4);
-            
+
             // SEO Data
             $excerpt = strip_tags(substr($berita->konten, 0, 160));
             $seoData = SEOHelper::generateMetaTags([
@@ -110,17 +110,17 @@ class BeritaController extends Controller
                 'image' => asset('storage/' . $berita->gambar),
                 'type' => 'article'
             ]);
-            
+
             // Structured Data for Article
             $structuredData = SEOHelper::getArticleSchema($berita);
-            
+
             // Breadcrumb
             $breadcrumb = SEOHelper::getBreadcrumbSchema([
                 ['name' => 'Home', 'url' => route('home')],
                 ['name' => 'Berita', 'url' => route('berita.index')],
                 ['name' => $berita->judul, 'url' => route('berita.show', $berita->slug)]
             ]);
-            
+
             return view('public.berita.show', compact('berita', 'relatedBerita', 'seoData', 'structuredData', 'breadcrumb'));
         } catch (\Exception $e) {
             abort(404, 'Berita tidak ditemukan');

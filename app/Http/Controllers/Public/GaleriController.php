@@ -37,29 +37,29 @@ class GaleriController extends Controller
         $urutkan = $request->get('urutkan', 'terbaru'); // terbaru, terlama, terpopuler
         $date_from = $request->get('date_from');
         $date_to = $request->get('date_to');
-        
+
         // Build query
         $query = Galeri::with(['admin', 'images'])->published();
-        
+
         if ($search) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('deskripsi', 'like', "%{$search}%");
+                    ->orWhere('deskripsi', 'like', "%{$search}%");
             });
         }
-        
+
         if ($kategori) {
             $query->byKategori($kategori);
         }
-        
+
         if ($date_from) {
             $query->whereDate('tanggal', '>=', $date_from);
         }
-        
+
         if ($date_to) {
             $query->whereDate('tanggal', '<=', $date_to);
         }
-        
+
         // Apply sorting
         switch ($urutkan) {
             case 'terpopuler':
@@ -73,22 +73,22 @@ class GaleriController extends Controller
                 $query->latest();
                 break;
         }
-        
+
         $galeris = $query->paginate(24)->appends($request->query());
-        
+
         // SEO Data
         $title = 'Galeri Dokumentasi';
         if ($kategori) {
             $title .= " - " . ucfirst($kategori);
         }
-        
+
         $seoData = SEOHelper::generateMetaTags([
             'title' => $title . ' - Desa Warurejo',
             'description' => 'Galeri foto dan video kegiatan, program, dan momen penting Desa Warurejo.',
             'keywords' => 'galeri desa warurejo, foto kegiatan desa, video desa',
             'type' => 'website'
         ]);
-        
+
         return view('public.galeri.index', compact('galeris', 'search', 'kategori', 'seoData', 'date_from', 'date_to'));
     }
 }

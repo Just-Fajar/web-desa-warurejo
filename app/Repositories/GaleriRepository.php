@@ -147,7 +147,7 @@ class GaleriRepository extends BaseRepository
         $galeri = $this->find($id);
         $galeri->is_active = !$galeri->is_active;
         $galeri->save();
-        
+
         return $galeri;
     }
 }

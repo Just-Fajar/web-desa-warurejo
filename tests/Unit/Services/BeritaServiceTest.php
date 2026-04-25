@@ -78,7 +78,7 @@ class BeritaServiceTest extends TestCase
 
         $this->assertNotNull($berita->gambar_utama);
         $this->assertStringContainsString('berita/', $berita->gambar_utama);
-        
+
         // Verify file was stored
         Storage::disk('public')->assertExists($berita->gambar_utama);
     }
@@ -113,10 +113,10 @@ class BeritaServiceTest extends TestCase
     public function test_update_berita_with_new_image_replaces_old_image(): void
     {
         Storage::fake('public');
-        
+
         // Create berita with image
         Storage::disk('public')->put('berita/old-image.jpg', 'old content');
-        
+
         $berita = Berita::factory()->create([
             'admin_id' => $this->admin->id,
             'gambar_utama' => 'berita/old-image.jpg',
@@ -132,10 +132,10 @@ class BeritaServiceTest extends TestCase
         $updated = $this->beritaService->updateBerita($berita->id, $updateData);
 
         $this->assertNotEquals('berita/old-image.jpg', $updated->gambar_utama);
-        
+
         // Old image should be deleted
         Storage::disk('public')->assertMissing('berita/old-image.jpg');
-        
+
         // New image should exist
         Storage::disk('public')->assertExists($updated->gambar_utama);
     }
@@ -154,7 +154,7 @@ class BeritaServiceTest extends TestCase
         $published = $this->beritaService->getPublished(10);
 
         $this->assertCount(5, $published);
-        
+
         foreach ($published as $berita) {
             $this->assertEquals('published', $berita->status);
         }
@@ -206,10 +206,10 @@ class BeritaServiceTest extends TestCase
     public function test_delete_berita_removes_image(): void
     {
         Storage::fake('public');
-        
+
         // Create image file
         Storage::disk('public')->put('berita/test-image.jpg', 'test content');
-        
+
         $berita = Berita::factory()->create([
             'admin_id' => $this->admin->id,
             'gambar_utama' => 'berita/test-image.jpg',
@@ -219,7 +219,7 @@ class BeritaServiceTest extends TestCase
 
         // Image should be deleted
         Storage::disk('public')->assertMissing('berita/test-image.jpg');
-        
+
         // Berita should be deleted
         $this->assertDatabaseMissing('berita', ['id' => $berita->id]);
     }

@@ -45,17 +45,17 @@ class Galeri extends Model
         if ($this->images && $this->images->count() > 0) {
             return $this->images->first()->image_url;
         }
-        
+
         // Fallback ke gambar single jika ada
-        return $this->gambar 
-            ? asset('storage/' . $this->gambar) 
+        return $this->gambar
+            ? asset('storage/' . $this->gambar)
             : asset('images/default-gallery.jpg');
     }
 
     public function getFormattedDateAttribute()
     {
-        return $this->tanggal 
-            ? $this->tanggal->format('d F Y') 
+        return $this->tanggal
+            ? $this->tanggal->format('d F Y')
             : $this->created_at->format('d F Y');
     }
 
@@ -68,9 +68,9 @@ class Galeri extends Model
     public function scopePublished($query)
     {
         return $query->where('is_active', true)
-            ->where(function($q) {
+            ->where(function ($q) {
                 $q->whereNull('tanggal')
-                  ->orWhere('tanggal', '<=', now());
+                    ->orWhere('tanggal', '<=', now());
             });
     }
 

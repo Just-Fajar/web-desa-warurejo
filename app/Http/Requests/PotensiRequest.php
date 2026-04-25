@@ -22,13 +22,13 @@ class PotensiRequest extends FormRequest
     public function rules(): array
     {
         $potensiId = $this->route('potensi') ? $this->route('potensi')->id : null;
-        
+
         return [
             'nama' => 'required|string|max:255',
             'kategori' => 'required|in:pertanian,peternakan,perikanan,umkm,wisata,kerajinan,lainnya',
             'deskripsi' => 'required|string',
-            'gambar' => $potensiId 
-                ? 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048' 
+            'gambar' => $potensiId
+                ? 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
                 : 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'lokasi' => 'nullable|string|max:255',
             'kontak' => 'nullable|string|max:100',

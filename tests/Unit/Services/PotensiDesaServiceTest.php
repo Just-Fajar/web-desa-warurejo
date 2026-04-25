@@ -104,7 +104,7 @@ class PotensiDesaServiceTest extends TestCase
         ];
 
         $potensi = $this->potensiService->createPotensi($data);
-        
+
         // gambar field already contains full path (potensi/filename.jpg)
         $imagePath = $potensi->gambar;
         \Illuminate\Support\Facades\Storage::disk('public')->assertExists($imagePath);

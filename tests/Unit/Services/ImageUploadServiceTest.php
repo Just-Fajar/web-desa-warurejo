@@ -51,11 +51,11 @@ class ImageUploadServiceTest extends TestCase
         $path = $this->imageService->uploadImage($file, 'berita', 1200);
 
         Storage::disk('public')->assertExists($path);
-        
+
         // Get image dimensions
         $fullPath = Storage::disk('public')->path($path);
         $imageSize = getimagesize($fullPath);
-        
+
         // Width should be <= 1200
         $this->assertLessThanOrEqual(1200, $imageSize[0]);
     }
@@ -131,7 +131,7 @@ class ImageUploadServiceTest extends TestCase
         $path2 = $this->imageService->uploadImage($file2, 'berita');
 
         $this->assertNotEquals($path1, $path2);
-        
+
         Storage::disk('public')->assertExists($path1);
         Storage::disk('public')->assertExists($path2);
     }
@@ -148,7 +148,7 @@ class ImageUploadServiceTest extends TestCase
 
         // Service akan return null untuk file yang tidak valid
         $result = $this->imageService->upload($file, 'berita');
-        
+
         $this->assertNull($result, 'Non-image file should return null');
     }
 }

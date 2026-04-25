@@ -23,7 +23,7 @@ class GaleriSeeder extends Seeder
 
         // Get admin untuk foreign key
         $admin = Admin::first();
-        
+
         if (!$admin) {
             $this->command->error('Admin tidak ditemukan. Jalankan AdminSeeder terlebih dahulu.');
             return;

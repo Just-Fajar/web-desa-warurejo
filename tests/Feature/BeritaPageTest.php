@@ -38,7 +38,7 @@ class BeritaPageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertViewHas('berita');
-        
+
         // Check if first berita is displayed
         $response->assertSee($berita->first()->judul);
     }
@@ -49,7 +49,7 @@ class BeritaPageTest extends TestCase
     public function test_berita_index_does_not_display_draft_articles(): void
     {
         $admin = Admin::factory()->create();
-        
+
         $published = Berita::factory()
             ->for($admin)
             ->published()

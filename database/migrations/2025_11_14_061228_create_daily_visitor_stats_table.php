@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('unique_visitors')->default(0); // Unique visitors hari ini
             $table->integer('page_views')->default(0); // Total page views
             $table->timestamps();
-            
+
             $table->index('date');
         });
     }

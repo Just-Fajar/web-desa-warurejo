@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string('nama');
             $table->string('slug')->unique();
             $table->enum('kategori', [
-                'pertanian', 
-                'peternakan', 
-                'perikanan', 
-                'umkm', 
-                'wisata', 
-                'kerajinan', 
+                'pertanian',
+                'peternakan',
+                'perikanan',
+                'umkm',
+                'wisata',
+                'kerajinan',
                 'lainnya'
             ])->default('lainnya');
             $table->longText('deskripsi');
