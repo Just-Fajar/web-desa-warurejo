@@ -129,10 +129,10 @@
                                 $kategoriColors = [
                                     'kegiatan' => 'bg-emerald-50 text-emerald-600 border-emerald-200',
                                     'pembangunan' => 'bg-amber-50 text-amber-600 border-amber-200',
-                                    'budaya' => 'bg-purple-50 text-purple-600 border-purple-200',
+                                    'budaya' => 'bg-fuchsia-50 text-fuchsia-600 border-fuchsia-200',
                                     'keagamaan' => 'bg-sky-50 text-sky-600 border-sky-200',
                                     'sosial' => 'bg-pink-50 text-pink-600 border-pink-200',
-                                    'lainnya' => 'bg-rose-50 text-rose-600 border-rose-200'
+                                    'lainnya' => 'bg-slate-50 text-slate-600 border-slate-200'
                                 ];
 
                                 $kategoriLabel = match ($item->kategori) {

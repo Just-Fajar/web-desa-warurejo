@@ -201,11 +201,11 @@
                                     @php
                                         $kategoriColors = [
                                             'pertanian' => 'bg-green-100 text-green-800 border-green-200',
-                                            'peternakan' => 'bg-amber-100 text-amber-800 border-amber-200',
-                                            'perikanan' => 'bg-blue-100 text-blue-800 border-blue-200',
-                                            'umkm' => 'bg-purple-100 text-purple-800 border-purple-200',
+                                            'peternakan' => 'bg-orange-100 text-orange-800 border-orange-200',
+                                            'perikanan' => 'bg-cyan-100 text-cyan-800 border-cyan-200',
+                                            'umkm' => 'bg-violet-100 text-violet-800 border-violet-200',
                                             'wisata' => 'bg-rose-100 text-rose-800 border-rose-200',
-                                            'lainnya' => 'bg-gray-100 text-gray-800 border-gray-200'
+                                            'lainnya' => 'bg-stone-100 text-stone-800 border-stone-200'
                                         ];
                                         $bgColor = $kategoriColors[$item->kategori] ?? 'bg-gray-100 text-gray-800 border-gray-200';
                                     @endphp

@@ -201,9 +201,24 @@
     <section class="py-16 md:py-24 bg-gray-50 content-section">
         <div class="container mx-auto px-4 main-content">
 
-            <div class="text-center mb-10 md:mb-16 section-header scroll-reveal">
-                <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Berita Terkini</h2>
-                <p class="text-gray-500 text-lg md:text-xl">Informasi dan kabar terbaru dari {{ $profil->nama_desa }}</p>
+            <div class="mb-10 md:mb-12 section-header scroll-reveal">
+                <p class="text-xs font-semibold text-gray-500 tracking-[0.2em] uppercase mb-3">Kabar Desa</p>
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+                    <div>
+                        <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-none mb-4">Berita Terkini</h2>
+                        <p class="text-gray-500 text-lg md:text-xl">Informasi dan kabar terbaru dari {{ $profil->nama_desa }}</p>
+                    </div>
+                    @if($latest_berita->count() > 0)
+                        <a href="{{ route('berita.index') }}"
+                            class="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full font-medium hover:bg-black transition-all shrink-0">
+                            Lihat Semua Berita
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                            </svg>
+                        </a>
+                    @endif
+                </div>
+                <hr class="border-gray-200">
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-stretch card-grid content-grid mobile-slider">
@@ -305,18 +320,7 @@
                 @endforelse
             </div>
 
-            @if($latest_berita->count() > 0)
-                <div class="text-center mt-12">
-                    <a href="{{ route('berita.index') }}"
-                        class="inline-flex items-center gap-2 bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-all hover:shadow-lg hover:-translate-y-0.5">
-                        Lihat Semua Berita
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </a>
-                </div>
-            @endif
+            {{-- Bottom button removed per user request (moved to top) --}}
 
         </div>
     </section>
@@ -328,9 +332,24 @@
     <section class="py-16 md:py-24 bg-white content-section">
         <div class="container mx-auto px-4 main-content">
 
-            <div class="text-center mb-10 md:mb-16 section-header scroll-reveal">
-                <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Potensi Desa</h2>
-                <p class="text-gray-500 text-lg md:text-xl">Kekayaan dan potensi yang dimiliki {{ $profil->nama_desa }}</p>
+            <div class="mb-10 md:mb-12 section-header scroll-reveal">
+                <p class="text-xs font-semibold text-gray-500 tracking-[0.2em] uppercase mb-3">Potensi Unggulan</p>
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+                    <div>
+                        <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-none mb-4">Potensi Desa</h2>
+                        <p class="text-gray-500 text-lg md:text-xl">Kekayaan dan potensi yang dimiliki {{ $profil->nama_desa }}</p>
+                    </div>
+                    @if($potensi->count() > 0)
+                        <a href="{{ route('potensi.index') }}"
+                            class="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full font-medium hover:bg-black transition-all shrink-0">
+                            Lihat Semua Potensi
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                            </svg>
+                        </a>
+                    @endif
+                </div>
+                <hr class="border-gray-200">
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-stretch card-grid content-grid mobile-slider">
@@ -432,18 +451,7 @@
                 @endforelse
             </div>
 
-            @if($potensi->count() > 0)
-                <div class="text-center mt-12">
-                    <a href="{{ route('potensi.index') }}"
-                        class="inline-flex items-center gap-2 bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-all hover:shadow-lg hover:-translate-y-0.5">
-                        Lihat Semua Potensi
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                    </a>
-                </div>
-            @endif
+            {{-- Bottom button removed per user request (moved to top) --}}
 
         </div>
     </section>
@@ -453,22 +461,35 @@
     <!-- Gallery Preview -->
     <section class="py-16 md:py-24 bg-white content-section relative overflow-hidden">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 main-content max-w-7xl">
-            <div class="text-center mb-10 md:mb-16 section-header scroll-reveal">
-                <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Galeri Desa</h2>
-                <p class="text-gray-500 text-lg md:text-xl">Potret keindahan, kegiatan warga, dan pembangunan di
-                    {{ $profil->nama_desa }}.
-                </p>
+            <div class="mb-10 md:mb-12 section-header scroll-reveal">
+                <p class="text-xs font-semibold text-gray-500 tracking-[0.2em] uppercase mb-3">Dokumentasi</p>
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+                    <div>
+                        <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-none mb-4">Galeri Desa</h2>
+                        <p class="text-gray-500 text-lg md:text-xl">Potret keindahan, kegiatan warga, dan pembangunan di
+                            {{ $profil->nama_desa }}.
+                        </p>
+                    </div>
+                    <a href="{{ route('galeri.index') }}"
+                        class="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full font-medium hover:bg-black transition-all shrink-0">
+                        Lihat Semua Galeri
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                        </svg>
+                    </a>
+                </div>
+                <hr class="border-gray-200">
             </div>
 
             @php
                 // Kategori Sesuai Permintaan
                 $kategoriList = [
-                    ['nama' => 'Kegiatan', 'desc' => 'Potret aktivitas dan kegiatan keseharian warga desa.'],
-                    ['nama' => 'Pembangunan', 'desc' => 'Perkembangan pembangunan dan fasilitas umum di desa.'],
-                    ['nama' => 'Budaya', 'desc' => 'Melestarikan warisan leluhur dan kegiatan kebudayaan warga.'],
-                    ['nama' => 'Keagamaan', 'desc' => 'Kegiatan keagamaan dan perayaan hari besar agama.'],
-                    ['nama' => 'Sosial', 'desc' => 'Kegiatan sosial dan gotong royong masyarakat desa.'],
-                    ['nama' => 'Lainnya', 'desc' => 'Berbagai dokumentasi menarik dan momen spesial lainnya.'],
+                    ['nama' => 'Kegiatan', 'desc' => 'Potret aktivitas dan kegiatan keseharian warga desa.', 'color' => 'bg-blue-500'],
+                    ['nama' => 'Pembangunan', 'desc' => 'Perkembangan pembangunan dan fasilitas umum di desa.', 'color' => 'bg-amber-500'],
+                    ['nama' => 'Budaya', 'desc' => 'Melestarikan warisan leluhur dan kegiatan kebudayaan warga.', 'color' => 'bg-rose-500'],
+                    ['nama' => 'Keagamaan', 'desc' => 'Kegiatan keagamaan dan perayaan hari besar agama.', 'color' => 'bg-emerald-500'],
+                    ['nama' => 'Sosial', 'desc' => 'Kegiatan sosial dan gotong royong masyarakat desa.', 'color' => 'bg-purple-500'],
+                    ['nama' => 'Lainnya', 'desc' => 'Berbagai dokumentasi menarik dan momen spesial lainnya.', 'color' => 'bg-gray-400'],
                 ];
 
                 $galeriDisplay = [];
@@ -504,6 +525,7 @@
                     $galeriDisplay[] = [
                         'kategori' => $kat['nama'],
                         'desc' => $kat['desc'],
+                        'color' => $kat['color'],
                         'image' => $matched ? $matched->gambar_url : asset('images/logo-web-desa.jpg'),
                         'judul' => $matched ? ($matched->judul ?? $kat['nama']) : $kat['nama']
                     ];
@@ -536,7 +558,7 @@
                         <div
                             class="content-horizontal absolute bottom-0 left-0 p-6 md:p-10 w-full bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col justify-end opacity-0 transform translate-y-8 transition-all duration-500 delay-100 pointer-events-none">
                             <div class="flex items-center gap-4 mb-3 md:mb-4">
-                                <div class="w-10 h-1 bg-primary-500 rounded-full"></div>
+                                <div class="w-10 h-1 {{ $item['color'] }} rounded-full"></div>
                                 <h3 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white whitespace-nowrap truncate">
                                     {{ $item['kategori'] }}
                                 </h3>
@@ -550,16 +572,7 @@
                 @endforeach
             </div>
 
-            <div class="text-center mt-12 md:mt-16 scroll-reveal">
-                <a href="{{ route('galeri.index') }}"
-                    class="inline-flex items-center gap-2 bg-primary-600 text-white px-8 py-3.5 rounded-full font-bold tracking-wide hover:bg-primary-700 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all hover:-translate-y-1">
-                    Lihat Semua Galeri
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </a>
-            </div>
+            {{-- Bottom button removed per user request (moved to top) --}}
         </div>
 
         <!-- Image Modal -->

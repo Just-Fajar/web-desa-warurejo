@@ -22,13 +22,13 @@
         </style>
 
         <!-- Welcome Message -->
-        <div class="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-800 rounded-3xl shadow-xl p-8 sm:p-10 text-white">
+        <div class="relative overflow-hidden bg-gradient-to-r from-primary-600 to-primary-800 rounded-3xl shadow-xl p-8 sm:p-10 text-white">
             <div class="absolute top-[-20%] right-[-5%] w-64 h-64 bg-white opacity-10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute bottom-[-20%] right-[15%] w-48 h-48 bg-emerald-300 opacity-20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute bottom-[-20%] right-[15%] w-48 h-48 bg-primary-400 opacity-20 rounded-full blur-2xl pointer-events-none"></div>
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 class="text-3xl sm:text-4xl font-extrabold mb-2 tracking-tight">Selamat Datang, {{ auth()->guard('admin')->user()->name }}! <span class="inline-block hover:animate-wave cursor-default">👋</span></h1>
-                    <p class="text-emerald-50/90 text-lg font-light">Kelola website, pantau statistik, dan berikan layanan terbaik untuk Desa Warurejo.</p>
+                    <p class="text-primary-50/90 text-lg font-light">Kelola website, pantau statistik, dan berikan layanan terbaik untuk Desa Warurejo.</p>
                 </div>
                 <div class="hidden md:block">
                     <span class="bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-xl border border-white/20 text-sm font-medium flex items-center gap-2 shadow-inner">
@@ -259,7 +259,8 @@
                     </div>
                     <div class="w-full flex flex-col gap-3 justify-center md:pl-8">
                         @php
-                            $colors = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#f43f5e', '#14b8a6', '#64748b'];
+                            // Palette: green, orange, cyan, violet, rose, stone
+                            $colors = ['#16a34a', '#ea580c', '#0891b2', '#7c3aed', '#e11d48', '#57534e'];
                             $potensiLabelsArray = is_array($potensiLabels) ? $potensiLabels : (is_object($potensiLabels) ? $potensiLabels->toArray() : []);
                         @endphp
                         @foreach($potensiLabelsArray as $i => $label)
@@ -341,12 +342,13 @@
                     </div>
                     <div class="w-full flex flex-col gap-3 justify-center md:pl-8">
                         @php
-                            $galeriColors = ['#10b981', '#f59e0b', '#a855f7', '#3b82f6', '#f43f5e'];
+                            // Palette: emerald, amber, fuchsia, sky, pink, slate
+                            $galeriColors = ['#059669', '#d97706', '#c026d3', '#0284c7', '#db2777', '#475569'];
                             $galeriLabelsArray = is_array($galeriLabels) ? $galeriLabels : (is_object($galeriLabels) ? $galeriLabels->toArray() : []);
                         @endphp
                         @foreach($galeriLabelsArray as $i => $label)
                             <div class="flex items-center gap-3">
-                                <span class="w-4 h-4 rounded-full shadow-sm" style="background-color: {{ $galeriColors[$i % count($galeriColors)] }}"></span>
+                                <span class="w-4 h-4 rounded-full shadow-sm shrink-0" style="background-color: {{ $galeriColors[$i % count($galeriColors)] }}"></span>
                                 <span class="text-gray-700 font-medium text-sm tracking-wide">{{ ucfirst($label) }}</span>
                             </div>
                         @endforeach
@@ -509,18 +511,29 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                    @php
+                                        $potensiColors = [
+                                            'pertanian' => 'bg-green-100 text-green-800',
+                                            'peternakan' => 'bg-orange-100 text-orange-800',
+                                            'perikanan' => 'bg-cyan-100 text-cyan-800',
+                                            'umkm' => 'bg-violet-100 text-violet-800',
+                                            'wisata' => 'bg-rose-100 text-rose-800',
+                                            'lainnya' => 'bg-stone-100 text-stone-800'
+                                        ];
+                                        $potensiBadge = $potensiColors[$potensi->kategori] ?? 'bg-gray-100 text-gray-800';
+                                    @endphp
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $potensiBadge }}">
                                         {{ ucfirst($potensi->kategori) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($potensi->is_active)
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Active
+                                            Published
                                         </span>
                                     @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                            Inactive
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Draft
                                         </span>
                                     @endif
                                 </td>
@@ -589,8 +602,8 @@
                                             @if($galeri->gambar)
                                                 <img src="{{ asset('storage/' . $galeri->gambar) }}" class="h-10 w-10 rounded object-cover">
                                             @elseif($galeri->images->first())
-                                                    <img src="{{ asset('storage/' . $galeri->images->first()->image_path) }}" class="h-10 w-10 rounded object-cover">
-                                                @else
+                                                <img src="{{ asset('storage/' . $galeri->images->first()->image_path) }}" class="h-10 w-10 rounded object-cover">
+                                            @else
                                                     <div class="h-10 w-10 rounded bg-gray-200 flex items-center justify-center">
                                                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -605,18 +618,29 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                    @php
+                                        $galeriKategoriColors = [
+                                            'kegiatan' => 'bg-emerald-100 text-emerald-800',
+                                            'pembangunan' => 'bg-amber-100 text-amber-800',
+                                            'budaya' => 'bg-fuchsia-100 text-fuchsia-800',
+                                            'keagamaan' => 'bg-sky-100 text-sky-800',
+                                            'sosial' => 'bg-pink-100 text-pink-800',
+                                            'lainnya' => 'bg-slate-100 text-slate-800'
+                                        ];
+                                        $galeriBadge = $galeriKategoriColors[$galeri->kategori] ?? 'bg-gray-100 text-gray-800';
+                                    @endphp
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $galeriBadge }}">
                                         {{ ucfirst($galeri->kategori) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($galeri->is_active)
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Aktif
+                                            Published
                                         </span>
                                     @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                            Tidak Aktif
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Draft
                                         </span>
                                     @endif
                                 </td>
@@ -696,10 +720,15 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                        {{ $publikasi->kategori === 'APBDes' ? 'bg-blue-100 text-blue-800' : '' }}
-                                        {{ $publikasi->kategori === 'RPJMDes' ? 'bg-green-100 text-green-800' : '' }}
-                                        {{ $publikasi->kategori === 'RKPDes' ? 'bg-purple-100 text-purple-800' : '' }}">
+                                    @php
+                                        $publikasiColors = [
+                                            'APBDes' => 'bg-sky-100 text-sky-800',
+                                            'RPJMDes' => 'bg-emerald-100 text-emerald-800',
+                                            'RKPDes' => 'bg-purple-100 text-purple-800'
+                                        ];
+                                        $publikasiBadge = $publikasiColors[$publikasi->kategori] ?? 'bg-gray-100 text-gray-800';
+                                    @endphp
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $publikasiBadge }}">
                                         {{ $publikasi->kategori }}
                                     </span>
                                 </td>
@@ -832,7 +861,7 @@
                                 padding: 20,
                                 font: {
                                     size: 13,
-                                    family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif",
+                                    family: "system-ui, -apple-system, sans-serif",
                                     weight: '600'
                                 }
                             }
@@ -844,12 +873,12 @@
                             padding: 12,
                             titleFont: {
                                 size: 14,
-                                family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif",
+                                family: "system-ui, -apple-system, sans-serif",
                                 weight: 'bold'
                             },
                             bodyFont: {
                                 size: 13,
-                                family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif"
+                                family: "system-ui, -apple-system, sans-serif"
                             },
                             borderColor: 'rgba(255, 255, 255, 0.1)',
                             borderWidth: 1,
@@ -875,7 +904,7 @@
                             ticks: {
                                 font: {
                                     size: 12,
-                                    family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif",
+                                    family: "system-ui, -apple-system, sans-serif",
                                     weight: 'bold'
                                 },
                                 color: '#475569'
@@ -891,7 +920,7 @@
                             ticks: {
                                 font: {
                                     size: 12,
-                                    family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif",
+                                    family: "system-ui, -apple-system, sans-serif",
                                     weight: 'bold'
                                 },
                                 color: '#475569',
@@ -1076,7 +1105,7 @@
                                 padding: 20,
                                 font: {
                                     size: 13,
-                                    family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif",
+                                    family: "system-ui, -apple-system, sans-serif",
                                     weight: '600'
                                 }
                             }
@@ -1088,12 +1117,12 @@
                             padding: 12,
                             titleFont: {
                                 size: 14,
-                                family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif",
+                                family: "system-ui, -apple-system, sans-serif",
                                 weight: 'bold'
                             },
                             bodyFont: {
                                 size: 13,
-                                family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif"
+                                family: "system-ui, -apple-system, sans-serif"
                             },
                             borderColor: 'rgba(255, 255, 255, 0.1)',
                             borderWidth: 1,
@@ -1119,7 +1148,7 @@
                             ticks: {
                                 font: {
                                     size: 12,
-                                    family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif",
+                                    family: "system-ui, -apple-system, sans-serif",
                                     weight: 'bold'
                                 },
                                 color: '#475569'
@@ -1136,7 +1165,7 @@
                                 stepSize: 1,
                                 font: {
                                     size: 12,
-                                    family: "'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif",
+                                    family: "system-ui, -apple-system, sans-serif",
                                     weight: 'bold'
                                 },
                                 color: '#475569'

@@ -249,7 +249,8 @@
                     <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:shadow-md transition">
                         <h4 class="font-bold text-primary-700 mb-2">6. Warurejo MANDIRI</h4>
                         <p class="text-sm text-gray-600 leading-relaxed">Akronim nilai yang dipegang teguh oleh desa yakni:
-                            <span class="font-semibold text-gray-800">Maju, Aman, Nyaman, Dinamis, dan Religius</span>.</p>
+                            <span class="font-semibold text-gray-800">Maju, Aman, Nyaman, Dinamis, dan Religius</span>.
+                        </p>
                     </div>
                 </div>
             </div>

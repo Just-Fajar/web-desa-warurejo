@@ -508,7 +508,7 @@ class DummyDataSeeder extends Seeder
     // ==========================================
     private function seedGaleri(Admin $admin): void
     {
-        $this->command->info('📸 Membuat 30 galeri dummy dengan gambar...');
+        $this->command->info('📸 Membuat 40 galeri dummy dengan gambar...');
 
         $galeriData = [
             // Kegiatan (15)
@@ -546,6 +546,20 @@ class DummyDataSeeder extends Seeder
             ['judul' => 'Malam Kesenian Desa', 'deskripsi' => 'Pertunjukan seni malam dengan penampilan tari tradisional dan musik.', 'kategori' => 'budaya'],
             ['judul' => 'Pelatihan Tari Tradisional Anak', 'deskripsi' => 'Anak-anak desa belajar tari tradisional untuk melestarikan budaya.', 'kategori' => 'budaya'],
             ['judul' => 'Pertunjukan Wayang Kulit', 'deskripsi' => 'Pertunjukan wayang kulit semalam suntuk dengan dalang kondang.', 'kategori' => 'budaya'],
+
+            // Keagamaan (5)
+            ['judul' => 'Peringatan Isra Mi\'raj Nabi Muhammad SAW', 'deskripsi' => 'Peringatan Isra Mi\'raj diisi dengan ceramah agama dan doa bersama di Masjid Baitul Amin.', 'kategori' => 'keagamaan'],
+            ['judul' => 'Pengajian Akbar Maulid Nabi', 'deskripsi' => 'Perayaan Maulid Nabi dengan pengajian akbar yang dihadiri warga dari berbagai dusun.', 'kategori' => 'keagamaan'],
+            ['judul' => 'Kegiatan Sholat Idul Fitri di Lapangan Desa', 'deskripsi' => 'Ribuan warga melaksanakan sholat Idul Fitri berjamaah di lapangan desa dengan penuh khidmat.', 'kategori' => 'keagamaan'],
+            ['judul' => 'Penyembelihan Hewan Qurban Idul Adha', 'deskripsi' => 'Penyembelihan dan pembagian daging qurban kepada seluruh warga desa yang berhak menerima.', 'kategori' => 'keagamaan'],
+            ['judul' => 'Santunan Anak Yatim Bulan Ramadhan', 'deskripsi' => 'Kegiatan santunan anak yatim dan dhuafa menjelang Hari Raya Idul Fitri oleh panitia desa.', 'kategori' => 'keagamaan'],
+
+            // Sosial (5)
+            ['judul' => 'Bakti Sosial Bersih Desa', 'deskripsi' => 'Warga bergotong royong membersihkan lingkungan desa termasuk sungai, jalan, dan fasilitas umum.', 'kategori' => 'sosial'],
+            ['judul' => 'Pembagian Sembako untuk Warga Kurang Mampu', 'deskripsi' => 'Pemerintah desa mendistribusikan paket sembako kepada keluarga prasejahtera di setiap RT.', 'kategori' => 'sosial'],
+            ['judul' => 'Jalan Sehat Bersama Warga', 'deskripsi' => 'Kegiatan jalan sehat bersama seluruh warga dalam rangka mempererat tali silaturahmi.', 'kategori' => 'sosial'],
+            ['judul' => 'Kerja Bakti Perbaikan Rumah Warga', 'deskripsi' => 'Gotong royong perbaikan rumah warga tidak mampu yang rusak akibat cuaca buruk.', 'kategori' => 'sosial'],
+            ['judul' => 'Penggalangan Dana Korban Bencana', 'deskripsi' => 'Warga desa menggalang donasi untuk membantu korban bencana alam di daerah lain.', 'kategori' => 'sosial'],
         ];
 
         foreach ($galeriData as $index => $data) {
@@ -596,7 +610,7 @@ class DummyDataSeeder extends Seeder
             $this->command->info("  📸 Galeri " . ($index + 1) . ': ' . $data['judul'] . " (+{$extraImages} foto)");
         }
 
-        $this->command->info('✅ 30 galeri berhasil dibuat!');
+        $this->command->info('✅ 40 galeri berhasil dibuat!');
     }
 
     // ==========================================

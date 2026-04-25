@@ -22,7 +22,7 @@
     @stack('styles')
 </head>
 
-<body class="bg-gray-100" x-data="{ sidebarOpen: false }">
+<body class="bg-gray-100 admin-theme" x-data="{ sidebarOpen: false }">
 
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
@@ -39,8 +39,8 @@
                     </div>
 
                     <div class="relative flex items-center gap-3 z-10">
-                        <div class="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center">
-                            <i class="fas fa-leaf text-xl text-primary-600"></i>
+                        <div class="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center p-1.5">
+                            <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo Kabupaten" class="w-full h-full object-contain">
                         </div>
                         <h1 class="text-xl font-bold tracking-wide">Desa<span
                                 class="font-normal opacity-80">Warurejo</span></h1>
@@ -130,7 +130,7 @@
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
-            <header class="bg-white shadow-sm">
+            <header class="bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] border-b border-gray-100">
                 <div class="flex items-center justify-between px-4 lg:px-6 py-3">
                     <!-- Mobile Menu Button -->
                     <button @click="sidebarOpen = !sidebarOpen" class="text-gray-500 focus:outline-none lg:hidden">
@@ -146,8 +146,8 @@
                             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                                 <li class="inline-flex items-center">
                                     <a href="{{ route('admin.dashboard') }}"
-                                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-600">
-                                        <i class="fas fa-home mr-2"></i>
+                                        class="inline-flex items-center text-sm font-semibold text-gray-600 hover:text-primary-600 bg-gray-50 px-3 py-1.5 rounded-lg transition-colors">
+                                        <i class="fas fa-home mr-2 text-primary-500"></i>
                                         Dashboard
                                     </a>
                                 </li>
@@ -162,19 +162,19 @@
                     <div class="hidden lg:block" x-data="{ dropdownOpen: false }">
                         <div class="relative">
                             <button @click="dropdownOpen = !dropdownOpen"
-                                class="flex items-center space-x-2 text-gray-700 hover:text-primary-600 focus:outline-none">
+                                class="flex items-center space-x-3 px-3 py-1.5 rounded-full border border-transparent hover:border-primary-100 hover:bg-primary-50/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-100 text-gray-700 hover:text-primary-700 group">
                                 @if(auth()->guard('admin')->user()->avatar)
                                     <img src="{{ asset('storage/' . auth()->guard('admin')->user()->avatar) }}"
                                         alt="{{ auth()->guard('admin')->user()->name }}"
-                                        class="w-8 h-8 rounded-full object-cover shadow-md border border-gray-200">
+                                        class="w-8 h-8 rounded-full object-cover shadow-sm border-2 border-white group-hover:border-primary-100 transition-colors">
                                 @else
                                     <div
-                                        class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                                        class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white font-bold text-sm shadow-sm border-2 border-white group-hover:border-primary-100 transition-colors">
                                         {{ substr(auth()->guard('admin')->user()->name, 0, 1) }}
                                     </div>
                                 @endif
-                                <span class="text-sm font-medium">{{ auth()->guard('admin')->user()->name }}</span>
-                                <i class="fas fa-chevron-down text-xs"></i>
+                                <span class="text-sm font-semibold">{{ auth()->guard('admin')->user()->name }}</span>
+                                <i class="fas fa-chevron-down text-xs text-gray-400 group-hover:text-primary-500 transition-colors"></i>
                             </button>
 
                             <!-- Dropdown Menu -->

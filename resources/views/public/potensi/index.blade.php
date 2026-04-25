@@ -96,7 +96,8 @@
                                         <option value="pertanian" {{ request('kategori') == 'pertanian' ? 'selected' : '' }}>
                                             Pertanian</option>
                                         <option value="peternakan" {{ request('kategori') == 'peternakan' ? 'selected' : '' }}>Peternakan</option>
-                                        <option value="perikanan" {{ request('kategori') == 'perikanan' ? 'selected' : '' }}>Perikanan</option>
+                                        <option value="perikanan" {{ request('kategori') == 'perikanan' ? 'selected' : '' }}>
+                                            Perikanan</option>
                                         <option value="umkm" {{ request('kategori') == 'umkm' ? 'selected' : '' }}>UMKM
                                         </option>
                                         <option value="wisata" {{ request('kategori') == 'wisata' ? 'selected' : '' }}>Wisata
@@ -144,73 +145,73 @@
                 @if(isset($potensi) && $potensi->count() > 0)
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
                         @foreach($potensi as $item)
-                                        <article
-                                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition group scroll-reveal-stagger">
-                                            {{-- Gambar --}}
-                                            <div class="relative overflow-hidden h-44 sm:h-48 md:h-56">
-                                                <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : asset('images/default-potensi.jpg') }}"
-                                                    alt="{{ $item->nama }}"
-                                                    class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
-                                                    onerror="this.src='{{ asset('images/logo-web-desa.jpg') }}'">
+                            <article
+                                class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition group scroll-reveal-stagger">
+                                {{-- Gambar --}}
+                                <div class="relative overflow-hidden h-44 sm:h-48 md:h-56">
+                                    <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : asset('images/default-potensi.jpg') }}"
+                                        alt="{{ $item->nama }}"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                                        onerror="this.src='{{ asset('images/logo-web-desa.jpg') }}'">
 
-                                                {{-- Category Badge --}}
-                                                <div class="absolute top-2 sm:top-3 right-2 sm:right-3">
-                                                    @php
-                                                        $kategoriColors = [
-                                                            'pertanian' => 'bg-green-600',
-                                                            'peternakan' => 'bg-amber-600',
-                                                            'perikanan' => 'bg-blue-600',
-                                                            'umkm' => 'bg-purple-600',
-                                                            'wisata' => 'bg-pink-600',
-                                                            'lainnya' => 'bg-gray-600',
-                                                        ];
-                                                        $bgColor = $kategoriColors[$item->kategori ?? 'lainnya'] ?? 'bg-gray-600';
-                                                    @endphp
-                              <span
-                                                        class="px-2 sm:px-3 py-1 {{ $bgColor }} text-white text-xs font-semibold rounded-full uppercase">
-                                                        {{ ucfirst($item->kategori ?? 'Lainnya') }}
-                                                    </span>
-                                                </div>
-                                            </div>
+                                    {{-- Category Badge --}}
+                                    <div class="absolute top-2 sm:top-3 right-2 sm:right-3">
+                                        @php
+                                            $kategoriColors = [
+                                                'pertanian' => 'bg-green-600',
+                                                'peternakan' => 'bg-orange-600',
+                                                'perikanan' => 'bg-cyan-600',
+                                                'umkm' => 'bg-violet-600',
+                                                'wisata' => 'bg-rose-600',
+                                                'lainnya' => 'bg-stone-600',
+                                            ];
+                                            $bgColor = $kategoriColors[$item->kategori ?? 'lainnya'] ?? 'bg-gray-600';
+                                        @endphp
+                                        <span
+                                            class="px-2 sm:px-3 py-1 {{ $bgColor }} text-white text-xs font-semibold rounded-full uppercase">
+                                            {{ ucfirst($item->kategori ?? 'Lainnya') }}
+                                        </span>
+                                    </div>
+                                </div>
 
-                                            {{-- Content --}}
-                                            <div class="p-4 sm:p-6">
-                                                {{-- Title --}}
-                                                <h3
-                                                    class="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-3 group-hover:text-green-600 transition line-clamp-2">
-                                                    {{ $item->nama }}
-                                                </h3>
+                                {{-- Content --}}
+                                <div class="p-4 sm:p-6">
+                                    {{-- Title --}}
+                                    <h3
+                                        class="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-3 group-hover:text-green-600 transition line-clamp-2">
+                                        {{ $item->nama }}
+                                    </h3>
 
-                                                {{-- Description --}}
-                                                <p class="text-gray-600 mb-3 sm:mb-4 line-clamp-3 text-sm sm:text-base">
-                                                    {{ $item->deskripsi_singkat ?? Str::limit(strip_tags($item->deskripsi), 120) }}
-                                                </p>
+                                    {{-- Description --}}
+                                    <p class="text-gray-600 mb-3 sm:mb-4 line-clamp-3 text-sm sm:text-base">
+                                        {{ $item->deskripsi_singkat ?? Str::limit(strip_tags($item->deskripsi), 120) }}
+                                    </p>
 
-                                                {{-- Meta Info --}}
-                                                @if($item->lokasi)
-                                                    <div class="flex items-center text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
-                                                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 shrink-0" fill="currentColor"
-                                                            viewBox="0 0 20 20">
-                                                            <path fill-rule="evenodd"
-                                                                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                                                clip-rule="evenodd" />
-                                                        </svg>
-                                                        <span>{{ $item->lokasi }}</span>
-                                                    </div>
-                                                @endif
+                                    {{-- Meta Info --}}
+                                    @if($item->lokasi)
+                                        <div class="flex items-center text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
+                                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 shrink-0" fill="currentColor"
+                                                viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                            <span>{{ $item->lokasi }}</span>
+                                        </div>
+                                    @endif
 
-                                                {{-- Read More --}}
-                                                <a href="{{ route('potensi.show', $item->slug) }}"
-                                                    class="inline-flex items-center text-green-600 hover:text-green-700 font-semibold text-sm sm:text-base">
-                                                    Lihat Detail
-                                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-2 group-hover:translate-x-1 transition" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M9 5l7 7-7 7" />
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </article>
+                                    {{-- Read More --}}
+                                    <a href="{{ route('potensi.show', $item->slug) }}"
+                                        class="inline-flex items-center text-green-600 hover:text-green-700 font-semibold text-sm sm:text-base">
+                                        Lihat Detail
+                                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-2 group-hover:translate-x-1 transition" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </article>
                         @endforeach
                     </div>
 

@@ -42,10 +42,11 @@
                                 @php
                                     $kategoriColors = [
                                         'pertanian' => 'bg-green-600',
-                                        'peternakan' => 'bg-amber-600',
-                                        'umkm' => 'bg-blue-600',
-                                        'wisata' => 'bg-purple-600',
-                                        'lainnya' => 'bg-gray-600',
+                                        'peternakan' => 'bg-orange-600',
+                                        'perikanan' => 'bg-cyan-600',
+                                        'umkm' => 'bg-violet-600',
+                                        'wisata' => 'bg-rose-600',
+                                        'lainnya' => 'bg-stone-600',
                                     ];
                                     $bgColor = $kategoriColors[$potensi->kategori ?? 'lainnya'] ?? 'bg-gray-600';
                                 @endphp
