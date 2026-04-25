@@ -96,6 +96,7 @@
                                         <option value="pertanian" {{ request('kategori') == 'pertanian' ? 'selected' : '' }}>
                                             Pertanian</option>
                                         <option value="peternakan" {{ request('kategori') == 'peternakan' ? 'selected' : '' }}>Peternakan</option>
+                                        <option value="perikanan" {{ request('kategori') == 'perikanan' ? 'selected' : '' }}>Perikanan</option>
                                         <option value="umkm" {{ request('kategori') == 'umkm' ? 'selected' : '' }}>UMKM
                                         </option>
                                         <option value="wisata" {{ request('kategori') == 'wisata' ? 'selected' : '' }}>Wisata
@@ -161,7 +162,6 @@
                                                             'perikanan' => 'bg-blue-600',
                                                             'umkm' => 'bg-purple-600',
                                                             'wisata' => 'bg-pink-600',
-                                                            'kerajinan' => 'bg-indigo-600',
                                                             'lainnya' => 'bg-gray-600',
                                                         ];
                                                         $bgColor = $kategoriColors[$item->kategori ?? 'lainnya'] ?? 'bg-gray-600';

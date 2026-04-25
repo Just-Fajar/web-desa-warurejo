@@ -67,7 +67,7 @@ class PotensiSeeder extends Seeder
             // UMKM (5)
             [
                 'nama' => 'Kerajinan Bambu',
-                'kategori' => 'kerajinan',
+                'kategori' => 'lainnya',
                 'deskripsi' => '<p><strong>Kerajinan bambu</strong> menjadi warisan turun temurun yang terus dilestarikan. Produk yang dihasilkan meliputi furniture, anyaman, dan souvenir dengan desain modern yang tetap mempertahankan ciri khas tradisional.</p><p>Pengrajin bambu telah mendapat pelatihan desain produk dan manajemen usaha untuk meningkatkan daya saing. Produk dipasarkan melalui online dan offline dengan jangkauan hingga luar daerah.</p><p>Showroom kerajinan bambu juga dibuka untuk memudahkan konsumen melihat langsung beragam produk yang tersedia.</p>',
                 'lokasi' => 'Dusun Selatan, RT 02',
                 'kontak' => '081234567895',

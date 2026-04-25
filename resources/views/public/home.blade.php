@@ -463,10 +463,11 @@
             @php
                 // Kategori Sesuai Permintaan
                 $kategoriList = [
-                    ['nama' => 'Kegiatan Desa', 'desc' => 'Potret aktivitas dan kegiatan keseharian warga desa.'],
-                    ['nama' => 'Infrastruktur', 'desc' => 'Perkembangan pembangunan dan fasilitas umum di desa.'],
+                    ['nama' => 'Kegiatan', 'desc' => 'Potret aktivitas dan kegiatan keseharian warga desa.'],
+                    ['nama' => 'Pembangunan', 'desc' => 'Perkembangan pembangunan dan fasilitas umum di desa.'],
                     ['nama' => 'Budaya', 'desc' => 'Melestarikan warisan leluhur dan kegiatan kebudayaan warga.'],
-                    ['nama' => 'UMKM', 'desc' => 'Produk lokal dan inovasi usaha mikro kecil menengah warga.'],
+                    ['nama' => 'Keagamaan', 'desc' => 'Kegiatan keagamaan dan perayaan hari besar agama.'],
+                    ['nama' => 'Sosial', 'desc' => 'Kegiatan sosial dan gotong royong masyarakat desa.'],
                     ['nama' => 'Lainnya', 'desc' => 'Berbagai dokumentasi menarik dan momen spesial lainnya.'],
                 ];
 
@@ -475,7 +476,7 @@
                 $usedIds = [];
 
                 foreach ($kategoriList as $index => $kat) {
-                    // Coba cocokan kategori/judul dengan kata kunci (Kegiatan, Infrastruktur, dll)
+                    // Coba cocokan kategori/judul dengan kata kunci (Kegiatan, Pembangunan, dll)
                     $matched = $galeri->first(function ($item) use ($kat, $usedIds) {
                         if (in_array($item->id ?? $item->id_galeri ?? -1, $usedIds))
                             return false;

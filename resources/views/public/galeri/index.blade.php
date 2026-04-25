@@ -73,10 +73,11 @@
                                     class="w-full pl-10 pr-8 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-purple-500 focus:border-purple-500 bg-gray-50/70 appearance-none"
                                 >
                                     <option value="">Semua Kategori</option>
-                                    <option value="kegiatan" {{ request('kategori') == 'kegiatan' ? 'selected' : '' }}>Kegiatan Desa</option>
-                                    <option value="infrastruktur" {{ request('kategori') == 'infrastruktur' ? 'selected' : '' }}>Infrastruktur</option>
+                                    <option value="kegiatan" {{ request('kategori') == 'kegiatan' ? 'selected' : '' }}>Kegiatan</option>
+                                    <option value="pembangunan" {{ request('kategori') == 'pembangunan' ? 'selected' : '' }}>Pembangunan</option>
                                     <option value="budaya" {{ request('kategori') == 'budaya' ? 'selected' : '' }}>Budaya</option>
-                                    <option value="umkm" {{ request('kategori') == 'umkm' ? 'selected' : '' }}>UMKM</option>
+                                    <option value="keagamaan" {{ request('kategori') == 'keagamaan' ? 'selected' : '' }}>Keagamaan</option>
+                                    <option value="sosial" {{ request('kategori') == 'sosial' ? 'selected' : '' }}>Sosial</option>
                                     <option value="lainnya" {{ request('kategori') == 'lainnya' ? 'selected' : '' }}>Lainnya</option>
                                 </select>
                             </div>
@@ -167,15 +168,16 @@
                                     @php
                                         $kategoriColors = [
                                             'kegiatan' => 'bg-emerald-50 text-emerald-600 border-emerald-200',
-                                            'infrastruktur' => 'bg-amber-50 text-amber-600 border-amber-200',
+                                            'pembangunan' => 'bg-amber-50 text-amber-600 border-amber-200',
                                             'budaya' => 'bg-purple-50 text-purple-600 border-purple-200',
-                                            'umkm' => 'bg-blue-50 text-blue-600 border-blue-200',
+                                            'keagamaan' => 'bg-sky-50 text-sky-600 border-sky-200',
+                                            'sosial' => 'bg-pink-50 text-pink-600 border-pink-200',
                                             'lainnya' => 'bg-rose-50 text-rose-600 border-rose-200',
                                         ];
                                         $badgeClass = $kategoriColors[strtolower($galeri->kategori ?? '')] ?? 'bg-gray-50 text-gray-600 border-gray-200';
                                     @endphp
                                     <span class="{{ $badgeClass }} px-2.5 py-1 rounded-md text-xs font-bold border uppercase">
-                                        {{ $galeri->kategori == 'kegiatan' ? 'Kegiatan Desa' : ($galeri->kategori ?? 'Galeri') }}
+                                        {{ ucfirst($galeri->kategori ?? 'Galeri') }}
                                     </span>
                                     <span class="text-gray-300">|</span>
                                     <span class="text-gray-500 text-xs font-medium">

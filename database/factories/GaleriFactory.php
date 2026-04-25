@@ -20,9 +20,11 @@ class GaleriFactory extends Factory
     {
         $kategori = fake()->randomElement([
             Galeri::KATEGORI_KEGIATAN,
-            Galeri::KATEGORI_INFRASTRUKTUR,
+            Galeri::KATEGORI_PEMBANGUNAN,
             Galeri::KATEGORI_BUDAYA,
-            Galeri::KATEGORI_UMUM,
+            Galeri::KATEGORI_KEAGAMAAN,
+            Galeri::KATEGORI_SOSIAL,
+            Galeri::KATEGORI_LAINNYA,
         ]);
 
         return [

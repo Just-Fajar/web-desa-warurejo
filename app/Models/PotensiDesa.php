@@ -74,7 +74,6 @@ class PotensiDesa extends Model
     const KATEGORI_PERIKANAN = 'perikanan';
     const KATEGORI_UMKM = 'umkm';
     const KATEGORI_WISATA = 'wisata';
-    const KATEGORI_KERAJINAN = 'kerajinan';
     const KATEGORI_LAINNYA = 'lainnya';
 
     public static function getKategoriList()
@@ -85,7 +84,6 @@ class PotensiDesa extends Model
             self::KATEGORI_PERIKANAN => 'Perikanan',
             self::KATEGORI_UMKM => 'UMKM',
             self::KATEGORI_WISATA => 'Wisata',
-            self::KATEGORI_KERAJINAN => 'Kerajinan',
             self::KATEGORI_LAINNYA => 'Lainnya',
         ];
     }

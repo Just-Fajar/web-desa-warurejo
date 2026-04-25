@@ -25,7 +25,7 @@ class GaleriRequest extends FormRequest
 
         $rules = [
             'judul' => 'required|string|max:255',
-            'kategori' => 'required|in:kegiatan,infrastruktur,budaya,umkm,lainnya',
+            'kategori' => 'required|in:kegiatan,pembangunan,budaya,keagamaan,sosial,lainnya',
             'deskripsi' => 'nullable|string',
             'tanggal' => 'required|date',
             'is_active' => 'required|boolean',

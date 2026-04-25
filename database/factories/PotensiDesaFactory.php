@@ -25,7 +25,6 @@ class PotensiDesaFactory extends Factory
             PotensiDesa::KATEGORI_PERIKANAN,
             PotensiDesa::KATEGORI_UMKM,
             PotensiDesa::KATEGORI_WISATA,
-            PotensiDesa::KATEGORI_KERAJINAN,
             PotensiDesa::KATEGORI_LAINNYA,
         ]);
 

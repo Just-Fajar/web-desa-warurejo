@@ -113,10 +113,11 @@
                                     class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium">
 
                                     <option value="">-- Pilih Kategori --</option>
-                                    <option value="kegiatan">Kegiatan Desa</option>
-                                    <option value="infrastruktur">Infrastruktur</option>
+                                    <option value="kegiatan">Kegiatan</option>
+                                    <option value="pembangunan">Pembangunan</option>
                                     <option value="budaya">Budaya</option>
-                                    <option value="umkm">UMKM</option>
+                                    <option value="keagamaan">Keagamaan</option>
+                                    <option value="sosial">Sosial</option>
                                     <option value="lainnya">Lainnya</option>
                                 </select>
                             </div>

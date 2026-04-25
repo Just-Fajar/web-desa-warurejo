@@ -87,18 +87,20 @@ class Galeri extends Model
 
     // Constants for categories
     const KATEGORI_KEGIATAN = 'kegiatan';
-    const KATEGORI_INFRASTRUKTUR = 'infrastruktur';
+    const KATEGORI_PEMBANGUNAN = 'pembangunan';
     const KATEGORI_BUDAYA = 'budaya';
-    const KATEGORI_UMKM = 'umkm';
+    const KATEGORI_KEAGAMAAN = 'keagamaan';
+    const KATEGORI_SOSIAL = 'sosial';
     const KATEGORI_LAINNYA = 'lainnya';
 
     public static function getKategoriList()
     {
         return [
-            self::KATEGORI_KEGIATAN => 'Kegiatan Desa',
-            self::KATEGORI_INFRASTRUKTUR => 'Infrastruktur',
+            self::KATEGORI_KEGIATAN => 'Kegiatan',
+            self::KATEGORI_PEMBANGUNAN => 'Pembangunan',
             self::KATEGORI_BUDAYA => 'Budaya',
-            self::KATEGORI_UMKM => 'UMKM',
+            self::KATEGORI_KEAGAMAAN => 'Keagamaan',
+            self::KATEGORI_SOSIAL => 'Sosial',
             self::KATEGORI_LAINNYA => 'Lainnya',
         ];
     }

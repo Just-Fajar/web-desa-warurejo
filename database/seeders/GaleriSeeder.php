@@ -49,17 +49,17 @@ class GaleriSeeder extends Seeder
             ['judul' => 'Lomba Desa Tingkat Kecamatan', 'deskripsi' => 'Tim desa meraih juara harapan pada lomba desa dengan penilaian administrasi dan pembangunan.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/lomba-desa.jpg'],
             ['judul' => 'Pelatihan Kader Posyandu', 'deskripsi' => 'Kader posyandu mengikuti pelatihan untuk meningkatkan kualitas pelayanan kesehatan masyarakat.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/pelatihan-kader.jpg'],
 
-            // Infrastruktur (10 foto)
-            ['judul' => 'Pembangunan Jalan Desa Tahap II', 'deskripsi' => 'Progres pembangunan jalan desa dengan pengaspalan sepanjang 2 kilometer untuk akses transportasi lebih baik.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/pembangunan-jalan.jpg'],
-            ['judul' => 'Renovasi Balai Desa', 'deskripsi' => 'Renovasi total balai desa untuk meningkatkan kualitas pelayanan kepada masyarakat.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/renovasi-balai.jpg'],
-            ['judul' => 'Pembangunan Gedung PAUD Baru', 'deskripsi' => 'Konstruksi gedung PAUD baru dengan fasilitas lengkap untuk pendidikan anak usia dini.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/pembangunan-paud.jpg'],
-            ['judul' => 'Pemasangan Lampu Jalan Tenaga Surya', 'deskripsi' => 'Pemasangan 50 unit lampu jalan tenaga surya di berbagai titik strategis untuk penerangan malam hari.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/lampu-jalan.jpg'],
-            ['judul' => 'Pembangunan Saluran Irigasi', 'deskripsi' => 'Pembangunan saluran irigasi baru untuk mengairi lahan pertanian seluas 100 hektar.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/saluran-irigasi.jpg'],
-            ['judul' => 'Pembangunan Taman Desa', 'deskripsi' => 'Taman desa dengan fasilitas bermain anak dan gazebo untuk warga bersantai di sore hari.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/taman-desa.jpg'],
-            ['judul' => 'Normalisasi Sungai Desa', 'deskripsi' => 'Kegiatan normalisasi dan pembersihan sungai untuk mencegah banjir di musim hujan.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/normalisasi-sungai.jpg'],
-            ['judul' => 'Pembangunan Lapangan Futsal', 'deskripsi' => 'Lapangan futsal dengan rumput sintetis untuk menampung hobi olahraga pemuda desa.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/lapangan-futsal.jpg'],
-            ['judul' => 'Pengecatan Gapura Desa', 'deskripsi' => 'Perawatan gapura desa dengan pengecatan ulang dan penambahan ornamen untuk memperindah tampilan.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/gapura-desa.jpg'],
-            ['judul' => 'Pembangunan Pos Kamling', 'deskripsi' => 'Pembangunan pos kamling di setiap RT untuk meningkatkan keamanan lingkungan.', 'kategori' => 'infrastruktur', 'gambar' => 'galeri/pos-kamling.jpg'],
+            // Pembangunan (10 foto)
+            ['judul' => 'Pembangunan Jalan Desa Tahap II', 'deskripsi' => 'Progres pembangunan jalan desa dengan pengaspalan sepanjang 2 kilometer untuk akses transportasi lebih baik.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/pembangunan-jalan.jpg'],
+            ['judul' => 'Renovasi Balai Desa', 'deskripsi' => 'Renovasi total balai desa untuk meningkatkan kualitas pelayanan kepada masyarakat.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/renovasi-balai.jpg'],
+            ['judul' => 'Pembangunan Gedung PAUD Baru', 'deskripsi' => 'Konstruksi gedung PAUD baru dengan fasilitas lengkap untuk pendidikan anak usia dini.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/pembangunan-paud.jpg'],
+            ['judul' => 'Pemasangan Lampu Jalan Tenaga Surya', 'deskripsi' => 'Pemasangan 50 unit lampu jalan tenaga surya di berbagai titik strategis untuk penerangan malam hari.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/lampu-jalan.jpg'],
+            ['judul' => 'Pembangunan Saluran Irigasi', 'deskripsi' => 'Pembangunan saluran irigasi baru untuk mengairi lahan pertanian seluas 100 hektar.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/saluran-irigasi.jpg'],
+            ['judul' => 'Pembangunan Taman Desa', 'deskripsi' => 'Taman desa dengan fasilitas bermain anak dan gazebo untuk warga bersantai di sore hari.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/taman-desa.jpg'],
+            ['judul' => 'Normalisasi Sungai Desa', 'deskripsi' => 'Kegiatan normalisasi dan pembersihan sungai untuk mencegah banjir di musim hujan.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/normalisasi-sungai.jpg'],
+            ['judul' => 'Pembangunan Lapangan Futsal', 'deskripsi' => 'Lapangan futsal dengan rumput sintetis untuk menampung hobi olahraga pemuda desa.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/lapangan-futsal.jpg'],
+            ['judul' => 'Pengecatan Gapura Desa', 'deskripsi' => 'Perawatan gapura desa dengan pengecatan ulang dan penambahan ornamen untuk memperindah tampilan.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/gapura-desa.jpg'],
+            ['judul' => 'Pembangunan Pos Kamling', 'deskripsi' => 'Pembangunan pos kamling di setiap RT untuk meningkatkan keamanan lingkungan.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/pos-kamling.jpg'],
 
             // Budaya (5 foto)
             ['judul' => 'Festival Budaya Desa', 'deskripsi' => 'Festival budaya menampilkan seni tari tradisional, wayang kulit, dan kuliner khas daerah.', 'kategori' => 'budaya', 'gambar' => 'galeri/festival-budaya.jpg'],

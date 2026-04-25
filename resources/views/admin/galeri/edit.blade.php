@@ -138,12 +138,11 @@
                                 class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror"
                                 required>
                                 <option value="">-- Pilih Kategori --</option>
-                                <option value="kegiatan" {{ old('kategori', $galeri->kategori) == 'kegiatan' ? 'selected' : '' }}>Kegiatan Desa</option>
-                                <option value="infrastruktur" {{ old('kategori', $galeri->kategori) == 'infrastruktur' ? 'selected' : '' }}>Infrastruktur</option>
-                                <option value="budaya" {{ old('kategori', $galeri->kategori) == 'budaya' ? 'selected' : '' }}>
-                                    Budaya</option>
-                                <option value="umkm" {{ old('kategori', $galeri->kategori) == 'umkm' ? 'selected' : '' }}>UMKM
-                                </option>
+                                <option value="kegiatan" {{ old('kategori', $galeri->kategori) == 'kegiatan' ? 'selected' : '' }}>Kegiatan</option>
+                                <option value="pembangunan" {{ old('kategori', $galeri->kategori) == 'pembangunan' ? 'selected' : '' }}>Pembangunan</option>
+                                <option value="budaya" {{ old('kategori', $galeri->kategori) == 'budaya' ? 'selected' : '' }}>Budaya</option>
+                                <option value="keagamaan" {{ old('kategori', $galeri->kategori) == 'keagamaan' ? 'selected' : '' }}>Keagamaan</option>
+                                <option value="sosial" {{ old('kategori', $galeri->kategori) == 'sosial' ? 'selected' : '' }}>Sosial</option>
                                 <option value="lainnya" {{ old('kategori', $galeri->kategori) == 'lainnya' ? 'selected' : '' }}>Lainnya</option>
                             </select>
                         </div>

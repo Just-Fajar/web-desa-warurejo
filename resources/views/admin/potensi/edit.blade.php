@@ -206,7 +206,6 @@
                                 <option value="umkm" {{ old('kategori', $potensi->kategori) == 'umkm' ? 'selected' : '' }}>
                                     UMKM</option>
                                 <option value="wisata" {{ old('kategori', $potensi->kategori) == 'wisata' ? 'selected' : '' }}>Wisata</option>
-                                <option value="kerajinan" {{ old('kategori', $potensi->kategori) == 'kerajinan' ? 'selected' : '' }}>Kerajinan</option>
                                 <option value="lainnya" {{ old('kategori', $potensi->kategori) == 'lainnya' ? 'selected' : '' }}>Lainnya</option>
                             </select>
                             @error('kategori') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror

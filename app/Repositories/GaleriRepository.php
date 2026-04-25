@@ -49,7 +49,7 @@ class GaleriRepository extends BaseRepository
 
     /**
      * Mengambil galeri berdasarkan kategori tertentu
-     * - Filter by kategori (kegiatan, infrastruktur, budaya, umum)
+     * - Filter by kategori (kegiatan, pembangunan, budaya, keagamaan, sosial, lainnya)
      * - Include relasi dan filter published
      * 
      * @param string $kategori - nama kategori

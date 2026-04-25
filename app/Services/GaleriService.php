@@ -53,7 +53,7 @@ class GaleriService
     }
 
     /**
-     * Get galeri berdasarkan kategori (Infrastruktur, Kegiatan, dll)
+     * Get galeri berdasarkan kategori (Pembangunan, Kegiatan, dll)
      */
     public function getGaleriByKategori($kategori, $perPage = 24)
     {

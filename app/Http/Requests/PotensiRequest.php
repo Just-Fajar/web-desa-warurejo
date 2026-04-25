@@ -25,7 +25,7 @@ class PotensiRequest extends FormRequest
 
         return [
             'nama' => 'required|string|max:255',
-            'kategori' => 'required|in:pertanian,peternakan,perikanan,umkm,wisata,kerajinan,lainnya',
+            'kategori' => 'required|in:pertanian,peternakan,perikanan,umkm,wisata,lainnya',
             'deskripsi' => 'required|string',
             'gambar' => $potensiId
                 ? 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'

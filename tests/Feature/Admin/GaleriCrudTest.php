@@ -104,7 +104,7 @@ class GaleriCrudTest extends TestCase
         $data = [
             'judul' => 'Galeri Multiple',
             'deskripsi' => 'Test multiple images',
-            'kategori' => 'infrastruktur',
+            'kategori' => 'pembangunan',
             'images' => [
                 UploadedFile::fake()->image('img1.jpg'),
                 UploadedFile::fake()->image('img2.jpg'),

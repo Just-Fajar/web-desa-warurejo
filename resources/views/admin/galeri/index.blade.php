@@ -56,9 +56,10 @@
                         class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-600 text-sm font-semibold transition-all">
                         <option value="">Semua Kategori</option>
                         <option value="kegiatan">Kegiatan</option>
-                        <option value="infrastruktur">Infrastruktur</option>
+                        <option value="pembangunan">Pembangunan</option>
                         <option value="budaya">Budaya</option>
-                        <option value="umkm">UMKM</option>
+                        <option value="keagamaan">Keagamaan</option>
+                        <option value="sosial">Sosial</option>
                         <option value="lainnya">Lainnya</option>
                     </select>
                 </div>
@@ -127,17 +128,19 @@
                             @php
                                 $kategoriColors = [
                                     'kegiatan' => 'bg-emerald-50 text-emerald-600 border-emerald-200',
-                                    'infrastruktur' => 'bg-amber-50 text-amber-600 border-amber-200',
+                                    'pembangunan' => 'bg-amber-50 text-amber-600 border-amber-200',
                                     'budaya' => 'bg-purple-50 text-purple-600 border-purple-200',
-                                    'umkm' => 'bg-blue-50 text-blue-600 border-blue-200',
+                                    'keagamaan' => 'bg-sky-50 text-sky-600 border-sky-200',
+                                    'sosial' => 'bg-pink-50 text-pink-600 border-pink-200',
                                     'lainnya' => 'bg-rose-50 text-rose-600 border-rose-200'
                                 ];
 
                                 $kategoriLabel = match ($item->kategori) {
                                     'kegiatan' => 'Kegiatan',
-                                    'infrastruktur' => 'Infrastruktur',
+                                    'pembangunan' => 'Pembangunan',
                                     'budaya' => 'Budaya',
-                                    'umkm' => 'UMKM',
+                                    'keagamaan' => 'Keagamaan',
+                                    'sosial' => 'Sosial',
                                     'lainnya' => 'Lainnya',
                                     default => ucfirst($item->kategori)
                                 };

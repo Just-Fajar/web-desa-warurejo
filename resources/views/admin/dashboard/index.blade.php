@@ -1267,9 +1267,10 @@
                     data: {!! json_encode($galeriTotals) !!},
                     backgroundColor: [
                         '#10b981', // Kegiatan (Emerald)
-                        '#f59e0b', // Infrastruktur (Amber)
+                        '#f59e0b', // Pembangunan (Amber)
                         '#a855f7', // Budaya (Purple)
-                        '#3b82f6', // UMKM (Blue)
+                        '#0ea5e9', // Keagamaan (Sky)
+                        '#ec4899', // Sosial (Pink)
                         '#f43f5e'  // Lainnya (Rose)
                     ],
                     borderWidth: 0,

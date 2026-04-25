@@ -144,8 +144,6 @@
                                         <option value="umkm" {{ old('kategori') == 'umkm' ? 'selected' : '' }}>UMKM</option>
                                         <option value="wisata" {{ old('kategori') == 'wisata' ? 'selected' : '' }}>Wisata
                                         </option>
-                                        <option value="kerajinan" {{ old('kategori') == 'kerajinan' ? 'selected' : '' }}>
-                                            Kerajinan</option>
                                         <option value="lainnya" {{ old('kategori') == 'lainnya' ? 'selected' : '' }}>Lainnya
                                         </option>
                                     </select>

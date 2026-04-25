@@ -409,10 +409,10 @@ class DummyDataSeeder extends Seeder
                 'deskripsi' => '<p><strong>Batik Tulis Warurejo</strong> merupakan kebanggaan desa dengan motif khas yang terinspirasi dari kearifan lokal. Pengrajin batik telah melestarikan tradisi ini selama puluhan tahun.</p><p>Workshop batik tulis terbuka untuk wisatawan dan pelajar yang ingin belajar membatik. Produk dijual mulai dari kain, pakaian jadi, hingga aksesoris.</p><p>Batik Warurejo telah mendapat pengakuan dari Dinas Perindustrian dan dipromosikan di berbagai pameran batik nasional.</p>'
             ],
 
-            // Kerajinan (2)
+            // Lainnya (2) - formerly Kerajinan
             [
                 'nama' => 'Kerajinan Bambu',
-                'kategori' => 'kerajinan',
+                'kategori' => 'lainnya',
                 'lokasi' => 'Dusun Selatan, RT 02',
                 'kontak' => '081234567895',
                 'whatsapp' => '081234567895',
@@ -420,7 +420,7 @@ class DummyDataSeeder extends Seeder
             ],
             [
                 'nama' => 'Kerajinan Gerabah dan Tembikar',
-                'kategori' => 'kerajinan',
+                'kategori' => 'lainnya',
                 'lokasi' => 'Dusun Barat, RT 12',
                 'kontak' => '081234567825',
                 'whatsapp' => '081234567825',
@@ -528,17 +528,17 @@ class DummyDataSeeder extends Seeder
             ['judul' => 'Lomba Desa Tingkat Kecamatan', 'deskripsi' => 'Tim desa meraih juara harapan pada lomba desa.', 'kategori' => 'kegiatan'],
             ['judul' => 'Pelatihan Kader Posyandu', 'deskripsi' => 'Kader posyandu mengikuti pelatihan untuk meningkatkan kualitas pelayanan.', 'kategori' => 'kegiatan'],
 
-            // Infrastruktur (10)
-            ['judul' => 'Pembangunan Jalan Desa Tahap II', 'deskripsi' => 'Pengaspalan jalan desa sepanjang 2 kilometer untuk akses transportasi lebih baik.', 'kategori' => 'infrastruktur'],
-            ['judul' => 'Renovasi Balai Desa', 'deskripsi' => 'Renovasi total balai desa untuk meningkatkan kualitas pelayanan.', 'kategori' => 'infrastruktur'],
-            ['judul' => 'Pembangunan Gedung PAUD Baru', 'deskripsi' => 'Konstruksi gedung PAUD baru dengan fasilitas lengkap untuk pendidikan anak usia dini.', 'kategori' => 'infrastruktur'],
-            ['judul' => 'Pemasangan Lampu Jalan Tenaga Surya', 'deskripsi' => '50 unit lampu jalan tenaga surya di berbagai titik strategis.', 'kategori' => 'infrastruktur'],
-            ['judul' => 'Pembangunan Saluran Irigasi', 'deskripsi' => 'Saluran irigasi baru untuk mengairi lahan pertanian seluas 100 hektar.', 'kategori' => 'infrastruktur'],
-            ['judul' => 'Pembangunan Taman Desa', 'deskripsi' => 'Taman desa dengan fasilitas bermain anak dan gazebo untuk warga bersantai.', 'kategori' => 'infrastruktur'],
-            ['judul' => 'Normalisasi Sungai Desa', 'deskripsi' => 'Normalisasi dan pembersihan sungai untuk mencegah banjir di musim hujan.', 'kategori' => 'infrastruktur'],
-            ['judul' => 'Pembangunan Lapangan Futsal', 'deskripsi' => 'Lapangan futsal dengan rumput sintetis untuk hobi olahraga pemuda desa.', 'kategori' => 'infrastruktur'],
-            ['judul' => 'Pengecatan Gapura Desa', 'deskripsi' => 'Perawatan gapura desa dengan pengecatan ulang dan penambahan ornamen.', 'kategori' => 'infrastruktur'],
-            ['judul' => 'Pembangunan Pos Kamling', 'deskripsi' => 'Pembangunan pos kamling di setiap RT untuk keamanan lingkungan.', 'kategori' => 'infrastruktur'],
+            // Pembangunan (10)
+            ['judul' => 'Pembangunan Jalan Desa Tahap II', 'deskripsi' => 'Pengaspalan jalan desa sepanjang 2 kilometer untuk akses transportasi lebih baik.', 'kategori' => 'pembangunan'],
+            ['judul' => 'Renovasi Balai Desa', 'deskripsi' => 'Renovasi total balai desa untuk meningkatkan kualitas pelayanan.', 'kategori' => 'pembangunan'],
+            ['judul' => 'Pembangunan Gedung PAUD Baru', 'deskripsi' => 'Konstruksi gedung PAUD baru dengan fasilitas lengkap untuk pendidikan anak usia dini.', 'kategori' => 'pembangunan'],
+            ['judul' => 'Pemasangan Lampu Jalan Tenaga Surya', 'deskripsi' => '50 unit lampu jalan tenaga surya di berbagai titik strategis.', 'kategori' => 'pembangunan'],
+            ['judul' => 'Pembangunan Saluran Irigasi', 'deskripsi' => 'Saluran irigasi baru untuk mengairi lahan pertanian seluas 100 hektar.', 'kategori' => 'pembangunan'],
+            ['judul' => 'Pembangunan Taman Desa', 'deskripsi' => 'Taman desa dengan fasilitas bermain anak dan gazebo untuk warga bersantai.', 'kategori' => 'pembangunan'],
+            ['judul' => 'Normalisasi Sungai Desa', 'deskripsi' => 'Normalisasi dan pembersihan sungai untuk mencegah banjir di musim hujan.', 'kategori' => 'pembangunan'],
+            ['judul' => 'Pembangunan Lapangan Futsal', 'deskripsi' => 'Lapangan futsal dengan rumput sintetis untuk hobi olahraga pemuda desa.', 'kategori' => 'pembangunan'],
+            ['judul' => 'Pengecatan Gapura Desa', 'deskripsi' => 'Perawatan gapura desa dengan pengecatan ulang dan penambahan ornamen.', 'kategori' => 'pembangunan'],
+            ['judul' => 'Pembangunan Pos Kamling', 'deskripsi' => 'Pembangunan pos kamling di setiap RT untuk keamanan lingkungan.', 'kategori' => 'pembangunan'],
 
             // Budaya (5)
             ['judul' => 'Festival Budaya Desa', 'deskripsi' => 'Festival budaya menampilkan seni tari tradisional, wayang kulit, dan kuliner khas.', 'kategori' => 'budaya'],
