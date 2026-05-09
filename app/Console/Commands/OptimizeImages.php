@@ -7,7 +7,8 @@ use App\Models\Galeri;
 use App\Models\PotensiDesa;
 use App\Services\ImageUploadService;
 use Illuminate\Console\Command;
-use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 /**
  * @phpstan-ignore-next-line
@@ -167,10 +168,8 @@ class OptimizeImages extends Command
             $originalSize = filesize($fullPath);
 
             // Load image
-            /** @var \Intervention\Image\Interfaces\ImageInterface $image */
-            /** @phpstan-ignore-next-line */
-            // @phpcs:ignore
-            $image = Image::read($fullPath);
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($fullPath);
 
             // Get original dimensions
             $originalWidth = $image->width();
@@ -245,10 +244,8 @@ class OptimizeImages extends Command
             }
 
             // Load image and convert to WebP
-            /** @var \Intervention\Image\Interfaces\ImageInterface $image */
-            /** @phpstan-ignore-next-line */
-            // @phpcs:ignore
-            $image = Image::read($fullPath);
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($fullPath);
             $image->toWebp($quality)->save($fullWebpPath);
 
             // Get file sizes

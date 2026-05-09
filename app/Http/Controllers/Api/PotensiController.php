@@ -14,7 +14,7 @@ class PotensiController extends Controller
      */
     public function index(Request $request)
     {
-        $query = PotensiDesa::where('is_active', true)
+        $query = PotensiDesa::published()
             ->orderBy('created_at', 'desc');
 
         // Search
@@ -59,7 +59,7 @@ class PotensiController extends Controller
     public function show(string $slug)
     {
         $potensi = PotensiDesa::where('slug', $slug)
-            ->where('is_active', true)
+            ->published()
             ->firstOrFail();
 
         // Increment views
@@ -87,7 +87,7 @@ class PotensiController extends Controller
     {
         $limit = $request->get('limit', 6);
 
-        $potensi = PotensiDesa::where('is_active', true)
+        $potensi = PotensiDesa::published()
             ->orderBy('views', 'desc')
             ->limit($limit)
             ->get();

@@ -125,38 +125,14 @@
                         @enderror
                     </div>
 
-                    <!-- Row: Status & Tanggal Publikasi -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Status -->
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">
-                                Status <span class="text-red-500">*</span>
-                            </label>
-                            <select name="status" id="status"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('status') border-red-300 @enderror"
-                                required>
-                                {{-- <option value="draft" {{ old('status')==='draft' ? 'selected' : '' }}>Draft</option>
-                                --}}
-                                <option value="published" {{ old('status') === 'published' ? 'selected' : '' }} selected>
-                                    Published</option>
-                            </select>
-                            @error('status')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Tanggal Publikasi -->
-                        <div>
-                            <label for="published_at" class="block text-sm font-medium text-gray-700 mb-2">
-                                Tanggal Publikasi <span class="text-xs text-gray-500">(Opsional)</span>
-                            </label>
-                            <input type="text" name="published_at" id="published_at" value="{{ old('published_at') }}"
-                                placeholder="Pilih tanggal dan waktu (opsional)"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('published_at') border-red-300 @enderror">
-                            @error('published_at')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                            <p class="mt-1 text-xs text-gray-500">Kosongkan untuk menggunakan waktu saat ini</p>
+                    <!-- Pengaturan Publikasi -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
+                        <div class="space-y-6">
+                            @include('admin.partials._status_fields', [
+                                'currentStatus' => old('status', 'published'),
+                                'publishedAt' => old('published_at', ''),
+                            ])
                         </div>
                     </div>
 
@@ -169,13 +145,10 @@
                         Batal
                     </a>
                     <div class="flex gap-2">
-                        {{-- <button type="submit" name="action" value="draft"
-                            class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition">
-                            Simpan sebagai Draft
-                        </button> --}}
-                        <button type="submit" name="action" value="publish"
-                            class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition">
-                            Publish Berita
+                        <button type="submit" id="submitBtn"
+                            class="px-5 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition text-sm font-medium flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span id="submitBtnText" data-module="Berita">Publish Berita</span>
                         </button>
                     </div>
                 </div>
@@ -202,24 +175,9 @@
     @endpush
 
     @push('scripts')
-        <!-- Flatpickr for Modern DatePicker -->
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
-
         <!-- CKEditor 5 -->
         <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
         <script>
-            // Initialize Flatpickr
-            flatpickr("#published_at", {
-                enableTime: true,
-                altInput: true,
-                altFormat: "j F Y, H:i",
-                dateFormat: "Y-m-d H:i",
-                time_24hr: true,
-                locale: "id",
-                placeholder: "Pilih tanggal dipublikasikan"
-            });
-
             // Initialize CKEditor
             let editorInstance;
             ClassicEditor
@@ -300,20 +258,6 @@
                 document.getElementById('preview').src = '';
             }
 
-            // Form submission with action buttons
-            document.querySelectorAll('button[name="action"]').forEach(button => {
-                button.addEventListener('click', function (e) {
-                    const action = this.value;
-                    const statusSelect = document.getElementById('status');
-
-                    // if (action === 'draft') {
-                    //     statusSelect.value = 'draft';
-                    // } else
-                    if (action === 'publish') {
-                        statusSelect.value = 'published';
-                    }
-                });
-            });
 
             // Client-side validation
             document.getElementById('beritaForm').addEventListener('submit', function (e) {

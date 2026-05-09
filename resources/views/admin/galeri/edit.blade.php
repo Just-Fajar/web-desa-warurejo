@@ -25,115 +25,51 @@
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                <!-- Left Content (Gallery details) -->
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-lg font-semibold text-primary-600 mb-4">Konten Galeri</h2>
-
-                        <!-- Judul -->
-                        <div class="mb-4">
-                            <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
-                                Judul Galeri <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="judul" name="judul" value="{{ old('judul', $galeri->judul) }}"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
-                                required>
-                            @error('judul')
-                                <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Deskripsi -->
-                        <div class="mb-4">
-                            <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
-                                Deskripsi
-                            </label>
-                            <textarea id="deskripsi" name="deskripsi" rows="6"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi', $galeri->deskripsi) }}</textarea>
-                            @error('deskripsi')
-                                <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                    </div>
-
-                    <!-- Informasi Section -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-lg font-semibold text-primary-600 mb-4">Informasi</h2>
-                        <div class="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
-                            <div
-                                class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
-                                <span class="text-gray-500 font-medium">Dibuat:</span>
-                                <span
-                                    class="text-gray-800">{{ \Carbon\Carbon::parse($galeri->created_at)->format('d M Y H:i') }}</span>
-                            </div>
-                            <div
-                                class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
-                                <span class="text-gray-500 font-medium">Diupdate:</span>
-                                <span
-                                    class="text-gray-800">{{ \Carbon\Carbon::parse($galeri->updated_at)->format('d M Y H:i') }}</span>
-                            </div>
-                            <div
-                                class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
-                                <span class="text-gray-500 font-medium">Views:</span>
-                                <span class="text-gray-800">{{ number_format($galeri->views ?? 0) }}</span>
-                            </div>
-                            <div
-                                class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
-                                <span class="text-gray-500 font-medium">Penulis:</span>
-                                <span class="text-gray-800">{{ $galeri->admin->name ?? 'Admin Desa' }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Sidebar -->
-                <div class="space-y-6">
-
-                    <!-- Media Upload -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-lg font-semibold text-primary-600 mb-4">Media</h2>
-
-                        <div
-                            class="border-2 border-dashed rounded-lg p-4 text-center relative hover:border-primary-400 transition cursor-pointer">
-                            <input type="file" id="gambar" name="gambar" accept="image/*" onchange="previewImage(event)"
-                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-
-                            <!-- Placeholder -->
-                            <div id="uploadPlaceholder" class="{{ $galeri->gambar ? 'hidden' : '' }}">
-                                <svg class="w-12 h-12 mx-auto mb-3 text-primary-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 48 48">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8M8 32l9.172-9.172a4 4 0 015.656 0L28 28l4 4m4-24h8m-4-4v8m-12 4h.02" />
-                                </svg>
-                                <h3 class="font-medium text-gray-700">Upload / Ganti Gambar</h3>
-                                <p class="text-xs text-gray-500">Format JPG, PNG, WEBP — Max 2MB</p>
-                            </div>
-
-                            <!-- Preview -->
-                            <div id="previewContainer" class="{{ $galeri->gambar ? '' : 'hidden' }}">
-                                <img id="imagePreview"
-                                    src="{{ $galeri->gambar ? asset('storage/' . $galeri->gambar) : '' }}"
-                                    class="rounded-lg shadow w-full object-cover max-h-60">
-                                <p class="text-xs text-gray-500 mt-2 italic">Klik area untuk mengganti gambar</p>
-                            </div>
-                        </div>
-
-                        @error('gambar')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 space-y-6">
+                    <!-- Judul -->
+                    <div>
+                        <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
+                            Judul Galeri <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="judul" name="judul" value="{{ old('judul', $galeri->judul) }}"
+                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
+                            required>
+                        @error('judul')
+                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <!-- Pengaturan -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan</h2>
+                    <!-- Slug (Auto-generated) -->
+                    <div>
+                        <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
+                            Slug <span class="text-xs text-gray-500 font-normal">(Otomatis dibuatkan dari judul)</span>
+                        </label>
+                        <input type="text" name="slug" id="slug" value="{{ old('slug', Str::slug($galeri->judul)) }}"
+                            class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
+                            readonly>
+                        @error('slug')
+                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                        @enderror
+                    </div>
 
+                    <!-- Deskripsi -->
+                    <div>
+                        <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
+                            Deskripsi
+                        </label>
+                        <textarea id="deskripsi" name="deskripsi" rows="6"
+                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi', $galeri->deskripsi) }}</textarea>
+                        @error('deskripsi')
+                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Pengaturan Konten -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Kategori -->
-                        <div class="mb-4">
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Kategori <span
-                                    class="text-red-500">*</span></label>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
                             <select name="kategori"
                                 class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror"
                                 required>
@@ -148,7 +84,7 @@
                         </div>
 
                         <!-- Tanggal -->
-                        <div class="mb-4">
+                        <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Tanggal Kejadian</label>
                             <input type="text" id="tanggal" name="tanggal"
                                 value="{{ old('tanggal', $galeri->tanggal ? $galeri->tanggal->format('Y-m-d') : '') }}"
@@ -156,27 +92,91 @@
                                 class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('tanggal') border-red-300 ring-red-100 @enderror"
                                 required>
                         </div>
+                    </div>
 
-                        <!-- Status (di-comment, belum dibutuhkan) -->
-                        {{-- <div class="flex items-center gap-3">
-                            <input type="checkbox" id="is_active" name="is_active" value="1" class="w-5 h-5" {{
-                                old('is_active', $galeri->is_active) == '1' ? 'checked' : '' }}>
-                            <label for="is_active" class="text-sm text-gray-700">Tampilkan di Website</label>
-                        </div> --}}
-                        <input type="hidden" name="is_active" value="1">
+                    <!-- Media Upload -->
+                    <div class="pt-6 border-t border-gray-200 mt-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Media</h3>
+                        <div>
+                            <label for="gambar" class="block text-sm font-bold text-gray-700 mb-2">Gambar Galeri</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center min-h-[12rem]">
+                                <input type="file" id="gambar" name="gambar" accept="image/*" onchange="previewImage(event)"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
 
-                        <hr class="my-4">
+                                <!-- Placeholder -->
+                                <div id="uploadPlaceholder" class="{{ $galeri->gambar ? 'hidden' : '' }}">
+                                    <svg class="w-12 h-12 mx-auto mb-3 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M28 8H12a4 4 0 00-4 4v20m32-12v8M8 32l9.172-9.172a4 4 0 015.656 0L28 28l4 4m4-24h8m-4-4v8m-12 4h.02" />
+                                    </svg>
+                                    <h3 class="font-medium text-primary-600 hover:text-primary-700 text-sm">Upload / Ganti Gambar</h3>
+                                    <p class="text-xs text-gray-500 mt-2">Format JPG, PNG, WEBP — Max 2MB</p>
+                                </div>
 
-                        <button type="submit"
-                            class="w-full px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition">
-                            Update Perubahan
-                        </button>
+                                <!-- Preview -->
+                                <div id="previewContainer" class="{{ $galeri->gambar ? '' : 'hidden' }} absolute inset-0 w-full h-full p-2">
+                                    <img id="imagePreview"
+                                        src="{{ $galeri->gambar ? asset('storage/' . $galeri->gambar) : '' }}"
+                                        class="rounded-lg shadow w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-xl">
+                                        <p class="text-white text-sm font-medium">Ubah Gambar</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @error('gambar')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Informasi Tambahan -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Tambahan</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Dibuat</p>
+                                <p class="text-gray-800 font-semibold">{{ \Carbon\Carbon::parse($galeri->created_at)->format('d M Y H:i') }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Diupdate</p>
+                                <p class="text-gray-800 font-semibold">{{ \Carbon\Carbon::parse($galeri->updated_at)->format('d M Y H:i') }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Views</p>
+                                <p class="text-gray-800 font-semibold">{{ number_format($galeri->views ?? 0) }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Penulis</p>
+                                <p class="text-gray-800 font-semibold">{{ $galeri->admin->name ?? 'Admin Desa' }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pengaturan Publikasi -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
+                        <div class="space-y-6">
+                            @include('admin.partials._status_fields', [
+                                'currentStatus' => old('status', $galeri->status),
+                                'publishedAt' => old('published_at', $galeri->published_at ? $galeri->published_at->format('Y-m-d H:i') : ''),
+                            ])
+                        </div>
                     </div>
 
                 </div>
 
+                <!-- Form Footer -->
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
+                    <a href="{{ route('admin.galeri.index') }}"
+                        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition font-medium text-sm">
+                        Batal
+                    </a>
+                    <button type="submit" id="submitBtn"
+                        class="px-5 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition text-sm font-semibold flex items-center shadow-sm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span id="submitBtnText" data-module="Galeri">Update Galeri</span>
+                    </button>
+                </div>
             </div>
-
         </form>
     </div>
 
@@ -208,6 +208,18 @@
                     reader.readAsDataURL(file);
                 }
             }
+
+            // Auto-generate slug from judul
+            document.getElementById('judul').addEventListener('input', function () {
+                const judul = this.value;
+                const slug = judul
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim();
+                document.getElementById('slug').value = slug;
+            });
         </script>
     @endpush
 

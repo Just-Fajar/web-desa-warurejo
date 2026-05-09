@@ -9,6 +9,11 @@ class Publikasi extends Model
 {
     use HasFactory;
 
+    // Status constants
+    const STATUS_DRAFT = 'draft';
+    const STATUS_SCHEDULED = 'scheduled';
+    const STATUS_PUBLISHED = 'published';
+
     protected $fillable = [
         'judul',
         'kategori',
@@ -18,12 +23,14 @@ class Publikasi extends Model
         'thumbnail',
         'tanggal_publikasi',
         'status',
+        'published_at',
         'jumlah_download',
         'views',
     ];
 
     protected $casts = [
         'tanggal_publikasi' => 'date',
+        'published_at' => 'datetime',
         'tahun' => 'integer',
         'jumlah_download' => 'integer',
     ];
@@ -33,7 +40,39 @@ class Publikasi extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('status', 'published');
+        return $query->where('status', self::STATUS_PUBLISHED)
+            ->where(function ($q) {
+                $q->whereNull('tanggal_publikasi')
+                    ->orWhere('tanggal_publikasi', '<=', now());
+            });
+    }
+
+    /**
+     * Scope untuk publikasi draft
+     */
+    public function scopeDraft($query)
+    {
+        return $query->where('status', self::STATUS_DRAFT);
+    }
+
+    /**
+     * Scope untuk publikasi yang dijadwalkan
+     */
+    public function scopeScheduled($query)
+    {
+        return $query->where('status', self::STATUS_SCHEDULED)
+            ->whereNotNull('published_at')
+            ->where('published_at', '>', now());
+    }
+
+    /**
+     * Scope: Get konten yang sudah waktunya dipublish
+     */
+    public function scopeDueForPublishing($query)
+    {
+        return $query->where('status', self::STATUS_SCHEDULED)
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
     }
 
     /**
@@ -77,6 +116,31 @@ class Publikasi extends Model
             return asset('storage/' . $this->thumbnail);
         }
         return asset('images/default-document.jpg');
+    }
+
+    /**
+     * Get daftar status yang tersedia
+     */
+    public static function getStatusList()
+    {
+        return [
+            self::STATUS_DRAFT => 'Draft',
+            self::STATUS_SCHEDULED => 'Dijadwalkan',
+            self::STATUS_PUBLISHED => 'Published',
+        ];
+    }
+
+    /**
+     * Get warna badge untuk status
+     */
+    public function getStatusBadgeAttribute()
+    {
+        return match ($this->status) {
+            self::STATUS_DRAFT => ['color' => 'yellow', 'label' => 'Draft'],
+            self::STATUS_SCHEDULED => ['color' => 'blue', 'label' => 'Dijadwalkan'],
+            self::STATUS_PUBLISHED => ['color' => 'green', 'label' => 'Published'],
+            default => ['color' => 'gray', 'label' => 'Unknown'],
+        };
     }
 
     /**

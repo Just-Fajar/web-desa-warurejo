@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PotensiDesa;
+use App\Models\PotensiDesaFoto;
 use App\Http\Requests\PotensiRequest;
 use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
@@ -47,8 +48,9 @@ class PotensiController extends Controller
     /**
      * Simpan potensi baru ke database
      * - Auto-generate slug dari nama
-     * - Handle checkbox is_active (default 0 jika unchecked)
-     * - Upload gambar jika ada
+     * - Handle status & published_at
+     * - Upload gambar utama
+     * - Upload foto galeri (multiple)
      * - Clear cache homepage
      * Route: POST /admin/potensi
      */
@@ -57,11 +59,11 @@ class PotensiController extends Controller
         try {
             $data = $request->validated();
 
-            // Auto-generate slug
-            $data['slug'] = Str::slug($data['nama']);
-
-            // Handle is_active checkbox (default true if not exists)
-            $data['is_active'] = $request->has('is_active') ? 1 : 0;
+            if ($data['status'] === 'published' && empty($data['published_at'])) {
+                $data['published_at'] = now();
+            } elseif ($data['status'] === 'draft') {
+                $data['published_at'] = null;
+            }
 
             // Handle image upload
             if ($request->hasFile('gambar')) {
@@ -71,10 +73,29 @@ class PotensiController extends Controller
                 );
             }
 
-            PotensiDesa::create($data);
+            // Remove foto_galeri from data before creating
+            $fotoGaleri = $request->file('foto_galeri', []);
+            unset($data['foto_galeri']);
+
+            $potensi = PotensiDesa::create($data);
+
+            // Handle foto galeri upload
+            if (!empty($fotoGaleri)) {
+                foreach ($fotoGaleri as $index => $file) {
+                    $filename = time() . '_galeri_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('potensi/galeri', $filename, 'public');
+                    
+                    PotensiDesaFoto::create([
+                        'potensi_desa_id' => $potensi->id,
+                        'foto' => $path,
+                        'urutan' => $index + 1,
+                    ]);
+                }
+            }
 
             // Clear cache
             Cache::forget('home.potensi');
+            Cache::forget('home.total_potensi');
             Cache::forget('profil_desa');
 
             return redirect()
@@ -94,6 +115,7 @@ class PotensiController extends Controller
      */
     public function show(PotensiDesa $potensi)
     {
+        $potensi->load('fotoGaleri');
         return view('admin.potensi.show', compact('potensi'));
     }
 
@@ -103,14 +125,16 @@ class PotensiController extends Controller
      */
     public function edit(PotensiDesa $potensi)
     {
+        $potensi->load('fotoGaleri');
         return view('admin.potensi.edit', compact('potensi'));
     }
 
     /**
      * Update potensi yang sudah ada
-     * - Handle checkbox is_active
+     * - Handle status & published_at
      * - Update slug jika nama berubah
      * - Jika ada gambar baru, delete lama lalu upload baru
+     * - Handle foto galeri baru
      * - Clear cache setelah update
      * Route: PUT /admin/potensi/{id}
      */
@@ -119,15 +143,13 @@ class PotensiController extends Controller
         try {
             $data = $request->validated();
 
-            // Handle is_active checkbox
-            $data['is_active'] = $request->has('is_active') ? 1 : 0;
-
-            // Update slug if nama changed
-            if ($data['nama'] !== $potensi->nama) {
-                $data['slug'] = Str::slug($data['nama']);
+            // Handle status & published_at
+            if ($data['status'] === 'published' && !$potensi->published_at) {
+                $data['published_at'] = now();
+            } elseif ($data['status'] === 'draft') {
+                $data['published_at'] = null;
             }
 
-            // Handle image upload
             if ($request->hasFile('gambar')) {
                 // Delete old image
                 if ($potensi->gambar) {
@@ -141,10 +163,30 @@ class PotensiController extends Controller
                 );
             }
 
+            // Remove foto_galeri from data before updating
+            $fotoGaleri = $request->file('foto_galeri', []);
+            unset($data['foto_galeri']);
+
             $potensi->update($data);
+
+            // Handle foto galeri upload
+            if (!empty($fotoGaleri)) {
+                $maxUrutan = $potensi->fotoGaleri()->max('urutan') ?? 0;
+                foreach ($fotoGaleri as $index => $file) {
+                    $filename = time() . '_galeri_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+                    $path = $file->storeAs('potensi/galeri', $filename, 'public');
+
+                    PotensiDesaFoto::create([
+                        'potensi_desa_id' => $potensi->id,
+                        'foto' => $path,
+                        'urutan' => $maxUrutan + $index + 1,
+                    ]);
+                }
+            }
 
             // Clear cache
             Cache::forget('home.potensi');
+            Cache::forget('home.total_potensi');
             Cache::forget('profil_desa');
 
             return redirect()
@@ -159,22 +201,28 @@ class PotensiController extends Controller
     }
 
     /**
-     * Delete potensi beserta gambarnya dari storage
+     * Delete potensi beserta gambar dan foto galeri dari storage
      * Clear cache setelah delete
      * Route: DELETE /admin/potensi/{id}
      */
     public function destroy(PotensiDesa $potensi)
     {
         try {
-            // Delete image
+            // Delete main image
             if ($potensi->gambar) {
                 $this->imageUploadService->delete($potensi->gambar);
+            }
+
+            // Delete gallery photos from storage
+            foreach ($potensi->fotoGaleri as $foto) {
+                Storage::disk('public')->delete($foto->foto);
             }
 
             $potensi->delete();
 
             // Clear cache
             Cache::forget('home.potensi');
+            Cache::forget('home.total_potensi');
             Cache::forget('profil_desa');
 
             return redirect()
@@ -188,8 +236,31 @@ class PotensiController extends Controller
     }
 
     /**
+     * AJAX: Hapus satu foto galeri
+     * Route: DELETE /admin/potensi/foto/{id}
+     */
+    public function deleteFoto($id)
+    {
+        try {
+            $foto = PotensiDesaFoto::findOrFail($id);
+            Storage::disk('public')->delete($foto->foto);
+            $foto->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Foto berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus foto: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Bulk delete multiple potensi sekaligus
-     * - Loop semua dan delete gambarnya dari storage
+     * - Loop semua dan delete gambar + foto galeri dari storage
      * - Return JSON response untuk AJAX
      * Route: POST /admin/potensi/bulk-delete
      */
@@ -205,20 +276,24 @@ class PotensiController extends Controller
                 ], 400);
             }
 
-            $potensiList = PotensiDesa::whereIn('id', $ids)->get();
+            $potensiList = PotensiDesa::with('fotoGaleri')->whereIn('id', $ids)->get();
 
-            // Delete images
+            // Delete images & gallery photos
             foreach ($potensiList as $potensi) {
                 if ($potensi->gambar) {
                     $this->imageUploadService->delete($potensi->gambar);
                 }
+                foreach ($potensi->fotoGaleri as $foto) {
+                    Storage::disk('public')->delete($foto->foto);
+                }
             }
 
-            // Delete records
+            // Delete records (cascade will handle foto)
             PotensiDesa::whereIn('id', $ids)->delete();
 
             // Clear cache
             Cache::forget('home.potensi');
+            Cache::forget('home.total_potensi');
             Cache::forget('profil_desa');
 
             return response()->json([

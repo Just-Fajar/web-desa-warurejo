@@ -42,7 +42,7 @@
                                 </div>
                                 <input type="text" name="search" placeholder="Cari publikasi desa..."
                                     value="{{ request('search') }}"
-                                    class="w-full pl-12 pr-4 py-4 md:text-lg border-2 border-gray-100 rounded-xl focus:ring-0 focus:border-primary-500 transition-colors bg-gray-50/50 focus:bg-white text-gray-800"
+                                    class="w-full pl-12 pr-4 py-4 md:text-lg border-2 border-gray-300 bg-white rounded-xl focus:ring-0 focus:border-primary-500 transition-colors text-gray-900 font-semibold placeholder-gray-500"
                                     autocomplete="off">
                             </div>
 
@@ -59,7 +59,7 @@
                                             </svg>
                                         </div>
                                         <select name="tahun"
-                                            class="w-full pl-10 pr-8 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 bg-gray-50/70 appearance-none">
+                                            class="w-full pl-10 pr-8 py-3 md:py-2.5 border-2 border-gray-300 bg-white rounded-lg text-sm font-semibold text-gray-900 focus:ring-primary-500 focus:border-primary-500 appearance-none">
                                             <option value="">Semua Tahun</option>
                                             @foreach($availableYears as $year)
                                                 <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
@@ -78,7 +78,7 @@
                                             </svg>
                                         </div>
                                         <select name="kategori"
-                                            class="w-full pl-10 pr-8 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 bg-gray-50/70 appearance-none">
+                                            class="w-full pl-10 pr-8 py-3 md:py-2.5 border-2 border-gray-300 bg-white rounded-lg text-sm font-semibold text-gray-900 focus:ring-primary-500 focus:border-primary-500 appearance-none">
                                             @foreach($categories as $cat)
                                                 <option value="{{ $cat }}" {{ request('kategori') == $cat || (!request('kategori') && $cat == 'APBDes') ? 'selected' : '' }}>{{ $cat }}</option>
                                             @endforeach
@@ -95,7 +95,7 @@
                                             </svg>
                                         </div>
                                         <select name="urutkan"
-                                            class="w-full pl-10 pr-8 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 bg-gray-50/70 appearance-none">
+                                            class="w-full pl-10 pr-8 py-3 md:py-2.5 border-2 border-gray-300 bg-white rounded-lg text-sm font-semibold text-gray-900 focus:ring-primary-500 focus:border-primary-500 appearance-none">
                                             <option value="terbaru" {{ request('urutkan', 'terbaru') === 'terbaru' ? 'selected' : '' }}>Terbaru</option>
                                             <option value="terlama" {{ request('urutkan') === 'terlama' ? 'selected' : '' }}>
                                                 Terlama</option>

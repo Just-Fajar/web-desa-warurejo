@@ -159,8 +159,11 @@ class PotensiSeeder extends Seeder
                 'deskripsi' => $data['deskripsi'],
                 'gambar' => $data['gambar'],
                 'lokasi' => $data['lokasi'],
-                'kontak' => $data['kontak'],
-                'is_active' => true,
+                'whatsapp' => $data['kontak'] ?? '81234567890',
+                'nama_pengelola' => 'Pengelola ' . $data['nama'],
+                'info_utama' => $data['lokasi'],
+                'status' => 'published',
+                'published_at' => now(),
                 'urutan' => $index + 1,
             ]);
 

@@ -47,15 +47,15 @@
         @endif
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Total Potensi</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ $potensi->count() }}</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\PotensiDesa::count() }}</h3>
                     </div>
-                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                         </svg>
@@ -63,14 +63,14 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-gray-600">Aktif</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ $potensi->where('is_active', true)->count() }}</h3>
+                        <p class="text-sm text-gray-600">Published</p>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\PotensiDesa::where('status', 'published')->count() }}</h3>
                     </div>
-                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -78,22 +78,35 @@
                 </div>
             </div>
 
-            {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
-            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-gray-500">
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm text-gray-600">Tidak Aktif</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ $potensi->where('is_active', false)->count() }}</h3>
+                        <p class="text-sm text-gray-600">Draft</p>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\PotensiDesa::where('status', 'draft')->count() }}</h3>
                     </div>
-                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                     </div>
                 </div>
             </div>
-            --}}
+
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-blue-400">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Dijadwalkan</p>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\PotensiDesa::where('status', 'scheduled')->count() }}</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Bulk Actions -->
@@ -119,8 +132,8 @@
                     <div class="flex-1 max-w-md">
                         <div class="relative">
                             <input type="text" id="searchInput" placeholder="Cari potensi desa..."
-                                class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm">
-                            <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3" fill="none" stroke="currentColor"
+                                class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
+                            <svg class="w-5 h-5 text-gray-600 absolute left-4 top-3" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -131,7 +144,7 @@
                     <!-- Filter -->
                     <div class="flex gap-2">
                         <select id="kategoriFilter"
-                            class="px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-600 text-sm font-semibold transition-all duration-200">
+                            class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
                             <option value="">Semua Kategori</option>
                             <option value="pertanian">Pertanian</option>
                             <option value="peternakan">Peternakan</option>
@@ -139,6 +152,13 @@
                             <option value="umkm">UMKM</option>
                             <option value="wisata">Wisata</option>
                             <option value="lainnya">Lainnya</option>
+                        </select>
+                        <select id="statusFilter"
+                            class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
+                            <option value="">Semua Status</option>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                            <option value="scheduled">Dijadwalkan</option>
                         </select>
                     </div>
                 </div>
@@ -164,6 +184,9 @@
                             <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
                                 Tanggal Upload
                             </th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
                             <th class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
                                 Aksi
                             </th>
@@ -173,13 +196,13 @@
                         @forelse($potensi as $item)
                             <tr class="hover:bg-slate-50/50 potensi-row transition-colors duration-150"
                                 data-kategori="{{ $item->kategori }}"
-                                data-status="{{ $item->is_active ? 'active' : 'inactive' }}">
+                                data-status="{{ $item->status }}">
                                 <td class="px-6 py-4">
                                     <input type="checkbox"
                                         class="potensi-checkbox rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                                         value="{{ $item->id }}">
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 max-w-[250px] sm:max-w-[350px]">
                                     <div class="flex items-center">
                                         <div
                                             class="shrink-0 h-16 w-16 mr-4 relative rounded-xl overflow-hidden shadow-sm border border-gray-100">
@@ -187,11 +210,11 @@
                                                 alt="{{ $item->nama }}"
                                                 onerror="this.src='{{ asset('images/default-potensi.jpg') }}'">
                                         </div>
-                                        <div>
-                                            <div class="text-sm font-bold text-gray-800">
+                                        <div class="min-w-0 flex-1">
+                                            <div class="text-sm font-bold text-gray-800 truncate" title="{{ $item->nama }}">
                                                 {{ Str::limit($item->nama, 60) }}
                                             </div>
-                                            <div class="text-xs text-gray-500 mt-0.5 line-clamp-1">
+                                            <div class="text-xs text-gray-500 mt-0.5 truncate" title="{{ strip_tags($item->deskripsi) }}">
                                                 {{ Str::limit(strip_tags($item->deskripsi), 80) }}
                                             </div>
                                         </div>
@@ -214,18 +237,18 @@
                                         {{ ucfirst($item->kategori) }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-500">
+                                <td class="px-6 py-4 text-sm text-gray-500 max-w-[150px]">
                                     <div
-                                        class="flex items-center bg-gray-50 px-2 py-1 w-max rounded-md border border-gray-100 shrink-0">
-                                        <svg class="w-3.5 h-3.5 mr-1 text-gray-400" fill="none" stroke="currentColor"
+                                        class="flex items-center bg-gray-50 px-2 py-1 w-full rounded-md border border-gray-100 shrink-0">
+                                        <svg class="w-3.5 h-3.5 mr-1 text-gray-400 shrink-0" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
-                                        <span
-                                            title="{{ $item->lokasi ?? '-' }}">{{ Str::limit($item->lokasi ?? '-', 25) }}</span>
+                                        <span class="truncate"
+                                            title="{{ $item->lokasi ?? '-' }}">{{ Str::limit($item->lokasi ?? '-', 35) }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
@@ -233,6 +256,9 @@
                                         {{ optional($item->created_at)->format('d M Y') ?? '-' }}</div>
                                     <div class="text-[11px] text-gray-400 mt-0.5">
                                         {{ optional($item->created_at)->format('H:i') ?? '-' }} WIB</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @include('admin.partials._status_badge', ['status' => $item->status, 'publishedAt' => $item->published_at])
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end gap-2">
@@ -262,7 +288,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                                <td colspan="7" class="px-6 py-12 text-center text-gray-500">
                                     <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -299,27 +325,35 @@
                 });
             }
 
-            // Kategori filter
+            // Kategori and Status filters
             const kategoriFilter = document.getElementById('kategoriFilter');
+            const statusFilter = document.getElementById('statusFilter');
+
+            const applyFilters = () => filterTable();
+
             if (kategoriFilter) {
-                kategoriFilter.addEventListener('change', function () {
-                    filterTable();
-                });
+                kategoriFilter.addEventListener('change', applyFilters);
+            }
+            if (statusFilter) {
+                statusFilter.addEventListener('change', applyFilters);
             }
 
             function filterTable() {
                 const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
                 const selectedKategori = kategoriFilter ? kategoriFilter.value : '';
+                const selectedStatus = statusFilter ? statusFilter.value : '';
                 const rows = document.querySelectorAll('.potensi-row');
 
                 rows.forEach(row => {
                     const text = row.textContent.toLowerCase();
                     const kategori = row.dataset.kategori;
+                    const rowStatus = row.dataset.status ? row.dataset.status.toLowerCase() : '';
 
                     const matchSearch = text.includes(searchTerm);
                     const matchKategori = !selectedKategori || kategori === selectedKategori;
+                    const matchStatus = !selectedStatus || rowStatus === selectedStatus;
 
-                    row.style.display = (matchSearch && matchKategori) ? '' : 'none';
+                    row.style.display = (matchSearch && matchKategori && matchStatus) ? '' : 'none';
                 });
             }
 

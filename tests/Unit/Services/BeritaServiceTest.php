@@ -142,16 +142,13 @@ class BeritaServiceTest extends TestCase
 
     /**
      * Test get published berita
-     * Note: This method exists in BeritaRepository, not BeritaService
      */
     public function test_get_published_berita(): void
     {
-        $this->markTestSkipped('Method getPublished() exists in BeritaRepository, not BeritaService');
-
         Berita::factory()->published()->count(5)->create();
         Berita::factory()->draft()->count(3)->create();
 
-        $published = $this->beritaService->getPublished(10);
+        $published = $this->beritaService->getPublishedBerita(10);
 
         $this->assertCount(5, $published);
 
@@ -162,12 +159,9 @@ class BeritaServiceTest extends TestCase
 
     /**
      * Test search berita
-     * Note: This method exists in BeritaRepository, not BeritaService
      */
     public function test_search_berita(): void
     {
-        $this->markTestSkipped('Method search() exists in BeritaRepository, not BeritaService');
-
         Berita::factory()->published()->create([
             'judul' => 'Pembangunan Jalan Desa',
         ]);
@@ -176,7 +170,7 @@ class BeritaServiceTest extends TestCase
             'judul' => 'Kegiatan Posyandu',
         ]);
 
-        $results = $this->beritaService->search('Pembangunan', 10);
+        $results = $this->beritaService->searchBerita('Pembangunan', 10);
 
         $this->assertCount(1, $results);
         $this->assertEquals('Pembangunan Jalan Desa', $results->first()->judul);
@@ -184,17 +178,14 @@ class BeritaServiceTest extends TestCase
 
     /**
      * Test find berita by slug
-     * Note: This method exists in BeritaRepository, not BeritaService
      */
     public function test_find_berita_by_slug(): void
     {
-        $this->markTestSkipped('Method findBySlug() exists in BeritaRepository, not BeritaService');
-
         $berita = Berita::factory()->published()->create([
             'slug' => 'test-berita-slug',
         ]);
 
-        $found = $this->beritaService->findBySlug('test-berita-slug');
+        $found = $this->beritaService->getBeritaBySlug('test-berita-slug');
 
         $this->assertNotNull($found);
         $this->assertEquals($berita->id, $found->id);
@@ -225,21 +216,14 @@ class BeritaServiceTest extends TestCase
     }
 
     /**
-     * Test get popular berita
-     * Note: This method exists in BeritaRepository, not BeritaService
+     * Test get latest berita
      */
-    public function test_get_popular_berita(): void
+    public function test_get_latest_berita(): void
     {
-        $this->markTestSkipped('Method getPopular() exists in BeritaRepository, not BeritaService');
+        Berita::factory()->published()->count(3)->create();
 
-        Berita::factory()->published()->create(['views' => 100]);
-        Berita::factory()->published()->create(['views' => 500]);
-        Berita::factory()->published()->create(['views' => 200]);
+        $latest = $this->beritaService->getLatestBerita(3);
 
-        $popular = $this->beritaService->getPopular(3);
-
-        $this->assertCount(3, $popular);
-        $this->assertEquals(500, $popular->first()->views);
-        $this->assertEquals(100, $popular->last()->views);
+        $this->assertCount(3, $latest);
     }
 }

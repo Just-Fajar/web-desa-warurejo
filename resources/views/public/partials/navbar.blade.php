@@ -82,9 +82,9 @@
                             <span class="dropdown-item-icon"></span>
                             Peta Desa
                         </a>
-                        <a href="https://wa.me/62085168687700" class="dropdown-item">
+                        <a href="{{ route('pengaduan.index') }}" class="dropdown-item">
                             <span class="dropdown-item-icon"></span>
-                            Tanya Jawab & Pengaduan
+                            Pengaduan & Tanya Jawab
                         </a>
                     </div>
                 </div>
@@ -194,10 +194,10 @@
                         <span class="text-lg"></span>
                         Peta Desa
                     </a>
-                    <a href="https://wa.me/62085168687700" class="mobile-menu-item pl-10"
+                    <a href="{{ route('pengaduan.index') }}" class="mobile-menu-item pl-10"
                         @click="mobileMenuOpen = false">
                         <span class="text-lg"></span>
-                        Tanya Jawab & Pengaduan
+                        Pengaduan & Tanya Jawab
                     </a>
 
                     <!-- Divider -->

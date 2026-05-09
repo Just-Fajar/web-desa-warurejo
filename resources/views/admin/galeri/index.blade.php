@@ -33,6 +33,69 @@
             </div>
         @endif
 
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Total Galeri</p>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Galeri::count() }}</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Published</p>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Galeri::where('status', 'published')->count() }}</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Draft</p>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Galeri::where('status', 'draft')->count() }}</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-blue-400">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Dijadwalkan</p>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Galeri::where('status', 'scheduled')->count() }}</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Filter Section -->
         <div class="bg-white shadow-sm border border-gray-100 rounded-3xl p-5 mb-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
@@ -41,8 +104,8 @@
                             class="text-primary-600"></span></label>
                     <div class="relative">
                         <input type="text" id="searchInput" placeholder="Ketik judul..."
-                            class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm">
-                        <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3" fill="none" stroke="currentColor"
+                            class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
+                        <svg class="w-5 h-5 text-gray-600 absolute left-4 top-3" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -53,7 +116,7 @@
                 <div>
                     <label class="text-gray-500 text-sm font-semibold mb-2 block">Filter Kategori:</label>
                     <select id="filterKategori"
-                        class="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-600 text-sm font-semibold transition-all">
+                        class="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all">
                         <option value="">Semua Kategori</option>
                         <option value="kegiatan">Kegiatan</option>
                         <option value="pembangunan">Pembangunan</option>
@@ -61,6 +124,17 @@
                         <option value="keagamaan">Keagamaan</option>
                         <option value="sosial">Sosial</option>
                         <option value="lainnya">Lainnya</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-gray-500 text-sm font-semibold mb-2 block">Filter Status:</label>
+                    <select id="filterStatus"
+                        class="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all">
+                        <option value="">Semua Status</option>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                        <option value="scheduled">Dijadwalkan</option>
                     </select>
                 </div>
             </div>
@@ -85,7 +159,7 @@
             @forelse($galeri as $item)
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden galeri-item hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col"
                     data-judul="{{ strtolower(strip_tags($item->judul)) }}" data-kategori="{{ $item->kategori }}"
-                    data-status="{{ $item->is_active }}">
+                    data-status="{{ $item->status }}">
 
                     <!-- Thumbnail -->
                     <div class="relative h-48 overflow-hidden bg-gray-50 flex-shrink-0 group">
@@ -148,6 +222,7 @@
                             @endphp
                             <span
                                 class="px-2.5 py-1 text-[10px] uppercase font-bold rounded-md border {{ $badgeClass }}">{{ $kategoriLabel }}</span>
+                            @include('admin.partials._status_badge', ['status' => $item->status, 'publishedAt' => $item->published_at])
                         </div>
 
                         <div class="mt-auto">
@@ -222,15 +297,18 @@
                 function filterGaleri() {
                     const searchInput = document.getElementById('searchInput');
                     const kategoriFilter = document.getElementById('filterKategori');
+                    const statusFilter = document.getElementById('filterStatus');
 
                     const searchValue = searchInput ? searchInput.value.toLowerCase().trim() : '';
                     const filterCategory = kategoriFilter ? kategoriFilter.value.toLowerCase() : '';
+                    const filterStatusValue = statusFilter ? statusFilter.value.toLowerCase() : '';
 
                     let visibleCount = 0;
 
                     document.querySelectorAll('.galeri-item').forEach(function (item) {
                         const itemJudul = item.dataset.judul.toLowerCase();
                         const itemKategori = item.dataset.kategori.toLowerCase();
+                        const itemStatus = item.dataset.status ? item.dataset.status.toLowerCase() : '';
 
                         let showItem = true;
 
@@ -241,6 +319,11 @@
 
                         // Filter by kategori
                         if (filterCategory && itemKategori !== filterCategory) {
+                            showItem = false;
+                        }
+
+                        // Filter by status
+                        if (filterStatusValue && itemStatus !== filterStatusValue) {
                             showItem = false;
                         }
 
@@ -263,6 +346,9 @@
 
                 const filterKategoriEl = document.getElementById('filterKategori');
                 if (filterKategoriEl) filterKategoriEl.addEventListener('change', filterGaleri);
+
+                const filterStatusEl = document.getElementById('filterStatus');
+                if (filterStatusEl) filterStatusEl.addEventListener('change', filterGaleri);
 
                 // Initialize counter
                 filterGaleri();
@@ -378,84 +464,6 @@
                 });
             });
 
-            // Toggle Active Function
-            function toggleActive(galeriId, button) {
-                const currentCard = button.closest('.galeri-item');
-                const statusBadge = currentCard.querySelector('.text-white.text-xs.px-2.py-1.rounded.bg-green-600, .text-white.text-xs.px-2.py-1.rounded.bg-gray-500');
-                const currentStatus = currentCard.dataset.status === '1';
 
-                Swal.fire({
-                    title: currentStatus ? 'Nonaktifkan Galeri?' : 'Aktifkan Galeri?',
-                    text: currentStatus ? 'Galeri tidak akan ditampilkan di website' : 'Galeri akan ditampilkan di website',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: currentStatus ? '#6B7280' : '#10B981',
-                    cancelButtonColor: '#6B7280',
-                    confirmButtonText: currentStatus ? '<i class="fas fa-eye-slash mr-2"></i>Ya, Nonaktifkan' : '<i class="fas fa-eye mr-2"></i>Ya, Aktifkan',
-                    cancelButtonText: 'Batal',
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown animate__faster'
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp animate__faster'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        fetch(`/admin/galeri/${galeriId}/toggle-active`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                            }
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    // Update button style and icon
-                                    if (data.is_active) {
-                                        button.classList.remove('bg-gray-500', 'hover:bg-gray-600');
-                                        button.classList.add('bg-green-600', 'hover:bg-green-700');
-                                        button.innerHTML = '<i class="fas fa-eye"></i>';
-                                        button.title = 'Nonaktifkan';
-                                    } else {
-                                        button.classList.remove('bg-green-600', 'hover:bg-green-700');
-                                        button.classList.add('bg-gray-500', 'hover:bg-gray-600');
-                                        button.innerHTML = '<i class="fas fa-eye-slash"></i>';
-                                        button.title = 'Aktifkan';
-                                    }
-
-                                    // Update status badge
-                                    if (statusBadge) {
-                                        statusBadge.textContent = data.is_active ? 'Aktif' : 'Non-Aktif';
-                                        if (data.is_active) {
-                                            statusBadge.classList.remove('bg-gray-500');
-                                            statusBadge.classList.add('bg-green-600');
-                                        } else {
-                                            statusBadge.classList.remove('bg-green-600');
-                                            statusBadge.classList.add('bg-gray-500');
-                                        }
-                                    }
-
-                                    // Update data attribute for filter
-                                    currentCard.dataset.status = data.is_active ? '1' : '0';
-
-                                    Swal.fire({
-                                        title: 'Berhasil!',
-                                        text: data.message,
-                                        icon: 'success',
-                                        timer: 2000,
-                                        showConfirmButton: false
-                                    });
-                                } else {
-                                    Swal.fire('Error!', data.message, 'error');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                Swal.fire('Error!', 'Terjadi kesalahan saat mengubah status', 'error');
-                            });
-                    }
-                });
-            }
         </script>
     @endpush

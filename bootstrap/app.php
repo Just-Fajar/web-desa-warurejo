@@ -44,6 +44,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminAuthenticate::class,
             'admin.guest' => \App\Http\Middleware\RedirectIfAdmin::class,
+            'auto.publish' => \App\Http\Middleware\PublishScheduledContent::class,
         ]);
 
         /**

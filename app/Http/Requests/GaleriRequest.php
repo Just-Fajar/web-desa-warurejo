@@ -28,8 +28,14 @@ class GaleriRequest extends FormRequest
             'kategori' => 'required|in:kegiatan,pembangunan,budaya,keagamaan,sosial,lainnya',
             'deskripsi' => 'nullable|string',
             'tanggal' => 'required|date',
-            'is_active' => 'required|boolean',
+            'status' => 'required|in:draft,scheduled,published',
+            'published_at' => 'nullable|date',
         ];
+
+        // Jika status scheduled, published_at wajib dan harus di masa depan
+        if ($this->input('status') === 'scheduled') {
+            $rules['published_at'] = 'required|date|after:now';
+        }
 
         // Multiple images validation
         if ($galeriId) {
@@ -59,7 +65,8 @@ class GaleriRequest extends FormRequest
             'kategori' => 'Kategori',
             'deskripsi' => 'Deskripsi',
             'tanggal' => 'Tanggal',
-            'is_active' => 'Status',
+            'status' => 'Status',
+            'published_at' => 'Tanggal Publikasi',
         ];
     }
 
@@ -83,8 +90,21 @@ class GaleriRequest extends FormRequest
             'kategori.in' => 'Kategori tidak valid',
             'tanggal.required' => 'Tanggal wajib diisi',
             'tanggal.date' => 'Format tanggal tidak valid',
-            'is_active.required' => 'Status wajib dipilih',
-            'is_active.boolean' => 'Status tidak valid',
+            'status.required' => 'Status wajib dipilih',
+            'status.in' => 'Status tidak valid. Pilih: Draft, Dijadwalkan, atau Published.',
+            'published_at.required' => 'Tanggal publikasi wajib diisi untuk konten yang dijadwalkan.',
+            'published_at.after' => 'Tanggal publikasi harus di masa depan.',
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        // Jika status draft, clear published_at
+        if ($this->input('status') === 'draft') {
+            $this->merge(['published_at' => null]);
+        }
     }
 }

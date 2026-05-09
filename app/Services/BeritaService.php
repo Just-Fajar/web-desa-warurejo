@@ -112,8 +112,11 @@ class BeritaService
             }
         }
 
+        // Handle status & published_at
         if ($data['status'] === 'published' && !isset($data['published_at'])) {
             $data['published_at'] = now();
+        } elseif ($data['status'] === 'draft') {
+            $data['published_at'] = null;
         }
 
         $berita = $this->beritaRepository->create($data);
@@ -186,8 +189,14 @@ class BeritaService
             unset($data['remove_image']);
         }
 
-        if (isset($data['status']) && $data['status'] === 'published' && !$berita->published_at) {
-            $data['published_at'] = now();
+        // Handle status & published_at
+        if (isset($data['status'])) {
+            if ($data['status'] === 'published' && !$berita->published_at) {
+                $data['published_at'] = now();
+            } elseif ($data['status'] === 'draft') {
+                $data['published_at'] = null;
+            }
+            // scheduled: published_at comes from form input
         }
 
         $updatedBerita = $this->beritaRepository->update($id, $data);

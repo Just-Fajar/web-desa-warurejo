@@ -13,6 +13,11 @@ class Berita extends Model
 
     protected $table = 'berita';
 
+    // Status constants
+    const STATUS_DRAFT = 'draft';
+    const STATUS_SCHEDULED = 'scheduled';
+    const STATUS_PUBLISHED = 'published';
+
     protected $fillable = [
         'admin_id',
         'judul',
@@ -85,7 +90,7 @@ class Berita extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('status', 'published')
+        return $query->where('status', self::STATUS_PUBLISHED)
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
     }
@@ -96,7 +101,29 @@ class Berita extends Model
      */
     public function scopeDraft($query)
     {
-        return $query->where('status', 'draft');
+        return $query->where('status', self::STATUS_DRAFT);
+    }
+
+    /**
+     * Scope: Get hanya berita yang dijadwalkan
+     * Usage: Berita::scheduled()->get()
+     */
+    public function scopeScheduled($query)
+    {
+        return $query->where('status', self::STATUS_SCHEDULED)
+            ->whereNotNull('published_at')
+            ->where('published_at', '>', now());
+    }
+
+    /**
+     * Scope: Get konten yang sudah waktunya dipublish (untuk auto-publish command)
+     * Usage: Berita::dueForPublishing()->get()
+     */
+    public function scopeDueForPublishing($query)
+    {
+        return $query->where('status', self::STATUS_SCHEDULED)
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
     }
 
     /**
@@ -141,5 +168,30 @@ class Berita extends Model
                 $count++;
             }
         });
+    }
+
+    /**
+     * Get daftar status yang tersedia
+     */
+    public static function getStatusList()
+    {
+        return [
+            self::STATUS_DRAFT => 'Draft',
+            self::STATUS_SCHEDULED => 'Dijadwalkan',
+            self::STATUS_PUBLISHED => 'Published',
+        ];
+    }
+
+    /**
+     * Get warna badge untuk status
+     */
+    public function getStatusBadgeAttribute()
+    {
+        return match ($this->status) {
+            self::STATUS_DRAFT => ['color' => 'yellow', 'label' => 'Draft'],
+            self::STATUS_SCHEDULED => ['color' => 'blue', 'label' => 'Dijadwalkan'],
+            self::STATUS_PUBLISHED => ['color' => 'green', 'label' => 'Published'],
+            default => ['color' => 'gray', 'label' => 'Unknown'],
+        };
     }
 }

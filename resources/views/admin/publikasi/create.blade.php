@@ -27,80 +27,92 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.publikasi.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+            <form action="{{ route('admin.publikasi.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="p-6 space-y-6">
+                    <!-- Judul -->
+                    <div>
+                        <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
+                            Judul Dokumen <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="judul" name="judul" value="{{ old('judul') }}"
+                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
+                            placeholder="Contoh: Anggaran Pendapatan dan Belanja Desa Tahun 2025" required>
+                        @error('judul')
+                            <p class="text-red-600 text-sm font-medium mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Main Form -->
-                <div class="lg:col-span-2">
-                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 overflow-hidden">
-                        <!-- Judul -->
-                        <div class="mb-6">
-                            <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
-                                Judul Dokumen <span class="text-red-500">*</span>
+                    <!-- Slug (Auto-generated) -->
+                    <div>
+                        <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
+                            Slug <span class="text-xs text-gray-500 font-normal">(Otomatis dibuatkan dari judul)</span>
+                        </label>
+                        <input type="text" name="slug" id="slug" value="{{ old('slug') }}"
+                            class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
+                            placeholder="slug-otomatis" readonly>
+                        @error('slug')
+                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Kategori & Tahun -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="kategori" class="block text-sm font-bold text-gray-700 mb-2">
+                                Kategori <span class="text-red-500">*</span>
                             </label>
-                            <input type="text" id="judul" name="judul" value="{{ old('judul') }}"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
-                                placeholder="Contoh: Anggaran Pendapatan dan Belanja Desa Tahun 2025" required>
-                            @error('judul')
+                            <select id="kategori" name="kategori"
+                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror"
+                                required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="APBDes" {{ old('kategori') == 'APBDes' ? 'selected' : '' }}>APBDes</option>
+                                <option value="RPJMDes" {{ old('kategori') == 'RPJMDes' ? 'selected' : '' }}>RPJMDes
+                                </option>
+                                <option value="RKPDes" {{ old('kategori') == 'RKPDes' ? 'selected' : '' }}>RKPDes</option>
+                            </select>
+                            @error('kategori')
                                 <p class="text-red-600 text-sm font-medium mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Kategori & Tahun -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label for="kategori" class="block text-sm font-bold text-gray-700 mb-2">
-                                    Kategori <span class="text-red-500">*</span>
-                                </label>
-                                <select id="kategori" name="kategori"
-                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror"
-                                    required>
-                                    <option value="">Pilih Kategori</option>
-                                    <option value="APBDes" {{ old('kategori') == 'APBDes' ? 'selected' : '' }}>APBDes</option>
-                                    <option value="RPJMDes" {{ old('kategori') == 'RPJMDes' ? 'selected' : '' }}>RPJMDes
-                                    </option>
-                                    <option value="RKPDes" {{ old('kategori') == 'RKPDes' ? 'selected' : '' }}>RKPDes</option>
-                                </select>
-                                @error('kategori')
-                                    <p class="text-red-600 text-sm font-medium mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label for="tahun" class="block text-sm font-bold text-gray-700 mb-2">
-                                    Tahun <span class="text-red-500">*</span>
-                                </label>
-                                <input type="number" id="tahun" name="tahun" value="{{ old('tahun', date('Y')) }}"
-                                    min="1990" max="{{ date('Y') + 5 }}"
-                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('tahun') border-red-300 ring-red-100 @enderror"
-                                    required>
-                                @error('tahun')
-                                    <p class="text-red-600 text-sm font-medium mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Deskripsi -->
-                        <div class="mb-6">
-                            <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
-                                Deskripsi
+                        <div>
+                            <label for="tahun" class="block text-sm font-bold text-gray-700 mb-2">
+                                Tahun <span class="text-red-500">*</span>
                             </label>
-                            <textarea id="deskripsi" name="deskripsi" rows="4"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror"
-                                placeholder="Deskripsi singkat tentang dokumen ini...">{{ old('deskripsi') }}</textarea>
-                            @error('deskripsi')
+                            <input type="number" id="tahun" name="tahun" value="{{ old('tahun', date('Y')) }}"
+                                min="1990" max="{{ date('Y') + 5 }}"
+                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('tahun') border-red-300 ring-red-100 @enderror"
+                                required>
+                            @error('tahun')
                                 <p class="text-red-600 text-sm font-medium mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+                    </div>
 
+                    <!-- Deskripsi -->
+                    <div>
+                        <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
+                            Deskripsi
+                        </label>
+                        <textarea id="deskripsi" name="deskripsi" rows="4"
+                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror"
+                            placeholder="Deskripsi singkat tentang dokumen ini...">{{ old('deskripsi') }}</textarea>
+                        @error('deskripsi')
+                            <p class="text-red-600 text-sm font-medium mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Media Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- File Dokumen -->
-                        <div class="mb-6">
-                            <label for="file_dokumen" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <div>
+                            <label for="file_dokumen" class="block text-sm font-bold text-gray-700 mb-2">
                                 File Dokumen (PDF) <span class="text-red-500">*</span>
                             </label>
                             <div
-                                class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition">
+                                class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition h-full flex flex-col justify-center">
                                 <i class="fas fa-file-pdf text-4xl text-gray-400 mb-3"></i>
                                 <input type="file" id="file_dokumen" name="file_dokumen" accept=".pdf" class="hidden"
                                     onchange="displayFileName('file_dokumen', 'file-name')" required>
@@ -118,12 +130,12 @@
                         </div>
 
                         <!-- Thumbnail -->
-                        <div class="mb-6">
-                            <label for="thumbnail" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <div>
+                            <label for="thumbnail" class="block text-sm font-bold text-gray-700 mb-2">
                                 Thumbnail (Opsional)
                             </label>
                             <div
-                                class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition">
+                                class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition h-full flex flex-col justify-center">
                                 <i class="fas fa-image text-4xl text-gray-400 mb-3"></i>
                                 <input type="file" id="thumbnail" name="thumbnail" accept="image/jpeg,image/png,image/jpg"
                                     class="hidden" onchange="displayFileName('thumbnail', 'thumbnail-name')">
@@ -139,60 +151,48 @@
                             @enderror
                         </div>
                     </div>
-                </div>
 
-                <!-- Sidebar -->
-                <div class="lg:col-span-1">
-                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 sticky top-6">
-                        <h3 class="font-semibold text-gray-800 mb-6">Pengaturan Publikasi</h3>
+                    <!-- Pengaturan Publikasi -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
+                        <div class="space-y-6">
+                            <!-- Tanggal Dokumen -->
+                            <div>
+                                <label for="tanggal_publikasi" class="block text-sm font-bold text-gray-700 mb-2">
+                                    Tanggal Dokumen <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="tanggal_publikasi" name="tanggal_publikasi"
+                                    value="{{ old('tanggal_publikasi', date('Y-m-d')) }}" placeholder="Pilih tanggal"
+                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('tanggal_publikasi') border-red-300 ring-red-100 @enderror"
+                                    required>
+                                @error('tanggal_publikasi')
+                                    <p class="text-red-600 text-sm font-medium mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
 
-                        <!-- Tanggal Publikasi -->
-                        <div class="mb-6">
-                            <label for="tanggal_publikasi" class="block text-sm font-bold text-gray-700 mb-2">
-                                Tanggal Publikasi <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="tanggal_publikasi" name="tanggal_publikasi"
-                                value="{{ old('tanggal_publikasi', date('Y-m-d')) }}" placeholder="Pilih tanggal"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('tanggal_publikasi') border-red-300 ring-red-100 @enderror"
-                                required>
-                            @error('tanggal_publikasi')
-                                <p class="text-red-600 text-sm font-medium mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Status -->
-                        <div class="mb-8">
-                            <label for="status" class="block text-sm font-bold text-gray-700 mb-2">
-                                Status <span class="text-red-500">*</span>
-                            </label>
-                            <select id="status" name="status"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('status') border-red-300 ring-red-100 @enderror"
-                                required>
-                                <option value="published" {{ old('status', 'published') == 'published' ? 'selected' : '' }}>
-                                    Published</option>
-                            </select>
-                            @error('status')
-                                <p class="text-red-600 text-sm font-medium mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Submit Buttons -->
-                        <div class="space-y-2">
-                            <button type="submit"
-                                class="w-full bg-primary-600 hover:bg-primary-700 text-white px-4 py-2.5 rounded-lg font-semibold transition duration-200">
-                                <i class="fas fa-save mr-2"></i>
-                                Simpan Publikasi
-                            </button>
-                            <a href="{{ route('admin.publikasi.index') }}"
-                                class="block w-full text-center bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2.5 rounded-lg font-semibold transition duration-200">
-                                <i class="fas fa-times mr-2"></i>
-                                Batal
-                            </a>
+                            <!-- Status & Scheduling -->
+                            @include('admin.partials._status_fields', [
+                                'currentStatus' => old('status', 'published'),
+                                'publishedAt' => old('published_at', ''),
+                            ])
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+
+                <!-- Form Footer -->
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
+                    <a href="{{ route('admin.publikasi.index') }}"
+                        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition font-medium text-sm">
+                        Batal
+                    </a>
+                    <button type="submit" id="submitBtn"
+                        class="px-5 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition text-sm font-semibold flex items-center shadow-sm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span id="submitBtnText" data-module="Publikasi">Publish Publikasi</span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     @push('styles')
@@ -200,8 +200,6 @@
     @endpush
 
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
         <script>
             flatpickr("#tanggal_publikasi", {
                 altInput: true,
@@ -222,6 +220,18 @@
                     display.textContent = '';
                 }
             }
+
+            // Auto-generate slug from judul
+            document.getElementById('judul').addEventListener('input', function () {
+                const judul = this.value;
+                const slug = judul
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim();
+                document.getElementById('slug').value = slug;
+            });
         </script>
     @endpush
 @endsection

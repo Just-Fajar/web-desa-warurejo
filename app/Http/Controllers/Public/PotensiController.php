@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\PotensiDesa;
 use App\Services\PotensiDesaService;
 use App\Helpers\SEOHelper;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class PotensiController extends Controller
 
     /**
      * Tampilkan list semua potensi dengan filter
-     * Filter: kategori, search, urutkan (terbaru/terlama/terpopuler)
+     * Filter: kategori (chip), search, urutkan (terbaru/terlama/terpopuler)
      * Include SEO meta tags
      * 
      * Route: GET /potensi
@@ -31,7 +32,7 @@ class PotensiController extends Controller
     {
         $kategori = $request->get('kategori');
         $search = $request->get('search');
-        $urutkan = $request->get('urutkan', 'terbaru'); // terbaru, terlama, terpopuler
+        $urutkan = $request->get('urutkan', 'terbaru');
         $date_from = $request->get('date_from');
         $date_to = $request->get('date_to');
 
@@ -48,8 +49,12 @@ class PotensiController extends Controller
             $potensi = $this->potensiService->getActivePotensi();
         }
 
+        // Daftar kategori untuk chip filter
+        $kategoriList = PotensiDesa::getKategoriList();
+        $kategoriBadgeColors = PotensiDesa::getKategoriBadgeColors();
+
         // SEO Data
-        $title = $kategori ? "Potensi Desa - {$kategori}" : 'Potensi Desa';
+        $title = $kategori ? "Potensi Desa - " . ucfirst($kategori) : 'Potensi Desa';
         $seoData = SEOHelper::generateMetaTags([
             'title' => $title . ' - Desa Warurejo',
             'description' => 'Potensi dan kekayaan Desa Warurejo. Temukan berbagai potensi wisata, pertanian, ekonomi, dan lainnya.',
@@ -57,15 +62,20 @@ class PotensiController extends Controller
             'type' => 'website'
         ]);
 
-        return view('public.potensi.index', compact('potensi', 'kategori', 'seoData', 'date_from', 'date_to'));
+        return view('public.potensi.index', compact(
+            'potensi', 'kategori', 'seoData', 'date_from', 'date_to',
+            'kategoriList', 'kategoriBadgeColors'
+        ));
     }
 
     /**
      * Tampilkan detail potensi by slug
      * - Load related potensi (3 item same category)
+     * - Load foto galeri
      * - Generate SEO meta tags dengan Open Graph
      * - Generate structured data (Place schema)
      * - Generate breadcrumb schema
+     * - Increment views counter
      * - Throw 404 jika tidak ditemukan
      * 
      * Route: GET /potensi/{slug}
@@ -75,8 +85,14 @@ class PotensiController extends Controller
         try {
             $potensi = $this->potensiService->getPotensiBySlug($slug);
 
+            // Increment views
+            $potensi->incrementViews();
+
             // Get related potensi
             $relatedPotensi = $this->potensiService->getRelatedPotensi($potensi, 3);
+
+            // Badge warna untuk kategori
+            $kategoriBadgeColors = PotensiDesa::getKategoriBadgeColors();
 
             // SEO Data
             $excerpt = strip_tags(substr($potensi->deskripsi, 0, 160));
@@ -98,7 +114,10 @@ class PotensiController extends Controller
                 ['name' => $potensi->nama, 'url' => route('potensi.show', $potensi->slug)]
             ]);
 
-            return view('public.potensi.show', compact('potensi', 'relatedPotensi', 'seoData', 'structuredData', 'breadcrumb'));
+            return view('public.potensi.show', compact(
+                'potensi', 'relatedPotensi', 'seoData', 'structuredData', 'breadcrumb',
+                'kategoriBadgeColors'
+            ));
         } catch (\Exception $e) {
             abort(404, 'Potensi desa tidak ditemukan');
         }

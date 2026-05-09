@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\PotensiDesaFoto;
 use App\Repositories\PotensiDesaRepository;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
@@ -95,9 +96,10 @@ class PotensiDesaService
      * - Sanitize HTML deskripsi untuk prevent XSS
      * - Upload gambar jika ada
      * - Auto generate slug dari nama jika kosong
+     * - Handle foto galeri jika ada
      * - Clear cache homepage setelah create
      */
-    public function createPotensi(array $data)
+    public function createPotensi(array $data, $fotoGaleri = null)
     {
         // Sanitize HTML content
         if (isset($data['deskripsi'])) {
@@ -115,8 +117,13 @@ class PotensiDesaService
 
         $potensi = $this->potensiRepository->create($data);
 
+        // Handle foto galeri upload
+        if ($fotoGaleri && is_array($fotoGaleri)) {
+            $this->uploadFotoGaleri($potensi, $fotoGaleri);
+        }
+
         // Clear cache when new potensi is created
-        Cache::forget('home.potensi');
+        $this->clearCache();
 
         return $potensi;
     }
@@ -126,9 +133,10 @@ class PotensiDesaService
      * - Sanitize HTML deskripsi
      * - Jika ada gambar baru, delete lama lalu upload baru
      * - Update slug jika nama berubah
+     * - Handle foto galeri baru
      * - Clear cache setelah update
      */
-    public function updatePotensi($id, array $data)
+    public function updatePotensi($id, array $data, $fotoGaleri = null)
     {
         $potensi = $this->potensiRepository->find($id);
 
@@ -156,40 +164,73 @@ class PotensiDesaService
 
         $updated = $this->potensiRepository->update($id, $data);
 
+        // Handle foto galeri upload
+        if ($fotoGaleri && is_array($fotoGaleri)) {
+            $this->uploadFotoGaleri($potensi, $fotoGaleri);
+        }
+
         // Clear cache when potensi is updated
-        Cache::forget('home.potensi');
+        $this->clearCache();
 
         return $updated;
     }
 
     /**
-     * Delete potensi beserta file gambarnya
+     * Delete potensi beserta file gambar dan foto galeri
      * Clear cache setelah delete
      */
     public function deletePotensi($id)
     {
         $potensi = $this->potensiRepository->find($id);
 
-        // Delete image if exists
+        // Delete main image if exists
         if ($potensi->gambar) {
             Storage::disk('public')->delete($potensi->gambar);
+        }
+
+        // Delete all gallery photos from storage
+        foreach ($potensi->fotoGaleri as $foto) {
+            Storage::disk('public')->delete($foto->foto);
         }
 
         $deleted = $this->potensiRepository->delete($id);
 
         // Clear cache when potensi is deleted
-        Cache::forget('home.potensi');
+        $this->clearCache();
 
         return $deleted;
     }
 
     /**
-     * Toggle status aktif/non-aktif potensi
-     * Untuk hide/show tanpa delete permanent
+     * Upload multiple foto galeri untuk sebuah potensi
      */
-    public function toggleActive($id)
+    public function uploadFotoGaleri($potensi, array $files)
     {
-        return $this->potensiRepository->toggleActive($id);
+        // Get current max urutan
+        $maxUrutan = $potensi->fotoGaleri()->max('urutan') ?? 0;
+
+        foreach ($files as $index => $file) {
+            $filename = time() . '_galeri_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('potensi/galeri', $filename, 'public');
+
+            PotensiDesaFoto::create([
+                'potensi_desa_id' => $potensi->id,
+                'foto' => $path,
+                'urutan' => $maxUrutan + $index + 1,
+            ]);
+        }
+    }
+
+    /**
+     * Hapus satu foto galeri by ID
+     */
+    public function deleteFotoGaleri($fotoId)
+    {
+        $foto = PotensiDesaFoto::findOrFail($fotoId);
+        Storage::disk('public')->delete($foto->foto);
+        $foto->delete();
+        
+        $this->clearCache();
     }
 
     /**
@@ -229,5 +270,14 @@ class PotensiDesaService
         $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
         $path = $image->storeAs('potensi', $filename, 'public');
         return $path;
+    }
+
+    /**
+     * Clear all related caches
+     */
+    protected function clearCache()
+    {
+        Cache::forget('home.potensi');
+        Cache::forget('home.total_potensi');
     }
 }

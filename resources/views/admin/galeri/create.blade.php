@@ -17,19 +17,12 @@
             </a>
         </div>
 
-        <form action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data" id="galeriForm">
-            @csrf
+        <!-- Form Card -->
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+            <form action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data" id="galeriForm">
+                @csrf
 
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-4">
-                        <div class="p-6">
-
-                            <div class="mb-4">
-                                <h6 class="text-primary fw-bold mb-0">
-                                    <i class="fas fa-pen me-2"></i>Konten Galeri
-                                </h6>
-                            </div>
+                <div class="p-6 space-y-6">
 
                             <!-- JUDUL -->
                             <div class="mb-4">
@@ -42,6 +35,19 @@
                                                   @error('judul') border-red-300 ring-red-100 @enderror">
 
                                 @error('judul')
+                                    <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Slug (Auto-generated) -->
+                            <div class="mb-4">
+                                <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
+                                    Slug <span class="text-xs text-gray-500 font-normal">(Otomatis dibuatkan dari judul)</span>
+                                </label>
+                                <input type="text" name="slug" id="slug" value="{{ old('slug') }}"
+                                    class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
+                                    placeholder="slug-otomatis" readonly>
+                                @error('slug')
                                     <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -131,33 +137,35 @@
                                     class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium">
                             </div>
 
-                            <!-- STATUS (di-comment, belum dibutuhkan) -->
-                            {{-- <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Status Publish</label>
-
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" name="is_active" value="1" checked
-                                        class="h-5 w-5 text-primary-600 rounded border-gray-300">
-                                    <span class="text-gray-700">Tampilkan di Website</span>
-                                </label>
-                            </div> --}}
-                            <input type="hidden" name="is_active" value="1">
-
-                            <hr>
-
-                            <div class="mt-4">
-                                <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold 
-                                               py-3 rounded-lg shadow-md transition">
-                                    Simpan Galeri
-                                </button>
+                            <!-- Pengaturan Publikasi -->
+                            <div class="border-t border-gray-200 pt-6 mt-6">
+                                <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
+                                <div class="space-y-6">
+                                    @include('admin.partials._status_fields', [
+                                        'currentStatus' => old('status', 'published'),
+                                        'publishedAt' => old('published_at', ''),
+                                    ])
+                                </div>
                             </div>
 
-                        </div>
+                </div>
+                
+                <!-- Form Footer -->
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
+                        <a href="{{ route('admin.galeri.index') }}"
+                            class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition font-medium text-sm">
+                            Batal
+                        </a>
+                        <button type="submit" id="submitBtn"
+                            class="px-5 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition text-sm font-semibold flex items-center shadow-sm">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span id="submitBtnText" data-module="Galeri">Publish Galeri</span>
+                        </button>
                     </div>
 
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
     @push('styles')
@@ -256,6 +264,18 @@
                     alert('Silakan pilih minimal 1 gambar!');
                     return false;
                 }
+            });
+
+            // Auto-generate slug from judul
+            document.getElementById('judul').addEventListener('input', function () {
+                const judul = this.value;
+                const slug = judul
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim();
+                document.getElementById('slug').value = slug;
             });
         </script>
     @endpush

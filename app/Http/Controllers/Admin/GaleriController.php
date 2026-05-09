@@ -64,6 +64,13 @@ class GaleriController extends Controller
             // Remove 'images' from data since it's handled separately
             unset($data['images']);
 
+            // Handle status & published_at
+            if ($data['status'] === 'published' && empty($data['published_at'])) {
+                $data['published_at'] = now();
+            } elseif ($data['status'] === 'draft') {
+                $data['published_at'] = null;
+            }
+
             // Create galeri record
             $galeri = Galeri::create($data);
 
@@ -141,6 +148,14 @@ class GaleriController extends Controller
                     'galeri'
                 );
             }
+
+            // Handle status & published_at BEFORE update
+            if ($data['status'] === 'published' && !$galeri->published_at) {
+                $data['published_at'] = now();
+            } elseif ($data['status'] === 'draft') {
+                $data['published_at'] = null;
+            }
+            // scheduled: published_at comes from form input
 
             $galeri->update($data);
 
@@ -234,34 +249,4 @@ class GaleriController extends Controller
         }
     }
 
-    /**
-     * Toggle status aktif/non-aktif galeri (soft hide)
-     * Untuk hide/show di public tanpa delete permanent
-     * Return JSON response untuk AJAX
-     * Route: POST /admin/galeri/{id}/toggle-active
-     */
-    public function toggleActive(Galeri $galeri)
-    {
-        try {
-            $galeri->is_active = !$galeri->is_active;
-            $galeri->save();
-
-            // Clear cache
-            Cache::forget('home.galeri');
-            Cache::forget('profil_desa');
-
-            $status = $galeri->is_active ? 'aktif' : 'non-aktif';
-
-            return response()->json([
-                'success' => true,
-                'message' => "Status galeri berhasil diubah menjadi {$status}",
-                'is_active' => $galeri->is_active
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ], 500);
-        }
-    }
 }

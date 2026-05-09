@@ -22,7 +22,8 @@ class PotensiDesaRepository extends BaseRepository
     public function getActive()
     {
         return $this->model
-            ->active()
+            ->published()
+            ->with('fotoGaleri')
             ->latest()
             ->paginate(12);
     }
@@ -34,8 +35,9 @@ class PotensiDesaRepository extends BaseRepository
     public function getByKategori($kategori)
     {
         return $this->model
-            ->active()
+            ->published()
             ->byKategori($kategori)
+            ->with('fotoGaleri')
             ->latest()
             ->paginate(12);
     }
@@ -48,7 +50,8 @@ class PotensiDesaRepository extends BaseRepository
     {
         return $this->model
             ->where('slug', $slug)
-            ->active()
+            ->published()
+            ->with('fotoGaleri')
             ->firstOrFail();
     }
 
@@ -59,9 +62,10 @@ class PotensiDesaRepository extends BaseRepository
     public function getRelated($potensi, $limit = 3)
     {
         return $this->model
-            ->active()
+            ->published()
             ->where('id', '!=', $potensi->id)
             ->where('kategori', $potensi->kategori)
+            ->with('fotoGaleri')
             ->ordered()
             ->limit($limit)
             ->get();
@@ -74,7 +78,7 @@ class PotensiDesaRepository extends BaseRepository
     public function getCategoriesWithCount()
     {
         return $this->model
-            ->active()
+            ->published()
             ->selectRaw('kategori, COUNT(*) as count')
             ->groupBy('kategori')
             ->get();
@@ -96,26 +100,14 @@ class PotensiDesaRepository extends BaseRepository
     }
 
     /**
-     * Toggle status aktif/non-aktif potensi
-     * Untuk hide/show tanpa delete permanent
-     */
-    public function toggleActive($id)
-    {
-        $potensi = $this->find($id);
-        $potensi->is_active = !$potensi->is_active;
-        $potensi->save();
-
-        return $potensi;
-    }
-
-    /**
      * Get featured potensi (first N items by urutan)
      * Untuk homepage showcase potensi unggulan
      */
     public function getFeatured($limit = 6)
     {
         return $this->model
-            ->active()
+            ->published()
+            ->with('fotoGaleri')
             ->ordered()
             ->limit($limit)
             ->get();
@@ -128,11 +120,12 @@ class PotensiDesaRepository extends BaseRepository
     public function search($keyword)
     {
         return $this->model
-            ->active()
+            ->published()
             ->where(function ($query) use ($keyword) {
                 $query->where('nama', 'like', "%{$keyword}%")
                     ->orWhere('deskripsi', 'like', "%{$keyword}%");
             })
+            ->with('fotoGaleri')
             ->ordered()
             ->get();
     }
@@ -144,7 +137,7 @@ class PotensiDesaRepository extends BaseRepository
      */
     public function searchWithFilters(array $filters)
     {
-        $query = $this->model->active();
+        $query = $this->model->published()->with('fotoGaleri');
 
         // Search by keyword
         if (!empty($filters['search'])) {

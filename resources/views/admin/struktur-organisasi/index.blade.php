@@ -120,8 +120,8 @@
                     <div class="flex-1 max-w-md">
                         <div class="relative">
                             <input type="text" id="searchInput" placeholder="Cari nama atau jabatan..."
-                                class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm">
-                            <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3" fill="none" stroke="currentColor"
+                                class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
+                            <svg class="w-5 h-5 text-gray-600 absolute left-4 top-3" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -132,7 +132,7 @@
                     <!-- Filters -->
                     <div class="flex gap-2">
                         <select id="levelFilter"
-                            class="px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-600 text-sm font-semibold transition-all duration-200">
+                            class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
                             <option value="">Semua Level</option>
                             @foreach($levels as $key => $label)
                                 <option value="{{ $key }}">{{ $label }}</option>
@@ -140,7 +140,7 @@
                         </select>
 
                         <select id="statusFilter"
-                            class="px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-600 text-sm font-semibold transition-all duration-200">
+                            class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
                             <option value="">Semua Status</option>
                             <option value="1">Aktif</option>
                             <option value="0">Tidak Aktif</option>

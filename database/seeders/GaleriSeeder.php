@@ -79,7 +79,8 @@ class GaleriSeeder extends Seeder
                 'gambar' => $data['gambar'],
                 'kategori' => $data['kategori'],
                 'tanggal' => $tanggal,
-                'is_active' => true,
+                'status' => 'published',
+                'published_at' => now(),
                 'created_at' => $tanggal,
                 'updated_at' => $tanggal,
             ]);

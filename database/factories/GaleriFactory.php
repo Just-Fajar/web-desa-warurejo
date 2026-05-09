@@ -34,7 +34,8 @@ class GaleriFactory extends Factory
             'gambar' => 'galeri/test-image.jpg',
             'kategori' => $kategori,
             'tanggal' => fake()->dateTimeBetween('-1 year', 'now'),
-            'is_active' => true,
+            'status' => 'published',
+            'published_at' => now(),
         ];
     }
 
@@ -44,7 +45,8 @@ class GaleriFactory extends Factory
     public function active(): static
     {
         return $this->state(fn(array $attributes) => [
-            'is_active' => true,
+            'status' => 'published',
+            'published_at' => now(),
         ]);
     }
 
@@ -54,7 +56,8 @@ class GaleriFactory extends Factory
     public function inactive(): static
     {
         return $this->state(fn(array $attributes) => [
-            'is_active' => false,
+            'status' => 'draft',
+            'published_at' => null,
         ]);
     }
 

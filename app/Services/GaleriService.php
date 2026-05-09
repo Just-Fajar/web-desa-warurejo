@@ -156,16 +156,6 @@ class GaleriService
 
         return $deleted;
     }
-
-    /**
-     * Toggle status aktif/non-aktif galeri
-     * Untuk hide/show tanpa delete permanent
-     */
-    public function toggleActive($id)
-    {
-        return $this->galeriRepository->toggleActive($id);
-    }
-
     /**
      * Get galeri dalam rentang tanggal tertentu
      * Untuk filter atau laporan

@@ -7,6 +7,7 @@ use App\Http\Controllers\Public\ProfilController;
 use App\Http\Controllers\Public\PotensiController;
 use App\Http\Controllers\Public\GaleriController;
 use App\Http\Controllers\Public\KontakController;
+use App\Http\Controllers\Public\PengaduanController;
 use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Admin\ProfilDesaController;
 use App\Http\Controllers\Admin\PublikasiController as AdminPublikasiController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\StrukturOrganisasiController;
+use App\Http\Controllers\Admin\PengaduanController as AdminPengaduanController;
 use App\Http\Controllers\SitemapController;
 
 // SEO Routes
@@ -63,10 +65,12 @@ Route::get('/peta-desa', function () {
     return view('public.peta-desa');
 })->name('peta-desa');
 
-// Tribute KKN 24
-Route::get('/tribute-kkn24', function () {
-    return view('public.tribute-kkn24');
-})->name('tribute.kkn24');
+// Pengaduan Publik
+Route::prefix('pengaduan')->name('pengaduan.')->group(function () {
+    Route::get('/', [PengaduanController::class, 'index'])->name('index');
+    Route::get('/{id}', [PengaduanController::class, 'show'])->name('show');
+    Route::post('/', [PengaduanController::class, 'store'])->name('store');
+});
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -79,8 +83,45 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     // Authenticated Routes
-    Route::middleware('admin')->group(function () {
+    Route::middleware(['admin', 'auto.publish'])->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+        // Auto-publish endpoint for real-time polling (AJAX)
+        Route::post('/auto-publish', function () {
+            $totalPublished = 0;
+            
+            try {
+                $models = [
+                    \App\Models\Berita::class => ['home.latest_berita', 'berita.published', 'home.total_berita'],
+                    \App\Models\Galeri::class => ['home.galeri', 'home.total_galeri'],
+                    \App\Models\PotensiDesa::class => ['home.potensi', 'home.total_potensi'],
+                    \App\Models\Publikasi::class => ['home.publikasi'],
+                ];
+
+                foreach ($models as $model => $cacheKeys) {
+                    $count = $model::dueForPublishing()->count();
+                    if ($count > 0) {
+                        $model::dueForPublishing()->update(['status' => 'published']);
+                        $totalPublished += $count;
+                        foreach ($cacheKeys as $key) {
+                            \Illuminate\Support\Facades\Cache::forget($key);
+                        }
+                    }
+                }
+
+                if ($totalPublished > 0) {
+                    \Illuminate\Support\Facades\Cache::forget('profil_desa');
+                    \Illuminate\Support\Facades\Cache::forget('home.seo_data');
+                }
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Auto-publish error: " . $e->getMessage());
+            }
+
+            return response()->json([
+                'published' => $totalPublished,
+                'timestamp' => now()->format('H:i:s'),
+            ]);
+        })->name('auto-publish');
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard/visitor-chart', [DashboardController::class, 'getVisitorChartByYear'])->name('dashboard.visitor-chart');
@@ -92,11 +133,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Potensi Management
         Route::post('potensi/bulk-delete', [AdminPotensiController::class, 'bulkDelete'])->name('potensi.bulk-delete');
+        Route::delete('potensi/foto/{id}', [AdminPotensiController::class, 'deleteFoto'])->name('potensi.foto.delete');
         Route::resource('potensi', AdminPotensiController::class);
 
         // Galeri Management
         Route::post('galeri/bulk-delete', [AdminGaleriController::class, 'bulkDelete'])->name('galeri.bulk-delete');
-        Route::post('galeri/{galeri}/toggle-active', [AdminGaleriController::class, 'toggleActive'])->name('galeri.toggle-active');
         Route::resource('galeri', AdminGaleriController::class);
 
         // Publikasi Management
@@ -106,6 +147,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Struktur Organisasi Management
         Route::post('struktur-organisasi/bulk-delete', [StrukturOrganisasiController::class, 'bulkDelete'])->name('struktur-organisasi.bulk-delete');
         Route::resource('struktur-organisasi', StrukturOrganisasiController::class);
+
+        // Pengaduan Management
+        Route::post('pengaduan/bulk-delete', [AdminPengaduanController::class, 'bulkDelete'])->name('pengaduan.bulk-delete');
+        Route::get('pengaduan', [AdminPengaduanController::class, 'index'])->name('pengaduan.index');
+        Route::get('pengaduan/{id}', [AdminPengaduanController::class, 'show'])->name('pengaduan.show');
+        Route::post('pengaduan/{id}/balas', [AdminPengaduanController::class, 'storeBalasan'])->name('pengaduan.balas');
+        Route::delete('pengaduan/{id}', [AdminPengaduanController::class, 'destroy'])->name('pengaduan.destroy');
 
         // Profil Desa Management
         Route::prefix('profil-desa')->name('profil-desa.')->group(function () {

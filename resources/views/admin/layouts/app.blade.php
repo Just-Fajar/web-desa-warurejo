@@ -96,6 +96,15 @@
                         <span>Publikasi</span>
                     </a>
 
+                    <a href="{{ route('admin.pengaduan.index') }}"
+                        class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.pengaduan.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
+                        <div
+                            class="{{ request()->routeIs('admin.pengaduan.*') ? 'bg-primary-100 text-primary-600 shadow-sm' : 'bg-white text-gray-500 shadow-sm group-hover:text-primary-600 group-hover:bg-primary-50 transition-colors border border-gray-100' }} w-8 h-8 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-bullhorn text-sm"></i>
+                        </div>
+                        <span>Pengaduan</span>
+                    </a>
+
                     <div class="py-2">
                         <hr class="border-gray-100">
                     </div>
@@ -219,7 +228,8 @@
         </div>
     </div>
 
-    <!-- SweetAlert2 -->
+    <!-- SweetAlert2 & jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Global SweetAlert2 Notifications -->
@@ -300,6 +310,9 @@
                         } else if (formAction.includes('/struktur-organisasi/')) {
                             contentType = 'anggota struktur';
                             contentColor = '#eab308';
+                        } else if (formAction.includes('/pengaduan/')) {
+                            contentType = 'pengaduan';
+                            contentColor = '#f43f5e';
                         } else if (formAction.includes('/admin/')) {
                             contentType = 'admin';
                             contentColor = '#ef4444';
@@ -356,6 +369,111 @@
                 }
             });
         });
+    </script>
+
+    <!-- Double-Submit Prevention: Disable button setelah klik pertama -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('form').forEach(function(form) {
+                // Skip delete forms (handled by SweetAlert)
+                if (form.classList.contains('delete-form')) return;
+
+                let isSubmitting = false;
+
+                form.addEventListener('submit', function(e) {
+                    // Cegah submit kedua
+                    if (isSubmitting) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        return false;
+                    }
+
+                    isSubmitting = true;
+
+                    // Disable semua submit buttons di form ini
+                    const submitBtns = form.querySelectorAll('[type="submit"]');
+                    submitBtns.forEach(function(btn) {
+                        btn.disabled = true;
+                        btn.style.opacity = '0.7';
+                        btn.style.cursor = 'not-allowed';
+
+                        // Ganti text dengan loading spinner
+                        const originalHTML = btn.innerHTML;
+                        btn.dataset.originalHtml = originalHTML;
+                        btn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Menyimpan...';
+                    });
+
+                    // Timeout fallback: re-enable jika request gagal/lama
+                    setTimeout(function() {
+                        isSubmitting = false;
+                        submitBtns.forEach(function(btn) {
+                            btn.disabled = false;
+                            btn.style.opacity = '';
+                            btn.style.cursor = '';
+                            if (btn.dataset.originalHtml) {
+                                btn.innerHTML = btn.dataset.originalHtml;
+                            }
+                        });
+                    }, 15000); // 15 detik timeout
+                });
+            });
+        });
+    </script>
+
+    <!-- Real-time Auto-Publish Polling: Cek setiap 60 detik -->
+    <script>
+        (function() {
+            const POLL_INTERVAL = 60000; // 60 detik
+            const AUTO_PUBLISH_URL = '{{ route("admin.auto-publish") }}';
+            const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').content;
+
+            function checkAutoPublish() {
+                fetch(AUTO_PUBLISH_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': CSRF_TOKEN,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.published > 0) {
+                        // Tampilkan notifikasi
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'success',
+                            title: data.published + ' konten berhasil dipublish otomatis',
+                            showConfirmButton: false,
+                            timer: 4000,
+                            timerProgressBar: true,
+                            showClass: {
+                                popup: 'animate__animated animate__slideInRight animate__faster'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__slideOutRight animate__faster'
+                            }
+                        });
+
+                        // Auto-reload halaman index jika sedang di halaman list
+                        const currentPath = window.location.pathname;
+                        const isIndexPage = currentPath.match(/\/admin\/(berita|potensi|galeri|publikasi)$/);
+                        if (isIndexPage) {
+                            setTimeout(() => window.location.reload(), 2000);
+                        }
+                    }
+                })
+                .catch(err => {
+                    // Silent fail — jangan ganggu user
+                    console.log('Auto-publish check failed:', err.message);
+                });
+            }
+
+            // Jalankan pertama kali setelah 10 detik, lalu setiap 60 detik
+            setTimeout(checkAutoPublish, 10000);
+            setInterval(checkAutoPublish, POLL_INTERVAL);
+        })();
     </script>
 
     @stack('scripts')

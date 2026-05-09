@@ -47,7 +47,7 @@
                             @click.away="showSuggestions = false"
                             placeholder="Cari tahu apa yang sedang terjadi" 
                             value="{{ request('search') }}"
-                            class="w-full pl-12 pr-4 py-4 md:text-lg border-2 border-gray-100 rounded-xl focus:ring-0 focus:border-primary-500 transition-colors bg-gray-50/50 focus:bg-white text-gray-800"
+                            class="w-full pl-12 pr-4 py-4 md:text-lg border-2 border-gray-300 bg-white rounded-xl focus:ring-0 focus:border-primary-500 transition-colors text-gray-900 font-semibold placeholder-gray-500"
                             autocomplete="off"
                         >
                         
@@ -73,19 +73,19 @@
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 </div>
-                                <input type="text" name="date_from" value="{{ request('date_from') }}" placeholder="Tanggal Mulai" class="datepicker w-full pl-10 pr-3 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 bg-gray-50/70" title="Tanggal Mulai">
+                                <input type="text" name="date_from" value="{{ request('date_from') }}" placeholder="Tanggal Mulai" class="datepicker w-full pl-10 pr-3 py-3 md:py-2.5 border-2 border-gray-300 bg-white rounded-lg text-sm font-semibold text-gray-900 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-500" title="Tanggal Mulai">
                             </div>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 </div>
-                                <input type="text" name="date_to" value="{{ request('date_to') }}" placeholder="Tanggal Akhir" class="datepicker w-full pl-10 pr-3 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 bg-gray-50/70" title="Tanggal Akhir">
+                                <input type="text" name="date_to" value="{{ request('date_to') }}" placeholder="Tanggal Akhir" class="datepicker w-full pl-10 pr-3 py-3 md:py-2.5 border-2 border-gray-300 bg-white rounded-lg text-sm font-semibold text-gray-900 focus:ring-primary-500 focus:border-primary-500 placeholder-gray-500" title="Tanggal Akhir">
                             </div>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/></svg>
                                 </div>
-                                <select name="sort" class="w-full pl-10 pr-8 py-3 md:py-2.5 border border-gray-100 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 bg-gray-50/70 appearance-none">
+                                <select name="sort" class="w-full pl-10 pr-8 py-3 md:py-2.5 border-2 border-gray-300 bg-white rounded-lg text-sm font-semibold text-gray-900 focus:ring-primary-500 focus:border-primary-500 appearance-none">
                                     <option value="latest" {{ request('sort') === 'latest' || !request('sort') ? 'selected' : '' }}>Terbaru</option>
                                     <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Terlama</option>
                                     <option value="popular" {{ request('sort') === 'popular' ? 'selected' : '' }}>Terpopuler</option>

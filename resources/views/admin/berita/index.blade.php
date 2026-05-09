@@ -21,12 +21,12 @@
         </div>
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Total Berita</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ $berita->total() }}</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Berita::count() }}</h3>
                     </div>
                     <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,7 +41,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Published</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ $berita->where('status', 'published')->count() }}
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Berita::where('status', 'published')->count() }}
                         </h3>
                     </div>
                     <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
@@ -53,22 +53,35 @@
                 </div>
             </div>
 
-            {{-- FITUR STATUS BELUM DIPAKAI - JANGAN HAPUS
             <div class="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Draft</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ $berita->where('status', 'draft')->count() }}</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Berita::where('status', 'draft')->count() }}</h3>
                     </div>
                     <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
                         <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-4 border-l-4 border-blue-400">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Dijadwalkan</p>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Berita::where('status', 'scheduled')->count() }}</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
                 </div>
             </div>
-            --}}
         </div>
 
         <!-- Bulk Actions -->
@@ -94,8 +107,8 @@
                     <div class="flex-1 max-w-md">
                         <div class="relative">
                             <input type="text" id="searchInput" placeholder="Cari berita..."
-                                class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm">
-                            <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3" fill="none" stroke="currentColor"
+                                class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
+                            <svg class="w-5 h-5 text-gray-600 absolute left-4 top-3" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -105,7 +118,12 @@
 
                     <!-- Filter -->
                     <div class="flex gap-2">
-                        <!-- Placeholder for future filters -->
+                        <select id="statusFilter" class="bg-white border-2 border-gray-300 text-gray-900 font-semibold text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full px-4 py-2.5 outline-none cursor-pointer">
+                            <option value="">Semua Status</option>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                            <option value="scheduled">Dijadwalkan</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -126,6 +144,9 @@
                             </th>
                             <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
                                 Tanggal
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                Status
                             </th>
                             <th class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
                                 Aksi
@@ -184,6 +205,9 @@
                                         {{ optional($item->created_at)->format('d M Y') ?? '-' }}</div>
                                     <div class="text-[11px] text-gray-400 mt-0.5">
                                         {{ optional($item->created_at)->format('H:i') ?? '-' }} WIB</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @include('admin.partials._status_badge', ['status' => $item->status, 'publishedAt' => $item->published_at])
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                                     <div class="flex justify-end gap-2">
@@ -249,24 +273,32 @@
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            // Search functionality
+            // Search and Filter functionality
             const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+
+            const applyFilters = () => filterTable();
+
             if (searchInput) {
-                searchInput.addEventListener('keyup', function () {
-                    filterTable();
-                });
+                searchInput.addEventListener('keyup', applyFilters);
+            }
+            if (statusFilter) {
+                statusFilter.addEventListener('change', applyFilters);
             }
 
             function filterTable() {
-                if (!searchInput) return;
-                const searchTerm = searchInput.value.toLowerCase();
+                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+                const statusTerm = statusFilter ? statusFilter.value.toLowerCase() : '';
                 const rows = document.querySelectorAll('.berita-row');
 
                 rows.forEach(row => {
                     const text = row.textContent.toLowerCase();
+                    const rowStatus = row.dataset.status ? row.dataset.status.toLowerCase() : '';
+                    
                     const matchSearch = text.includes(searchTerm);
+                    const matchStatus = statusTerm === '' || rowStatus === statusTerm;
 
-                    row.style.display = matchSearch ? '' : 'none';
+                    row.style.display = (matchSearch && matchStatus) ? '' : 'none';
                 });
             }
 

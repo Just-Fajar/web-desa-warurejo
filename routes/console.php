@@ -22,3 +22,7 @@ Schedule::call(function () {
     $service->aggregateYesterdayStats();
     \Log::info("Visitor stats: aggregated yesterday's data");
 })->dailyAt('06:05');
+
+// Auto-publish konten yang dijadwalkan (cek setiap menit)
+Schedule::command('content:publish-scheduled')->everyMinute();
+

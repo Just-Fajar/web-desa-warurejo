@@ -35,8 +35,11 @@ class PotensiDesaFactory extends Factory
             'deskripsi' => fake()->paragraphs(3, true),
             'gambar' => 'potensi/test-image.jpg',
             'lokasi' => fake()->address(),
-            'kontak' => fake()->phoneNumber(),
-            'is_active' => true,
+            'whatsapp' => '8' . fake()->numerify('##########'),
+            'nama_pengelola' => fake()->name(),
+            'info_utama' => fake()->sentence(4),
+            'status' => 'published',
+            'published_at' => now(),
             'urutan' => fake()->numberBetween(1, 100),
         ];
     }
@@ -47,7 +50,8 @@ class PotensiDesaFactory extends Factory
     public function active(): static
     {
         return $this->state(fn(array $attributes) => [
-            'is_active' => true,
+            'status' => 'published',
+            'published_at' => now(),
         ]);
     }
 
@@ -57,7 +61,8 @@ class PotensiDesaFactory extends Factory
     public function inactive(): static
     {
         return $this->state(fn(array $attributes) => [
-            'is_active' => false,
+            'status' => 'draft',
+            'published_at' => null,
         ]);
     }
 

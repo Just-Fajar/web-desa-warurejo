@@ -56,7 +56,7 @@ class SitemapController extends Controller
         );
 
         // All Berita Articles
-        Berita::where('is_published', true)
+        Berita::published()
             ->orderBy('created_at', 'desc')
             ->get()
             ->each(function (Berita $berita) use ($sitemap) {
@@ -77,7 +77,7 @@ class SitemapController extends Controller
         );
 
         // All Potensi Desa
-        PotensiDesa::where('is_active', true)
+        PotensiDesa::published()
             ->orderBy('created_at', 'desc')
             ->get()
             ->each(function (PotensiDesa $potensi) use ($sitemap) {

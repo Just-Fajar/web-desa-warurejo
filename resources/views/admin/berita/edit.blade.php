@@ -24,156 +24,134 @@
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                <!-- Left Content -->
-                <div class="lg:col-span-2 space-y-6">
-                    <!-- Konten Berita -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-lg font-semibold text-primary-600 mb-4">Konten Berita</h2>
-
-                        <!-- Judul -->
-                        <div class="mb-4">
-                            <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
-                                Judul Berita <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="judul" id="judul" value="{{ old('judul', $berita->judul) }}"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
-                                required>
-                            @error('judul') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <!-- Slug -->
-                        <div class="mb-4">
-                            <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
-                                Slug <span class="text-xs text-gray-500 font-normal">(Otomatis)</span>
-                            </label>
-                            <input type="text" name="slug" id="slug" value="{{ old('slug', $berita->slug) }}"
-                                class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed"
-                                readonly>
-                            @error('slug') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <!-- Ringkasan -->
-                        <div class="mb-4">
-                            <label for="ringkasan" class="block text-sm font-bold text-gray-700 mb-2">
-                                Ringkasan/Excerpt
-                            </label>
-                            <textarea name="ringkasan" id="ringkasan" rows="3"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('ringkasan') border-red-300 ring-red-100 @enderror">{{ old('ringkasan', $berita->ringkasan) }}</textarea>
-                            <p class="mt-1 text-xs text-gray-500"><span
-                                    id="ringkasanCount">{{ strlen(old('ringkasan', $berita->ringkasan ?? '')) }}</span>/500
-                                karakter</p>
-                            @error('ringkasan') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <!-- Konten -->
-                        <div class="mb-4">
-                            <label for="konten" class="block text-sm font-bold text-gray-700 mb-2">
-                                Konten Berita <span class="text-red-500">*</span>
-                            </label>
-                            <textarea name="konten" id="konten" rows="10"
-                                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('konten') border-red-300 @enderror">{{ old('konten', $berita->konten) }}</textarea>
-                            @error('konten') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 space-y-6">
+                    <!-- Judul -->
+                    <div>
+                        <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
+                            Judul Berita <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" name="judul" id="judul" value="{{ old('judul', $berita->judul) }}"
+                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
+                            required>
+                        @error('judul') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
-                    <!-- Informasi Section -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-lg font-semibold text-primary-600 mb-4">Informasi</h2>
-                        <div class="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
-                            <div
-                                class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
-                                <span class="text-gray-500 font-medium">Dibuat:</span>
-                                <span class="text-gray-800">{{ $berita->created_at->format('d M Y H:i') }}</span>
-                            </div>
-                            <div
-                                class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
-                                <span class="text-gray-500 font-medium">Diupdate:</span>
-                                <span class="text-gray-800">{{ $berita->updated_at->format('d M Y H:i') }}</span>
-                            </div>
-                            <div
-                                class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
-                                <span class="text-gray-500 font-medium">Views:</span>
-                                <span class="text-gray-800">{{ number_format($berita->views ?? 0) }}</span>
-                            </div>
-                            <div
-                                class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-2">
-                                <span class="text-gray-500 font-medium">Penulis:</span>
-                                <span class="text-gray-800">{{ $berita->admin->name ?? 'Desa Warurejo' }}</span>
-                            </div>
-                        </div>
+                    <!-- Slug -->
+                    <div>
+                        <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
+                            Slug <span class="text-xs text-gray-500 font-normal">(Otomatis)</span>
+                        </label>
+                        <input type="text" name="slug" id="slug" value="{{ old('slug', $berita->slug) }}"
+                            class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed"
+                            readonly>
+                        @error('slug') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
-                </div>
 
-                <!-- Right Sidebar -->
-                <div class="space-y-6">
+                    <!-- Ringkasan -->
+                    <div>
+                        <label for="ringkasan" class="block text-sm font-bold text-gray-700 mb-2">
+                            Ringkasan/Excerpt
+                        </label>
+                        <textarea name="ringkasan" id="ringkasan" rows="3"
+                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('ringkasan') border-red-300 ring-red-100 @enderror">{{ old('ringkasan', $berita->ringkasan) }}</textarea>
+                        <p class="mt-1 text-xs text-gray-500"><span
+                                id="ringkasanCount">{{ strlen(old('ringkasan', $berita->ringkasan ?? '')) }}</span>/500
+                            karakter</p>
+                        @error('ringkasan') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <!-- Konten -->
+                    <div>
+                        <label for="konten" class="block text-sm font-bold text-gray-700 mb-2">
+                            Konten Berita <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="konten" id="konten" rows="10"
+                            class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('konten') border-red-300 @enderror">{{ old('konten', $berita->konten) }}</textarea>
+                        @error('konten') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
 
                     <!-- Media Upload -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-lg font-semibold text-primary-600 mb-4">Media</h2>
+                    <div class="pt-6 border-t border-gray-200 mt-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Media</h3>
+                        <div>
+                            <label for="gambar_utama" class="block text-sm font-bold text-gray-700 mb-2">Gambar Utama</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center min-h-[12rem]">
+                                <input type="file" id="gambar_utama" name="gambar_utama" accept="image/*"
+                                    onchange="previewImage(event)"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
 
-                        <div
-                            class="border-2 border-dashed rounded-lg p-4 text-center relative hover:border-primary-400 transition cursor-pointer">
-                            <input type="file" id="gambar_utama" name="gambar_utama" accept="image/*"
-                                onchange="previewImage(event)"
-                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                                <!-- Placeholder -->
+                                <div id="uploadPlaceholder" class="{{ $berita->gambar_utama ? 'hidden' : '' }}">
+                                    <svg class="w-12 h-12 mx-auto mb-3 text-primary-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 48 48">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8M8 32l9.172-9.172a4 4 0 015.656 0L28 28l4 4m4-24h8m-4-4v8m-12 4h.02" />
+                                    </svg>
+                                    <h3 class="font-medium text-primary-600 hover:text-primary-700 text-sm">Upload / Ganti Gambar</h3>
+                                    <p class="text-xs text-gray-500 mt-2">Format JPG, PNG, WEBP — Max 2MB</p>
+                                </div>
 
-                            <!-- Placeholder -->
-                            <div id="uploadPlaceholder" class="{{ $berita->gambar_utama ? 'hidden' : '' }}">
-                                <svg class="w-12 h-12 mx-auto mb-3 text-primary-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 48 48">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8M8 32l9.172-9.172a4 4 0 015.656 0L28 28l4 4m4-24h8m-4-4v8m-12 4h.02" />
-                                </svg>
-                                <h3 class="font-medium text-gray-700">Upload / Ganti Gambar</h3>
-                                <p class="text-xs text-gray-500">Format JPG, PNG, WEBP — Max 2MB</p>
+                                <!-- Preview -->
+                                <div id="previewContainer" class="{{ $berita->gambar_utama ? '' : 'hidden' }} absolute inset-0 w-full h-full p-2">
+                                    <img id="imagePreview" src="{{ $berita->gambar_utama ? $berita->gambar_utama_url : '' }}"
+                                        class="rounded-lg shadow w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-xl">
+                                        <p class="text-white text-sm font-medium">Ubah Gambar</p>
+                                    </div>
+                                </div>
                             </div>
-
-                            <!-- Preview -->
-                            <div id="previewContainer" class="{{ $berita->gambar_utama ? '' : 'hidden' }}">
-                                <img id="imagePreview" src="{{ $berita->gambar_utama ? $berita->gambar_utama_url : '' }}"
-                                    class="rounded-lg shadow w-full object-cover max-h-60">
-                                <p class="text-xs text-gray-500 mt-2 italic">Klik area untuk mengganti gambar</p>
-                            </div>
+                            @error('gambar_utama') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
-                        @error('gambar_utama') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
-                    <!-- Pengaturan -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan</h2>
-
-                        <!-- Status -->
-                        <div class="mb-4">
-                            <label for="status" class="block text-sm font-bold text-gray-700 mb-2">Status <span
-                                    class="text-red-500">*</span></label>
-                            <select name="status" id="status"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium"
-                                required>
-                                <option value="published" {{ old('status', $berita->status) === 'published' ? 'selected' : '' }}>Published</option>
-                            </select>
-                            @error('status') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <!-- Informasi Tambahan -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Tambahan</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Dibuat</p>
+                                <p class="text-gray-800 font-semibold">{{ $berita->created_at->format('d M Y H:i') }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Diupdate</p>
+                                <p class="text-gray-800 font-semibold">{{ $berita->updated_at->format('d M Y H:i') }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Views</p>
+                                <p class="text-gray-800 font-semibold">{{ number_format($berita->views ?? 0) }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Penulis</p>
+                                <p class="text-gray-800 font-semibold">{{ $berita->admin->name ?? 'Desa Warurejo' }}</p>
+                            </div>
                         </div>
-
-                        <!-- Tanggal Publikasi -->
-                        <div class="mb-4">
-                            <label for="published_at" class="block text-sm font-bold text-gray-700 mb-2">Tanggal
-                                Publikasi</label>
-                            <input type="text" name="published_at" id="published_at"
-                                value="{{ old('published_at', $berita->published_at ? $berita->published_at->format('Y-m-d H:i') : '') }}"
-                                placeholder="Pilih tanggal dan waktu"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium">
-                            @error('published_at') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <hr class="my-4">
-
-                        <button type="submit" name="action" value="publish"
-                            class="w-full px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition">
-                            Update Perubahan
-                        </button>
                     </div>
+
+                    <!-- Pengaturan Publikasi -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
+                        <div class="space-y-6">
+                            @include('admin.partials._status_fields', [
+                                'currentStatus' => old('status', $berita->status),
+                                'publishedAt' => old('published_at', $berita->published_at ? $berita->published_at->format('Y-m-d H:i') : ''),
+                            ])
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Form Footer -->
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
+                    <a href="{{ route('admin.berita.index') }}"
+                        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition font-medium text-sm">
+                        Batal
+                    </a>
+                    <button type="submit" id="submitBtn"
+                        class="px-5 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition text-sm font-semibold flex items-center shadow-sm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span id="submitBtnText" data-module="Berita">Update Berita</span>
+                    </button>
                 </div>
             </div>
         </form>
@@ -198,24 +176,9 @@
     @endpush
 
     @push('scripts')
-        <!-- Flatpickr for Modern DatePicker -->
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
-
         <!-- CKEditor 5 -->
         <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
         <script>
-            // Initialize Flatpickr
-            flatpickr("#published_at", {
-                enableTime: true,
-                altInput: true,
-                altFormat: "j F Y, H:i",
-                dateFormat: "Y-m-d H:i",
-                time_24hr: true,
-                locale: "id",
-                placeholder: "Pilih tanggal dipublikasikan"
-            });
-
             // Initialize CKEditor
             let editorInstance;
             ClassicEditor
@@ -286,17 +249,6 @@
                 }
             }
 
-            // Form submission with action buttons
-            document.querySelectorAll('button[name="action"]').forEach(button => {
-                button.addEventListener('click', function (e) {
-                    const action = this.value;
-                    const statusSelect = document.getElementById('status');
-
-                    if (action === 'publish') {
-                        statusSelect.value = 'published';
-                    }
-                });
-            });
 
             // Client-side validation
             document.getElementById('beritaForm').addEventListener('submit', function (e) {

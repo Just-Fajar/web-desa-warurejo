@@ -32,82 +32,6 @@
         </div>
     </section>
 
-    <!-- Stats Section Animated -->
-    {{-- <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-
-                <!-- Item -->
-                <div class="group text-center p-6 rounded-xl shadow hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 scroll-reveal-stagger delay-100"
-                    style="background-image: url('{{ asset('images/.png') }}'); background-size: cover; background-position: center;">
-                    <div class="flex justify-center mb-3">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="48" height="48" rx="10" fill="#E8F5E9" />
-                            <path d="M10 32L24 18L38 32H10Z" fill="#81C784" />
-                            <path d="M18 32V24H30V32" fill="#4CAF50" />
-                            <path d="M21 32V27H27V32" fill="#2E7D32" />
-                            <circle cx="34" cy="18" r="5" fill="#66BB6A" />
-                            <circle cx="14" cy="20" r="3" fill="#A5D6A7" />
-                        </svg>
-
-                    </div>
-                    <div class="text-4xl font-bold text-primary-600 mb-1 count" data-target="{{ $totalPotensi }}">0</div>
-                    <div class="text-gray-600">Potensi Desa</div>
-                </div>
-
-                <div class="group text-center p-6 rounded-xl shadow hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 scroll-reveal-stagger delay-200"
-                    style="background-image: url('{{ asset('images/image-ber.png') }}'); background-size: cover; background-position: center;">
-                    <div class="flex justify-center mb-3">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="48" height="48" rx="10" fill="#E3F2FD" />
-                            <rect x="10" y="12" width="28" height="24" rx="3" fill="white" stroke="#64B5F6"
-                                stroke-width="2" />
-                            <rect x="14" y="16" width="10" height="8" fill="#90CAF9" />
-                            <rect x="26" y="16" width="10" height="2" fill="#BBDEFB" />
-                            <rect x="26" y="20" width="10" height="2" fill="#BBDEFB" />
-                            <rect x="14" y="27" width="22" height="2" fill="#90CAF9" />
-                            <rect x="14" y="31" width="22" height="2" fill="#90CAF9" />
-                        </svg>
-
-                    </div>
-                    <div class="text-4xl font-bold text-primary-600 mb-1 count" data-target="{{ $totalBerita }}">0</div>
-                    <div class="text-gray-600">Berita Terbaru</div>
-                </div>
-
-                <div class="group text-center p-6 rounded-xl shadow hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 scroll-reveal-stagger delay-300"
-                    style="background-image: url('{{ asset('images/bg-stats.jpg') }}'); background-size: cover; background-position: center;">
-                    <div class="flex justify-center mb-3">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="48" height="48" rx="10" fill="#FFF3E0" />
-                            <rect x="10" y="16" width="28" height="20" rx="4" fill="#FFB74D" />
-                            <circle cx="24" cy="26" r="7" fill="#FFF" />
-                            <circle cx="24" cy="26" r="4" fill="#FF9800" />
-                            <rect x="18" y="12" width="12" height="6" rx="2" fill="#F57C00" />
-                        </svg>
-
-                    </div>
-                    <div class="text-4xl font-bold text-primary-600 mb-1 count" data-target="{{ $totalGaleri }}">0</div>
-                    <div class="text-gray-600">Dokumentasi</div>
-                </div>
-
-                <div class="group text-center p-6 rounded-xl shadow hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 scroll-reveal-stagger delay-400"
-                    style="background-image: url('{{ asset('images/bg-stats.jpg') }}'); background-size: cover; background-position: center;">
-                    <div class="flex justify-center mb-3">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="48" height="48" rx="10" fill="#EDE7F6" />
-                            <circle cx="24" cy="18" r="7" fill="#9575CD" />
-                            <path d="M12 36C12 28 19 26 24 26C29 26 36 28 36 36" fill="#B39DDB" />
-                        </svg>
-
-                    </div>
-                    <div class="text-4xl font-bold text-primary-600 mb-1 count" data-target="{{ $totalVisitors }}">0</div>
-                    <div class="text-gray-600">Pengunjung</div>
-                </div>
-
-            </div>
-        </div>
-    </section> --}}
-
 
     <!-- Sambutan Kepala Desa -->
     <section class="py-16 bg-white">
@@ -362,7 +286,7 @@
                         {{-- Image Wrapper --}}
                         <a href="{{ route('potensi.show', $item->slug) }}"
                             class="relative block h-56 rounded-xl overflow-hidden mb-4">
-                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_potensi }}"
+                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama }}"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 loading="lazy" decoding="async">
 

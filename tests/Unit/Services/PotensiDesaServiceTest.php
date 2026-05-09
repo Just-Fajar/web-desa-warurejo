@@ -4,9 +4,6 @@ namespace Tests\Unit\Services;
 
 use Tests\TestCase;
 use App\Services\PotensiDesaService;
-use App\Repositories\PotensiDesaRepository;
-use App\Services\HtmlSanitizerService;
-use App\Services\ImageUploadService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -107,11 +104,11 @@ class PotensiDesaServiceTest extends TestCase
 
         // gambar field already contains full path (potensi/filename.jpg)
         $imagePath = $potensi->gambar;
-        \Illuminate\Support\Facades\Storage::disk('public')->assertExists($imagePath);
+        Storage::disk('public')->assertExists($imagePath);
 
         $this->potensiService->deletePotensi($potensi->id);
 
-        \Illuminate\Support\Facades\Storage::disk('public')->assertMissing($imagePath);
+        Storage::disk('public')->assertMissing($imagePath);
     }
 
     /**

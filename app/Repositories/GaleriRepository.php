@@ -135,19 +135,5 @@ class GaleriRepository extends BaseRepository
             ->get();
     }
 
-    /**
-     * Toggle status aktif/tidak aktif galeri
-     * Untuk enable/disable galeri tanpa menghapusnya
-     * 
-     * @param int $id - ID galeri
-     * @return \App\Models\Galeri
-     */
-    public function toggleActive($id)
-    {
-        $galeri = $this->find($id);
-        $galeri->is_active = !$galeri->is_active;
-        $galeri->save();
-
-        return $galeri;
-    }
 }
+

@@ -71,6 +71,7 @@ class PotensiCrudTest extends TestCase
 
         $data = [
             'nama' => 'Potensi Test',
+            'kategori' => 'pertanian',
             'deskripsi' => '<p>Deskripsi potensi lengkap</p>',
             'gambar' => UploadedFile::fake()->image('potensi.jpg'),
             'is_active' => true,
@@ -87,7 +88,7 @@ class PotensiCrudTest extends TestCase
             'is_active' => true,
         ]);
 
-        Storage::disk('public')->assertExists('potensi/' . PotensiDesa::first()->gambar);
+        Storage::disk('public')->assertExists(PotensiDesa::first()->gambar);
     }
 
     /**
@@ -119,6 +120,7 @@ class PotensiCrudTest extends TestCase
 
         $response = $this->put(route('admin.potensi.update', $potensi), [
             'nama' => 'Updated Name',
+            'kategori' => $potensi->kategori ?? 'pertanian',
             'deskripsi' => $potensi->deskripsi,
             'is_active' => true,
         ]);
@@ -162,11 +164,12 @@ class PotensiCrudTest extends TestCase
         $potensi2 = PotensiDesa::factory()->create();
         $potensi3 = PotensiDesa::factory()->create();
 
-        $response = $this->post(route('admin.potensi.bulk-delete'), [
+        $response = $this->postJson(route('admin.potensi.bulk-delete'), [
             'ids' => [$potensi1->id, $potensi2->id]
         ]);
 
-        $response->assertRedirect(route('admin.potensi.index'));
+        $response->assertOk();
+        $response->assertJson(['success' => true]);
 
         $this->assertDatabaseMissing('potensi_desa', ['id' => $potensi1->id]);
         $this->assertDatabaseMissing('potensi_desa', ['id' => $potensi2->id]);
@@ -214,6 +217,7 @@ class PotensiCrudTest extends TestCase
 
         $data = [
             'nama' => 'Potensi Wisata Alam',
+            'kategori' => 'wisata',
             'deskripsi' => '<p>Deskripsi</p>',
             'gambar' => UploadedFile::fake()->image('potensi.jpg'),
             'is_active' => true,

@@ -527,15 +527,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($potensi->is_active)
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Published
-                                        </span>
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                            Draft
-                                        </span>
-                                    @endif
+                                    @include('admin.partials._status_badge', ['status' => $potensi->status, 'publishedAt' => $potensi->published_at])
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-600">
                                     {{ $potensi->created_at->format('d M Y') }}
@@ -634,15 +626,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($galeri->is_active)
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Published
-                                        </span>
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                            Draft
-                                        </span>
-                                    @endif
+                                    @include('admin.partials._status_badge', ['status' => $galeri->status, 'publishedAt' => $galeri->published_at])
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-600">
                                     {{ $galeri->created_at->format('d M Y') }}

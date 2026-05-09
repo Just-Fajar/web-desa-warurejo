@@ -76,8 +76,17 @@ class PublikasiController extends Controller
             'file_dokumen' => 'required|file|mimes:pdf|max:10240', // 10MB max
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'tanggal_publikasi' => 'required|date',
-            'status' => 'required|in:draft,published',
+            'status' => 'required|in:draft,scheduled,published',
+            'published_at' => 'required_if:status,scheduled|nullable|date|after:now',
         ]);
+
+        // Handle published_at based on status
+        if ($validated['status'] === 'published' && empty($validated['published_at'])) {
+            $validated['published_at'] = now();
+        } elseif ($validated['status'] === 'draft') {
+            $validated['published_at'] = null;
+        }
+        // scheduled: published_at comes from form input
 
         // Upload file dokumen
         if ($request->hasFile('file_dokumen')) {
@@ -132,6 +141,7 @@ class PublikasiController extends Controller
     {
         $publikasi = Publikasi::findOrFail($id);
 
+
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'kategori' => 'required|in:APBDes,RPJMDes,RKPDes',
@@ -140,8 +150,17 @@ class PublikasiController extends Controller
             'file_dokumen' => 'nullable|file|mimes:pdf|max:10240',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'tanggal_publikasi' => 'required|date',
-            'status' => 'required|in:draft,published',
+            'status' => 'required|in:draft,scheduled,published',
+            'published_at' => 'required_if:status,scheduled|nullable|date',
         ]);
+
+        // Handle published_at based on status
+        if ($validated['status'] === 'published' && !$publikasi->published_at) {
+            $validated['published_at'] = now();
+        } elseif ($validated['status'] === 'draft') {
+            $validated['published_at'] = null;
+        }
+        // scheduled: published_at comes from form input
 
         // Upload new file dokumen if provided
         if ($request->hasFile('file_dokumen')) {
