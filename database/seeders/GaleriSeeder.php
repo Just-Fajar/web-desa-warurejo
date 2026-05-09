@@ -4,90 +4,106 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Galeri;
+use App\Models\GaleriImage;
 use App\Models\Admin;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 
 class GaleriSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Pastikan folder storage ada
         if (!Storage::disk('public')->exists('galeri')) {
             Storage::disk('public')->makeDirectory('galeri');
         }
-
-        // Get admin untuk foreign key
         $admin = Admin::first();
+        if (!$admin) { $this->command->error('Admin tidak ditemukan!'); return; }
 
-        if (!$admin) {
-            $this->command->error('Admin tidak ditemukan. Jalankan AdminSeeder terlebih dahulu.');
-            return;
-        }
+        $this->command->info('📸 Membuat 30 galeri dummy...');
+        $now = Carbon::now();
 
-        $this->command->info('Membuat 30 galeri foto dummy...');
+        // 5 per kategori × 6 = 30. Distribution per kategori: 3 pub, 1 draft, 1 sched
+        $items = [
+            // KEGIATAN (5)
+            ['Musyawarah Desa Pembahasan APBDes 2026', 'kegiatan', 'Musyawarah desa dihadiri seluruh perangkat desa dan BPD.', 25, 'published'],
+            ['Gotong Royong Membersihkan Lingkungan', 'kegiatan', 'Warga bergotong royong membersihkan selokan dan lingkungan desa.', 20, 'published'],
+            ['Posyandu Balita Rutin Bulanan', 'kegiatan', 'Kegiatan posyandu rutin memantau tumbuh kembang balita.', 15, 'published'],
+            ['Pelatihan Kader Posyandu', 'kegiatan', 'Kader posyandu mengikuti pelatihan meningkatkan kualitas pelayanan.', 5, 'draft'],
+            ['Rapat Koordinasi RT/RW Triwulan', 'kegiatan', 'Koordinasi rutin Kepala Desa dengan RT/RW membahas program kerja.', 7, 'scheduled'],
 
-        $galeriData = [
-            // Kegiatan (15 foto)
-            ['judul' => 'Musyawarah Desa Pembahasan APBDes 2025', 'deskripsi' => 'Musyawarah desa dihadiri seluruh perangkat desa, BPD, dan tokoh masyarakat untuk membahas rencana anggaran tahun depan.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/musyawarah-desa.jpg'],
-            ['judul' => 'Gotong Royong Membersihkan Lingkungan', 'deskripsi' => 'Warga desa bersama-sama bergotong royong membersihkan selokan dan lingkungan desa untuk cegah banjir.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/gotong-royong.jpg'],
-            ['judul' => 'Pelaksanaan Posyandu Balita', 'deskripsi' => 'Kegiatan posyandu rutin dilaksanakan setiap bulan untuk memantau tumbuh kembang balita dan pemberian imunisasi.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/posyandu-balita.jpg'],
-            ['judul' => 'Pelatihan UMKM Digital Marketing', 'deskripsi' => 'Pelaku UMKM desa mendapat pelatihan digital marketing untuk meningkatkan penjualan online.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/pelatihan-umkm.jpg'],
-            ['judul' => 'Senam Sehat Rutin PKK', 'deskripsi' => 'Ibu-ibu PKK melaksanakan senam sehat bersama setiap Jumat pagi di lapangan desa.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/senam-sehat.jpg'],
-            ['judul' => 'Rapat Koordinasi RT/RW', 'deskripsi' => 'Koordinasi rutin antara Kepala Desa dengan RT/RW membahas program kerja dan permasalahan di masing-masing wilayah.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/rapat-rt-rw.jpg'],
-            ['judul' => 'Vaksinasi COVID-19 Booster', 'deskripsi' => 'Pelaksanaan vaksinasi booster untuk lansia dan masyarakat umum bekerjasama dengan Puskesmas.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/vaksinasi-covid.jpg'],
-            ['judul' => 'Donor Darah Rutin PMI', 'deskripsi' => 'Kegiatan donor darah bekerjasama dengan PMI diikuti puluhan warga dengan antusias.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/donor-darah.jpg'],
-            ['judul' => 'Pelatihan Pertanian Organik', 'deskripsi' => 'Petani mengikuti pelatihan teknik bertani organik tanpa pestisida kimia dari narasumber dinas pertanian.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/pelatihan-pertanian.jpg'],
-            ['judul' => 'Sosialisasi Pencegahan Stunting', 'deskripsi' => 'Tim penyuluh kesehatan memberikan edukasi tentang pencegahan stunting pada ibu hamil dan balita.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/sosialisasi-stunting.jpg'],
-            ['judul' => 'Peringatan HUT RI ke-80', 'deskripsi' => 'Perayaan kemerdekaan RI dengan berbagai lomba dan pawai budaya yang meriah.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/hut-ri.jpg'],
-            ['judul' => 'Turnamen Bola Voli Antar RT', 'deskripsi' => 'Turnamen bola voli antar RT dalam rangka memeriahkan hari kemerdekaan.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/turnamen-voli.jpg'],
-            ['judul' => 'Pesta Rakyat Akhir Tahun', 'deskripsi' => 'Perayaan akhir tahun dengan hiburan musik dangdut dan doorprize untuk warga.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/pesta-rakyat.jpg'],
-            ['judul' => 'Lomba Desa Tingkat Kecamatan', 'deskripsi' => 'Tim desa meraih juara harapan pada lomba desa dengan penilaian administrasi dan pembangunan.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/lomba-desa.jpg'],
-            ['judul' => 'Pelatihan Kader Posyandu', 'deskripsi' => 'Kader posyandu mengikuti pelatihan untuk meningkatkan kualitas pelayanan kesehatan masyarakat.', 'kategori' => 'kegiatan', 'gambar' => 'galeri/pelatihan-kader.jpg'],
+            // PEMBANGUNAN (5)
+            ['Pembangunan Jalan Desa Tahap II', 'pembangunan', 'Pengaspalan jalan desa sepanjang 2 km untuk akses transportasi.', 22, 'published'],
+            ['Renovasi Balai Desa', 'pembangunan', 'Renovasi total balai desa meningkatkan kualitas pelayanan.', 18, 'published'],
+            ['Pembangunan Gedung PAUD Baru', 'pembangunan', 'Konstruksi gedung PAUD baru dengan fasilitas lengkap.', 12, 'published'],
+            ['Pembangunan MCK Umum Pasar Desa', 'pembangunan', 'Pembangunan fasilitas MCK umum di area pasar desa.', 3, 'draft'],
+            ['Pembuatan Drainase Jalan Utama', 'pembangunan', 'Pembuatan drainase sepanjang jalan utama mencegah genangan.', 10, 'scheduled'],
 
-            // Pembangunan (10 foto)
-            ['judul' => 'Pembangunan Jalan Desa Tahap II', 'deskripsi' => 'Progres pembangunan jalan desa dengan pengaspalan sepanjang 2 kilometer untuk akses transportasi lebih baik.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/pembangunan-jalan.jpg'],
-            ['judul' => 'Renovasi Balai Desa', 'deskripsi' => 'Renovasi total balai desa untuk meningkatkan kualitas pelayanan kepada masyarakat.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/renovasi-balai.jpg'],
-            ['judul' => 'Pembangunan Gedung PAUD Baru', 'deskripsi' => 'Konstruksi gedung PAUD baru dengan fasilitas lengkap untuk pendidikan anak usia dini.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/pembangunan-paud.jpg'],
-            ['judul' => 'Pemasangan Lampu Jalan Tenaga Surya', 'deskripsi' => 'Pemasangan 50 unit lampu jalan tenaga surya di berbagai titik strategis untuk penerangan malam hari.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/lampu-jalan.jpg'],
-            ['judul' => 'Pembangunan Saluran Irigasi', 'deskripsi' => 'Pembangunan saluran irigasi baru untuk mengairi lahan pertanian seluas 100 hektar.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/saluran-irigasi.jpg'],
-            ['judul' => 'Pembangunan Taman Desa', 'deskripsi' => 'Taman desa dengan fasilitas bermain anak dan gazebo untuk warga bersantai di sore hari.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/taman-desa.jpg'],
-            ['judul' => 'Normalisasi Sungai Desa', 'deskripsi' => 'Kegiatan normalisasi dan pembersihan sungai untuk mencegah banjir di musim hujan.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/normalisasi-sungai.jpg'],
-            ['judul' => 'Pembangunan Lapangan Futsal', 'deskripsi' => 'Lapangan futsal dengan rumput sintetis untuk menampung hobi olahraga pemuda desa.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/lapangan-futsal.jpg'],
-            ['judul' => 'Pengecatan Gapura Desa', 'deskripsi' => 'Perawatan gapura desa dengan pengecatan ulang dan penambahan ornamen untuk memperindah tampilan.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/gapura-desa.jpg'],
-            ['judul' => 'Pembangunan Pos Kamling', 'deskripsi' => 'Pembangunan pos kamling di setiap RT untuk meningkatkan keamanan lingkungan.', 'kategori' => 'pembangunan', 'gambar' => 'galeri/pos-kamling.jpg'],
+            // BUDAYA (5)
+            ['Festival Budaya Desa Warurejo', 'budaya', 'Festival budaya menampilkan seni tari tradisional dan wayang kulit.', 24, 'published'],
+            ['Pawai Budaya Nusantara', 'budaya', 'Pawai budaya menampilkan kostum tradisional berbagai daerah.', 16, 'published'],
+            ['Pertunjukan Wayang Kulit', 'budaya', 'Pertunjukan wayang kulit semalam suntuk dengan dalang kondang.', 8, 'published'],
+            ['Latihan Tari Tradisional Anak', 'budaya', 'Anak-anak desa belajar tari tradisional melestarikan budaya.', 4, 'draft'],
+            ['Persiapan Festival Seni Rakyat', 'budaya', 'Persiapan festival seni rakyat menampilkan kesenian lokal.', 14, 'scheduled'],
 
-            // Budaya (5 foto)
-            ['judul' => 'Festival Budaya Desa', 'deskripsi' => 'Festival budaya menampilkan seni tari tradisional, wayang kulit, dan kuliner khas daerah.', 'kategori' => 'budaya', 'gambar' => 'galeri/festival-budaya.jpg'],
-            ['judul' => 'Pawai Budaya Nusantara', 'deskripsi' => 'Pawai budaya menampilkan kostum tradisional dari berbagai daerah di Indonesia.', 'kategori' => 'budaya', 'gambar' => 'galeri/pawai-budaya.jpg'],
-            ['judul' => 'Malam Kesenian Desa', 'deskripsi' => 'Pertunjukan seni malam dengan penampilan penari tradisional dan musik gambang kromong.', 'kategori' => 'budaya', 'gambar' => 'galeri/malam-kesenian.jpg'],
-            ['judul' => 'Pelatihan Tari Tradisional Anak', 'deskripsi' => 'Anak-anak desa belajar tari tradisional untuk melestarikan budaya lokal.', 'kategori' => 'budaya', 'gambar' => 'galeri/pelatihan-tari.jpg'],
-            ['judul' => 'Pertunjukan Wayang Kulit', 'deskripsi' => 'Pertunjukan wayang kulit semalam suntuk dengan dalang kondang untuk hiburan warga.', 'kategori' => 'budaya', 'gambar' => 'galeri/wayang-kulit.jpg'],
+            // KEAGAMAAN (5)
+            ['Peringatan Isra Miraj Nabi Muhammad SAW', 'keagamaan', 'Peringatan Isra Miraj dengan ceramah agama dan doa bersama.', 21, 'published'],
+            ['Santunan Anak Yatim Bulan Ramadhan', 'keagamaan', 'Santunan untuk 50 anak yatim piatu menjelang Ramadhan.', 13, 'published'],
+            ['Pengajian Akbar Bulanan', 'keagamaan', 'Pengajian akbar bulanan mengundang ustadz dari pondok pesantren.', 6, 'published'],
+            ['Persiapan Perayaan Natal Bersama', 'keagamaan', 'Persiapan perayaan Natal bersama warga Kristiani di gereja desa.', 2, 'draft'],
+            ['Kegiatan Tadarus Al-Quran Ramadhan', 'keagamaan', 'Jadwal tadarus Al-Quran bersama selama bulan Ramadhan.', 21, 'scheduled'],
+
+            // SOSIAL (5)
+            ['Bakti Sosial Donor Darah PMI', 'sosial', 'Bakti sosial donor darah bersama PMI Kabupaten diikuti 80 pendonor.', 19, 'published'],
+            ['Pembagian Sembako Warga Kurang Mampu', 'sosial', 'Pembagian paket sembako untuk 100 KK warga kurang mampu.', 11, 'published'],
+            ['Penyuluhan Bahaya Narkoba Pemuda', 'sosial', 'Penyuluhan bahaya narkoba untuk pemuda bersama BNN Kabupaten.', 4, 'published'],
+            ['Simulasi Tanggap Bencana Alam', 'sosial', 'Simulasi dan pelatihan tanggap bencana untuk relawan desa.', 3, 'draft'],
+            ['Kampanye Anti Bullying Sekolah', 'sosial', 'Kampanye kesadaran anti-bullying di sekolah lingkungan desa.', 30, 'scheduled'],
+
+            // LAINNYA (5)
+            ['Dokumentasi Keindahan Alam Desa', 'lainnya', 'Koleksi foto keindahan alam Desa Warurejo dari berbagai sudut.', 28, 'published'],
+            ['Panorama Sawah Menghijau', 'lainnya', 'Pemandangan sawah hijau yang membentang luas di Desa Warurejo.', 17, 'published'],
+            ['Suasana Pasar Tradisional Desa', 'lainnya', 'Dokumentasi suasana pasar tradisional desa yang ramai pengunjung.', 9, 'published'],
+            ['Koleksi Foto Fauna Desa', 'lainnya', 'Dokumentasi berbagai fauna yang hidup di lingkungan desa.', 2, 'draft'],
+            ['Foto Udara Desa Warurejo', 'lainnya', 'Rencana dokumentasi foto udara drone seluruh wilayah desa.', 15, 'scheduled'],
         ];
 
-        foreach ($galeriData as $index => $data) {
-            $tanggal = Carbon::now()->subDays(rand(1, 180));
+        foreach ($items as $i => $item) {
+            [$judul, $kat, $desk, $days, $status] = $item;
+            $pa = match($status) {
+                'published' => $now->copy()->subDays($days),
+                'scheduled' => $now->copy()->addDays($days),
+                default => null,
+            };
+            $tgl = $pa ?? $now->copy()->subDays($days);
+            $img = $this->dl('galeri', "galeri-{$i}.jpg", 800, 600, 300 + $i);
 
-            Galeri::create([
-                'admin_id' => $admin->id,
-                'judul' => $data['judul'],
-                'deskripsi' => $data['deskripsi'],
-                'gambar' => $data['gambar'],
-                'kategori' => $data['kategori'],
-                'tanggal' => $tanggal,
-                'status' => 'published',
-                'published_at' => now(),
-                'created_at' => $tanggal,
-                'updated_at' => $tanggal,
+            $galeri = Galeri::create([
+                'admin_id' => $admin->id, 'judul' => $judul, 'deskripsi' => $desk,
+                'gambar' => $img, 'kategori' => $kat, 'tanggal' => $tgl,
+                'status' => $status, 'published_at' => $pa,
+                'views' => $status === 'published' ? rand(5, 200) : 0,
+                'created_at' => $tgl, 'updated_at' => $tgl,
             ]);
 
-            $this->command->info('📸 Galeri ' . ($index + 1) . ': ' . $data['judul']);
-        }
+            // 2-3 extra images
+            for ($j = 0; $j < rand(2, 3); $j++) {
+                $ep = $this->dl('galeri', "galeri-{$i}-extra-{$j}.jpg", 800, 600, 400 + ($i * 4) + $j);
+                if ($ep) GaleriImage::create(['galeri_id' => $galeri->id, 'image_path' => $ep, 'urutan' => $j + 1]);
+            }
 
-        $this->command->info('✅ Berhasil membuat 30 galeri foto dummy!');
+            $icon = match($status) { 'published'=>'✅', 'draft'=>'📝', 'scheduled'=>'⏰' };
+            $this->command->info("  {$icon} [{$kat}] {$judul}");
+        }
+        $this->command->info('✅ 30 galeri: 6 kategori × 5 (18 pub, 6 draft, 6 sched)');
+    }
+
+    private function dl(string $f, string $fn, int $w, int $h, int $s): ?string
+    {
+        try {
+            $r = Http::timeout(15)->get("https://picsum.photos/seed/{$s}/{$w}/{$h}");
+            if ($r->successful()) { $p = "{$f}/{$fn}"; Storage::disk('public')->put($p, $r->body()); return $p; }
+        } catch (\Exception $e) {}
+        return "{$f}/{$fn}";
     }
 }
