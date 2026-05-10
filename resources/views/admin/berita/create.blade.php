@@ -27,11 +27,11 @@
                 <div class="p-6 space-y-6">
                     <!-- Judul -->
                     <div>
-                        <label for="judul" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="judul" class="block text-sm font-bold text-gray-900 mb-2">
                             Judul Berita <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="judul" id="judul" value="{{ old('judul') }}"
-                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
+                            class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
                             placeholder="Masukkan judul berita" required>
                         @error('judul')
                             <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
@@ -40,11 +40,11 @@
 
                     <!-- Slug (Auto-generated) -->
                     <div>
-                        <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
+                        <label for="slug" class="block text-sm font-bold text-gray-900 mb-2">
                             Slug <span class="text-xs text-gray-500 font-normal">(Otomatis dibuatkan dari judul)</span>
                         </label>
                         <input type="text" name="slug" id="slug" value="{{ old('slug') }}"
-                            class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
+                            class="w-full px-5 py-3 bg-gray-50 border border-gray-300 shadow-sm rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
                             placeholder="slug-otomatis" readonly>
                         @error('slug')
                             <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
@@ -53,11 +53,11 @@
 
                     <!-- Ringkasan -->
                     <div>
-                        <label for="ringkasan" class="block text-sm font-bold text-gray-700 mb-2">
+                        <label for="ringkasan" class="block text-sm font-bold text-gray-900 mb-2">
                             Ringkasan/Excerpt
                         </label>
                         <textarea name="ringkasan" id="ringkasan" rows="3"
-                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('ringkasan') border-red-300 ring-red-100 @enderror"
+                            class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('ringkasan') border-red-300 ring-red-100 @enderror"
                             placeholder="Ringkasan singkat berita (opsional, max 500 karakter)">{{ old('ringkasan') }}</textarea>
                         <p class="mt-1 text-xs text-gray-500">
                             <span id="ringkasanCount">0</span>/500 karakter
@@ -69,7 +69,7 @@
 
                     <!-- Gambar Utama -->
                     <div>
-                        <label for="gambar_utama" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="gambar_utama" class="block text-sm font-bold text-gray-900 mb-2">
                             Gambar Utama
                         </label>
                         <div
@@ -114,11 +114,11 @@
 
                     <!-- Konten (TinyMCE) -->
                     <div>
-                        <label for="konten" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="konten" class="block text-sm font-bold text-gray-900 mb-2">
                             Konten Berita <span class="text-red-500">*</span>
                         </label>
                         <textarea name="konten" id="konten" rows="10"
-                            class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('konten') @enderror">{{ old('konten') }}</textarea>
+                            class="w-full border border-gray-300 rounded-xl p-3 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('konten') @enderror">{{ old('konten') }}</textarea>
 
                         @error('konten')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

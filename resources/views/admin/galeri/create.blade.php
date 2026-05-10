@@ -26,12 +26,12 @@
 
                             <!-- JUDUL -->
                             <div class="mb-4">
-                                <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
+                                <label for="judul" class="block text-sm font-bold text-gray-900 mb-2">
                                     Judul Galeri <span class="text-red-500">*</span>
                                 </label>
 
                                 <input type="text" name="judul" id="judul" value="{{ old('judul') }}"
-                                    placeholder="Masukkan judul..." class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                                    placeholder="Masukkan judul..." class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
                                                   @error('judul') border-red-300 ring-red-100 @enderror">
 
                                 @error('judul')
@@ -41,11 +41,11 @@
 
                             <!-- Slug (Auto-generated) -->
                             <div class="mb-4">
-                                <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
+                                <label for="slug" class="block text-sm font-bold text-gray-900 mb-2">
                                     Slug <span class="text-xs text-gray-500 font-normal">(Otomatis dibuatkan dari judul)</span>
                                 </label>
                                 <input type="text" name="slug" id="slug" value="{{ old('slug') }}"
-                                    class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
+                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-300 shadow-sm rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
                                     placeholder="slug-otomatis" readonly>
                                 @error('slug')
                                     <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
@@ -54,13 +54,13 @@
 
                             <!-- DESKRIPSI -->
                             <div class="mb-4">
-                                <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
+                                <label for="deskripsi" class="block text-sm font-bold text-gray-900 mb-2">
                                     Deskripsi
                                 </label>
 
                                 <textarea name="deskripsi" id="deskripsi" rows="6"
                                     placeholder="Ceritakan detail tentang foto ini..."
-                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
+                                    class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium
                                                      @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi') }}</textarea>
 
                                 @error('deskripsi')
@@ -74,7 +74,7 @@
 
                             <!-- MULTIPLE PHOTO UPLOAD -->
                             <div class="mb-6">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <label class="block text-sm font-bold text-gray-900 mb-2">
                                     Upload Foto <span class="text-red-500">*</span>
                                 </label>
 
@@ -112,11 +112,11 @@
 
                             <!-- KATEGORI -->
                             <div class="mb-4">
-                                <label class="block text-sm font-bold text-gray-700 mb-2">Kategori <span
+                                <label class="block text-sm font-bold text-gray-900 mb-2">Kategori <span
                                         class="text-red-500">*</span></label>
 
                                 <select name="kategori" required
-                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium">
+                                    class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium">
 
                                     <option value="">-- Pilih Kategori --</option>
                                     <option value="kegiatan">Kegiatan</option>
@@ -130,11 +130,11 @@
 
                             <!-- TANGGAL -->
                             <div class="mb-4">
-                                <label class="block text-sm font-bold text-gray-700 mb-2">Tanggal Kejadian</label>
+                                <label class="block text-sm font-bold text-gray-900 mb-2">Tanggal Kejadian</label>
 
                                 <input type="text" id="tanggal" name="tanggal" value="{{ old('tanggal', date('Y-m-d')) }}"
                                     placeholder="Pilih tanggal"
-                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium">
+                                    class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium">
                             </div>
 
                             <!-- Pengaturan Publikasi -->

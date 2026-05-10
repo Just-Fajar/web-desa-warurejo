@@ -50,13 +50,20 @@ class PengaduanController extends Controller
     {
         $pengaduan = Pengaduan::findOrFail($id);
 
-        // Simpan balasan hanya jika isi diisi
-        if ($request->filled('isi')) {
-            PengaduanBalasan::create([
+        // Simpan balasan jika isi diisi atau ada lampiran
+        if ($request->filled('isi') || $request->hasFile('lampiran_balasan')) {
+            $balasanData = [
                 'pengaduan_id' => $pengaduan->id,
                 'isi' => $request->isi,
                 'is_admin' => true,
-            ]);
+            ];
+
+            // Upload lampiran balasan jika ada
+            if ($request->hasFile('lampiran_balasan')) {
+                $balasanData['lampiran'] = $request->file('lampiran_balasan')->store('pengaduan/balasan', 'public');
+            }
+
+            PengaduanBalasan::create($balasanData);
         }
 
         // Update status pengaduan
@@ -72,7 +79,7 @@ class PengaduanController extends Controller
 
         $pengaduan->save();
 
-        return redirect()->route('admin.pengaduan.show', $id)
+        return redirect()->route('admin.pengaduan.index')
             ->with('success', 'Balasan berhasil dikirim dan status diperbarui.');
     }
 
@@ -84,9 +91,16 @@ class PengaduanController extends Controller
     {
         $pengaduan = Pengaduan::findOrFail($id);
 
-        // Hapus lampiran dari storage jika ada
+        // Hapus lampiran pengaduan dari storage jika ada
         if ($pengaduan->lampiran && Storage::disk('public')->exists($pengaduan->lampiran)) {
             Storage::disk('public')->delete($pengaduan->lampiran);
+        }
+
+        // Hapus lampiran balasan dari storage
+        foreach ($pengaduan->balasan as $balasan) {
+            if ($balasan->lampiran && Storage::disk('public')->exists($balasan->lampiran)) {
+                Storage::disk('public')->delete($balasan->lampiran);
+            }
         }
 
         // Balasan otomatis terhapus via cascade

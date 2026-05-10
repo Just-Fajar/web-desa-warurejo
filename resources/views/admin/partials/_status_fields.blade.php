@@ -15,11 +15,11 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {{-- Status --}}
     <div>
-        <label for="status" class="block text-sm font-medium text-gray-700 mb-2">
+        <label for="status" class="block text-sm font-bold text-gray-900 mb-2">
             Status <span class="text-red-500">*</span>
         </label>
         <select name="status" id="status"
-            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('status') border-red-300 @enderror"
+            class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('status') border-red-300 @enderror"
             required onchange="handleStatusChange(this.value)">
             @foreach($statusList as $value => $label)
                 <option value="{{ $value }}" {{ $currentStatus === $value ? 'selected' : '' }}>
@@ -43,13 +43,13 @@
 
     {{-- Tanggal Publikasi --}}
     <div id="publishedAtWrapper" style="{{ in_array($currentStatus, ['scheduled', 'published']) ? '' : 'display: none;' }}">
-        <label for="{{ $dateFieldName }}" class="block text-sm font-medium text-gray-700 mb-2">
+        <label for="{{ $dateFieldName }}" class="block text-sm font-bold text-gray-900 mb-2">
             Tanggal Publikasi <span class="text-red-500" id="dateRequiredStar" style="{{ $currentStatus === 'scheduled' ? '' : 'display: none;' }}">*</span>
         </label>
         <input type="text" name="{{ $dateFieldName }}" id="{{ $dateFieldName }}" 
             value="{{ $publishedAt }}"
             placeholder="Kosongkan untuk menggunakan waktu saat ini"
-            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error($dateFieldName) border-red-300 @enderror">
+            class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error($dateFieldName) border-red-300 @enderror">
         @error($dateFieldName)
             <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
         @enderror

@@ -126,11 +126,11 @@
                     @method('PUT')
 
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">
+                        <label class="block text-sm font-bold text-gray-900 mb-2">
                             Nama Lengkap <span class="text-rose-500">*</span>
                         </label>
                         <input type="text" name="name" value="{{ old('name', $admin->name) }}" required
-                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('name') border-rose-300 ring-rose-100 @enderror"
+                            class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm font-medium @error('name') border-rose-300 ring-rose-100 @enderror"
                             placeholder="Masukkan nama lengkap Anda">
                         @error('name') <p class="text-sm text-rose-600 mt-1 font-medium">{{ $message }}</p> @enderror
                     </div>
@@ -161,7 +161,7 @@
                     @csrf
                     @method('PUT')
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">
+                        <label class="block text-sm font-bold text-gray-900 mb-2">
                             Alamat Email <span class="text-rose-500">*</span>
                         </label>
                         <p class="text-xs text-gray-500 mb-4">Email ini digunakan untuk login ke dashboard admin.</p>
@@ -196,7 +196,7 @@
 
                     <div class="space-y-6">
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">
+                            <label class="block text-sm font-bold text-gray-900 mb-2">
                                 Password Saat Ini <span class="text-rose-500">*</span>
                             </label>
                             <div class="relative">
@@ -213,7 +213,7 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">
+                                <label class="block text-sm font-bold text-gray-900 mb-2">
                                     Password Baru <span class="text-rose-500">*</span>
                                 </label>
                                 <div class="relative">
@@ -228,7 +228,7 @@
                                 @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">
+                                <label class="block text-sm font-bold text-gray-900 mb-2">
                                     Konfirmasi Password Baru <span class="text-rose-500">*</span>
                                 </label>
                                 <div class="relative">

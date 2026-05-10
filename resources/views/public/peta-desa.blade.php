@@ -19,10 +19,9 @@
 
                 {{-- Left Content: Text & Contact --}}
                 <div class="lg:col-span-5 scroll-reveal-left">
-                    <div
-                        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-100/80 text-amber-700 text-sm font-bold tracking-wide uppercase mb-6 border border-amber-200 shadow-sm">
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse"></span>
-                        HUBUNGI KAMI
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-px bg-amber-500"></div>
+                        <span class="text-amber-600 text-sm font-semibold tracking-widest uppercase">Hubungi Kami</span>
                     </div>
 
                     <h1

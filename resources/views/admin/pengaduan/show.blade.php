@@ -144,9 +144,19 @@
                                         </div>
                                         <span class="text-xs text-gray-400">{{ $balasan->created_at->format('d M Y, H:i') }}</span>
                                     </div>
-                                    <div class="text-sm text-gray-700 leading-relaxed pl-9">
-                                        {!! nl2br(e($balasan->isi)) !!}
-                                    </div>
+                                    @if($balasan->isi)
+                                        <div class="text-sm text-gray-700 leading-relaxed pl-9">
+                                            {!! nl2br(e($balasan->isi)) !!}
+                                        </div>
+                                    @endif
+                                    @if($balasan->lampiran && $balasan->isImage())
+                                        <div class="pl-9 mt-3">
+                                            <div class="rounded-xl overflow-hidden border border-green-200 max-w-sm">
+                                                <img src="{{ $balasan->lampiran_url }}" alt="Bukti balasan" class="w-full object-contain bg-green-50/30">
+                                            </div>
+                                            <p class="text-[11px] text-gray-400 mt-1">📎 Lampiran bukti dari admin</p>
+                                        </div>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>
@@ -164,7 +174,7 @@
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-6">
                     <h3 class="text-lg font-bold text-gray-800 mb-5">Balas Pengaduan</h3>
 
-                    <form action="{{ route('admin.pengaduan.balas', $pengaduan->id) }}" method="POST" class="space-y-4">
+                    <form action="{{ route('admin.pengaduan.balas', $pengaduan->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
 
                         {{-- Balasan --}}
@@ -200,6 +210,17 @@
                                 placeholder="Jelaskan alasan penolakan (opsional)...">{{ old('alasan_penolakan', $pengaduan->alasan_penolakan) }}</textarea>
                             <p class="text-xs text-gray-400 mt-1">Alasan akan tampil di halaman publik jika diisi.</p>
                             @error('alasan_penolakan') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- Lampiran Bukti --}}
+                        <div>
+                            <label for="lampiran_balasan" class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                Lampiran Bukti <span class="text-gray-400 font-normal">(Opsional)</span>
+                            </label>
+                            <input type="file" name="lampiran_balasan" id="lampiran_balasan" accept=".jpg,.jpeg,.png"
+                                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 transition-all text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary-50 file:text-primary-600 hover:file:bg-primary-100">
+                            <p class="text-xs text-gray-400 mt-1">Format: JPG, JPEG, PNG. Maks 5MB. Bisa digunakan sebagai bukti penyelesaian.</p>
+                            @error('lampiran_balasan') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         {{-- Submit --}}

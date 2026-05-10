@@ -63,7 +63,7 @@
     @stack('styles')
 </head>
 
-<body class="bg-gray-50">
+<body class="bg-gray-50 overflow-x-hidden w-full relative">
     <!-- Navigation -->
     @include('public.partials.navbar')
 

@@ -8,22 +8,21 @@
     <section class="pt-32 pb-8 bg-gray-50 border-b border-gray-100 relative overflow-hidden">
         {{-- Decorative Background Elements --}}
         <div
-            class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-rose-100 rounded-full blur-3xl opacity-50 pointer-events-none">
+            class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-primary-100 rounded-full blur-3xl opacity-50 pointer-events-none">
         </div>
         <div
-            class="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-rose-50 rounded-full blur-3xl opacity-50 pointer-events-none">
+            class="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-primary-50 rounded-full blur-3xl opacity-50 pointer-events-none">
         </div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-4xl scroll-reveal">
-                <div
-                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-100/80 text-rose-700 text-sm font-bold tracking-wide uppercase mb-4 border border-rose-200 shadow-sm">
-                    <span class="w-1.5 h-1.5 rounded-full bg-rose-600 animate-pulse"></span>
-                    PROFIL DESA
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="h-0.5 w-8 bg-primary-600"></div>
+                    <span class="text-primary-600 font-bold uppercase tracking-wider text-sm">Profil Desa</span>
                 </div>
 
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 tracking-tight">
-                    Visi & <span class="text-rose-600">Misi</span>
+                    Visi & <span class="text-primary-600">Misi</span>
                 </h1>
 
                 <p class="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed font-medium">
@@ -53,7 +52,7 @@
                 </h2>
 
                 <p
-                    class="text-gray-500 italic text-center max-w-3xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed">
+                    class="text-gray-800 font-semibold italic text-center max-w-3xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed">
                     "Visi merupakan pandangan jauh ke depan, kemana dan bagaimana Desa Warurejo harus dibawa dan berkarya
                     agar konsisten, antisipatif, inovatif serta produktif dalam melayani masyarakat."
                 </p>
@@ -84,7 +83,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900 text-sm sm:text-base mb-1">Bina Keagamaan</h4>
-                                <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">Mewujudkan dan mengembangkan
+                                <p class="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">Mewujudkan dan mengembangkan
                                     kegiatan keagamaan untuk menambah keimanan dan ketaqwaan.</p>
                             </div>
                         </div>
@@ -99,7 +98,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900 text-sm sm:text-base mb-1">Kerukunan Warga</h4>
-                                <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">Mendorong usaha-usaha kerukunan
+                                <p class="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">Mendorong usaha-usaha kerukunan
                                     antar dan intern warga masyarakat dalam suasana saling menghargai.</p>
                             </div>
                         </div>
@@ -114,7 +113,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900 text-sm sm:text-base mb-1">Peningkatan Pertanian</h4>
-                                <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">Membangun hasil pertanian dengan
+                                <p class="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">Membangun hasil pertanian dengan
                                     penataan pengairan, perbaikan jalan sawah, dan pola tanam baik.</p>
                             </div>
                         </div>
@@ -129,7 +128,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900 text-sm sm:text-base mb-1">Tata Kelola Pemerintahan</h4>
-                                <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">Menata Pemerintahan Desa yang
+                                <p class="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">Menata Pemerintahan Desa yang
                                     kompak dan bertanggung jawab dalam mengemban amanat masyarakat.</p>
                             </div>
                         </div>
@@ -144,7 +143,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900 text-sm sm:text-base mb-1">Pelayanan Prima</h4>
-                                <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">Meningkatkan kualitas pelayanan
+                                <p class="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">Meningkatkan kualitas pelayanan
                                     kepada masyarakat secara terpadu, cepat, dan sungguh-sungguh.</p>
                             </div>
                         </div>
@@ -159,7 +158,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900 text-sm sm:text-base mb-1">Pengelolaan Air & Irigasi</h4>
-                                <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">Mencari dan menambah debet air
+                                <p class="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">Mencari dan menambah debet air
                                     untuk mencukupi kebutuhan vital di sektor pertanian desa.</p>
                             </div>
                         </div>
@@ -174,7 +173,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900 text-sm sm:text-base mb-1">Pemberdayaan Petani</h4>
-                                <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">Menumbuh kembangkan Kelompok
+                                <p class="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">Menumbuh kembangkan Kelompok
                                     Tani dan Gapoktan bersama HIPPA dalam memfasilitasi petani.</p>
                             </div>
                         </div>
@@ -189,7 +188,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900 text-sm sm:text-base mb-1">Pengembangan UMKM</h4>
-                                <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">Mendorong serta
+                                <p class="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">Mendorong serta
                                     menumbuhkembangkan potensi usaha kecil dan menengah untuk memutar roda ekonomi asli
                                     desa.</p>
                             </div>
@@ -206,7 +205,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-gray-900 text-sm sm:text-base mb-1">Kemajuan Pendidikan</h4>
-                                <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">Membangun bidang pendidikan
+                                <p class="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">Membangun bidang pendidikan
                                     formal maupun informal yang mudah diakses dan mampu menghasilkan insan intelektual,
                                     inovatif dan enterpreneur unggul.</p>
                             </div>
@@ -222,33 +221,33 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     <!-- Convert the 6 points into small neat cards -->
                     <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:shadow-md transition">
-                        <h4 class="font-bold text-primary-700 mb-2">1. Menciptakan</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">Upaya dan peran pemerintah dalam mewujudkan Desa
+                        <h4 class="font-bold text-gray-900 mb-2">1. Menciptakan</h4>
+                        <p class="text-gray-800 font-medium leading-relaxed">Upaya dan peran pemerintah dalam mewujudkan Desa
                             Warurejo yang mandiri berbasis pertanian dan perdagangan demi masyarakat sejahtera.</p>
                     </div>
                     <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:shadow-md transition">
-                        <h4 class="font-bold text-primary-700 mb-2">2. Desa Warurejo</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">Satu kesatuan masyarakat hukum dengan segala
+                        <h4 class="font-bold text-gray-900 mb-2">2. Desa Warurejo</h4>
+                        <p class="text-gray-800 font-medium leading-relaxed">Satu kesatuan masyarakat hukum dengan segala
                             potensi dan sumber dayanya dalam sistem pemerintahan.</p>
                     </div>
                     <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:shadow-md transition">
-                        <h4 class="font-bold text-primary-700 mb-2">3. Mandiri</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">Mampu menjalani kehidupan dengan kemampuan diri
+                        <h4 class="font-bold text-gray-900 mb-2">3. Mandiri</h4>
+                        <p class="text-gray-800 font-medium leading-relaxed">Mampu menjalani kehidupan dengan kemampuan diri
                             sendiri sebagai prasyarat utama untuk meraih berbagai keberhasilan.</p>
                     </div>
                     <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:shadow-md transition">
-                        <h4 class="font-bold text-primary-700 mb-2">4. Pertanian</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">Kondisi masyarakat mayoritas petani yang mengelola
+                        <h4 class="font-bold text-gray-900 mb-2">4. Pertanian</h4>
+                        <p class="text-gray-800 font-medium leading-relaxed">Kondisi masyarakat mayoritas petani yang mengelola
                             lahan pertanian sebagai sumber mata pencaharian pokok desa.</p>
                     </div>
                     <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:shadow-md transition">
-                        <h4 class="font-bold text-primary-700 mb-2">5. Perdagangan</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">Sektor jasa yang menunjang kegiatan ekonomi antar
+                        <h4 class="font-bold text-gray-900 mb-2">5. Perdagangan</h4>
+                        <p class="text-gray-800 font-medium leading-relaxed">Sektor jasa yang menunjang kegiatan ekonomi antar
                             anggota masyarakat untuk melesatkan pertumbuhan perekonomian.</p>
                     </div>
                     <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:shadow-md transition">
-                        <h4 class="font-bold text-primary-700 mb-2">6. Warurejo MANDIRI</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">Akronim nilai yang dipegang teguh oleh desa yakni:
+                        <h4 class="font-bold text-gray-900 mb-2">6. Warurejo MANDIRI</h4>
+                        <p class="text-gray-800 font-medium leading-relaxed">Akronim nilai yang dipegang teguh oleh desa yakni:
                             <span class="font-semibold text-gray-800">Maju, Aman, Nyaman, Dinamis, dan Religius</span>.
                         </p>
                     </div>
@@ -256,10 +255,10 @@
             </div>
 
             {{-- Komitmen Kami --}}
-            <div
-                class="bg-[#f0f7ff] border-l-[6px] border-[#3b82f6] p-6 sm:p-8 rounded-xl scroll-reveal mt-12 max-w-5xl mx-auto shadow-sm">
-                <h3 class="text-xl sm:text-2xl font-extrabold text-[#111827] mb-4 tracking-tight">Komitmen Kami</h3>
-                <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+            <div class="mt-20 sm:mt-24 mb-8 scroll-reveal flex flex-col items-center text-center max-w-4xl mx-auto">
+                <div class="w-16 h-1 bg-primary-600 rounded-full mb-8"></div>
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6 tracking-tight">Komitmen Kami</h3>
+                <p class="text-lg sm:text-xl text-gray-800 font-medium leading-relaxed">
                     Visi dan misi ini menjadi pedoman dalam setiap langkah pembangunan Desa Warurejo.
                     Dengan semangat kebersamaan dan budaya gotong royong, kami berkomitmen mewujudkan Desa Warurejo
                     yang lebih maju, mandiri, dan sejahtera bagi seluruh masyarakat.

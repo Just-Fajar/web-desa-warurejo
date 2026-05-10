@@ -34,7 +34,7 @@
 
 
     <!-- Sambutan Kepala Desa -->
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-white overflow-hidden">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12 scroll-reveal">
                 <h2 class="text-3xl md:text-4xl font-bold text-primary-700 mb-2">Selamat Datang</h2>

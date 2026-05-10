@@ -29,11 +29,11 @@
                 <div class="p-6 space-y-6">
                     <!-- Judul -->
                     <div>
-                        <label for="judul" class="block text-sm font-bold text-gray-700 mb-2">
+                        <label for="judul" class="block text-sm font-bold text-gray-900 mb-2">
                             Judul Galeri <span class="text-red-500">*</span>
                         </label>
                         <input type="text" id="judul" name="judul" value="{{ old('judul', $galeri->judul) }}"
-                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
+                            class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('judul') border-red-300 ring-red-100 @enderror"
                             required>
                         @error('judul')
                             <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
@@ -42,11 +42,11 @@
 
                     <!-- Slug (Auto-generated) -->
                     <div>
-                        <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
+                        <label for="slug" class="block text-sm font-bold text-gray-900 mb-2">
                             Slug <span class="text-xs text-gray-500 font-normal">(Otomatis dibuatkan dari judul)</span>
                         </label>
                         <input type="text" name="slug" id="slug" value="{{ old('slug', Str::slug($galeri->judul)) }}"
-                            class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
+                            class="w-full px-5 py-3 bg-gray-50 border border-gray-300 shadow-sm rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
                             readonly>
                         @error('slug')
                             <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
@@ -55,11 +55,11 @@
 
                     <!-- Deskripsi -->
                     <div>
-                        <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
+                        <label for="deskripsi" class="block text-sm font-bold text-gray-900 mb-2">
                             Deskripsi
                         </label>
                         <textarea id="deskripsi" name="deskripsi" rows="6"
-                            class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi', $galeri->deskripsi) }}</textarea>
+                            class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi', $galeri->deskripsi) }}</textarea>
                         @error('deskripsi')
                             <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                         @enderror
@@ -69,9 +69,9 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Kategori -->
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-bold text-gray-900 mb-2">Kategori <span class="text-red-500">*</span></label>
                             <select name="kategori"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror"
+                                class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror"
                                 required>
                                 <option value="">-- Pilih Kategori --</option>
                                 <option value="kegiatan" {{ old('kategori', $galeri->kategori) == 'kegiatan' ? 'selected' : '' }}>Kegiatan</option>
@@ -85,11 +85,11 @@
 
                         <!-- Tanggal -->
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Tanggal Kejadian</label>
+                            <label class="block text-sm font-bold text-gray-900 mb-2">Tanggal Kejadian</label>
                             <input type="text" id="tanggal" name="tanggal"
                                 value="{{ old('tanggal', $galeri->tanggal ? $galeri->tanggal->format('Y-m-d') : '') }}"
                                 placeholder="Pilih tanggal"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('tanggal') border-red-300 ring-red-100 @enderror"
+                                class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('tanggal') border-red-300 ring-red-100 @enderror"
                                 required>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                     <div class="pt-6 border-t border-gray-200 mt-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">Media</h3>
                         <div>
-                            <label for="gambar" class="block text-sm font-bold text-gray-700 mb-2">Gambar Galeri</label>
+                            <label for="gambar" class="block text-sm font-bold text-gray-900 mb-2">Gambar Galeri</label>
                             <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center min-h-[12rem]">
                                 <input type="file" id="gambar" name="gambar" accept="image/*" onchange="previewImage(event)"
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">

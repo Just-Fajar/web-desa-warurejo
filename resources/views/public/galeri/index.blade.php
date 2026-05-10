@@ -9,11 +9,11 @@
     <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-purple-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
     <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-purple-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
 
-    <div class="container mx-auto px-4 relative z-10">
-        <div class="max-w-4xl scroll-reveal">
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-100/80 text-purple-700 text-sm font-bold tracking-wide uppercase mb-4 border border-purple-200 shadow-sm">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse"></span>
-                GALERI VISUAL
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto scroll-reveal">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-px bg-purple-500"></div>
+                <span class="text-purple-600 text-sm font-semibold tracking-widest uppercase">Galeri Visual</span>
             </div>
             
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 tracking-tight">

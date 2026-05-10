@@ -16,11 +16,42 @@ class PengaduanController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Pengaduan::latest()->withCount('balasan');
+        $query = Pengaduan::withCount('balasan');
+
+        // Filter search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%")
+                  ->orWhere('isi', 'like', "%{$search}%")
+                  ->orWhere('lokasi_kejadian', 'like', "%{$search}%");
+            });
+        }
 
         // Filter status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
+        }
+
+        // Filter Date From
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        // Filter Date To
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        // Filter sort
+        if ($request->filled('sort')) {
+            if ($request->sort === 'oldest') {
+                $query->oldest();
+            } else {
+                $query->latest();
+            }
+        } else {
+            $query->latest();
         }
 
         $pengaduan = $query->paginate(10)->appends($request->query());

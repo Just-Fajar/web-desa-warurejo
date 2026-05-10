@@ -7,10 +7,10 @@
 <section class="pt-32 pb-8 bg-gray-50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto scroll-reveal">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-bold uppercase tracking-wider mb-4">
-                <span class="w-1.5 h-1.5 rounded-full bg-primary-600"></span>
-                Kabar Desa
-            </span>
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-px bg-primary-500"></div>
+                <span class="text-primary-600 text-sm font-semibold tracking-widest uppercase">Kabar Desa</span>
+            </div>
             <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
                 Berita <span class="text-primary-600">Desa</span>
             </h1>

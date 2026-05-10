@@ -39,6 +39,7 @@ class DashboardController extends Controller
         $totalPotensi = PotensiDesa::count();
         $totalGaleri = Galeri::count();
         $totalPublikasi = Publikasi::count();
+        $totalPengaduan = \App\Models\Pengaduan::count();
 
         // Visitor Statistics (Real Data)
         $pengunjungHariIni = $this->visitorService->getTodayVisitors();
@@ -69,6 +70,10 @@ class DashboardController extends Controller
             ->get();
 
         $recentPublikasi = Publikasi::orderBy('tanggal_publikasi', 'desc')
+            ->take(5)
+            ->get();
+
+        $recentPengaduan = \App\Models\Pengaduan::latest()
             ->take(5)
             ->get();
 
@@ -125,6 +130,7 @@ class DashboardController extends Controller
             'totalPotensi',
             'totalGaleri',
             'totalPublikasi',
+            'totalPengaduan',
             'pengunjungHariIni',
             'pengunjungMingguIni',
             'pengunjungBulanIni',
@@ -139,6 +145,7 @@ class DashboardController extends Controller
             'recentPotensi',
             'recentGaleri',
             'recentPublikasi',
+            'recentPengaduan',
             'monthlyStats',
             'contentAvailableYears',
             'currentContentYear',

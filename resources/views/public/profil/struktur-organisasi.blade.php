@@ -15,10 +15,9 @@
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-4xl scroll-reveal">
-                <div
-                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-100/80 text-teal-700 text-sm font-bold tracking-wide uppercase mb-4 border border-teal-200 shadow-sm">
-                    <span class="w-1.5 h-1.5 rounded-full bg-teal-600 animate-pulse"></span>
-                    PEMERINTAHAN
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="h-0.5 w-8 bg-teal-600"></div>
+                    <span class="text-teal-600 font-bold uppercase tracking-wider text-sm">Pemerintahan</span>
                 </div>
 
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 tracking-tight">

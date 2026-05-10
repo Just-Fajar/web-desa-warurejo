@@ -15,11 +15,30 @@ class PengaduanBalasan extends Model
         'pengaduan_id',
         'isi',
         'is_admin',
+        'lampiran',
     ];
 
     protected $casts = [
         'is_admin' => 'boolean',
     ];
+
+    /**
+     * Accessor: Get URL publik lampiran balasan
+     */
+    public function getLampiranUrlAttribute()
+    {
+        return $this->lampiran ? asset('storage/' . $this->lampiran) : null;
+    }
+
+    /**
+     * Check apakah lampiran berupa gambar
+     */
+    public function isImage()
+    {
+        if (!$this->lampiran) return false;
+        $ext = strtolower(pathinfo($this->lampiran, PATHINFO_EXTENSION));
+        return in_array($ext, ['jpg', 'jpeg', 'png']);
+    }
 
     /**
      * Relationship: Balasan belongs to Pengaduan

@@ -40,18 +40,18 @@
                 <div class="p-6 space-y-6">
                     <!-- Konten Potensi -->
                     <div>
-                        <label for="nama" class="block text-sm font-bold text-gray-700 mb-2">Nama Potensi <span class="text-red-500">*</span></label>
-                        <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Contoh: Pertanian Padi Organik" required class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('nama') border-red-300 ring-red-100 @enderror">
+                        <label for="nama" class="block text-sm font-bold text-gray-900 mb-2">Nama Potensi <span class="text-red-500">*</span></label>
+                        <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Contoh: Pertanian Padi Organik" required class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('nama') border-red-300 ring-red-100 @enderror">
                         @error('nama') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Slug (Auto-generated) -->
                     <div>
-                        <label for="slug" class="block text-sm font-bold text-gray-700 mb-2">
+                        <label for="slug" class="block text-sm font-bold text-gray-900 mb-2">
                             Slug <span class="text-xs text-gray-500 font-normal">(Otomatis dibuatkan dari judul)</span>
                         </label>
                         <input type="text" name="slug" id="slug" value="{{ old('slug') }}"
-                            class="w-full px-5 py-3 bg-gray-100/70 border border-gray-100 rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
+                            class="w-full px-5 py-3 bg-gray-50 border border-gray-300 shadow-sm rounded-xl text-gray-500 text-sm font-medium focus:outline-none cursor-not-allowed @error('slug') border-red-300 @enderror"
                             placeholder="slug-otomatis" readonly>
                         @error('slug')
                             <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
@@ -60,44 +60,44 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="lokasi" class="block text-sm font-bold text-gray-700 mb-2">Lokasi <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
-                            <input type="text" id="lokasi" name="lokasi" value="{{ old('lokasi') }}" placeholder="Contoh: Dusun Krajan, RT 01/RW 02" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('lokasi') border-red-300 ring-red-100 @enderror">
+                            <label for="lokasi" class="block text-sm font-bold text-gray-900 mb-2">Lokasi <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
+                            <input type="text" id="lokasi" name="lokasi" value="{{ old('lokasi') }}" placeholder="Contoh: Dusun Krajan, RT 01/RW 02" class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('lokasi') border-red-300 ring-red-100 @enderror">
                             @error('lokasi') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
-                            <label for="info_utama" class="block text-sm font-bold text-gray-700 mb-2">Info Utama <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
-                            <input type="text" id="info_utama" name="info_utama" value="{{ old('info_utama') }}" placeholder="Contoh: 50 Hektar, 100 Ekor, Berdiri Sejak 2010" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('info_utama') border-red-300 ring-red-100 @enderror">
+                            <label for="info_utama" class="block text-sm font-bold text-gray-900 mb-2">Info Utama <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
+                            <input type="text" id="info_utama" name="info_utama" value="{{ old('info_utama') }}" placeholder="Contoh: 50 Hektar, 100 Ekor, Berdiri Sejak 2010" class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('info_utama') border-red-300 ring-red-100 @enderror">
                             @error('info_utama') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                             <p class="text-xs text-gray-500 mt-1">Informasi ringkas yang ditampilkan di card dan halaman detail</p>
                         </div>
                     </div>
 
                     <div>
-                        <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">Deskripsi <span class="text-red-500">*</span></label>
-                        <textarea id="deskripsi" name="deskripsi" rows="15" class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi') }}</textarea>
+                        <label for="deskripsi" class="block text-sm font-bold text-gray-900 mb-2">Deskripsi <span class="text-red-500">*</span></label>
+                        <textarea id="deskripsi" name="deskripsi" rows="15" class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror">{{ old('deskripsi') }}</textarea>
                         @error('deskripsi') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="nama_pengelola" class="block text-sm font-bold text-gray-700 mb-2">Nama Pengelola <span class="text-red-500">*</span></label>
-                            <input type="text" id="nama_pengelola" name="nama_pengelola" value="{{ old('nama_pengelola') }}" placeholder="Contoh: Pak Sugeng" required class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('nama_pengelola') border-red-300 ring-red-100 @enderror">
+                            <label for="nama_pengelola" class="block text-sm font-bold text-gray-900 mb-2">Nama Pengelola <span class="text-red-500">*</span></label>
+                            <input type="text" id="nama_pengelola" name="nama_pengelola" value="{{ old('nama_pengelola') }}" placeholder="Contoh: Pak Sugeng" required class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('nama_pengelola') border-red-300 ring-red-100 @enderror">
                             @error('nama_pengelola') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                         <div>
-                            <label for="whatsapp" class="block text-sm font-bold text-gray-700 mb-2">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                            <label for="whatsapp" class="block text-sm font-bold text-gray-900 mb-2">Nomor WhatsApp <span class="text-red-500">*</span></label>
                             <div class="flex">
                                 <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-gray-100 bg-gray-50 text-gray-500 font-medium sm:text-sm">+62</span>
-                                <input type="text" id="whatsapp" name="whatsapp" value="{{ old('whatsapp') }}" placeholder="8123456789" maxlength="15" pattern="[0-9]*" required class="flex-1 min-w-0 w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-none rounded-r-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('whatsapp') border-red-300 ring-red-100 @enderror">
+                                <input type="text" id="whatsapp" name="whatsapp" value="{{ old('whatsapp') }}" placeholder="8123456789" maxlength="15" pattern="[0-9]*" required class="flex-1 min-w-0 w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-none rounded-r-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('whatsapp') border-red-300 ring-red-100 @enderror">
                             </div>
                             @error('whatsapp') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
                     <div>
-                        <label for="link_maps" class="block text-sm font-bold text-gray-700 mb-2">Link Google Maps <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
-                        <input type="url" id="link_maps" name="link_maps" value="{{ old('link_maps') }}" placeholder="https://maps.google.com/..." class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('link_maps') border-red-300 ring-red-100 @enderror">
+                        <label for="link_maps" class="block text-sm font-bold text-gray-900 mb-2">Link Google Maps <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
+                        <input type="url" id="link_maps" name="link_maps" value="{{ old('link_maps') }}" placeholder="https://maps.google.com/..." class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('link_maps') border-red-300 ring-red-100 @enderror">
                         @error('link_maps') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
@@ -106,7 +106,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-gray-200 mt-6">
                         <!-- Foto Utama -->
                         <div>
-                            <label for="gambar" class="block text-sm font-bold text-gray-700 mb-2">Foto Utama</label>
+                            <label for="gambar" class="block text-sm font-bold text-gray-900 mb-2">Foto Utama</label>
                             <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center h-48">
                                 <input type="file" id="gambar" name="gambar" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                                 <div id="uploadPlaceholder" class="{{ $potensi && $potensi->gambar ? 'hidden' : '' }}">
@@ -126,7 +126,7 @@
 
                         <!-- Foto Galeri -->
                         <div>
-                            <label for="foto_galeri" class="block text-sm font-bold text-gray-700 mb-2">Foto Galeri <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
+                            <label for="foto_galeri" class="block text-sm font-bold text-gray-900 mb-2">Foto Galeri <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
 
                             <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center h-48">
                                 <input type="file" id="foto_galeri" name="foto_galeri[]" accept="image/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
@@ -148,8 +148,8 @@
                         <div class="space-y-6">
                             <!-- Kategori -->
                             <div>
-                                <label for="kategori" class="block text-sm font-bold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
-                                <select id="kategori" name="kategori" required class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror">
+                                <label for="kategori" class="block text-sm font-bold text-gray-900 mb-2">Kategori <span class="text-red-500">*</span></label>
+                                <select id="kategori" name="kategori" required class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('kategori') border-red-300 ring-red-100 @enderror">
                                     <option value="">-- Pilih Kategori --</option>
                                     @foreach(\App\Models\PotensiDesa::getKategoriList() as $key => $label)
                                         <option value="{{ $key }}" {{ old('kategori', $potensi->kategori ?? '') == $key ? 'selected' : '' }}>{{ $label }}</option>

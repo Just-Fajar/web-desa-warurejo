@@ -48,11 +48,11 @@
 
                         <!-- Nama -->
                         <div>
-                            <label for="nama" class="block text-sm font-bold text-gray-700 mb-2">
+                            <label for="nama" class="block text-sm font-bold text-gray-900 mb-2">
                                 Nama Lengkap <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="nama" id="nama" value="{{ old('nama', $strukturOrganisasi->nama) }}"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('nama') border-red-300 ring-red-100 @enderror"
+                                class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('nama') border-red-300 ring-red-100 @enderror"
                                 placeholder="Contoh: ALBERTO" required oninput="updatePreview()">
                             @error('nama')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -61,12 +61,12 @@
 
                         <!-- Jabatan -->
                         <div>
-                            <label for="jabatan" class="block text-sm font-bold text-gray-700 mb-2">
+                            <label for="jabatan" class="block text-sm font-bold text-gray-900 mb-2">
                                 Jabatan <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="jabatan" id="jabatan"
                                 value="{{ old('jabatan', $strukturOrganisasi->jabatan) }}"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('jabatan') border-red-300 ring-red-100 @enderror"
+                                class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('jabatan') border-red-300 ring-red-100 @enderror"
                                 placeholder="Contoh: Kepala Desa Warurejo" required oninput="updatePreview()">
                             @error('jabatan')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -75,7 +75,7 @@
 
                         <!-- Foto -->
                         <div>
-                            <label for="foto" class="block text-sm font-bold text-gray-700 mb-2">
+                            <label for="foto" class="block text-sm font-bold text-gray-900 mb-2">
                                 Foto Profil
                             </label>
 
@@ -88,7 +88,7 @@
                             @endif
 
                             <input type="file" name="foto" id="foto" accept="image/*"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('foto') border-red-300 ring-red-100 @enderror"
+                                class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('foto') border-red-300 ring-red-100 @enderror"
                                 onchange="previewPhoto()">
                             <p class="mt-1 text-sm text-gray-500">Biarkan kosong jika tidak ingin mengubah. Format: JPG,
                                 PNG, WEBP. Maks: 2MB</p>
@@ -99,11 +99,11 @@
 
                         <!-- Atasan (Optional untuk staff) -->
                         <div id="atasan-field" class="hidden">
-                            <label for="atasan_id" class="block text-sm font-bold text-gray-700 mb-2">
+                            <label for="atasan_id" class="block text-sm font-bold text-gray-900 mb-2">
                                 Pilih Atasan (Opsional)
                             </label>
                             <select name="atasan_id" id="atasan_id"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('atasan_id') border-red-300 ring-red-100 @enderror">
+                                class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('atasan_id') border-red-300 ring-red-100 @enderror">
                                 <option value="">-- Tidak Ada Atasan --</option>
                                 @foreach($potentialAtasan as $atasan)
                                     <option value="{{ $atasan->id }}" {{ old('atasan_id', $strukturOrganisasi->atasan_id) == $atasan->id ? 'selected' : '' }}>
@@ -118,11 +118,11 @@
 
                         <!-- Deskripsi -->
                         <div>
-                            <label for="deskripsi" class="block text-sm font-bold text-gray-700 mb-2">
+                            <label for="deskripsi" class="block text-sm font-bold text-gray-900 mb-2">
                                 Deskripsi Singkat (Opsional)
                             </label>
                             <textarea name="deskripsi" id="deskripsi" rows="2"
-                                class="w-full px-5 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror"
+                                class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all text-sm font-medium @error('deskripsi') border-red-300 ring-red-100 @enderror"
                                 placeholder="Deskripsi singkat tentang anggota"
                                 oninput="updatePreview()">{{ old('deskripsi', $strukturOrganisasi->deskripsi) }}</textarea>
                             @error('deskripsi')

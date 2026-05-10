@@ -19,6 +19,7 @@
             .stat-card.purple::after { background-color: #8b5cf6; }
             .stat-card.red::after { background-color: #ef4444; }
             .stat-card.yellow::after { background-color: #f59e0b; }
+            .stat-card.cyan::after { background-color: #06b6d4; }
         </style>
 
         <!-- Welcome Message -->
@@ -40,7 +41,7 @@
         </div>
 
         <!-- Statistics Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5">
             <!-- Total Berita -->
             <div class="stat-card blue group shadow-sm">
                 <div class="flex items-center justify-between mb-4 relative z-10">
@@ -53,10 +54,7 @@
                 </div>
                 <div class="relative z-10">
                     <h3 class="text-3xl font-extrabold text-gray-800">{{ $totalBerita }}</h3>
-                    <div class="flex items-center gap-2 mt-3">
-                        <span class="text-[10px] sm:text-xs font-semibold text-green-700 bg-green-100 px-2 py-1 rounded-md flex-1 text-center">{{ $beritaPublished }} Publikasi</span>
-                        <span class="text-[10px] sm:text-xs font-semibold text-yellow-700 bg-yellow-100 px-2 py-1 rounded-md flex-1 text-center">{{ $beritaDraft }} Draft</span>
-                    </div>
+                    <p class="text-xs font-semibold text-gray-600 mt-3 bg-gray-50 rounded-md px-2 py-1 text-center">Berita Desa</p>
                 </div>
             </div>
 
@@ -105,6 +103,21 @@
                 <div class="relative z-10">
                     <h3 class="text-3xl font-extrabold text-gray-800">{{ $totalPublikasi }}</h3>
                     <p class="text-xs font-semibold text-gray-600 mt-3 bg-gray-50 rounded-md px-2 py-1 text-center">Dokumen</p>
+                </div>
+            </div>
+            <!-- Total Pengaduan -->
+            <div class="stat-card cyan group shadow-sm">
+                <div class="flex items-center justify-between mb-4 relative z-10">
+                    <div class="w-12 h-12 bg-cyan-50/80 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-cyan-100">
+                        <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-gray-500 bg-gray-50 px-2 py-1 rounded-md">Pengaduan</span>
+                </div>
+                <div class="relative z-10">
+                    <h3 class="text-3xl font-extrabold text-gray-800">{{ $totalPengaduan }}</h3>
+                    <p class="text-xs font-semibold text-gray-600 mt-3 bg-gray-50 rounded-md px-2 py-1 text-center">Pengaduan Warga</p>
                 </div>
             </div>
 
@@ -766,6 +779,73 @@
             <div class="p-4 bg-gray-50 border-t border-gray-200">
                 <a href="{{ route('admin.publikasi.index') }}" class="text-sm text-primary-600 hover:text-primary-800 font-medium">
                     Lihat Semua Publikasi →
+                </a>
+            </div>
+        </div>
+
+        <!-- Pengaduan Terbaru -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-800">Pengaduan Terbaru</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Pelapor</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Judul Pengaduan</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tanggal</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse($recentPengaduan as $pengaduan)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ $pengaduan->nama_pelapor }}</div>
+                                    <div class="text-xs text-gray-500">{{ $pengaduan->nomor_wa }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-gray-900">{{ Str::limit($pengaduan->judul, 50) }}</div>
+                                    <div class="text-xs text-gray-600">{{ Str::limit($pengaduan->isi, 60) }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $pengaduan->status_badge['bg'] }} {{ $pengaduan->status_badge['text'] }}">
+                                        {{ $pengaduan->status_badge['label'] }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-600">
+                                    {{ $pengaduan->created_at->format('d M Y') }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <div class="flex items-center justify-end gap-3">
+                                        <a href="{{ route('admin.pengaduan.show', $pengaduan->id) }}" class="text-blue-600 hover:text-blue-900 transition-colors">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <form action="{{ route('admin.pengaduan.destroy', $pengaduan->id) }}" method="POST" class="inline delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="text-red-600 hover:text-red-900 transition-colors delete-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                    Belum ada pengaduan
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4 bg-gray-50 border-t border-gray-200">
+                <a href="{{ route('admin.pengaduan.index') }}" class="text-sm text-primary-600 hover:text-primary-800 font-medium">
+                    Lihat Semua Pengaduan →
                 </a>
             </div>
         </div>
