@@ -47,6 +47,46 @@ class VisitorStatisticsService
     }
 
     /**
+     * Menghitung unique visitors tahun ini
+     * 
+     * @return int - jumlah pengunjung unik tahun ini
+     */
+    public function getYearlyVisitors(): int
+    {
+        return Visitor::whereYear('visit_date', Carbon::now()->year)
+            ->distinct()
+            ->count('device_fingerprint');
+    }
+
+    /**
+     * Menghitung unique visitors pada bulan & tahun tertentu
+     *
+     * @param int $month - bulan (1-12)
+     * @param int $year - tahun (e.g. 2026)
+     * @return int - jumlah pengunjung unik pada bulan tersebut
+     */
+    public function getVisitorsByMonth(int $month, int $year): int
+    {
+        return Visitor::whereYear('visit_date', $year)
+            ->whereMonth('visit_date', $month)
+            ->distinct()
+            ->count('device_fingerprint');
+    }
+
+    /**
+     * Menghitung unique visitors pada tahun tertentu
+     *
+     * @param int $year - tahun (e.g. 2026)
+     * @return int - jumlah pengunjung unik pada tahun tersebut
+     */
+    public function getVisitorsByYear(int $year): int
+    {
+        return Visitor::whereYear('visit_date', $year)
+            ->distinct()
+            ->count('device_fingerprint');
+    }
+
+    /**
      * Menghitung total unique visitors sepanjang waktu
      * 
      * @return int - total pengunjung unik all time

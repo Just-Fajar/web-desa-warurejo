@@ -8,12 +8,13 @@ use App\Models\PotensiDesa;
 use App\Models\Galeri;
 use App\Models\Publikasi;
 use App\Models\Pengaduan;
+use App\Models\DailyVisitorStat;
 
 class DummyDataSeeder extends Seeder
 {
     /**
      * Seeder utama: memanggil semua seeder modul.
-     * Total: 30 Berita + 30 Galeri + 30 Potensi + 30 Publikasi + 30 Pengaduan = 150 data
+     * Total: 30 Berita + 30 Galeri + 30 Potensi + 30 Publikasi + 30 Pengaduan + Visitor 1 tahun
      */
     public function run(): void
     {
@@ -26,6 +27,7 @@ class DummyDataSeeder extends Seeder
             PotensiSeeder::class,
             PublikasiSeeder::class,
             PengaduanSeeder::class,
+            VisitorDataSeeder::class,
         ]);
 
         $this->command->newLine();
@@ -38,6 +40,7 @@ class DummyDataSeeder extends Seeder
                 ['Potensi Desa', PotensiDesa::count()],
                 ['Publikasi', Publikasi::count()],
                 ['Pengaduan', Pengaduan::count()],
+                ['Visitor Stats', DailyVisitorStat::count() . ' hari'],
             ]
         );
     }

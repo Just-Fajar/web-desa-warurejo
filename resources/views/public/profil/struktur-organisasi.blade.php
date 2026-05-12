@@ -46,7 +46,7 @@
 
                 <h2
                     class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 text-center leading-tight mb-6 sm:mb-8 max-w-4xl">
-                    Struktur Organisasi
+                    Struktur Organisasi dan Tata Kerja
                 </h2>
 
                 <p
@@ -64,7 +64,7 @@
                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
-                    Struktur organisasi perangkat Desa Warurejo disesuaikan dengan kebutuhan dan perkembangan daerah,
+                    Struktur organisasi dan Tata Kerja perangkat Desa Warurejo disesuaikan dengan kebutuhan dan perkembangan daerah,
                     berlandaskan prinsip gotong royong serta dedikasi untuk kesejahteraan bersama.
                 </p>
             </div>

@@ -50,7 +50,7 @@
                         </a>
                         <a href="{{ route('profil.struktur-organisasi') }}" class="dropdown-item">
                             <span class="dropdown-item-icon"></span>
-                            Struktur Organisasi
+                            Struktur Organisasi dan Tata Kerja
                         </a>
                     </div>
                 </div>
@@ -118,7 +118,8 @@
 
             <!-- Tombol Mobile dengan Animasi -->
             <button @click="mobileMenuOpen = !mobileMenuOpen" :class="scrolled ? 'text-gray-700' : 'text-white'"
-                class="md:hidden p-2 rounded-lg hover:bg-gray-100/10 transition-all duration-200 active:scale-95">
+                class="md:hidden flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/10 transition-all duration-200 active:scale-95">
+                <span class="text-sm font-semibold tracking-wide">Menu</span>
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 6h16M4 12h16M4 18h16" class="transition-all duration-200" />
@@ -165,7 +166,7 @@
                     <a href="{{ route('profil.struktur-organisasi') }}" class="mobile-menu-item pl-10"
                         @click="mobileMenuOpen = false">
                         <span class="text-lg"></span>
-                        Struktur Organisasi
+                        Struktur Organisasi dan Tata Kerja
                     </a>
 
                     <!-- Divider -->

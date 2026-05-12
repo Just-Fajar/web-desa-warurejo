@@ -72,7 +72,7 @@
                     <li><a href="{{ route('potensi.index') }}" class="hover:text-white transition">Potensi</a></li>
                     <li><a href="{{ route('galeri.index') }}" class="hover:text-white transition">Dokumentasi</a></li>
                     <li><a href="{{ route('peta-desa') }}" class="hover:text-white transition">Peta Desa</a></li>
-                    <li><a href="https://wa.me/62085168687700" target="_blank" class="hover:text-white transition">Tanya
+                    <li><a href="{{ route('pengaduan.index') }}" class="hover:text-white transition">Tanya
                             Jawab & Pengaduan</a></li>
                 </ul>
             </div>

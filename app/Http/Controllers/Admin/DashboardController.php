@@ -45,6 +45,7 @@ class DashboardController extends Controller
         $pengunjungHariIni = $this->visitorService->getTodayVisitors();
         $pengunjungMingguIni = $this->visitorService->getWeeklyVisitors();
         $pengunjungBulanIni = $this->visitorService->getMonthlyVisitors();
+        $pengunjungTahunIni = $this->visitorService->getYearlyVisitors();
         $totalPengunjung = $this->visitorService->getTotalVisitors();
         $pertumbuhanHariIni = $this->visitorService->getVisitorGrowth();
         $pageViewsHariIni = $this->visitorService->getTodayPageViews();
@@ -134,6 +135,7 @@ class DashboardController extends Controller
             'pengunjungHariIni',
             'pengunjungMingguIni',
             'pengunjungBulanIni',
+            'pengunjungTahunIni',
             'totalPengunjung',
             'pertumbuhanHariIni',
             'pageViewsHariIni',
@@ -240,5 +242,33 @@ class DashboardController extends Controller
             'potensi' => $potensiData,
             'galeri' => $galeriData,
         ];
+    }
+
+    /**
+     * AJAX: Mengambil jumlah pengunjung berdasarkan bulan/tahun tertentu
+     * Digunakan saat user mengubah filter bulan/tahun di card statistik
+     *
+     * @param Request $request - berisi parameter 'month' dan 'year'
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getVisitorsByPeriod(Request $request)
+    {
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        $result = [];
+
+        if ($month && $year) {
+            $result['monthly'] = $this->visitorService->getVisitorsByMonth((int) $month, (int) $year);
+        }
+
+        if ($year) {
+            $result['yearly'] = $this->visitorService->getVisitorsByYear((int) $year);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $result
+        ]);
     }
 }

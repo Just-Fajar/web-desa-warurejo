@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
                 ['Potensi Desa', '30 (5 per kategori × 6 kategori)'],
                 ['Publikasi', '30 (10 per kategori × 3 kategori)'],
                 ['Pengaduan', '30 (8 menunggu, 8 diproses, 8 selesai, 6 ditolak)'],
+                ['Visitor Stats', '~365 hari data pengunjung (1 tahun)'],
             ]
         );
     }

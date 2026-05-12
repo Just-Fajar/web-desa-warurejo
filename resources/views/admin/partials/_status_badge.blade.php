@@ -11,7 +11,6 @@
 @endphp
 
 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold {{ $badgeConfig['bg'] }} {{ $badgeConfig['text'] }}">
-    <span class="w-1.5 h-1.5 rounded-full {{ $badgeConfig['dot'] }}"></span>
     {{ $badgeConfig['label'] }}
     @if($status === 'scheduled' && isset($publishedAt))
         <span class="text-[10px] font-normal opacity-75">

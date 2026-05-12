@@ -126,6 +126,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard/visitor-chart', [DashboardController::class, 'getVisitorChartByYear'])->name('dashboard.visitor-chart');
         Route::get('/dashboard/content-chart', [DashboardController::class, 'getContentChartByYear'])->name('dashboard.content-chart');
+        Route::get('/dashboard/visitor-period', [DashboardController::class, 'getVisitorsByPeriod'])->name('dashboard.visitor-period');
 
         // Berita Management
         Route::post('berita/bulk-delete', [AdminBeritaController::class, 'bulkDelete'])->name('berita.bulk-delete');

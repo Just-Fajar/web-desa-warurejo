@@ -20,6 +20,16 @@
             .stat-card.red::after { background-color: #ef4444; }
             .stat-card.yellow::after { background-color: #f59e0b; }
             .stat-card.cyan::after { background-color: #06b6d4; }
+            
+            /* Remove spin buttons from number inputs */
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            input[type="number"] {
+                -moz-appearance: textfield;
+            }
         </style>
 
         <!-- Welcome Message -->
@@ -139,7 +149,7 @@
         </div>
 
         <!-- Visitor Statistics Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
             <!-- Hari Ini -->
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-center">
                 <div class="flex items-center justify-between mb-1">
@@ -157,7 +167,7 @@
                     @endif
                 </div>
                 <h3 class="text-2xl font-extrabold text-gray-800">{{ number_format($pengunjungHariIni) }}</h3>
-                <p class="text-xs font-medium text-gray-500 mt-1 flex items-center"> {{ number_format($pageViewsHariIni) }} Pengunjung hari ini</p>
+                <p class="text-xs font-medium text-gray-500 mt-1 flex items-center">Pengunjung hari ini</p>
             </div>
 
             <!-- Minggu Ini -->
@@ -167,11 +177,40 @@
                 <p class="text-xs font-medium text-gray-500 mt-1">Pengunjung dalam 7 hari terakhir</p>
             </div>
 
-            <!-- Bulan Ini -->
+            <!-- Bulan (Selectable) -->
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-center">
-                <p class="text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Bulan Ini</p>
-                <h3 class="text-2xl font-extrabold text-gray-800">{{ number_format($pengunjungBulanIni) }}</h3>
-                <p class="text-xs font-medium text-gray-500 mt-1">Pengunjung dalam 30 hari terakhir</p>
+                <div class="flex items-center gap-2 mb-2">
+                    <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">Bulan</p>
+                    <select id="monthSelector"
+                        class="text-xs font-semibold text-gray-600 bg-gray-50 border border-gray-100 rounded-lg px-2 py-1 cursor-pointer focus:ring-1 focus:ring-gray-300 focus:border-gray-300 transition-all">
+                        @php
+                            $namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+                        @endphp
+                        @for($m = 1; $m <= 12; $m++)
+                            <option value="{{ $m }}" {{ $m == date('n') ? 'selected' : '' }}>{{ $namaBulan[$m-1] }}</option>
+                        @endfor
+                    </select>
+                </div>
+                <h3 id="monthlyVisitorCount" class="text-2xl font-extrabold text-gray-800">{{ number_format($pengunjungBulanIni) }}</h3>
+                <p id="monthlyVisitorLabel" class="text-xs font-medium text-gray-500 mt-1">Pengunjung bulan {{ $namaBulan[date('n')-1] }} {{ date('Y') }}</p>
+            </div>
+
+            <!-- Tahun (Selectable) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-center">
+                <div class="flex items-center gap-2 mb-2">
+                    <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">Tahun</p>
+                    <div class="flex items-center gap-1">
+                        <button type="button" id="yearStatPrev" class="w-6 h-6 flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-400 hover:text-gray-600 rounded-md transition-colors border border-gray-100" title="Tahun sebelumnya">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                        </button>
+                        <span id="yearStatDisplay" class="text-xs font-bold text-gray-600 bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-1 min-w-[3rem] text-center">{{ date('Y') }}</span>
+                        <button type="button" id="yearStatNext" class="w-6 h-6 flex items-center justify-center bg-gray-50 hover:bg-gray-100 text-gray-400 hover:text-gray-600 rounded-md transition-colors border border-gray-100" title="Tahun berikutnya">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <h3 id="yearlyVisitorCount" class="text-2xl font-extrabold text-gray-800">{{ number_format($pengunjungTahunIni) }}</h3>
+                <p id="yearlyVisitorLabel" class="text-xs font-medium text-gray-500 mt-1">Pengunjung tahun {{ date('Y') }}</p>
             </div>
 
             <!-- Rata-rata -->
@@ -191,7 +230,7 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-gray-50 gap-4">
                     <div>
                         <h2 class="text-xl font-bold text-gray-800 tracking-tight">Statistik Pengunjung</h2>
-                        <p class="text-sm text-gray-500 mt-1">Statistik pengunjung tahun <span id="visitorYearLabel" class="font-semibold text-emerald-600">{{ $currentYear }}</span></p>
+                        <p class="text-sm text-gray-500 mt-1">Statistik pengunjung tahun <span id="visitorYearLabel" class="font-semibold">{{ $currentYear }}</span></p>
                     </div>
 
                     <!-- Year Picker with Navigation -->
@@ -202,7 +241,7 @@
                             </svg>
                         </button>
                         <input type="number" id="yearFilter" value="{{ $currentYear }}" min="2000" max="2100"
-                               class="w-20 text-center form-input bg-gray-50 rounded-xl border-gray-100 shadow-none focus:border-emerald-500 focus:ring-emerald-500 focus:bg-white text-sm font-bold text-gray-700">
+                               class="w-24 text-center form-input bg-gray-50 rounded-xl border-gray-100 shadow-none focus:border-emerald-500 focus:ring-emerald-500 focus:bg-white text-sm font-bold text-gray-700">
                         <button type="button" id="visitorYearNext" class="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-emerald-50 text-gray-500 hover:text-emerald-600 rounded-xl transition-colors border border-gray-100" title="Tahun Berikutnya">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -215,18 +254,14 @@
                 </div>
 
                 <!-- All Time Stats Summary -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
                     <div class="bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
-                        <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Pengunjung Unik</p>
-                        <p class="text-xl font-bold text-blue-600">{{ number_format($allTimeStats['total_unique_visitors']) }}</p>
-                    </div>
-                    <div class="bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
-                        <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Total Tampilan Halaman</p>
-                        <p class="text-xl font-bold text-indigo-600">{{ number_format($allTimeStats['total_page_views']) }}</p>
+                        <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Pengunjung</p>
+                        <p class="text-xl font-bold text-slate-800">{{ number_format($allTimeStats['total_unique_visitors']) }}</p>
                     </div>
                     <div class="bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
                         <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Hari Aktif</p>
-                        <p class="text-xl font-bold text-emerald-600">{{ number_format($allTimeStats['days_active']) }}</p>
+                        <p class="text-xl font-bold text-slate-800">{{ number_format($allTimeStats['days_active']) }}</p>
                     </div>
                     <div class="bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
                         <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Kunjungan Pertama</p>
@@ -294,7 +329,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 border-b border-gray-50 pb-4">
                     <div>
                         <h2 class="text-xl font-bold text-gray-800 tracking-tight">Statistik Konten</h2>
-                        <p class="text-sm text-gray-500 mt-1">Produksi konten tahun <span id="contentYearLabel" class="font-semibold text-emerald-600">{{ $currentContentYear }}</span></p>
+                        <p class="text-sm text-gray-500 mt-1">Produksi konten tahun <span id="contentYearLabel" class="font-semibold">{{ $currentContentYear }}</span></p>
                     </div>
 
                     <!-- Year Picker with Navigation -->
@@ -305,7 +340,7 @@
                             </svg>
                         </button>
                         <input type="number" id="contentYearFilter" value="{{ $currentContentYear }}" min="2000" max="2100"
-                               class="w-20 text-center form-input bg-gray-50 rounded-xl border-gray-100 shadow-none focus:border-emerald-500 focus:ring-emerald-500 focus:bg-white text-sm font-bold text-gray-700">
+                               class="w-24 text-center form-input bg-gray-50 rounded-xl border-gray-100 shadow-none focus:border-emerald-500 focus:ring-emerald-500 focus:bg-white text-sm font-bold text-gray-700">
                         <button type="button" id="contentYearNext" class="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-emerald-50 text-gray-500 hover:text-emerald-600 rounded-xl transition-colors border border-gray-100" title="Tahun Berikutnya">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -868,17 +903,13 @@
             gradientBlue.addColorStop(0, 'rgba(59, 130, 246, 0.6)');
             gradientBlue.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
 
-            let gradientOrange = visitorCtx.createLinearGradient(0, 0, 0, 350);
-            gradientOrange.addColorStop(0, 'rgba(249, 115, 22, 0.6)');
-            gradientOrange.addColorStop(1, 'rgba(249, 115, 22, 0.0)');
-
             visitorChart = new Chart(visitorCtx, {
                 type: 'line',
                 data: {
                     labels: chartData.labels,
                     datasets: [
                         {
-                            label: 'Pengunjung Unik',
+                            label: 'Pengunjung',
                             data: chartData.visitors,
                             borderColor: 'rgb(59, 130, 246)',
                             backgroundColor: gradientBlue,
@@ -890,26 +921,12 @@
                             pointBackgroundColor: 'rgb(59, 130, 246)',
                             pointBorderColor: '#fff',
                             pointBorderWidth: 2
-                        },
-                        {
-                            label: 'Tampilan Halaman',
-                            data: chartData.pageViews,
-                            borderColor: 'rgb(249, 115, 22)',
-                            backgroundColor: gradientOrange,
-                            tension: 0.4,
-                            fill: true,
-                            borderWidth: 3,
-                            pointRadius: 4,
-                            pointHoverRadius: 6,
-                            pointBackgroundColor: 'rgb(249, 115, 22)',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2
                         }
                     ]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
                     layout: {
                         padding: { bottom: 10 }
                     },
@@ -1153,7 +1170,7 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
                     layout: {
                         padding: { bottom: 10 }
                     },
@@ -1503,5 +1520,61 @@
                 topContentChart.update();
             });
         });
+    </script>
+
+    {{-- Script: Interactive Month/Year Visitor Cards --}}
+    <script>
+        (function() {
+            const namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+            const monthSelector = document.getElementById('monthSelector');
+            const yearStatDisplay = document.getElementById('yearStatDisplay');
+            const yearStatPrev = document.getElementById('yearStatPrev');
+            const yearStatNext = document.getElementById('yearStatNext');
+
+            let currentStatYear = {{ date('Y') }};
+
+            // Fetch visitor data from server
+            function fetchVisitorData(month, year) {
+                const url = `{{ route('admin.dashboard.visitor-period') }}?month=${month}&year=${year}`;
+
+                fetch(url, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update monthly count
+                        if (data.data.monthly !== undefined) {
+                            document.getElementById('monthlyVisitorCount').textContent = data.data.monthly.toLocaleString('id-ID');
+                            document.getElementById('monthlyVisitorLabel').textContent = `Pengunjung bulan ${namaBulan[month - 1]} ${year}`;
+                        }
+                        // Update yearly count
+                        if (data.data.yearly !== undefined) {
+                            document.getElementById('yearlyVisitorCount').textContent = data.data.yearly.toLocaleString('id-ID');
+                            document.getElementById('yearlyVisitorLabel').textContent = `Pengunjung tahun ${year}`;
+                        }
+                    }
+                })
+                .catch(err => console.error('Gagal memuat data pengunjung:', err));
+            }
+
+            // Month selector change
+            monthSelector.addEventListener('change', function() {
+                fetchVisitorData(this.value, currentStatYear);
+            });
+
+            // Year navigation
+            yearStatPrev.addEventListener('click', function() {
+                currentStatYear--;
+                yearStatDisplay.textContent = currentStatYear;
+                fetchVisitorData(monthSelector.value, currentStatYear);
+            });
+
+            yearStatNext.addEventListener('click', function() {
+                currentStatYear++;
+                yearStatDisplay.textContent = currentStatYear;
+                fetchVisitorData(monthSelector.value, currentStatYear);
+            });
+        })();
     </script>
 @endsection
