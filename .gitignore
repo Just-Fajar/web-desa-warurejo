@@ -27,6 +27,16 @@ yarn-error.log
 !/storage/app/public/potensi/.gitkeep
 /storage/app/public/galeri/*
 !/storage/app/public/galeri/.gitkeep
+/storage/app/public/publikasi/*
+!/storage/app/public/publikasi/.gitkeep
+/storage/app/public/pengaduan/*
+!/storage/app/public/pengaduan/.gitkeep
+/storage/app/public/admins/*
+!/storage/app/public/admins/.gitkeep
+/storage/app/public/struktur-organisasi/*
+!/storage/app/public/struktur-organisasi/.gitkeep
+/storage/app/public/thumbnails/*
+!/storage/app/public/thumbnails/.gitkeep
 
 # Logs
 /storage/logs/*
@@ -72,3 +82,11 @@ Homestead.yaml
 # Sensitive Configuration
 /config/secrets.php
 /config/local.php
+
+# Test Artifacts
+result.xml
+/coverage
+
+# AI Tools
+.gemini/
+

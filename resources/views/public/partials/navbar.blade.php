@@ -80,7 +80,7 @@
                         </a>
                         <a href="{{ route('peta-desa') }}" class="dropdown-item">
                             <span class="dropdown-item-icon"></span>
-                            Peta Desa
+                            Tentang Kami
                         </a>
                         <a href="{{ route('pengaduan.index') }}" class="dropdown-item">
                             <span class="dropdown-item-icon"></span>
@@ -193,7 +193,7 @@
                     </a>
                     <a href="{{ route('peta-desa') }}" class="mobile-menu-item pl-10" @click="mobileMenuOpen = false">
                         <span class="text-lg"></span>
-                        Peta Desa
+                        Tentang Kami
                     </a>
                     <a href="{{ route('pengaduan.index') }}" class="mobile-menu-item pl-10"
                         @click="mobileMenuOpen = false">

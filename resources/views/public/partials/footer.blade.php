@@ -71,7 +71,7 @@
                     <li><a href="{{ route('berita.index') }}" class="hover:text-white transition">Berita</a></li>
                     <li><a href="{{ route('potensi.index') }}" class="hover:text-white transition">Potensi</a></li>
                     <li><a href="{{ route('galeri.index') }}" class="hover:text-white transition">Dokumentasi</a></li>
-                    <li><a href="{{ route('peta-desa') }}" class="hover:text-white transition">Peta Desa</a></li>
+                    <li><a href="{{ route('peta-desa') }}" class="hover:text-white transition">Tentang Kami</a></li>
                     <li><a href="{{ route('pengaduan.index') }}" class="hover:text-white transition">Tanya
                             Jawab & Pengaduan</a></li>
                 </ul>
