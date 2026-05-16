@@ -8,14 +8,14 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Production%20Ready-success?style=flat-square" alt="Status">
+  <img src="https://img.shields.io/badge/Status-Development-informational?style=flat-square" alt="Status">
   <img src="https://img.shields.io/badge/Tests-62%20Tests-brightgreen?style=flat-square" alt="Tests">
   <img src="https://img.shields.io/badge/Coverage-77%25-yellowgreen?style=flat-square" alt="Coverage">
   <img src="https://img.shields.io/badge/Security-Hardened-blue?style=flat-square" alt="Security">
   <img src="https://img.shields.io/badge/API-REST%20v1-orange?style=flat-square" alt="API">
 </p>
 
-> **Website profil desa modern dengan arsitektur enterprise-level, dilengkapi fitur-fitur lengkap untuk manajemen konten, galeri, publikasi, dan sistem informasi desa yang komprehensif.**
+> **Website profil desa modern yang saat ini masih dalam tahap pengembangan, dengan fitur utama untuk manajemen konten, galeri, publikasi, dan sistem informasi desa.**
 
 ---
 
