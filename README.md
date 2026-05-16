@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/API-REST%20v1-orange?style=flat-square" alt="API">
 </p>
 
-> **Website profil desa modern yang saat ini masih dalam tahap pengembangan, dengan fitur utama untuk manajemen konten, galeri, publikasi, dan sistem informasi desa.**
+> **Skripsi Web Desa**
 
 ---
 
