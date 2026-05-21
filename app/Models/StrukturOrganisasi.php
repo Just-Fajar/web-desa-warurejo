@@ -29,10 +29,15 @@ class StrukturOrganisasi extends Model
 
     // Constants for levels
     const LEVEL_KEPALA = 'kepala';
+
     const LEVEL_SEKRETARIS = 'sekretaris';
+
     const LEVEL_KAUR = 'kaur';
+
     const LEVEL_STAFF_KAUR = 'staff_kaur';
+
     const LEVEL_KASI = 'kasi';
+
     const LEVEL_STAFF_KASI = 'staff_kasi';
 
     /**
@@ -65,7 +70,7 @@ class StrukturOrganisasi extends Model
     public function getFotoUrlAttribute()
     {
         return $this->foto
-            ? asset('storage/' . $this->foto)
+            ? asset('storage/'.$this->foto)
             : asset('images/default-avatar.png');
     }
 

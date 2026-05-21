@@ -17,9 +17,9 @@ class ProfilDesaFactory extends Factory
     public function definition(): array
     {
         return [
-            'nama_desa' => 'Desa ' . fake()->city(),
-            'kecamatan' => 'Kecamatan ' . fake()->city(),
-            'kabupaten' => 'Kabupaten ' . fake()->city(),
+            'nama_desa' => 'Desa '.fake()->city(),
+            'kecamatan' => 'Kecamatan '.fake()->city(),
+            'kabupaten' => 'Kabupaten '.fake()->city(),
             'provinsi' => fake()->state(),
             'kode_pos' => fake()->postcode(),
             'email' => fake()->safeEmail(),
@@ -35,10 +35,10 @@ class ProfilDesaFactory extends Factory
             'luas_wilayah' => fake()->randomFloat(2, 100, 1000),
             'jumlah_penduduk' => fake()->numberBetween(1000, 10000),
             'jumlah_kk' => fake()->numberBetween(300, 3000),
-            'batas_utara' => 'Sebelah Utara: ' . fake()->words(3, true),
-            'batas_selatan' => 'Sebelah Selatan: ' . fake()->words(3, true),
-            'batas_timur' => 'Sebelah Timur: ' . fake()->words(3, true),
-            'batas_barat' => 'Sebelah Barat: ' . fake()->words(3, true),
+            'batas_utara' => 'Sebelah Utara: '.fake()->words(3, true),
+            'batas_selatan' => 'Sebelah Selatan: '.fake()->words(3, true),
+            'batas_timur' => 'Sebelah Timur: '.fake()->words(3, true),
+            'batas_barat' => 'Sebelah Barat: '.fake()->words(3, true),
         ];
     }
 
@@ -47,7 +47,7 @@ class ProfilDesaFactory extends Factory
      */
     public function warurejo(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'nama_desa' => 'Desa Warurejo',
             'kecamatan' => 'Balerejo',
             'kabupaten' => 'Madiun',

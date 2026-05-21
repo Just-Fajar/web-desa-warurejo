@@ -12,8 +12,7 @@ class AuthController extends Controller
 {
     /**
      * Create API token for authentication
-     * 
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
@@ -26,7 +25,7 @@ class AuthController extends Controller
 
         $admin = Admin::where('email', $request->email)->first();
 
-        if (!$admin || !Hash::check($request->password, $admin->password)) {
+        if (! $admin || ! Hash::check($request->password, $admin->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
@@ -53,8 +52,7 @@ class AuthController extends Controller
 
     /**
      * Revoke current token
-     * 
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout(Request $request)
@@ -70,8 +68,7 @@ class AuthController extends Controller
 
     /**
      * Revoke all tokens
-     * 
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function logoutAll(Request $request)
@@ -87,8 +84,7 @@ class AuthController extends Controller
 
     /**
      * Get authenticated user info
-     * 
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function me(Request $request)
@@ -102,7 +98,7 @@ class AuthController extends Controller
                 'nama' => $admin->nama,
                 'email' => $admin->email,
                 'username' => $admin->username,
-                'foto' => $admin->foto ? asset('storage/' . $admin->foto) : null,
+                'foto' => $admin->foto ? asset('storage/'.$admin->foto) : null,
                 'created_at' => $admin->created_at->toIso8601String(),
             ],
         ], 200);
@@ -110,8 +106,7 @@ class AuthController extends Controller
 
     /**
      * List all active tokens
-     * 
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function tokens(Request $request)

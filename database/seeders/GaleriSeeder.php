@@ -2,23 +2,27 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\Admin;
 use App\Models\Galeri;
 use App\Models\GaleriImage;
-use App\Models\Admin;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class GaleriSeeder extends Seeder
 {
     public function run(): void
     {
-        if (!Storage::disk('public')->exists('galeri')) {
+        if (! Storage::disk('public')->exists('galeri')) {
             Storage::disk('public')->makeDirectory('galeri');
         }
         $admin = Admin::first();
-        if (!$admin) { $this->command->error('Admin tidak ditemukan!'); return; }
+        if (! $admin) {
+            $this->command->error('Admin tidak ditemukan!');
+
+            return;
+        }
 
         $this->command->info('📸 Membuat 30 galeri dummy...');
         $now = Carbon::now();
@@ -70,7 +74,7 @@ class GaleriSeeder extends Seeder
 
         foreach ($items as $i => $item) {
             [$judul, $kat, $desk, $days, $status] = $item;
-            $pa = match($status) {
+            $pa = match ($status) {
                 'published' => $now->copy()->subDays($days),
                 'scheduled' => $now->copy()->addDays($days),
                 default => null,
@@ -89,10 +93,14 @@ class GaleriSeeder extends Seeder
             // 2-3 extra images
             for ($j = 0; $j < rand(2, 3); $j++) {
                 $ep = $this->dl('galeri', "galeri-{$i}-extra-{$j}.jpg", 800, 600, 400 + ($i * 4) + $j);
-                if ($ep) GaleriImage::create(['galeri_id' => $galeri->id, 'image_path' => $ep, 'urutan' => $j + 1]);
+                if ($ep) {
+                    GaleriImage::create(['galeri_id' => $galeri->id, 'image_path' => $ep, 'urutan' => $j + 1]);
+                }
             }
 
-            $icon = match($status) { 'published'=>'✅', 'draft'=>'📝', 'scheduled'=>'⏰' };
+            $icon = match ($status) {
+                'published' => '✅', 'draft' => '📝', 'scheduled' => '⏰'
+            };
             $this->command->info("  {$icon} [{$kat}] {$judul}");
         }
         $this->command->info('✅ 30 galeri: 6 kategori × 5 (18 pub, 6 draft, 6 sched)');
@@ -102,8 +110,15 @@ class GaleriSeeder extends Seeder
     {
         try {
             $r = Http::timeout(15)->get("https://picsum.photos/seed/{$s}/{$w}/{$h}");
-            if ($r->successful()) { $p = "{$f}/{$fn}"; Storage::disk('public')->put($p, $r->body()); return $p; }
-        } catch (\Exception $e) {}
+            if ($r->successful()) {
+                $p = "{$f}/{$fn}";
+                Storage::disk('public')->put($p, $r->body());
+
+                return $p;
+            }
+        } catch (\Exception $e) {
+        }
+
         return "{$f}/{$fn}";
     }
 }

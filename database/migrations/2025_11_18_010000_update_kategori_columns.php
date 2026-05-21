@@ -1,15 +1,13 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
     /**
      * Run the migrations.
-     * 
+     *
      * Perubahan kategori:
      * - Galeri: kegiatan, infrastruktur, budaya, umkm, lainnya -> kegiatan, pembangunan, budaya, keagamaan, sosial, lainnya
      * - Potensi: pertanian, peternakan, perikanan, umkm, wisata, kerajinan, lainnya -> pertanian, peternakan, perikanan, umkm, wisata, lainnya

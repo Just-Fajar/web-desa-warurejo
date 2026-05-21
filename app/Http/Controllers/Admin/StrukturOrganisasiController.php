@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StrukturOrganisasiRequest;
-use App\Services\StrukturOrganisasiService;
 use App\Models\StrukturOrganisasi;
+use App\Services\StrukturOrganisasiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -83,7 +83,7 @@ class StrukturOrganisasiController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -94,6 +94,7 @@ class StrukturOrganisasiController extends Controller
     public function show($id)
     {
         $strukturOrganisasi = $this->strukturOrganisasiService->getStrukturOrganisasiById($id);
+
         return view('admin.struktur-organisasi.show', compact('strukturOrganisasi'));
     }
 
@@ -146,7 +147,7 @@ class StrukturOrganisasiController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -169,7 +170,7 @@ class StrukturOrganisasiController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -187,7 +188,7 @@ class StrukturOrganisasiController extends Controller
             if (empty($ids)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Tidak ada item yang dipilih'
+                    'message' => 'Tidak ada item yang dipilih',
                 ], 400);
             }
 
@@ -198,12 +199,12 @@ class StrukturOrganisasiController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => count($ids) . ' anggota struktur organisasi berhasil dihapus'
+                'message' => count($ids).' anggota struktur organisasi berhasil dihapus',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                'message' => 'Terjadi kesalahan: '.$e->getMessage(),
             ], 500);
         }
     }

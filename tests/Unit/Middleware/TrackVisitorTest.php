@@ -4,7 +4,6 @@ namespace Tests\Unit\Middleware;
 
 use App\Models\DailyVisitorStat;
 use App\Models\Visitor;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;

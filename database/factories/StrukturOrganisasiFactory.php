@@ -30,17 +30,17 @@ class StrukturOrganisasiFactory extends Factory
 
     public function active(): static
     {
-        return $this->state(fn() => ['is_active' => true]);
+        return $this->state(fn () => ['is_active' => true]);
     }
 
     public function inactive(): static
     {
-        return $this->state(fn() => ['is_active' => false]);
+        return $this->state(fn () => ['is_active' => false]);
     }
 
     public function kepala(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'level' => StrukturOrganisasi::LEVEL_KEPALA,
             'jabatan' => 'Kepala Desa',
         ]);
@@ -48,7 +48,7 @@ class StrukturOrganisasiFactory extends Factory
 
     public function sekretaris(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'level' => StrukturOrganisasi::LEVEL_SEKRETARIS,
             'jabatan' => 'Sekretaris Desa',
         ]);
@@ -56,7 +56,7 @@ class StrukturOrganisasiFactory extends Factory
 
     public function kaur(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'level' => StrukturOrganisasi::LEVEL_KAUR,
             'jabatan' => 'Kepala Urusan',
         ]);
@@ -64,7 +64,7 @@ class StrukturOrganisasiFactory extends Factory
 
     public function kasi(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'level' => StrukturOrganisasi::LEVEL_KASI,
             'jabatan' => 'Kepala Seksi',
         ]);

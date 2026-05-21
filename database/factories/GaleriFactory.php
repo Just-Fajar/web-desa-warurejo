@@ -44,7 +44,7 @@ class GaleriFactory extends Factory
      */
     public function active(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'published',
             'published_at' => now(),
         ]);
@@ -55,7 +55,7 @@ class GaleriFactory extends Factory
      */
     public function inactive(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'draft',
             'published_at' => null,
         ]);
@@ -66,7 +66,7 @@ class GaleriFactory extends Factory
      */
     public function kategori(string $kategori): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'kategori' => $kategori,
         ]);
     }
@@ -76,7 +76,7 @@ class GaleriFactory extends Factory
      */
     public function recent(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'tanggal' => fake()->dateTimeBetween('-7 days', 'now'),
         ]);
     }

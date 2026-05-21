@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Berita;
-use App\Models\PotensiDesa;
-use App\Models\Galeri;
-use App\Models\Publikasi;
-use App\Models\Pengaduan;
 use App\Models\DailyVisitorStat;
+use App\Models\Galeri;
+use App\Models\Pengaduan;
+use App\Models\PotensiDesa;
+use App\Models\Publikasi;
+use Illuminate\Database\Seeder;
 
 class DummyDataSeeder extends Seeder
 {
@@ -40,7 +40,7 @@ class DummyDataSeeder extends Seeder
                 ['Potensi Desa', PotensiDesa::count()],
                 ['Publikasi', Publikasi::count()],
                 ['Pengaduan', Pengaduan::count()],
-                ['Visitor Stats', DailyVisitorStat::count() . ' hari'],
+                ['Visitor Stats', DailyVisitorStat::count().' hari'],
             ]
         );
     }

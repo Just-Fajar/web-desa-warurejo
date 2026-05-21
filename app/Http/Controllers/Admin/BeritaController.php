@@ -28,6 +28,7 @@ class BeritaController extends Controller
     public function index()
     {
         $berita = $this->beritaService->getPaginatedBerita(10);
+
         return view('admin.berita.index', compact('berita'));
     }
 
@@ -66,7 +67,7 @@ class BeritaController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -77,6 +78,7 @@ class BeritaController extends Controller
     public function show($id)
     {
         $berita = $this->beritaService->getBeritaById($id);
+
         return view('admin.berita.show', compact('berita'));
     }
 
@@ -87,6 +89,7 @@ class BeritaController extends Controller
     public function edit($id)
     {
         $berita = $this->beritaService->getBeritaById($id);
+
         return view('admin.berita.edit', compact('berita'));
     }
 
@@ -114,7 +117,7 @@ class BeritaController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -138,7 +141,7 @@ class BeritaController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -157,7 +160,7 @@ class BeritaController extends Controller
             if (empty($ids)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Tidak ada berita yang dipilih.'
+                    'message' => 'Tidak ada berita yang dipilih.',
                 ], 400);
             }
 
@@ -173,12 +176,12 @@ class BeritaController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "{$count} berita berhasil dihapus."
+                'message' => "{$count} berita berhasil dihapus.",
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                'message' => 'Terjadi kesalahan: '.$e->getMessage(),
             ], 500);
         }
     }

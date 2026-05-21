@@ -2,15 +2,14 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Berita;
-use App\Models\PotensiDesa;
 use App\Models\Galeri;
+use App\Models\PotensiDesa;
 use App\Models\ProfilDesa;
 use App\Models\Publikasi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class PublicPagesTest extends TestCase
 {
@@ -276,10 +275,10 @@ class PublicPagesTest extends TestCase
     public function test_publikasi_download(): void
     {
         $fileDir = storage_path('app/public/publikasi');
-        if (!file_exists($fileDir)) {
+        if (! file_exists($fileDir)) {
             mkdir($fileDir, 0755, true);
         }
-        $filePath = $fileDir . '/test.pdf';
+        $filePath = $fileDir.'/test.pdf';
         file_put_contents($filePath, 'dummy content');
 
         try {

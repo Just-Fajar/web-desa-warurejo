@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Public;
 
-use App\Http\Controllers\Controller;
-use App\Models\Pengaduan;
-use App\Http\Requests\StorePengaduanRequest;
 use App\Helpers\SEOHelper;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePengaduanRequest;
+use App\Models\Pengaduan;
 use Illuminate\Http\Request;
 
 class PengaduanController extends Controller
@@ -21,10 +21,10 @@ class PengaduanController extends Controller
         // Filter search
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('isi', 'like', "%{$search}%")
-                  ->orWhere('lokasi_kejadian', 'like', "%{$search}%");
+                    ->orWhere('isi', 'like', "%{$search}%")
+                    ->orWhere('lokasi_kejadian', 'like', "%{$search}%");
             });
         }
 
@@ -90,9 +90,9 @@ class PengaduanController extends Controller
         }])->findOrFail($id);
 
         $seoData = SEOHelper::generateMetaTags([
-            'title' => $pengaduan->judul . ' - Forum Pengaduan Desa Warurejo',
+            'title' => $pengaduan->judul.' - Forum Pengaduan Desa Warurejo',
             'description' => \Illuminate\Support\Str::limit(strip_tags($pengaduan->isi), 160),
-            'keywords' => 'pengaduan, desa warurejo, ' . $pengaduan->judul,
+            'keywords' => 'pengaduan, desa warurejo, '.$pengaduan->judul,
             'type' => 'article',
         ]);
 

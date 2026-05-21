@@ -114,7 +114,7 @@ class SitemapController extends Controller
         );
 
         return response($sitemap->render(), 200, [
-            'Content-Type' => 'application/xml'
+            'Content-Type' => 'application/xml',
         ]);
     }
 }

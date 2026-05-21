@@ -13,14 +13,14 @@ return [
     | - 'database': Simpan cache di tabel 'cache' (default project ini)
     | - 'file': Simpan di storage/framework/cache/data
     | - 'redis': Paling cepat, tapi perlu install Redis server
-    | 
+    |
     | Project ini cache:
     | - Profil desa (1 hari)
     | - Latest berita (1 jam)
     | - Galeri homepage (3 jam)
     | - Potensi (6 jam)
     | - SEO data (1 hari)
-    | 
+    |
     | Clear cache: php artisan cache:clear
     |
     */
@@ -51,12 +51,12 @@ return [
 
         /**
          * Database Cache Store - Default untuk project ini
-         * 
+         *
          * Cache disimpan di tabel 'cache' dan 'cache_locks'
          * Tidak perlu setup tambahan, langsung bisa dipakai
-         * 
+         *
          * SETUP: php artisan migrate (akan create tabel otomatis)
-         * 
+         *
          * Pro: Mudah setup, tidak perlu service eksternal
          * Con: Lebih lambat dari Redis, tapi cukup untuk desa
          */
@@ -133,6 +133,6 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-cache-'),
+    'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-cache-'),
 
 ];

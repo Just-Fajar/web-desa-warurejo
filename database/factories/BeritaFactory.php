@@ -13,9 +13,9 @@ class BeritaFactory extends Factory
 {
     /**
      * Define the model's default state.
-     * 
+     *
      * Factory untuk generate dummy data berita (untuk testing/development)
-     * 
+     *
      *
      *
      * @return array<string, mixed>
@@ -28,7 +28,7 @@ class BeritaFactory extends Factory
         return [
             'admin_id' => Admin::factory(),
             'judul' => $judul,
-            'slug' => Str::slug($judul) . '-' . fake()->unique()->numberBetween(1, 10000),
+            'slug' => Str::slug($judul).'-'.fake()->unique()->numberBetween(1, 10000),
             'ringkasan' => fake()->paragraph(2),
             'konten' => fake()->paragraphs(5, true),
             'gambar_utama' => 'berita/test-image.jpg',
@@ -41,12 +41,12 @@ class BeritaFactory extends Factory
     /**
      * Indicate that the berita is published.
      * Force status = 'published' dengan published_at
-     * 
+     *
      * Usage: Berita::factory()->published()->create()
      */
     public function published(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'published',
             'published_at' => fake()->dateTimeBetween('-30 days', 'now'),
         ]);
@@ -55,12 +55,12 @@ class BeritaFactory extends Factory
     /**
      * Indicate that the berita is a draft.
      * Force status = 'draft' dengan published_at = null
-     * 
+     *
      * Usage: Berita::factory()->draft()->create()
      */
     public function draft(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'draft',
             'published_at' => null,
         ]);
@@ -69,12 +69,12 @@ class BeritaFactory extends Factory
     /**
      * Indicate that the berita has high views.
      * Set views 500-5000 untuk simulate berita populer
-     * 
+     *
      * Usage: Berita::factory()->popular()->create()
      */
     public function popular(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'views' => fake()->numberBetween(500, 5000),
         ]);
     }

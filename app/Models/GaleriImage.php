@@ -21,6 +21,6 @@ class GaleriImage extends Model
     // Accessor
     public function getImageUrlAttribute()
     {
-        return asset('storage/' . $this->image_path);
+        return asset('storage/'.$this->image_path);
     }
 }

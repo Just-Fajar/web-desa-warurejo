@@ -10,7 +10,6 @@ class AdminSeeder extends Seeder
 {
     /**
      * Seed admin default untuk login pertama kali
-     * 
      */
     public function run(): void
     {

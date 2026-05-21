@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Public;
 
+use App\Helpers\SEOHelper;
 use App\Http\Controllers\Controller;
 use App\Models\PotensiDesa;
 use App\Services\PotensiDesaService;
-use App\Helpers\SEOHelper;
 use Illuminate\Http\Request;
 
 class PotensiController extends Controller
@@ -25,7 +25,7 @@ class PotensiController extends Controller
      * Tampilkan list semua potensi dengan filter
      * Filter: kategori (chip), search, urutkan (terbaru/terlama/terpopuler)
      * Include SEO meta tags
-     * 
+     *
      * Route: GET /potensi
      */
     public function index(Request $request)
@@ -43,7 +43,7 @@ class PotensiController extends Controller
                 'search' => $search,
                 'urutkan' => $urutkan,
                 'date_from' => $date_from,
-                'date_to' => $date_to
+                'date_to' => $date_to,
             ]);
         } else {
             $potensi = $this->potensiService->getActivePotensi();
@@ -54,12 +54,12 @@ class PotensiController extends Controller
         $kategoriBadgeColors = PotensiDesa::getKategoriBadgeColors();
 
         // SEO Data
-        $title = $kategori ? "Potensi Desa - " . ucfirst($kategori) : 'Potensi Desa';
+        $title = $kategori ? 'Potensi Desa - '.ucfirst($kategori) : 'Potensi Desa';
         $seoData = SEOHelper::generateMetaTags([
-            'title' => $title . ' - Desa Warurejo',
+            'title' => $title.' - Desa Warurejo',
             'description' => 'Potensi dan kekayaan Desa Warurejo. Temukan berbagai potensi wisata, pertanian, ekonomi, dan lainnya.',
             'keywords' => 'potensi desa warurejo, wisata desa, ekonomi desa, pertanian desa',
-            'type' => 'website'
+            'type' => 'website',
         ]);
 
         return view('public.potensi.index', compact(
@@ -77,7 +77,7 @@ class PotensiController extends Controller
      * - Generate breadcrumb schema
      * - Increment views counter
      * - Throw 404 jika tidak ditemukan
-     * 
+     *
      * Route: GET /potensi/{slug}
      */
     public function show($slug)
@@ -97,11 +97,11 @@ class PotensiController extends Controller
             // SEO Data
             $excerpt = strip_tags(substr($potensi->deskripsi, 0, 160));
             $seoData = SEOHelper::generateMetaTags([
-                'title' => $potensi->nama . ' - Potensi Desa Warurejo',
+                'title' => $potensi->nama.' - Potensi Desa Warurejo',
                 'description' => $excerpt,
                 'keywords' => "potensi desa, {$potensi->nama}, {$potensi->kategori}, desa warurejo",
-                'image' => asset('storage/' . $potensi->gambar),
-                'type' => 'article'
+                'image' => asset('storage/'.$potensi->gambar),
+                'type' => 'article',
             ]);
 
             // Structured Data for Place
@@ -111,7 +111,7 @@ class PotensiController extends Controller
             $breadcrumb = SEOHelper::getBreadcrumbSchema([
                 ['name' => 'Home', 'url' => route('home')],
                 ['name' => 'Potensi Desa', 'url' => route('potensi.index')],
-                ['name' => $potensi->nama, 'url' => route('potensi.show', $potensi->slug)]
+                ['name' => $potensi->nama, 'url' => route('potensi.show', $potensi->slug)],
             ]);
 
             return view('public.potensi.show', compact(

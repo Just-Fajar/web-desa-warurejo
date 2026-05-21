@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Pengaduan;
 use App\Models\PengaduanBalasan;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class PengaduanSeeder extends Seeder
 {
@@ -82,7 +82,9 @@ class PengaduanSeeder extends Seeder
                 ]);
             }
 
-            $icon = match($item[5]) { 'Menunggu'=>'🕐', 'Diproses'=>'🔄', 'Selesai'=>'✅', 'Ditolak'=>'❌' };
+            $icon = match ($item[5]) {
+                'Menunggu' => '🕐', 'Diproses' => '🔄', 'Selesai' => '✅', 'Ditolak' => '❌'
+            };
             $this->command->info("  {$icon} [{$item[5]}] {$item[2]}");
         }
         $this->command->info('✅ 30 pengaduan: 8 menunggu, 8 diproses, 8 selesai, 6 ditolak');

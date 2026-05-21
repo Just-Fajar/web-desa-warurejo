@@ -2,24 +2,28 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Berita;
 use App\Models\Admin;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Http;
+use App\Models\Berita;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BeritaSeeder extends Seeder
 {
     public function run(): void
     {
-        if (!Storage::disk('public')->exists('berita')) {
+        if (! Storage::disk('public')->exists('berita')) {
             Storage::disk('public')->makeDirectory('berita');
         }
 
         $admin = Admin::first();
-        if (!$admin) { $this->command->error('Admin tidak ditemukan!'); return; }
+        if (! $admin) {
+            $this->command->error('Admin tidak ditemukan!');
+
+            return;
+        }
 
         $this->command->info('📰 Membuat 30 berita dummy...');
         $now = Carbon::now();
@@ -63,7 +67,7 @@ class BeritaSeeder extends Seeder
         foreach ($items as $i => $item) {
             [$judul, $days, $status] = $item;
 
-            $publishedAt = match($status) {
+            $publishedAt = match ($status) {
                 'published' => $now->copy()->subDays($days),
                 'scheduled' => $now->copy()->addDays(abs($days)),
                 default => null,
@@ -74,7 +78,7 @@ class BeritaSeeder extends Seeder
             Berita::create([
                 'admin_id' => $admin->id,
                 'judul' => $judul,
-                'slug' => Str::slug($judul) . '-' . Str::random(5),
+                'slug' => Str::slug($judul).'-'.Str::random(5),
                 'ringkasan' => $this->ringkasan($judul),
                 'konten' => $this->konten($judul),
                 'gambar_utama' => $img,
@@ -84,7 +88,9 @@ class BeritaSeeder extends Seeder
                 'created_at' => $publishedAt ?? $now->copy()->subDays($days),
                 'updated_at' => $publishedAt ?? $now,
             ]);
-            $icon = match($status) { 'published'=>'✅', 'draft'=>'📝', 'scheduled'=>'⏰' };
+            $icon = match ($status) {
+                'published' => '✅', 'draft' => '📝', 'scheduled' => '⏰'
+            };
             $this->command->info("  {$icon} [{$status}] {$judul}");
         }
         $this->command->info('✅ 30 berita: 20 published, 5 draft, 5 scheduled');
@@ -94,8 +100,16 @@ class BeritaSeeder extends Seeder
     {
         try {
             $r = Http::timeout(15)->get("https://picsum.photos/seed/{$seed}/{$w}/{$h}");
-            if ($r->successful()) { $p = "{$folder}/{$fn}"; Storage::disk('public')->put($p, $r->body()); return $p; }
-        } catch (\Exception $e) { $this->command->warn("⚠ {$e->getMessage()}"); }
+            if ($r->successful()) {
+                $p = "{$folder}/{$fn}";
+                Storage::disk('public')->put($p, $r->body());
+
+                return $p;
+            }
+        } catch (\Exception $e) {
+            $this->command->warn("⚠ {$e->getMessage()}");
+        }
+
         return "{$folder}/{$fn}";
     }
 
@@ -106,15 +120,17 @@ class BeritaSeeder extends Seeder
             "Pemerintah Desa mengadakan {$j} sebagai upaya pemberdayaan masyarakat.",
             "{$j} merupakan salah satu program prioritas tahun ini.",
         ];
+
         return $t[array_rand($t)];
     }
 
     private function konten(string $j): string
     {
-        $p = "<p><strong>Desa Warurejo</strong> - " . $this->ringkasan($j) . " Program ini bertujuan meningkatkan kesejahteraan masyarakat.</p>";
-        $p .= "<p>Kegiatan ini dihadiri oleh Kepala Desa beserta perangkat desa, tokoh masyarakat, serta perwakilan organisasi kemasyarakatan.</p>";
-        $p .= "<p>Pemerintah desa mengalokasikan anggaran khusus dari APBDes untuk mendukung program ini. Transparansi penggunaan anggaran menjadi prioritas utama.</p>";
-        $p .= "<p>Kegiatan ditutup dengan doa bersama. Semoga program ini memberikan manfaat maksimal bagi Desa Warurejo.</p>";
+        $p = '<p><strong>Desa Warurejo</strong> - '.$this->ringkasan($j).' Program ini bertujuan meningkatkan kesejahteraan masyarakat.</p>';
+        $p .= '<p>Kegiatan ini dihadiri oleh Kepala Desa beserta perangkat desa, tokoh masyarakat, serta perwakilan organisasi kemasyarakatan.</p>';
+        $p .= '<p>Pemerintah desa mengalokasikan anggaran khusus dari APBDes untuk mendukung program ini. Transparansi penggunaan anggaran menjadi prioritas utama.</p>';
+        $p .= '<p>Kegiatan ditutup dengan doa bersama. Semoga program ini memberikan manfaat maksimal bagi Desa Warurejo.</p>';
+
         return $p;
     }
 }

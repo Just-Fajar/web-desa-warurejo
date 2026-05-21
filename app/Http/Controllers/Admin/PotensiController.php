@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PotensiRequest;
 use App\Models\PotensiDesa;
 use App\Models\PotensiDesaFoto;
-use App\Http\Requests\PotensiRequest;
 use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PotensiController extends Controller
 {
@@ -33,6 +33,7 @@ class PotensiController extends Controller
     public function index()
     {
         $potensi = PotensiDesa::orderBy('created_at', 'desc')->get();
+
         return view('admin.potensi.index', compact('potensi'));
     }
 
@@ -80,11 +81,11 @@ class PotensiController extends Controller
             $potensi = PotensiDesa::create($data);
 
             // Handle foto galeri upload
-            if (!empty($fotoGaleri)) {
+            if (! empty($fotoGaleri)) {
                 foreach ($fotoGaleri as $index => $file) {
-                    $filename = time() . '_galeri_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+                    $filename = time().'_galeri_'.Str::random(10).'.'.$file->getClientOriginalExtension();
                     $path = $file->storeAs('potensi/galeri', $filename, 'public');
-                    
+
                     PotensiDesaFoto::create([
                         'potensi_desa_id' => $potensi->id,
                         'foto' => $path,
@@ -105,7 +106,7 @@ class PotensiController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -116,6 +117,7 @@ class PotensiController extends Controller
     public function show(PotensiDesa $potensi)
     {
         $potensi->load('fotoGaleri');
+
         return view('admin.potensi.show', compact('potensi'));
     }
 
@@ -126,6 +128,7 @@ class PotensiController extends Controller
     public function edit(PotensiDesa $potensi)
     {
         $potensi->load('fotoGaleri');
+
         return view('admin.potensi.edit', compact('potensi'));
     }
 
@@ -144,7 +147,7 @@ class PotensiController extends Controller
             $data = $request->validated();
 
             // Handle status & published_at
-            if ($data['status'] === 'published' && !$potensi->published_at) {
+            if ($data['status'] === 'published' && ! $potensi->published_at) {
                 $data['published_at'] = now();
             } elseif ($data['status'] === 'draft') {
                 $data['published_at'] = null;
@@ -170,10 +173,10 @@ class PotensiController extends Controller
             $potensi->update($data);
 
             // Handle foto galeri upload
-            if (!empty($fotoGaleri)) {
+            if (! empty($fotoGaleri)) {
                 $maxUrutan = $potensi->fotoGaleri()->max('urutan') ?? 0;
                 foreach ($fotoGaleri as $index => $file) {
-                    $filename = time() . '_galeri_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+                    $filename = time().'_galeri_'.Str::random(10).'.'.$file->getClientOriginalExtension();
                     $path = $file->storeAs('potensi/galeri', $filename, 'public');
 
                     PotensiDesaFoto::create([
@@ -196,7 +199,7 @@ class PotensiController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -231,7 +234,7 @@ class PotensiController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -248,12 +251,12 @@ class PotensiController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Foto berhasil dihapus'
+                'message' => 'Foto berhasil dihapus',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menghapus foto: ' . $e->getMessage()
+                'message' => 'Gagal menghapus foto: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -272,7 +275,7 @@ class PotensiController extends Controller
             if (empty($ids)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Tidak ada potensi yang dipilih'
+                    'message' => 'Tidak ada potensi yang dipilih',
                 ], 400);
             }
 
@@ -298,12 +301,12 @@ class PotensiController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => count($ids) . ' potensi berhasil dihapus'
+                'message' => count($ids).' potensi berhasil dihapus',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                'message' => 'Terjadi kesalahan: '.$e->getMessage(),
             ], 500);
         }
     }

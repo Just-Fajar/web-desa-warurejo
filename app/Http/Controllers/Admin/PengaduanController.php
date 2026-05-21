@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBalasanRequest;
 use App\Models\Pengaduan;
 use App\Models\PengaduanBalasan;
-use App\Http\Requests\StoreBalasanRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -134,7 +134,7 @@ class PengaduanController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => count($ids) . ' pengaduan berhasil dihapus.',
+            'message' => count($ids).' pengaduan berhasil dihapus.',
         ]);
     }
 }

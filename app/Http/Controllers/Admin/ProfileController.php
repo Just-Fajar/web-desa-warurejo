@@ -8,20 +8,22 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
-use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ProfileController extends Controller
 {
     public function show()
     {
         $admin = auth()->guard('admin')->user();
+
         return view('admin.profile.show', compact('admin'));
     }
 
     public function edit()
     {
         $admin = auth()->guard('admin')->user();
+
         return view('admin.profile.edit', compact('admin'));
     }
 
@@ -33,7 +35,7 @@ class ProfileController extends Controller
 
             $validated = $request->validate([
                 'name' => 'sometimes|required|string|max:255',
-                'email' => 'sometimes|required|email|max:255|unique:admins,email,' . $admin->id,
+                'email' => 'sometimes|required|email|max:255|unique:admins,email,'.$admin->id,
             ]);
 
             $admin->update($validated);
@@ -44,13 +46,13 @@ class ProfileController extends Controller
             Log::error('Error updating admin profile', [
                 'admin_id' => auth()->guard('admin')->id(),
                 'exception' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan saat memperbarui profil: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan saat memperbarui profil: '.$e->getMessage());
         }
     }
 
@@ -85,14 +87,14 @@ class ProfileController extends Controller
                 ]);
 
                 // Check current password
-                if (!Hash::check($request->current_password, $admin->password)) {
+                if (! Hash::check($request->current_password, $admin->password)) {
                     return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.']);
                 }
             }
 
             // Update password
             $admin->update([
-                'password' => Hash::make($validated['password'])
+                'password' => Hash::make($validated['password']),
             ]);
 
             $message = $lupaPassword
@@ -104,12 +106,12 @@ class ProfileController extends Controller
         } catch (\Exception $e) {
             Log::error('Error updating admin password', [
                 'admin_id' => auth()->guard('admin')->id(),
-                'exception' => $e->getMessage()
+                'exception' => $e->getMessage(),
             ]);
 
             return redirect()
                 ->back()
-                ->with('error', 'Terjadi kesalahan saat memperbarui password: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan saat memperbarui password: '.$e->getMessage());
         }
     }
 
@@ -135,17 +137,17 @@ class ProfileController extends Controller
 
             // Upload and process new photo
             $file = $request->file('photo');
-            $filename = 'admin_' . $admin->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $filename = 'admin_'.$admin->id.'_'.time().'.'.$file->getClientOriginalExtension();
 
             // Create image manager with GD driver
-            $manager = new ImageManager(new Driver());
+            $manager = new ImageManager(new Driver);
 
             // Read and resize image to 400x400
             $image = $manager->read($file);
             $image->cover(400, 400);
 
             // Save to storage
-            $path = 'admins/photos/' . $filename;
+            $path = 'admins/photos/'.$filename;
             Storage::disk('public')->put($path, (string) $image->encode());
 
             // Update admin photo path
@@ -154,18 +156,18 @@ class ProfileController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Foto profil berhasil diupdate!',
-                'photo_url' => asset('storage/' . $path)
+                'photo_url' => asset('storage/'.$path),
             ]);
         } catch (\Exception $e) {
             Log::error('Error updating admin photo', [
                 'admin_id' => auth()->guard('admin')->id(),
                 'exception' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal mengupload foto: ' . $e->getMessage()
+                'message' => 'Gagal mengupload foto: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -184,17 +186,17 @@ class ProfileController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Foto profil berhasil dihapus!'
+                'message' => 'Foto profil berhasil dihapus!',
             ]);
         } catch (\Exception $e) {
             Log::error('Error deleting admin photo', [
                 'admin_id' => auth()->guard('admin')->id(),
-                'exception' => $e->getMessage()
+                'exception' => $e->getMessage(),
             ]);
 
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menghapus foto: ' . $e->getMessage()
+                'message' => 'Gagal menghapus foto: '.$e->getMessage(),
             ], 500);
         }
     }

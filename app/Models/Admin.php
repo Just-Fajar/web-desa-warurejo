@@ -9,7 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Admin extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -44,16 +44,16 @@ class Admin extends Authenticatable
 
     /**
      * Get avatar URL dengan fallback
-     * 
+     *
      * Return full URL ke storage jika avatar ada
      * Fallback ke default-avatar.png jika avatar null
-     * 
+     *
      * Usage: $admin->avatar_url
      */
     public function getAvatarUrlAttribute()
     {
         return $this->avatar
-            ? asset('storage/' . $this->avatar)
+            ? asset('storage/'.$this->avatar)
             : asset('images/default-avatar.png');
     }
 }

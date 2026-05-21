@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\Admin;
 
 class AuthController extends Controller
 {
@@ -26,7 +25,7 @@ class AuthController extends Controller
      * - Support remember me checkbox
      * - Regenerate session untuk security
      * - Redirect ke dashboard jika berhasil
-     * 
+     *
      * Route: POST /admin/login
      */
     public function login(Request $request)
@@ -46,7 +45,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return redirect()->intended(route('admin.dashboard'))
-                ->with('success', 'Selamat datang, ' . Auth::guard('admin')->user()->name);
+                ->with('success', 'Selamat datang, '.Auth::guard('admin')->user()->name);
         }
 
         return back()
@@ -61,7 +60,7 @@ class AuthController extends Controller
      * - Logout dari guard 'admin'
      * - Invalidate session
      * - Regenerate token untuk security (prevent CSRF)
-     * 
+     *
      * Route: POST /admin/logout
      */
     public function logout(Request $request)

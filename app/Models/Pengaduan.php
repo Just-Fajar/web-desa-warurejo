@@ -13,8 +13,11 @@ class Pengaduan extends Model
 
     // Status constants
     const STATUS_MENUNGGU = 'Menunggu';
+
     const STATUS_DIPROSES = 'Diproses';
+
     const STATUS_SELESAI = 'Selesai';
+
     const STATUS_DITOLAK = 'Ditolak';
 
     protected $fillable = [
@@ -51,7 +54,8 @@ class Pengaduan extends Model
             }
             $visible = mb_substr($word, 0, 2);
             $hidden = str_repeat('*', $length - 2);
-            return $visible . $hidden;
+
+            return $visible.$hidden;
         }, $words);
 
         return implode(' ', $censored);
@@ -106,7 +110,7 @@ class Pengaduan extends Model
      */
     public function getLampiranUrlAttribute()
     {
-        return $this->lampiran ? asset('storage/' . $this->lampiran) : null;
+        return $this->lampiran ? asset('storage/'.$this->lampiran) : null;
     }
 
     /**
@@ -114,8 +118,11 @@ class Pengaduan extends Model
      */
     public function isImage()
     {
-        if (!$this->lampiran) return false;
+        if (! $this->lampiran) {
+            return false;
+        }
         $ext = strtolower(pathinfo($this->lampiran, PATHINFO_EXTENSION));
+
         return in_array($ext, ['jpg', 'jpeg', 'png']);
     }
 
@@ -124,8 +131,11 @@ class Pengaduan extends Model
      */
     public function isPdf()
     {
-        if (!$this->lampiran) return false;
+        if (! $this->lampiran) {
+            return false;
+        }
         $ext = strtolower(pathinfo($this->lampiran, PATHINFO_EXTENSION));
+
         return $ext === 'pdf';
     }
 

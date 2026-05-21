@@ -4,9 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Admin;
 use App\Models\Berita;
-use App\Models\PotensiDesa;
 use App\Models\Galeri;
-use App\Models\ProfilDesa;
+use App\Models\PotensiDesa;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

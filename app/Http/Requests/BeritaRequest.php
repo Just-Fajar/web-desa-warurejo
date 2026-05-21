@@ -15,7 +15,7 @@ class BeritaRequest extends FormRequest
     {
         $rules = [
             'judul' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:berita,slug,' . $this->route('beritum'),
+            'slug' => 'nullable|string|max:255|unique:berita,slug,'.$this->route('beritum'),
             'ringkasan' => 'nullable|string|max:500',
             'konten' => 'required|string',
             'status' => 'required|in:draft,scheduled,published',
@@ -63,7 +63,7 @@ class BeritaRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         // Auto-generate slug from judul if not provided
-        if (empty($this->slug) && !empty($this->judul)) {
+        if (empty($this->slug) && ! empty($this->judul)) {
             $this->merge([
                 'slug' => \Illuminate\Support\Str::slug($this->judul),
             ]);

@@ -140,7 +140,7 @@ class PotensiDesaRepository extends BaseRepository
         $query = $this->model->published()->with('fotoGaleri');
 
         // Search by keyword
-        if (!empty($filters['search'])) {
+        if (! empty($filters['search'])) {
             $keyword = $filters['search'];
             $query->where(function ($q) use ($keyword) {
                 $q->where('nama', 'like', "%{$keyword}%")
@@ -149,15 +149,15 @@ class PotensiDesaRepository extends BaseRepository
         }
 
         // Filter by kategori
-        if (!empty($filters['kategori'])) {
+        if (! empty($filters['kategori'])) {
             $query->byKategori($filters['kategori']);
         }
 
         // Filter by date range
-        if (!empty($filters['date_from'])) {
+        if (! empty($filters['date_from'])) {
             $query->whereDate('created_at', '>=', $filters['date_from']);
         }
-        if (!empty($filters['date_to'])) {
+        if (! empty($filters['date_to'])) {
             $query->whereDate('created_at', '<=', $filters['date_to']);
         }
 

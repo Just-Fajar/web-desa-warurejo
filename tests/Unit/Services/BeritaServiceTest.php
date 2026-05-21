@@ -2,19 +2,20 @@
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
 use App\Models\Admin;
 use App\Models\Berita;
 use App\Services\BeritaService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class BeritaServiceTest extends TestCase
 {
     use RefreshDatabase;
 
     protected BeritaService $beritaService;
+
     protected Admin $admin;
 
     protected function setUp(): void

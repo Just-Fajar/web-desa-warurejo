@@ -39,7 +39,7 @@ class PotensiController extends Controller
                     'slug' => $item->slug,
                     'deskripsi' => strip_tags($item->deskripsi),
                     'deskripsi_html' => $item->deskripsi,
-                    'gambar' => $item->gambar ? asset('storage/' . $item->gambar) : null,
+                    'gambar' => $item->gambar ? asset('storage/'.$item->gambar) : null,
                     'views' => $item->views,
                     'created_at' => $item->created_at->toIso8601String(),
                 ];
@@ -72,7 +72,7 @@ class PotensiController extends Controller
                 'nama' => $potensi->nama,
                 'slug' => $potensi->slug,
                 'deskripsi' => $potensi->deskripsi,
-                'gambar' => $potensi->gambar ? asset('storage/' . $potensi->gambar) : null,
+                'gambar' => $potensi->gambar ? asset('storage/'.$potensi->gambar) : null,
                 'views' => $potensi->views,
                 'created_at' => $potensi->created_at->toIso8601String(),
                 'updated_at' => $potensi->updated_at->toIso8601String(),
@@ -100,7 +100,7 @@ class PotensiController extends Controller
                     'nama' => $item->nama,
                     'slug' => $item->slug,
                     'excerpt' => Str::limit(strip_tags($item->deskripsi), 150),
-                    'gambar' => $item->gambar ? asset('storage/' . $item->gambar) : null,
+                    'gambar' => $item->gambar ? asset('storage/'.$item->gambar) : null,
                     'views' => $item->views,
                 ];
             }),

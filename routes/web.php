@@ -1,25 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\BeritaController as AdminBeritaController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
+use App\Http\Controllers\Admin\PengaduanController as AdminPengaduanController;
+use App\Http\Controllers\Admin\PotensiController as AdminPotensiController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\Admin\PublikasiController as AdminPublikasiController;
+use App\Http\Controllers\Admin\StrukturOrganisasiController;
 use App\Http\Controllers\Public\BeritaController;
-use App\Http\Controllers\Public\ProfilController;
-use App\Http\Controllers\Public\PotensiController;
 use App\Http\Controllers\Public\GaleriController;
+use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\KontakController;
 use App\Http\Controllers\Public\PengaduanController;
+use App\Http\Controllers\Public\PotensiController;
+use App\Http\Controllers\Public\ProfilController;
 use App\Http\Controllers\PublikasiController;
-use App\Http\Controllers\Admin\AuthController as AdminAuthController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\BeritaController as AdminBeritaController;
-use App\Http\Controllers\Admin\PotensiController as AdminPotensiController;
-use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
-
-use App\Http\Controllers\Admin\PublikasiController as AdminPublikasiController;
-use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
-use App\Http\Controllers\Admin\StrukturOrganisasiController;
-use App\Http\Controllers\Admin\PengaduanController as AdminPengaduanController;
 use App\Http\Controllers\SitemapController;
+use Illuminate\Support\Facades\Route;
 
 // SEO Routes
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
@@ -89,7 +88,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Auto-publish endpoint for real-time polling (AJAX)
         Route::post('/auto-publish', function () {
             $totalPublished = 0;
-            
+
             try {
                 $models = [
                     \App\Models\Berita::class => ['home.latest_berita', 'berita.published', 'home.total_berita'],
@@ -114,7 +113,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                     \Illuminate\Support\Facades\Cache::forget('home.seo_data');
                 }
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error("Auto-publish error: " . $e->getMessage());
+                \Illuminate\Support\Facades\Log::error('Auto-publish error: '.$e->getMessage());
             }
 
             return response()->json([
@@ -155,8 +154,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('pengaduan/{id}', [AdminPengaduanController::class, 'show'])->name('pengaduan.show');
         Route::post('pengaduan/{id}/balas', [AdminPengaduanController::class, 'storeBalasan'])->name('pengaduan.balas');
         Route::delete('pengaduan/{id}', [AdminPengaduanController::class, 'destroy'])->name('pengaduan.destroy');
-
-
 
         // Admin Profile Management
         Route::prefix('profile')->name('profile.')->group(function () {

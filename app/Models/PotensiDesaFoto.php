@@ -35,7 +35,7 @@ class PotensiDesaFoto extends Model
     public function getFotoUrlAttribute()
     {
         return $this->foto
-            ? asset('storage/' . $this->foto)
+            ? asset('storage/'.$this->foto)
             : null;
     }
 }

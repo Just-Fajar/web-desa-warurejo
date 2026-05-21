@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use App\Models\ProfilDesa;
 use App\Models\Berita;
 use App\Models\Galeri;
 use App\Models\PotensiDesa;
+use App\Models\ProfilDesa;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {

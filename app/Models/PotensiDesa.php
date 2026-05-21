@@ -14,7 +14,9 @@ class PotensiDesa extends Model
 
     // Status constants
     const STATUS_DRAFT = 'draft';
+
     const STATUS_SCHEDULED = 'scheduled';
+
     const STATUS_PUBLISHED = 'published';
 
     protected $fillable = [
@@ -54,7 +56,7 @@ class PotensiDesa extends Model
     public function getGambarUrlAttribute()
     {
         return $this->gambar
-            ? asset('storage/' . $this->gambar)
+            ? asset('storage/'.$this->gambar)
             : asset('images/default-potensi.jpg');
     }
 
@@ -79,14 +81,14 @@ class PotensiDesa extends Model
 
         // Hilangkan 0 di depan, ganti dengan 62
         if (str_starts_with($nomor, '0')) {
-            $nomor = '62' . substr($nomor, 1);
+            $nomor = '62'.substr($nomor, 1);
         }
         // Jika belum ada 62, tambahkan
-        if (!str_starts_with($nomor, '62')) {
-            $nomor = '62' . $nomor;
+        if (! str_starts_with($nomor, '62')) {
+            $nomor = '62'.$nomor;
         }
 
-        return 'https://wa.me/' . $nomor;
+        return 'https://wa.me/'.$nomor;
     }
 
     /**
@@ -102,13 +104,13 @@ class PotensiDesa extends Model
         $nomor = preg_replace('/[^0-9]/', '', $nomor);
 
         if (str_starts_with($nomor, '0')) {
-            $nomor = '62' . substr($nomor, 1);
+            $nomor = '62'.substr($nomor, 1);
         }
-        if (!str_starts_with($nomor, '62')) {
-            $nomor = '62' . $nomor;
+        if (! str_starts_with($nomor, '62')) {
+            $nomor = '62'.$nomor;
         }
 
-        return '+' . $nomor;
+        return '+'.$nomor;
     }
 
     // ==================== SCOPES ====================
@@ -156,15 +158,18 @@ class PotensiDesa extends Model
             ->orderBy('created_at', 'desc');
     }
 
-
-
     // ==================== CONSTANTS ====================
 
     const KATEGORI_PERTANIAN = 'pertanian';
+
     const KATEGORI_PETERNAKAN = 'peternakan';
+
     const KATEGORI_PERIKANAN = 'perikanan';
+
     const KATEGORI_UMKM = 'umkm';
+
     const KATEGORI_WISATA = 'wisata';
+
     const KATEGORI_LAINNYA = 'lainnya';
 
     public static function getKategoriList()
@@ -185,12 +190,12 @@ class PotensiDesa extends Model
     public static function getKategoriBadgeColors()
     {
         return [
-            'pertanian'  => ['bg' => '#DCFCE7', 'text' => '#16A34A'], // Green
+            'pertanian' => ['bg' => '#DCFCE7', 'text' => '#16A34A'], // Green
             'peternakan' => ['bg' => '#FFEDD5', 'text' => '#EA580C'], // Orange
-            'perikanan'  => ['bg' => '#CCFBF1', 'text' => '#0D9488'], // Teal
-            'umkm'       => ['bg' => '#F3E8FF', 'text' => '#9333EA'], // Purple
-            'wisata'     => ['bg' => '#FFE4E6', 'text' => '#E11D48'], // Rose/Pink
-            'lainnya'    => ['bg' => '#F3F4F6', 'text' => '#4B5563'], // Gray
+            'perikanan' => ['bg' => '#CCFBF1', 'text' => '#0D9488'], // Teal
+            'umkm' => ['bg' => '#F3E8FF', 'text' => '#9333EA'], // Purple
+            'wisata' => ['bg' => '#FFE4E6', 'text' => '#E11D48'], // Rose/Pink
+            'lainnya' => ['bg' => '#F3F4F6', 'text' => '#4B5563'], // Gray
         ];
     }
 
@@ -234,7 +239,7 @@ class PotensiDesa extends Model
             $originalSlug = $potensi->slug;
             $count = 1;
             while (static::where('slug', $potensi->slug)->exists()) {
-                $potensi->slug = $originalSlug . '-' . $count;
+                $potensi->slug = $originalSlug.'-'.$count;
                 $count++;
             }
 
@@ -252,7 +257,7 @@ class PotensiDesa extends Model
                 $originalSlug = $potensi->slug;
                 $count = 1;
                 while (static::where('slug', $potensi->slug)->where('id', '!=', $potensi->id)->exists()) {
-                    $potensi->slug = $originalSlug . '-' . $count;
+                    $potensi->slug = $originalSlug.'-'.$count;
                     $count++;
                 }
             }

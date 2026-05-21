@@ -13,7 +13,9 @@ class Galeri extends Model
 
     // Status constants
     const STATUS_DRAFT = 'draft';
+
     const STATUS_SCHEDULED = 'scheduled';
+
     const STATUS_PUBLISHED = 'published';
 
     protected $fillable = [
@@ -54,7 +56,7 @@ class Galeri extends Model
 
         // Fallback ke gambar single jika ada
         return $this->gambar
-            ? asset('storage/' . $this->gambar)
+            ? asset('storage/'.$this->gambar)
             : asset('images/default-gallery.jpg');
     }
 
@@ -107,10 +109,15 @@ class Galeri extends Model
 
     // Constants for categories
     const KATEGORI_KEGIATAN = 'kegiatan';
+
     const KATEGORI_PEMBANGUNAN = 'pembangunan';
+
     const KATEGORI_BUDAYA = 'budaya';
+
     const KATEGORI_KEAGAMAAN = 'keagamaan';
+
     const KATEGORI_SOSIAL = 'sosial';
+
     const KATEGORI_LAINNYA = 'lainnya';
 
     public static function getKategoriList()

@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
 use App\Services\ImageCompressionService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class ImageCompressionServiceTest extends TestCase
 {
@@ -94,7 +94,7 @@ class ImageCompressionServiceTest extends TestCase
     public function test_resize_with_aspect_ratio(): void
     {
         Storage::fake('public');
-        
+
         // Without maxHeight
         $file = UploadedFile::fake()->image('test.jpg', 2000, 1500);
         $path1 = $this->compressionService->resizeWithAspectRatio($file, 'images', 1000);
@@ -123,7 +123,7 @@ class ImageCompressionServiceTest extends TestCase
     public function test_delete_image(): void
     {
         Storage::fake('public');
-        
+
         // Null path
         $this->assertFalse($this->compressionService->deleteImage(null));
 
@@ -156,7 +156,7 @@ class ImageCompressionServiceTest extends TestCase
         $files = [
             UploadedFile::fake()->image('img1.jpg', 100, 100),
             UploadedFile::fake()->image('img2.png', 100, 100),
-            'not-a-file'
+            'not-a-file',
         ];
 
         $paths = $this->compressionService->batchCompress($files, 'images');

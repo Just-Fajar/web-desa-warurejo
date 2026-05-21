@@ -22,11 +22,11 @@ class PengaduanBalasanFactory extends Factory
 
     public function admin(): static
     {
-        return $this->state(fn() => ['is_admin' => true]);
+        return $this->state(fn () => ['is_admin' => true]);
     }
 
     public function withLampiran(): static
     {
-        return $this->state(fn() => ['lampiran' => 'pengaduan/balasan/' . fake()->uuid() . '.jpg']);
+        return $this->state(fn () => ['lampiran' => 'pengaduan/balasan/'.fake()->uuid().'.jpg']);
     }
 }

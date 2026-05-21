@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\PotensiDesa;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PotensiSeeder extends Seeder
 {
     public function run(): void
     {
-        if (!Storage::disk('public')->exists('potensi')) {
+        if (! Storage::disk('public')->exists('potensi')) {
             Storage::disk('public')->makeDirectory('potensi');
         }
         $this->command->info('🌾 Membuat 30 potensi desa dummy...');
@@ -66,7 +66,7 @@ class PotensiSeeder extends Seeder
 
         foreach ($items as $i => $item) {
             [$nama, $kat, $lok, $wa, $desk, $days, $status] = $item;
-            $pa = match($status) {
+            $pa = match ($status) {
                 'published' => $now->copy()->subDays($days),
                 'scheduled' => $now->copy()->addDays($days),
                 default => null,
@@ -77,11 +77,13 @@ class PotensiSeeder extends Seeder
                 'nama' => $nama, 'slug' => Str::slug($nama), 'kategori' => $kat,
                 'deskripsi' => "<p><strong>{$nama}</strong> - {$desk}</p><p>Pemerintah Desa Warurejo terus mendukung pengembangan potensi ini melalui pendampingan dan pelatihan berkelanjutan.</p>",
                 'gambar' => $img ?? '', 'lokasi' => $lok, 'whatsapp' => $wa,
-                'nama_pengelola' => 'Pengelola ' . $nama, 'info_utama' => $lok,
+                'nama_pengelola' => 'Pengelola '.$nama, 'info_utama' => $lok,
                 'link_maps' => null, 'status' => $status, 'published_at' => $pa,
                 'urutan' => $i + 1, 'views' => $status === 'published' ? rand(20, 400) : 0,
             ]);
-            $icon = match($status) { 'published'=>'✅', 'draft'=>'📝', 'scheduled'=>'⏰' };
+            $icon = match ($status) {
+                'published' => '✅', 'draft' => '📝', 'scheduled' => '⏰'
+            };
             $this->command->info("  {$icon} [{$kat}] {$nama}");
         }
         $this->command->info('✅ 30 potensi: 6 kategori × 5 (18 pub, 6 draft, 6 sched)');
@@ -91,8 +93,15 @@ class PotensiSeeder extends Seeder
     {
         try {
             $r = Http::timeout(15)->get("https://picsum.photos/seed/{$s}/{$w}/{$h}");
-            if ($r->successful()) { $p = "{$f}/{$fn}"; Storage::disk('public')->put($p, $r->body()); return $p; }
-        } catch (\Exception $e) {}
+            if ($r->successful()) {
+                $p = "{$f}/{$fn}";
+                Storage::disk('public')->put($p, $r->body());
+
+                return $p;
+            }
+        } catch (\Exception $e) {
+        }
+
         return "{$f}/{$fn}";
     }
 }

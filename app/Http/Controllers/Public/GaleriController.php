@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Public;
 
+use App\Helpers\SEOHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Galeri;
 use App\Repositories\GaleriRepository;
-use App\Helpers\SEOHelper;
 use Illuminate\Http\Request;
 
 class GaleriController extends Controller
@@ -27,7 +27,7 @@ class GaleriController extends Controller
      * Eager load admin dan images untuk prevent N+1
      * Pagination 24 items per page
      * Include SEO meta tags
-     * 
+     *
      * Route: GET /galeri
      */
     public function index(Request $request)
@@ -79,14 +79,14 @@ class GaleriController extends Controller
         // SEO Data
         $title = 'Galeri Dokumentasi';
         if ($kategori) {
-            $title .= " - " . ucfirst($kategori);
+            $title .= ' - '.ucfirst($kategori);
         }
 
         $seoData = SEOHelper::generateMetaTags([
-            'title' => $title . ' - Desa Warurejo',
+            'title' => $title.' - Desa Warurejo',
             'description' => 'Galeri foto dan video kegiatan, program, dan momen penting Desa Warurejo.',
             'keywords' => 'galeri desa warurejo, foto kegiatan desa, video desa',
-            'type' => 'website'
+            'type' => 'website',
         ]);
 
         return view('public.galeri.index', compact('galeris', 'search', 'kategori', 'seoData', 'date_from', 'date_to'));

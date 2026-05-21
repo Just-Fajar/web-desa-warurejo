@@ -2,19 +2,21 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Publikasi;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PublikasiSeeder extends Seeder
 {
     public function run(): void
     {
         foreach (['publikasi', 'publikasi/thumbnails'] as $f) {
-            if (!Storage::disk('public')->exists($f)) Storage::disk('public')->makeDirectory($f);
+            if (! Storage::disk('public')->exists($f)) {
+                Storage::disk('public')->makeDirectory($f);
+            }
         }
         $this->command->info('📄 Membuat 30 publikasi dummy...');
         $now = Carbon::now();
@@ -60,7 +62,7 @@ class PublikasiSeeder extends Seeder
 
         foreach ($items as $i => $item) {
             [$judul, $kat, $thn, $desk, $days, $status] = $item;
-            $pa = match($status) {
+            $pa = match ($status) {
                 'published' => $now->copy()->subDays($days),
                 'scheduled' => $now->copy()->addDays($days),
                 default => null,
@@ -68,7 +70,7 @@ class PublikasiSeeder extends Seeder
             $tglPub = $pa ? $pa->format('Y-m-d') : $now->format('Y-m-d');
 
             // Create dummy PDF
-            $pdfPath = "publikasi/" . Str::slug($judul) . ".pdf";
+            $pdfPath = 'publikasi/'.Str::slug($judul).'.pdf';
             Storage::disk('public')->put($pdfPath, $this->dummyPdf($judul));
 
             // Thumbnail
@@ -82,7 +84,9 @@ class PublikasiSeeder extends Seeder
                 'jumlah_download' => $status === 'published' ? rand(10, 200) : 0,
                 'views' => $status === 'published' ? rand(20, 300) : 0,
             ]);
-            $icon = match($status) { 'published'=>'✅', 'draft'=>'📝', 'scheduled'=>'⏰' };
+            $icon = match ($status) {
+                'published' => '✅', 'draft' => '📝', 'scheduled' => '⏰'
+            };
             $this->command->info("  {$icon} [{$kat}] {$judul}");
         }
         $this->command->info('✅ 30 publikasi: 10 APBDes + 10 RPJMDes + 10 RKPDes');
@@ -94,6 +98,7 @@ class PublikasiSeeder extends Seeder
         $c .= "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n";
         $c .= "3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] >>\nendobj\n";
         $c .= "trailer\n<< /Size 4 /Root 1 0 R >>\nstartxref\n0\n%%EOF";
+
         return $c;
     }
 
@@ -101,8 +106,15 @@ class PublikasiSeeder extends Seeder
     {
         try {
             $r = Http::timeout(15)->get("https://picsum.photos/seed/{$s}/{$w}/{$h}");
-            if ($r->successful()) { $p = "{$f}/{$fn}"; Storage::disk('public')->put($p, $r->body()); return $p; }
-        } catch (\Exception $e) {}
+            if ($r->successful()) {
+                $p = "{$f}/{$fn}";
+                Storage::disk('public')->put($p, $r->body());
+
+                return $p;
+            }
+        } catch (\Exception $e) {
+        }
+
         return "{$f}/{$fn}";
     }
 }

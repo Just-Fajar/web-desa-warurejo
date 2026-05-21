@@ -3,8 +3,6 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Admin;
-use App\Models\DailyVisitorStat;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;

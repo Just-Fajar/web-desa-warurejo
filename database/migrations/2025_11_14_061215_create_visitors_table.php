@@ -8,7 +8,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * 
+     *
      * Tabel visitors untuk tracking pengunjung website (PRIVACY-SAFE)
      */
     public function up(): void

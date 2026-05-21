@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BeritaController;
-use App\Http\Controllers\Api\PotensiController;
 use App\Http\Controllers\Api\GaleriController;
+use App\Http\Controllers\Api\PotensiController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

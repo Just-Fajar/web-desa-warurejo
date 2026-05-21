@@ -4,13 +4,14 @@ namespace App\Services;
 
 use App\Models\PotensiDesaFoto;
 use App\Repositories\PotensiDesaRepository;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PotensiDesaService
 {
     protected $potensiRepository;
+
     protected $htmlSanitizer;
 
     /**
@@ -210,7 +211,7 @@ class PotensiDesaService
         $maxUrutan = $potensi->fotoGaleri()->max('urutan') ?? 0;
 
         foreach ($files as $index => $file) {
-            $filename = time() . '_galeri_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
+            $filename = time().'_galeri_'.Str::random(10).'.'.$file->getClientOriginalExtension();
             $path = $file->storeAs('potensi/galeri', $filename, 'public');
 
             PotensiDesaFoto::create([
@@ -229,7 +230,7 @@ class PotensiDesaService
         $foto = PotensiDesaFoto::findOrFail($fotoId);
         Storage::disk('public')->delete($foto->foto);
         $foto->delete();
-        
+
         $this->clearCache();
     }
 
@@ -267,8 +268,9 @@ class PotensiDesaService
      */
     protected function uploadImage($image)
     {
-        $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+        $filename = time().'_'.Str::random(10).'.'.$image->getClientOriginalExtension();
         $path = $image->storeAs('potensi', $filename, 'public');
+
         return $path;
     }
 

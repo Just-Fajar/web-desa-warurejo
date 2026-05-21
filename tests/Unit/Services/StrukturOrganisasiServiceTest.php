@@ -14,7 +14,9 @@ use Tests\TestCase;
 class StrukturOrganisasiServiceTest extends TestCase
 {
     private $repository;
+
     private $imageUploadService;
+
     private StrukturOrganisasiService $service;
 
     protected function setUp(): void
@@ -76,6 +78,7 @@ class StrukturOrganisasiServiceTest extends TestCase
 
         $this->repository->shouldReceive('create')->once()->andReturnUsing(function ($data) {
             $this->assertEquals('struktur-organisasi/foto.jpg', $data['foto']);
+
             return new StrukturOrganisasi($data);
         });
 
@@ -113,7 +116,7 @@ class StrukturOrganisasiServiceTest extends TestCase
         $item = new StrukturOrganisasi(['nama' => 'Old', 'foto' => 'old.jpg']);
         $this->repository->shouldReceive('find')->once()->with(1)->andReturn($item);
         $this->repository->shouldReceive('update')->once()->with(1, Mockery::on(function ($data) {
-            return !isset($data['foto']);
+            return ! isset($data['foto']);
         }))->andReturn(true);
 
         $result = $this->service->updateStrukturOrganisasi(1, ['nama' => 'New']);

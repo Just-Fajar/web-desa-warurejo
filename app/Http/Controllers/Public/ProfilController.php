@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Public;
 
+use App\Helpers\SEOHelper;
 use App\Http\Controllers\Controller;
 use App\Models\ProfilDesa;
 use App\Services\StrukturOrganisasiService;
-use App\Helpers\SEOHelper;
 
 class ProfilController extends Controller
 {
@@ -28,9 +28,9 @@ class ProfilController extends Controller
 
         $seoData = SEOHelper::generateMetaTags([
             'title' => 'Visi & Misi - Desa Warurejo',
-            'description' => "Visi dan Misi Desa Warurejo dalam membangun dan mengembangkan desa untuk kesejahteraan masyarakat.",
+            'description' => 'Visi dan Misi Desa Warurejo dalam membangun dan mengembangkan desa untuk kesejahteraan masyarakat.',
             'keywords' => 'visi misi desa warurejo, tujuan desa, program desa',
-            'type' => 'website'
+            'type' => 'website',
         ]);
 
         return view('public.profil.visi-misi', compact('profil', 'seoData'));
@@ -46,9 +46,9 @@ class ProfilController extends Controller
 
         $seoData = SEOHelper::generateMetaTags([
             'title' => 'Sejarah Desa - Desa Warurejo',
-            'description' => "Sejarah panjang Desa Warurejo dari masa ke masa. Pelajari asal-usul dan perkembangan desa kami.",
+            'description' => 'Sejarah panjang Desa Warurejo dari masa ke masa. Pelajari asal-usul dan perkembangan desa kami.',
             'keywords' => 'sejarah desa warurejo, asal usul desa, perkembangan desa',
-            'type' => 'website'
+            'type' => 'website',
         ]);
 
         return view('public.profil.sejarah', compact('profil', 'seoData'));
@@ -57,7 +57,7 @@ class ProfilController extends Controller
     /**
      * Tampilkan halaman struktur organisasi pemerintahan desa
      * Load data terstruktur dengan hierarki (Kepala, Sekretaris, Kaur, Kasi)
-     * 
+     *
      * Route: GET /profil/struktur-organisasi
      */
     public function strukturOrganisasi(StrukturOrganisasiService $strukturOrganisasiService)
@@ -69,9 +69,9 @@ class ProfilController extends Controller
 
         $seoData = SEOHelper::generateMetaTags([
             'title' => 'Struktur Organisasi - Desa Warurejo',
-            'description' => "Struktur organisasi pemerintahan Desa Warurejo beserta perangkat dan aparatur desa.",
+            'description' => 'Struktur organisasi pemerintahan Desa Warurejo beserta perangkat dan aparatur desa.',
             'keywords' => 'struktur organisasi desa warurejo, perangkat desa, kepala desa, aparatur desa',
-            'type' => 'website'
+            'type' => 'website',
         ]);
 
         return view('public.profil.struktur-organisasi', compact('profil', 'struktur', 'seoData'));

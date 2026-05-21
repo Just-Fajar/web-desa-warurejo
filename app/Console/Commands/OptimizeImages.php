@@ -7,8 +7,8 @@ use App\Models\Galeri;
 use App\Models\PotensiDesa;
 use App\Services\ImageUploadService;
 use Illuminate\Console\Command;
-use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 /**
  * @phpstan-ignore-next-line
@@ -154,10 +154,10 @@ class OptimizeImages extends Command
     protected function optimizeImage($imagePath, $title, $maxWidth, $quality, $generateWebp = false, $webpQuality = 80)
     {
         try {
-            $fullPath = storage_path('app/public/' . $imagePath);
+            $fullPath = storage_path('app/public/'.$imagePath);
 
             // Check if file exists
-            if (!file_exists($fullPath)) {
+            if (! file_exists($fullPath)) {
                 $this->warn("  ⚠️  File not found: {$title}");
                 $this->skippedCount++;
 
@@ -168,7 +168,7 @@ class OptimizeImages extends Command
             $originalSize = filesize($fullPath);
 
             // Load image
-            $manager = new ImageManager(new Driver());
+            $manager = new ImageManager(new Driver);
             $image = $manager->read($fullPath);
 
             // Get original dimensions
@@ -210,7 +210,7 @@ class OptimizeImages extends Command
 
             $this->info("  ✅ Optimized: {$title}");
             $this->line("      {$originalWidth}x{$originalHeight} → {$maxWidth}x{$image->height()}");
-            $this->line('      ' . $this->formatBytes($originalSize) . ' → ' . $this->formatBytes($newSize) . " (saved {$savedPercent}%)");
+            $this->line('      '.$this->formatBytes($originalSize).' → '.$this->formatBytes($newSize)." (saved {$savedPercent}%)");
 
             $this->optimizedCount++;
 
@@ -220,7 +220,7 @@ class OptimizeImages extends Command
             }
         } catch (\Exception $e) {
             $this->error("  ❌ Failed: {$title}");
-            $this->error('      ' . $e->getMessage());
+            $this->error('      '.$e->getMessage());
             $this->failedCount++;
         }
     }
@@ -233,8 +233,8 @@ class OptimizeImages extends Command
         try {
             // Create WebP filename
             $pathInfo = pathinfo($imagePath);
-            $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
-            $fullWebpPath = storage_path('app/public/' . $webpPath);
+            $webpPath = $pathInfo['dirname'].'/'.$pathInfo['filename'].'.webp';
+            $fullWebpPath = storage_path('app/public/'.$webpPath);
 
             // Check if WebP already exists
             if (file_exists($fullWebpPath)) {
@@ -244,7 +244,7 @@ class OptimizeImages extends Command
             }
 
             // Load image and convert to WebP
-            $manager = new ImageManager(new Driver());
+            $manager = new ImageManager(new Driver);
             $image = $manager->read($fullPath);
             $image->toWebp($quality)->save($fullWebpPath);
 
@@ -253,21 +253,21 @@ class OptimizeImages extends Command
             $webpSize = filesize($fullWebpPath);
             $savedPercent = round((($originalSize - $webpSize) / $originalSize) * 100, 1);
 
-            $this->line('      🌐 WebP created: ' . $this->formatBytes($webpSize) . " (saved {$savedPercent}%)");
+            $this->line('      🌐 WebP created: '.$this->formatBytes($webpSize)." (saved {$savedPercent}%)");
             $this->webpCount++;
         } catch (\Exception $e) {
-            $this->warn('      ⚠️  WebP generation failed: ' . $e->getMessage());
+            $this->warn('      ⚠️  WebP generation failed: '.$e->getMessage());
         }
     }
 
     protected function formatBytes($bytes)
     {
         if ($bytes >= 1048576) {
-            return round($bytes / 1048576, 2) . ' MB';
+            return round($bytes / 1048576, 2).' MB';
         } elseif ($bytes >= 1024) {
-            return round($bytes / 1024, 2) . ' KB';
+            return round($bytes / 1024, 2).' KB';
         } else {
-            return $bytes . ' B';
+            return $bytes.' B';
         }
     }
 }

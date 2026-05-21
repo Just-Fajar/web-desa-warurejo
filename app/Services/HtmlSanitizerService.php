@@ -36,7 +36,7 @@ class HtmlSanitizerService
         'th',
         'td',
         'div',
-        'span'
+        'span',
     ];
 
     /**
@@ -56,8 +56,8 @@ class HtmlSanitizerService
      * - Remove event handlers (onclick, onerror, dll)
      * - Remove javascript: dan data: protocol
      * - Keep hanya allowed tags untuk rich text editor
-     * 
-     * @param string|null $html - content dari TinyMCE/rich text editor
+     *
+     * @param  string|null  $html  - content dari TinyMCE/rich text editor
      * @return string|null - clean HTML yang aman disimpan ke database
      */
     public function sanitize(?string $html): ?string
@@ -82,8 +82,7 @@ class HtmlSanitizerService
      * Remove dangerous HTML tags yang bisa execute code
      * Tag berbahaya: script, iframe, object, form, dll
      * Hapus opening, closing, dan content-nya sekalian
-     * 
-     * @param string $html
+     *
      * @return string - HTML tanpa tag berbahaya
      */
     protected function removeDangerousTags(string $html): string
@@ -101,14 +100,14 @@ class HtmlSanitizerService
             'input',
             'button',
             'select',
-            'textarea'
+            'textarea',
         ];
 
         foreach ($dangerousTags as $tag) {
             // Remove opening and closing tags with content
-            $html = preg_replace('/<' . $tag . '\b[^>]*>.*?<\/' . $tag . '>/is', '', $html);
+            $html = preg_replace('/<'.$tag.'\b[^>]*>.*?<\/'.$tag.'>/is', '', $html);
             // Remove self-closing tags
-            $html = preg_replace('/<' . $tag . '\b[^>]*\/>/is', '', $html);
+            $html = preg_replace('/<'.$tag.'\b[^>]*\/>/is', '', $html);
         }
 
         return $html;
@@ -120,8 +119,7 @@ class HtmlSanitizerService
      * - javascript: protocol di href/src
      * - data: protocol (bisa untuk XSS)
      * - style attribute (bisa contain javascript)
-     * 
-     * @param string $html
+     *
      * @return string - HTML dengan attributes aman saja
      */
     protected function removeDangerousAttributes(string $html): string
@@ -145,14 +143,13 @@ class HtmlSanitizerService
      * Clean dan validate allowed tags
      * Hanya keep tags yang ada di $allowedTags (p, h1-h6, a, img, dll)
      * Lalu bersihkan lagi link dan image tags untuk keamanan
-     * 
-     * @param string $html
+     *
      * @return string - HTML dengan tags yang diizinkan saja
      */
     protected function cleanAllowedTags(string $html): string
     {
         // Build allowed tags string for strip_tags
-        $allowedTagsString = '<' . implode('><', $this->allowedTags) . '>';
+        $allowedTagsString = '<'.implode('><', $this->allowedTags).'>';
 
         // Strip all tags except allowed ones
         $html = strip_tags($html, $allowedTagsString);
@@ -168,8 +165,7 @@ class HtmlSanitizerService
      * Clean dan validate anchor tags untuk security
      * Jika link buka tab baru (target="_blank"), otomatis tambah:
      * rel="noopener noreferrer" untuk prevent tabnabbing attack
-     * 
-     * @param string $html
+     *
      * @return string - HTML dengan link yang aman
      */
     protected function cleanLinkTags(string $html): string
@@ -193,7 +189,7 @@ class HtmlSanitizerService
                         }
                         $attributes = preg_replace(
                             '/rel\s*=\s*["\'][^"\']*["\']/i',
-                            'rel="' . trim($relValue) . '"',
+                            'rel="'.trim($relValue).'"',
                             $attributes
                         );
                     } else {
@@ -201,7 +197,7 @@ class HtmlSanitizerService
                     }
                 }
 
-                return '<a ' . $attributes . '>';
+                return '<a '.$attributes.'>';
             },
             $html
         );
@@ -213,8 +209,7 @@ class HtmlSanitizerService
      * Clean dan validate image tags
      * - Auto tambah alt="" jika tidak ada (untuk accessibility)
      * - Auto tambah loading="lazy" untuk lazy load (performance)
-     * 
-     * @param string $html
+     *
      * @return string - HTML dengan image tags yang SEO-friendly
      */
     protected function cleanImageTags(string $html): string
@@ -226,16 +221,16 @@ class HtmlSanitizerService
                 $attributes = $matches[1];
 
                 // Add alt if not exists
-                if (!preg_match('/alt\s*=\s*["\']/i', $attributes)) {
+                if (! preg_match('/alt\s*=\s*["\']/i', $attributes)) {
                     $attributes .= ' alt=""';
                 }
 
                 // Add loading="lazy" for better performance
-                if (!preg_match('/loading\s*=\s*["\']/i', $attributes)) {
+                if (! preg_match('/loading\s*=\s*["\']/i', $attributes)) {
                     $attributes .= ' loading="lazy"';
                 }
 
-                return '<img ' . $attributes . '>';
+                return '<img '.$attributes.'>';
             },
             $html
         );
@@ -249,9 +244,8 @@ class HtmlSanitizerService
      * - Decode HTML entities (&nbsp; jadi spasi, dll)
      * - Limit panjang karakter untuk preview
      * Berguna untuk meta description atau card preview
-     * 
-     * @param string|null $html
-     * @param int $length - max karakter (default: 200)
+     *
+     * @param  int  $length  - max karakter (default: 200)
      * @return string|null - plain text untuk preview
      */
     public function sanitizeForPreview(?string $html, int $length = 200): ?string
@@ -269,7 +263,7 @@ class HtmlSanitizerService
         // Trim and limit length
         $text = trim($text);
         if (mb_strlen($text) > $length) {
-            $text = mb_substr($text, 0, $length) . '...';
+            $text = mb_substr($text, 0, $length).'...';
         }
 
         return $text;
@@ -279,8 +273,7 @@ class HtmlSanitizerService
      * Check apakah HTML mengandung content berbahaya
      * Cek keberadaan: script, event handlers, javascript:, iframe
      * Berguna untuk additional validation sebelum save
-     * 
-     * @param string|null $html
+     *
      * @return bool - true jika berbahaya, false jika aman
      */
     public function isDangerous(?string $html): bool

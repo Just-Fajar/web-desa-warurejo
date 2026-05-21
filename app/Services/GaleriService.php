@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\GaleriRepository;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class GaleriService
@@ -90,7 +90,7 @@ class GaleriService
             $data['gambar'] = $this->uploadImage($data['gambar']);
         }
 
-        if (!isset($data['admin_id'])) {
+        if (! isset($data['admin_id'])) {
             $data['admin_id'] = auth()->guard('admin')->id();
         }
 
@@ -156,6 +156,7 @@ class GaleriService
 
         return $deleted;
     }
+
     /**
      * Get galeri dalam rentang tanggal tertentu
      * Untuk filter atau laporan
@@ -179,8 +180,9 @@ class GaleriService
      */
     protected function uploadImage($image)
     {
-        $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+        $filename = time().'_'.Str::random(10).'.'.$image->getClientOriginalExtension();
         $path = $image->storeAs('galeri', $filename, 'public');
+
         return $path;
     }
 }

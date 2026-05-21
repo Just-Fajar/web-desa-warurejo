@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\DailyVisitorStat;
 use App\Models\Visitor;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class VisitorDataSeeder extends Seeder
@@ -58,7 +58,9 @@ class VisitorDataSeeder extends Seeder
             // Weekend lebih sepi
             $mod = $currentDate->isWeekend() ? 0.55 : 1.0;
             // Hari Jumat sedikit lebih ramai
-            if ($currentDate->isFriday()) $mod = 1.15;
+            if ($currentDate->isFriday()) {
+                $mod = 1.15;
+            }
 
             $visitors = (int) round(rand($range['min'], $range['max']) * $mod);
             $pageViews = (int) round($visitors * (rand(20, 40) / 10)); // 2x-4x visitors
@@ -76,9 +78,9 @@ class VisitorDataSeeder extends Seeder
             // Sample visitor rows (max 5 per hari, cukup untuk tracking)
             $sampleCount = min($visitors, 5);
             for ($i = 0; $i < $sampleCount; $i++) {
-                $fp = hash('sha256', $dateStr . '_v_' . $i . '_' . rand(1000, 9999));
+                $fp = hash('sha256', $dateStr.'_v_'.$i.'_'.rand(1000, 9999));
                 $visitorBatch[] = [
-                    'ip_address' => '192.168.' . rand(1, 254) . '.' . rand(1, 254),
+                    'ip_address' => '192.168.'.rand(1, 254).'.'.rand(1, 254),
                     'user_agent' => $this->randomUA(),
                     'device_fingerprint' => $fp,
                     'visit_date' => $dateStr,
@@ -106,8 +108,12 @@ class VisitorDataSeeder extends Seeder
         }
 
         // Sisa data
-        if (!empty($statsBatch)) DB::table('daily_visitor_stats')->insert($statsBatch);
-        if (!empty($visitorBatch)) DB::table('visitors')->insert($visitorBatch);
+        if (! empty($statsBatch)) {
+            DB::table('daily_visitor_stats')->insert($statsBatch);
+        }
+        if (! empty($visitorBatch)) {
+            DB::table('visitors')->insert($visitorBatch);
+        }
 
         $totalVisitors = DailyVisitorStat::sum('unique_visitors');
         $totalPV = DailyVisitorStat::sum('page_views');
@@ -124,12 +130,14 @@ class VisitorDataSeeder extends Seeder
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0',
             'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 Chrome/120.0.0.0 Mobile Safari/537.36',
         ];
+
         return $agents[array_rand($agents)];
     }
 
     private function randomReferer(): ?string
     {
         $refs = [null, null, null, 'https://www.google.com', 'https://www.google.co.id', 'https://www.facebook.com', 'https://wa.me'];
+
         return $refs[array_rand($refs)];
     }
 }

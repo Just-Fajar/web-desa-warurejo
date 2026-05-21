@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GaleriRequest;
 use App\Models\Galeri;
 use App\Models\GaleriImage;
-use App\Http\Requests\GaleriRequest;
 use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class GaleriController extends Controller
 {
@@ -33,6 +33,7 @@ class GaleriController extends Controller
     public function index()
     {
         $galeri = Galeri::with(['admin', 'images'])->latest()->get(); // Eager load admin and images to prevent N+1
+
         return view('admin.galeri.index', compact('galeri'));
     }
 
@@ -102,7 +103,7 @@ class GaleriController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -150,7 +151,7 @@ class GaleriController extends Controller
             }
 
             // Handle status & published_at BEFORE update
-            if ($data['status'] === 'published' && !$galeri->published_at) {
+            if ($data['status'] === 'published' && ! $galeri->published_at) {
                 $data['published_at'] = now();
             } elseif ($data['status'] === 'draft') {
                 $data['published_at'] = null;
@@ -170,7 +171,7 @@ class GaleriController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -199,7 +200,7 @@ class GaleriController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 
@@ -217,7 +218,7 @@ class GaleriController extends Controller
             if (empty($ids)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Tidak ada galeri yang dipilih'
+                    'message' => 'Tidak ada galeri yang dipilih',
                 ], 400);
             }
 
@@ -239,14 +240,13 @@ class GaleriController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => count($ids) . ' galeri berhasil dihapus'
+                'message' => count($ids).' galeri berhasil dihapus',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                'message' => 'Terjadi kesalahan: '.$e->getMessage(),
             ], 500);
         }
     }
-
 }

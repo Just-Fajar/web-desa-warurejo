@@ -3,22 +3,24 @@
 namespace App\Services;
 
 use App\Repositories\BeritaRepository;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class BeritaService
 {
     protected $beritaRepository;
+
     protected $imageUploadService;
+
     protected $htmlSanitizer;
 
     /**
      * Constructor - inject dependencies untuk handle berita operations
-     * @param BeritaRepository $beritaRepository - untuk database operations
-     * @param ImageUploadService $imageUploadService - untuk handle upload & resize image
-     * @param HtmlSanitizerService $htmlSanitizer - untuk sanitize HTML content
+     *
+     * @param  BeritaRepository  $beritaRepository  - untuk database operations
+     * @param  ImageUploadService  $imageUploadService  - untuk handle upload & resize image
+     * @param  HtmlSanitizerService  $htmlSanitizer  - untuk sanitize HTML content
      */
     public function __construct(
         BeritaRepository $beritaRepository,
@@ -32,6 +34,7 @@ class BeritaService
 
     /**
      * Mengambil semua berita tanpa filter
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getAllBerita()
@@ -41,7 +44,8 @@ class BeritaService
 
     /**
      * Mengambil berita dengan pagination untuk halaman admin (diurutkan paling baru)
-     * @param int $perPage - jumlah item per halaman (default: 15)
+     *
+     * @param  int  $perPage  - jumlah item per halaman (default: 15)
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getPaginatedBerita($perPage = 15)
@@ -51,7 +55,8 @@ class BeritaService
 
     /**
      * Mengambil berita yang sudah published untuk halaman public
-     * @param int $perPage - jumlah item per halaman (default: 10)
+     *
+     * @param  int  $perPage  - jumlah item per halaman (default: 10)
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getPublishedBerita($perPage = 10)
@@ -61,7 +66,8 @@ class BeritaService
 
     /**
      * Mengambil satu berita berdasarkan ID
-     * @param int $id - ID berita
+     *
+     * @param  int  $id  - ID berita
      * @return \App\Models\Berita
      */
     public function getBeritaById($id)
@@ -72,13 +78,15 @@ class BeritaService
     /**
      * Mengambil berita berdasarkan slug untuk halaman detail public
      * Otomatis increment views count saat berita dilihat
-     * @param string $slug - slug berita
+     *
+     * @param  string  $slug  - slug berita
      * @return \App\Models\Berita
      */
     public function getBeritaBySlug($slug)
     {
         $berita = $this->beritaRepository->findBySlug($slug);
         $this->beritaRepository->incrementViews($berita->id);
+
         return $berita;
     }
 
@@ -89,8 +97,8 @@ class BeritaService
      * - Generate thumbnail untuk performa loading
      * - Set published_at jika status published
      * - Clear cache terkait
-     * 
-     * @param array $data - data berita dari form
+     *
+     * @param  array  $data  - data berita dari form
      * @return \App\Models\Berita
      */
     public function createBerita(array $data)
@@ -113,7 +121,7 @@ class BeritaService
         }
 
         // Handle status & published_at
-        if ($data['status'] === 'published' && !isset($data['published_at'])) {
+        if ($data['status'] === 'published' && ! isset($data['published_at'])) {
             $data['published_at'] = now();
         } elseif ($data['status'] === 'draft') {
             $data['published_at'] = null;
@@ -137,9 +145,9 @@ class BeritaService
      * - Jika tidak ada perubahan gambar, tetap gunakan gambar lama
      * - Set published_at jika status berubah ke published
      * - Clear cache terkait
-     * 
-     * @param int $id - ID berita yang akan diupdate
-     * @param array $data - data berita dari form
+     *
+     * @param  int  $id  - ID berita yang akan diupdate
+     * @param  array  $data  - data berita dari form
      * @return \App\Models\Berita
      */
     public function updateBerita($id, array $data)
@@ -169,7 +177,7 @@ class BeritaService
                 $this->imageUploadService->delete($berita->gambar_utama);
 
                 // Delete old thumbnail if exists
-                $oldThumbnail = 'thumbnails/berita/' . pathinfo($berita->gambar_utama, PATHINFO_FILENAME) . '_thumb.' . pathinfo($berita->gambar_utama, PATHINFO_EXTENSION);
+                $oldThumbnail = 'thumbnails/berita/'.pathinfo($berita->gambar_utama, PATHINFO_FILENAME).'_thumb.'.pathinfo($berita->gambar_utama, PATHINFO_EXTENSION);
                 $this->imageUploadService->delete($oldThumbnail);
             }
 
@@ -191,7 +199,7 @@ class BeritaService
 
         // Handle status & published_at
         if (isset($data['status'])) {
-            if ($data['status'] === 'published' && !$berita->published_at) {
+            if ($data['status'] === 'published' && ! $berita->published_at) {
                 $data['published_at'] = now();
             } elseif ($data['status'] === 'draft') {
                 $data['published_at'] = null;
@@ -204,7 +212,7 @@ class BeritaService
         // Clear cache when berita is updated
         Cache::forget('home.latest_berita');
         Cache::forget('berita.published');
-        Cache::forget('berita.' . $id);
+        Cache::forget('berita.'.$id);
         Cache::forget('home.seo_data');
 
         return $updatedBerita;
@@ -216,8 +224,8 @@ class BeritaService
      * - Delete thumbnail dari storage
      * - Delete record dari database
      * - Clear cache terkait
-     * 
-     * @param int $id - ID berita yang akan dihapus
+     *
+     * @param  int  $id  - ID berita yang akan dihapus
      * @return bool
      */
     public function deleteBerita($id)
@@ -229,7 +237,7 @@ class BeritaService
             $this->imageUploadService->delete($berita->gambar_utama);
 
             // Delete thumbnail if exists
-            $thumbnailPath = 'thumbnails/berita/' . pathinfo($berita->gambar_utama, PATHINFO_FILENAME) . '_thumb.' . pathinfo($berita->gambar_utama, PATHINFO_EXTENSION);
+            $thumbnailPath = 'thumbnails/berita/'.pathinfo($berita->gambar_utama, PATHINFO_FILENAME).'_thumb.'.pathinfo($berita->gambar_utama, PATHINFO_EXTENSION);
             $this->imageUploadService->delete($thumbnailPath);
         }
 
@@ -238,7 +246,7 @@ class BeritaService
         // Clear cache when berita is deleted
         Cache::forget('home.latest_berita');
         Cache::forget('berita.published');
-        Cache::forget('berita.' . $id);
+        Cache::forget('berita.'.$id);
         Cache::forget('home.seo_data');
 
         return $deleted;
@@ -246,7 +254,8 @@ class BeritaService
 
     /**
      * Mengambil berita terbaru untuk homepage atau widget
-     * @param int $limit - jumlah berita yang diambil (default: 5)
+     *
+     * @param  int  $limit  - jumlah berita yang diambil (default: 5)
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getLatestBerita($limit = 5)
@@ -256,8 +265,9 @@ class BeritaService
 
     /**
      * Search berita berdasarkan keyword di judul atau konten
-     * @param string $keyword - kata kunci pencarian
-     * @param int $perPage - jumlah item per halaman
+     *
+     * @param  string  $keyword  - kata kunci pencarian
+     * @param  int  $perPage  - jumlah item per halaman
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function searchBerita($keyword, $perPage = 12)
@@ -267,8 +277,9 @@ class BeritaService
 
     /**
      * Advanced search dengan multiple filters (kategori, status, tanggal, dll)
-     * @param array $filters - array filter yang akan diaplikasikan
-     * @param int $perPage - jumlah item per halaman
+     *
+     * @param  array  $filters  - array filter yang akan diaplikasikan
+     * @param  int  $perPage  - jumlah item per halaman
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function searchWithFilters(array $filters, $perPage = 12)
@@ -278,8 +289,9 @@ class BeritaService
 
     /**
      * Mendapatkan saran pencarian untuk autocomplete
-     * @param string $query - partial keyword dari user
-     * @param int $limit - jumlah saran maksimal
+     *
+     * @param  string  $query  - partial keyword dari user
+     * @param  int  $limit  - jumlah saran maksimal
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getSearchSuggestions($query, $limit = 5)
@@ -292,8 +304,8 @@ class BeritaService
      * - Resize ke max width 1200px untuk performa
      * - Compress dan optimize gambar
      * - Simpan ke folder berita di storage
-     * 
-     * @param \Illuminate\Http\UploadedFile $image - file gambar dari form
+     *
+     * @param  \Illuminate\Http\UploadedFile  $image  - file gambar dari form
      * @return string - path gambar yang tersimpan
      */
     protected function uploadImage($image)
@@ -314,8 +326,8 @@ class BeritaService
      * - Buat versi kecil (400x300) untuk card/preview
      * - Simpan di folder thumbnails/berita
      * - Return null jika gagal (tidak critical)
-     * 
-     * @param string $imagePath - path gambar utama
+     *
+     * @param  string  $imagePath  - path gambar utama
      * @return string|null - path thumbnail atau null jika gagal
      */
     protected function generateThumbnail($imagePath)
@@ -331,7 +343,8 @@ class BeritaService
 
             return $thumbnailPath;
         } catch (\Exception $e) {
-            Log::error('Thumbnail generation failed: ' . $e->getMessage());
+            Log::error('Thumbnail generation failed: '.$e->getMessage());
+
             return null;
         }
     }

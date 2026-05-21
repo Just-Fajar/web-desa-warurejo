@@ -48,12 +48,12 @@ class GaleriController extends Controller
                     'images' => $item->images->map(function ($image) {
                         return [
                             'id' => $image->id,
-                            'path' => asset('storage/' . $image->path),
+                            'path' => asset('storage/'.$image->path),
                             'urutan' => $image->urutan,
                         ];
                     }),
                     'thumbnail' => $item->images->first()
-                        ? asset('storage/' . $item->images->first()->path)
+                        ? asset('storage/'.$item->images->first()->path)
                         : null,
                     'created_at' => $item->created_at->toIso8601String(),
                 ];
@@ -91,7 +91,7 @@ class GaleriController extends Controller
                 'images' => $galeri->images->sortBy('urutan')->map(function ($image) {
                     return [
                         'id' => $image->id,
-                        'path' => asset('storage/' . $image->path),
+                        'path' => asset('storage/'.$image->path),
                         'urutan' => $image->urutan,
                     ];
                 }),
@@ -123,7 +123,7 @@ class GaleriController extends Controller
                     'kategori' => $item->kategori,
                     'tanggal' => $item->tanggal,
                     'thumbnail' => $item->images->first()
-                        ? asset('storage/' . $item->images->first()->path)
+                        ? asset('storage/'.$item->images->first()->path)
                         : null,
                     'image_count' => $item->images->count(),
                     'views' => $item->views,

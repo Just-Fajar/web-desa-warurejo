@@ -33,12 +33,14 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         $record = $this->find($id);
         $record->update($data);
+
         return $record;
     }
 
     public function delete($id)
     {
         $record = $this->find($id);
+
         return $record->delete();
     }
 

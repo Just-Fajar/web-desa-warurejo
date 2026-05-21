@@ -49,7 +49,7 @@ class PublikasiFactory extends Factory
      */
     public function published(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'published',
             'tanggal_publikasi' => fake()->dateTimeBetween('-1 year', 'now'),
         ]);
@@ -60,7 +60,7 @@ class PublikasiFactory extends Factory
      */
     public function draft(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'draft',
             'tanggal_publikasi' => fake()->dateTimeBetween('-1 year', 'now'),
         ]);
@@ -71,7 +71,7 @@ class PublikasiFactory extends Factory
      */
     public function kategori(string $kategori): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'kategori' => $kategori,
         ]);
     }
@@ -81,7 +81,7 @@ class PublikasiFactory extends Factory
      */
     public function tahun(int $tahun): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'tahun' => $tahun,
         ]);
     }

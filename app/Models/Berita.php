@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 
 class Berita extends Model
 {
@@ -15,7 +14,9 @@ class Berita extends Model
 
     // Status constants
     const STATUS_DRAFT = 'draft';
+
     const STATUS_SCHEDULED = 'scheduled';
+
     const STATUS_PUBLISHED = 'published';
 
     protected $fillable = [
@@ -52,7 +53,7 @@ class Berita extends Model
     public function getGambarUtamaUrlAttribute()
     {
         return $this->gambar_utama
-            ? asset('storage/' . $this->gambar_utama)
+            ? asset('storage/'.$this->gambar_utama)
             : asset('images/logo-web-desa.jpg');
     }
 
@@ -164,7 +165,7 @@ class Berita extends Model
             $originalSlug = $berita->slug;
             $count = 1;
             while (static::where('slug', $berita->slug)->exists()) {
-                $berita->slug = $originalSlug . '-' . $count;
+                $berita->slug = $originalSlug.'-'.$count;
                 $count++;
             }
         });

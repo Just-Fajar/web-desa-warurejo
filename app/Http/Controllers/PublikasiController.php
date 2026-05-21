@@ -34,7 +34,7 @@ class PublikasiController extends Controller
                 return $query->byTahun($tahun);
             })
             ->when($search, function ($query, $search) {
-                return $query->where('judul', 'like', '%' . $search . '%');
+                return $query->where('judul', 'like', '%'.$search.'%');
             });
 
         // Apply sorting
@@ -99,10 +99,10 @@ class PublikasiController extends Controller
         $publikasi = Publikasi::published()->findOrFail($id);
         $publikasi->incrementDownload();
 
-        if (!Storage::disk('public')->exists($publikasi->file_dokumen)) {
+        if (! Storage::disk('public')->exists($publikasi->file_dokumen)) {
             abort(404, 'File tidak ditemukan');
         }
 
-        return Storage::disk('public')->download($publikasi->file_dokumen, $publikasi->judul . '.pdf');
+        return Storage::disk('public')->download($publikasi->file_dokumen, $publikasi->judul.'.pdf');
     }
 }

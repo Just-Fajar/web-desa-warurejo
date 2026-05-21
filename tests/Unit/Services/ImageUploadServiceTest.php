@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
 use App\Services\ImageUploadService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class ImageUploadServiceTest extends TestCase
 {

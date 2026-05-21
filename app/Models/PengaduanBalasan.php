@@ -27,7 +27,7 @@ class PengaduanBalasan extends Model
      */
     public function getLampiranUrlAttribute()
     {
-        return $this->lampiran ? asset('storage/' . $this->lampiran) : null;
+        return $this->lampiran ? asset('storage/'.$this->lampiran) : null;
     }
 
     /**
@@ -35,8 +35,11 @@ class PengaduanBalasan extends Model
      */
     public function isImage()
     {
-        if (!$this->lampiran) return false;
+        if (! $this->lampiran) {
+            return false;
+        }
         $ext = strtolower(pathinfo($this->lampiran, PATHINFO_EXTENSION));
+
         return in_array($ext, ['jpg', 'jpeg', 'png']);
     }
 

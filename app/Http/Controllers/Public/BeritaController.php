@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Public;
 
+use App\Helpers\SEOHelper;
 use App\Http\Controllers\Controller;
 use App\Services\BeritaService;
-use App\Helpers\SEOHelper;
 use Illuminate\Http\Request;
 
 class BeritaController extends Controller
@@ -26,7 +26,7 @@ class BeritaController extends Controller
      * Jika ada filter aktif, gunakan searchWithFilters
      * Jika tidak ada filter, ambil semua published berita
      * Include SEO meta tags
-     * 
+     *
      * Route: GET /berita
      */
     public function index(Request $request)
@@ -45,7 +45,7 @@ class BeritaController extends Controller
                 'search' => $search,
                 'date_from' => $dateFrom,
                 'date_to' => $dateTo,
-                'sort' => $sortBy
+                'sort' => $sortBy,
             ], $perPage);
         } else {
             $berita = $this->beritaService->getPublishedBerita($perPage);
@@ -56,7 +56,7 @@ class BeritaController extends Controller
             'title' => 'Berita Desa - Desa Warurejo',
             'description' => 'Kumpulan berita dan informasi terkini dari Desa Warurejo. Dapatkan update kegiatan, program, dan pengumuman desa.',
             'keywords' => 'berita desa warurejo, informasi desa, kegiatan desa, pengumuman desa',
-            'type' => 'website'
+            'type' => 'website',
         ]);
 
         return view('public.berita.index', compact('berita', 'seoData'));
@@ -66,7 +66,7 @@ class BeritaController extends Controller
      * API endpoint untuk search autocomplete suggestions
      * Return JSON array dengan title dan URL berita
      * Minimum 2 karakter untuk trigger search
-     * 
+     *
      * Route: GET /berita/autocomplete?q=keyword
      */
     public function autocomplete(Request $request)
@@ -90,7 +90,7 @@ class BeritaController extends Controller
      * - Generate structured data (Article schema)
      * - Generate breadcrumb schema untuk Google
      * - Throw 404 jika berita tidak ditemukan
-     * 
+     *
      * Route: GET /berita/{slug}
      */
     public function show($slug)
@@ -104,11 +104,11 @@ class BeritaController extends Controller
             // SEO Data
             $excerpt = strip_tags(substr($berita->konten, 0, 160));
             $seoData = SEOHelper::generateMetaTags([
-                'title' => $berita->judul . ' - Berita Desa Warurejo',
+                'title' => $berita->judul.' - Berita Desa Warurejo',
                 'description' => $excerpt,
                 'keywords' => "berita desa, {$berita->judul}, desa warurejo",
-                'image' => asset('storage/' . $berita->gambar),
-                'type' => 'article'
+                'image' => asset('storage/'.$berita->gambar),
+                'type' => 'article',
             ]);
 
             // Structured Data for Article
@@ -118,7 +118,7 @@ class BeritaController extends Controller
             $breadcrumb = SEOHelper::getBreadcrumbSchema([
                 ['name' => 'Home', 'url' => route('home')],
                 ['name' => 'Berita', 'url' => route('berita.index')],
-                ['name' => $berita->judul, 'url' => route('berita.show', $berita->slug)]
+                ['name' => $berita->judul, 'url' => route('berita.show', $berita->slug)],
             ]);
 
             return view('public.berita.show', compact('berita', 'relatedBerita', 'seoData', 'structuredData', 'breadcrumb'));

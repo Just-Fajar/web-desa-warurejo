@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Publikasi extends Model
 {
@@ -11,7 +11,9 @@ class Publikasi extends Model
 
     // Status constants
     const STATUS_DRAFT = 'draft';
+
     const STATUS_SCHEDULED = 'scheduled';
+
     const STATUS_PUBLISHED = 'published';
 
     protected $fillable = [
@@ -104,7 +106,7 @@ class Publikasi extends Model
      */
     public function getFileUrlAttribute()
     {
-        return asset('storage/' . $this->file_dokumen);
+        return asset('storage/'.$this->file_dokumen);
     }
 
     /**
@@ -113,8 +115,9 @@ class Publikasi extends Model
     public function getThumbnailUrlAttribute()
     {
         if ($this->thumbnail) {
-            return asset('storage/' . $this->thumbnail);
+            return asset('storage/'.$this->thumbnail);
         }
+
         return asset('images/default-document.jpg');
     }
 

@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
 use App\Models\Admin;
 use App\Models\PotensiDesa;
 use App\Models\PotensiDesaFoto;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class PotensiCrudTest extends TestCase
 {
@@ -146,7 +146,7 @@ class PotensiCrudTest extends TestCase
         $potensi3 = PotensiDesa::factory()->create();
 
         $response = $this->postJson(route('admin.potensi.bulk-delete'), [
-            'ids' => [$potensi1->id, $potensi2->id]
+            'ids' => [$potensi1->id, $potensi2->id],
         ]);
 
         $response->assertOk();
@@ -252,7 +252,7 @@ class PotensiCrudTest extends TestCase
         PotensiDesaFoto::create([
             'potensi_desa_id' => $potensi->id,
             'foto' => 'foto.jpg',
-            'urutan' => 1
+            'urutan' => 1,
         ]);
 
         $response = $this->get(route('admin.potensi.edit', $potensi));
@@ -305,7 +305,7 @@ class PotensiCrudTest extends TestCase
         $response->assertStatus(400);
         $response->assertJson([
             'success' => false,
-            'message' => 'Tidak ada potensi yang dipilih'
+            'message' => 'Tidak ada potensi yang dipilih',
         ]);
     }
 
@@ -320,7 +320,7 @@ class PotensiCrudTest extends TestCase
         $foto = PotensiDesaFoto::create([
             'potensi_desa_id' => $potensi->id,
             'foto' => 'foto.jpg',
-            'urutan' => 1
+            'urutan' => 1,
         ]);
 
         $response = $this->delete(route('admin.potensi.foto.delete', $foto->id));
@@ -413,7 +413,7 @@ class PotensiCrudTest extends TestCase
         $response->assertStatus(500);
         $response->assertJson([
             'success' => false,
-            'message' => 'Gagal menghapus foto: No query results for model [App\\Models\\PotensiDesaFoto] 9999'
+            'message' => 'Gagal menghapus foto: No query results for model [App\\Models\\PotensiDesaFoto] 9999',
         ]);
     }
 
@@ -434,7 +434,7 @@ class PotensiCrudTest extends TestCase
         $response->assertStatus(500);
         $response->assertJson([
             'success' => false,
-            'message' => 'Terjadi kesalahan: Delete error'
+            'message' => 'Terjadi kesalahan: Delete error',
         ]);
     }
 }

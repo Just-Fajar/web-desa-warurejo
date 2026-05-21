@@ -140,7 +140,7 @@ class BeritaRepository extends BaseRepository
         $query = $this->model->with('admin')->published();
 
         // Search by keyword
-        if (!empty($filters['search'])) {
+        if (! empty($filters['search'])) {
             $keyword = $filters['search'];
             $query->where(function ($q) use ($keyword) {
                 $q->where('judul', 'like', "%{$keyword}%")
@@ -150,11 +150,11 @@ class BeritaRepository extends BaseRepository
         }
 
         // Filter by date range
-        if (!empty($filters['date_from'])) {
+        if (! empty($filters['date_from'])) {
             $query->whereDate('published_at', '>=', $filters['date_from']);
         }
 
-        if (!empty($filters['date_to'])) {
+        if (! empty($filters['date_to'])) {
             $query->whereDate('published_at', '<=', $filters['date_to']);
         }
 
@@ -191,7 +191,7 @@ class BeritaRepository extends BaseRepository
             ->map(function ($berita) {
                 return [
                     'title' => $berita->judul,
-                    'url' => route('berita.show', $berita->slug)
+                    'url' => route('berita.show', $berita->slug),
                 ];
             });
     }

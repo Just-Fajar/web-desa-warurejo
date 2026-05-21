@@ -8,9 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * 
+     *
      * Tabel potensi_desa untuk showcase kekayaan dan potensi desa
-     * 
      */
     public function up(): void
     {
@@ -25,7 +24,7 @@ return new class extends Migration
                 'umkm',
                 'wisata',
                 'kerajinan',
-                'lainnya'
+                'lainnya',
             ])->default('lainnya');
             $table->longText('deskripsi');
             $table->string('gambar')->nullable();

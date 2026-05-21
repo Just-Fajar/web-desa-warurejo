@@ -13,8 +13,8 @@ class SEOHelper
      * - Support Open Graph untuk social media sharing
      * - Support Twitter Card
      * Return array yang bisa dipakai di view untuk render meta tags
-     * 
-     * @param array $data - custom meta tags (title, description, keywords, image, dll)
+     *
+     * @param  array  $data  - custom meta tags (title, description, keywords, image, dll)
      * @return array - complete meta tags data
      */
     public static function generateMetaTags(array $data = []): array
@@ -25,7 +25,7 @@ class SEOHelper
             'title' => $profil->nama_desa ?? 'Desa Warurejo',
             'description' => "Website resmi {$profil->nama_desa}, {$profil->kecamatan}, {$profil->kabupaten}, {$profil->provinsi}. Informasi berita, potensi desa, galeri, dan profil desa.",
             'keywords' => "desa warurejo, {$profil->kecamatan}, {$profil->kabupaten}, profil desa, berita desa, potensi desa",
-            'image' => $profil->logo ? asset('storage/' . $profil->logo) : asset('images/logo.png'),
+            'image' => $profil->logo ? asset('storage/'.$profil->logo) : asset('images/logo.png'),
             'url' => URL::current(),
             'type' => 'website',
             'locale' => 'id_ID',
@@ -42,7 +42,7 @@ class SEOHelper
      * Type: GovernmentOrganization (khusus untuk organisasi pemerintahan)
      * Include: name, logo, contact info, address, geo coordinates
      * Untuk ditampilkan di Google Knowledge Panel
-     * 
+     *
      * @return array - JSON-LD schema
      */
     public static function getOrganizationSchema(): array
@@ -50,38 +50,38 @@ class SEOHelper
         $profil = ProfilDesa::getInstance();
 
         $schema = [
-            "@context" => "https://schema.org",
-            "@type" => "GovernmentOrganization",
-            "name" => $profil->nama_desa ?? "Desa Warurejo",
-            "url" => url('/'),
-            "logo" => $profil->logo ? asset('storage/' . $profil->logo) : asset('images/logo.png'),
-            "description" => $profil->visi ?? "Website resmi desa",
+            '@context' => 'https://schema.org',
+            '@type' => 'GovernmentOrganization',
+            'name' => $profil->nama_desa ?? 'Desa Warurejo',
+            'url' => url('/'),
+            'logo' => $profil->logo ? asset('storage/'.$profil->logo) : asset('images/logo.png'),
+            'description' => $profil->visi ?? 'Website resmi desa',
         ];
 
         if ($profil->telepon) {
-            $schema["telephone"] = $profil->telepon;
+            $schema['telephone'] = $profil->telepon;
         }
 
         if ($profil->email) {
-            $schema["email"] = $profil->email;
+            $schema['email'] = $profil->email;
         }
 
         if ($profil->alamat_lengkap) {
-            $schema["address"] = [
-                "@type" => "PostalAddress",
-                "streetAddress" => $profil->alamat_lengkap,
-                "addressLocality" => $profil->kecamatan,
-                "addressRegion" => $profil->provinsi,
-                "postalCode" => $profil->kode_pos,
-                "addressCountry" => "ID"
+            $schema['address'] = [
+                '@type' => 'PostalAddress',
+                'streetAddress' => $profil->alamat_lengkap,
+                'addressLocality' => $profil->kecamatan,
+                'addressRegion' => $profil->provinsi,
+                'postalCode' => $profil->kode_pos,
+                'addressCountry' => 'ID',
             ];
         }
 
         if ($profil->latitude && $profil->longitude) {
-            $schema["geo"] = [
-                "@type" => "GeoCoordinates",
-                "latitude" => (string) $profil->latitude,
-                "longitude" => (string) $profil->longitude
+            $schema['geo'] = [
+                '@type' => 'GeoCoordinates',
+                'latitude' => (string) $profil->latitude,
+                'longitude' => (string) $profil->longitude,
             ];
         }
 
@@ -93,8 +93,8 @@ class SEOHelper
      * Khusus untuk halaman detail berita
      * Include: headline, description, image, dates, author, publisher
      * Untuk rich snippets di Google Search (tampil dengan thumbnail)
-     * 
-     * @param object $berita - Berita model instance
+     *
+     * @param  object  $berita  - Berita model instance
      * @return array - JSON-LD schema
      */
     public static function getArticleSchema($berita): array
@@ -102,29 +102,29 @@ class SEOHelper
         $profil = ProfilDesa::getInstance();
 
         return [
-            "@context" => "https://schema.org",
-            "@type" => "NewsArticle",
-            "headline" => $berita->judul,
-            "description" => strip_tags(substr($berita->konten, 0, 200)),
-            "image" => asset('storage/' . $berita->gambar),
-            "datePublished" => $berita->created_at->toIso8601String(),
-            "dateModified" => $berita->updated_at->toIso8601String(),
-            "author" => [
-                "@type" => "Organization",
-                "name" => $profil->nama_desa ?? "Desa Warurejo"
+            '@context' => 'https://schema.org',
+            '@type' => 'NewsArticle',
+            'headline' => $berita->judul,
+            'description' => strip_tags(substr($berita->konten, 0, 200)),
+            'image' => asset('storage/'.$berita->gambar),
+            'datePublished' => $berita->created_at->toIso8601String(),
+            'dateModified' => $berita->updated_at->toIso8601String(),
+            'author' => [
+                '@type' => 'Organization',
+                'name' => $profil->nama_desa ?? 'Desa Warurejo',
             ],
-            "publisher" => [
-                "@type" => "Organization",
-                "name" => $profil->nama_desa ?? "Desa Warurejo",
-                "logo" => [
-                    "@type" => "ImageObject",
-                    "url" => $profil->logo ? asset('storage/' . $profil->logo) : asset('images/logo.png')
-                ]
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => $profil->nama_desa ?? 'Desa Warurejo',
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => $profil->logo ? asset('storage/'.$profil->logo) : asset('images/logo.png'),
+                ],
             ],
-            "mainEntityOfPage" => [
-                "@type" => "WebPage",
-                "@id" => url()->current()
-            ]
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => url()->current(),
+            ],
         ];
     }
 
@@ -133,26 +133,26 @@ class SEOHelper
      * Khusus untuk halaman detail potensi desa (wisata, tempat, dll)
      * Include: name, description, image, address, contact
      * Untuk rich snippets di Google Maps dan Search
-     * 
-     * @param object $potensi - PotensiDesa model instance
+     *
+     * @param  object  $potensi  - PotensiDesa model instance
      * @return array - JSON-LD schema
      */
     public static function getPlaceSchema($potensi): array
     {
         $schema = [
-            "@context" => "https://schema.org",
-            "@type" => "Place",
-            "name" => $potensi->nama,
-            "description" => strip_tags(substr($potensi->deskripsi, 0, 200)),
-            "image" => asset('storage/' . $potensi->gambar),
+            '@context' => 'https://schema.org',
+            '@type' => 'Place',
+            'name' => $potensi->nama,
+            'description' => strip_tags(substr($potensi->deskripsi, 0, 200)),
+            'image' => asset('storage/'.$potensi->gambar),
         ];
 
         if ($potensi->lokasi) {
-            $schema["address"] = $potensi->lokasi;
+            $schema['address'] = $potensi->lokasi;
         }
 
         if ($potensi->kontak) {
-            $schema["telephone"] = $potensi->kontak;
+            $schema['telephone'] = $potensi->kontak;
         }
 
         return $schema;
@@ -162,8 +162,8 @@ class SEOHelper
      * Generate breadcrumb structured data (JSON-LD)
      * Untuk tampilkan breadcrumb navigation di Google Search results
      * Format: Home > Category > Current Page
-     * 
-     * @param array $items - [['name' => 'Home', 'url' => '/'], ...]
+     *
+     * @param  array  $items  - [['name' => 'Home', 'url' => '/'], ...]
      * @return array - JSON-LD BreadcrumbList schema
      */
     public static function getBreadcrumbSchema(array $items): array
@@ -172,17 +172,17 @@ class SEOHelper
 
         foreach ($items as $index => $item) {
             $listItems[] = [
-                "@type" => "ListItem",
-                "position" => $index + 1,
-                "name" => $item['name'],
-                "item" => $item['url']
+                '@type' => 'ListItem',
+                'position' => $index + 1,
+                'name' => $item['name'],
+                'item' => $item['url'],
             ];
         }
 
         return [
-            "@context" => "https://schema.org",
-            "@type" => "BreadcrumbList",
-            "itemListElement" => $listItems
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => $listItems,
         ];
     }
 }

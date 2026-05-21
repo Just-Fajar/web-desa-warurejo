@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ImageCompressionService
 {
@@ -14,24 +14,20 @@ class ImageCompressionService
     public function __construct()
     {
         // Initialize ImageManager with GD driver
-        $this->manager = new ImageManager(new Driver());
+        $this->manager = new ImageManager(new Driver);
     }
 
     /**
      * Compress dan optimize gambar
-     * 
-     * @param \Illuminate\Http\UploadedFile $file
-     * @param string $path
-     * @param int $maxWidth
-     * @param int $quality
+     *
      * @return string path file
      */
     public function compressAndStore(UploadedFile $file, string $path = 'images', int $maxWidth = 1920, int $quality = 85): string
     {
         // Generate unique filename
         $extension = $file->getClientOriginalExtension();
-        $filename = time() . '_' . uniqid() . '.' . $extension;
-        $fullPath = $path . '/' . $filename;
+        $filename = time().'_'.uniqid().'.'.$extension;
+        $fullPath = $path.'/'.$filename;
 
         // Load image
         $image = $this->manager->read($file);
@@ -73,17 +69,13 @@ class ImageCompressionService
 
     /**
      * Convert ke WebP untuk better compression
-     * 
-     * @param \Illuminate\Http\UploadedFile $file
-     * @param string $path
-     * @param int $maxWidth
-     * @param int $quality
+     *
      * @return string path file
      */
     public function convertToWebP(UploadedFile $file, string $path = 'images', int $maxWidth = 1920, int $quality = 85): string
     {
-        $filename = time() . '_' . uniqid() . '.webp';
-        $fullPath = $path . '/' . $filename;
+        $filename = time().'_'.uniqid().'.webp';
+        $fullPath = $path.'/'.$filename;
 
         // Load and resize image
         $image = $this->manager->read($file);
@@ -103,18 +95,13 @@ class ImageCompressionService
 
     /**
      * Generate thumbnail
-     * 
-     * @param \Illuminate\Http\UploadedFile $file
-     * @param string $path
-     * @param int $width
-     * @param int $height
-     * @param int $quality
+     *
      * @return string path file
      */
     public function createThumbnail(UploadedFile $file, string $path = 'thumbnails', int $width = 300, int $height = 300, int $quality = 80): string
     {
-        $filename = time() . '_thumb_' . uniqid() . '.webp';
-        $fullPath = $path . '/' . $filename;
+        $filename = time().'_thumb_'.uniqid().'.webp';
+        $fullPath = $path.'/'.$filename;
 
         // Load image
         $image = $this->manager->read($file);
@@ -133,19 +120,14 @@ class ImageCompressionService
 
     /**
      * Resize image with aspect ratio
-     * 
-     * @param \Illuminate\Http\UploadedFile $file
-     * @param string $path
-     * @param int $maxWidth
-     * @param int|null $maxHeight
-     * @param int $quality
+     *
      * @return string path file
      */
     public function resizeWithAspectRatio(UploadedFile $file, string $path = 'images', int $maxWidth = 1920, ?int $maxHeight = null, int $quality = 85): string
     {
         $extension = strtolower($file->getClientOriginalExtension());
-        $filename = time() . '_' . uniqid() . '.' . $extension;
-        $fullPath = $path . '/' . $filename;
+        $filename = time().'_'.uniqid().'.'.$extension;
+        $fullPath = $path.'/'.$filename;
 
         // Load image
         $image = $this->manager->read($file);
@@ -181,13 +163,10 @@ class ImageCompressionService
 
     /**
      * Delete image from storage
-     * 
-     * @param string|null $path
-     * @return bool
      */
     public function deleteImage(?string $path): bool
     {
-        if (!$path) {
+        if (! $path) {
             return false;
         }
 
@@ -200,14 +179,12 @@ class ImageCompressionService
 
     /**
      * Get image file size in KB
-     * 
-     * @param string $path
-     * @return float|null
      */
     public function getFileSize(string $path): ?float
     {
         if (Storage::disk('public')->exists($path)) {
             $sizeInBytes = Storage::disk('public')->size($path);
+
             return round($sizeInBytes / 1024, 2); // Convert to KB
         }
 
@@ -216,11 +193,8 @@ class ImageCompressionService
 
     /**
      * Batch compress multiple images
-     * 
-     * @param array $files Array of UploadedFile
-     * @param string $path
-     * @param int $maxWidth
-     * @param int $quality
+     *
+     * @param  array  $files  Array of UploadedFile
      * @return array Array of file paths
      */
     public function batchCompress(array $files, string $path = 'images', int $maxWidth = 1920, int $quality = 85): array

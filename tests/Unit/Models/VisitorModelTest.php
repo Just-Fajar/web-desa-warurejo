@@ -18,9 +18,9 @@ class VisitorModelTest extends TestCase
     private function createVisitor(array $overrides = []): Visitor
     {
         return Visitor::create(array_merge([
-            'ip_address' => '127.0.0.' . rand(1, 254),
+            'ip_address' => '127.0.0.'.rand(1, 254),
             'user_agent' => 'TestAgent/1.0',
-            'device_fingerprint' => 'fp_' . uniqid(),
+            'device_fingerprint' => 'fp_'.uniqid(),
             'visit_date' => now()->toDateString(),
             'last_visit_at' => now(),
             'visit_count' => 1,

@@ -15,8 +15,7 @@ class GaleriRepository extends BaseRepository
     }
 
     /**
-     * 
-     * @param int $perPage - jumlah item per halaman (default: 24)
+     * @param  int  $perPage  - jumlah item per halaman (default: 24)
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getActive($perPage = 24)
@@ -33,8 +32,8 @@ class GaleriRepository extends BaseRepository
      * - Include relasi admin dan images
      * - Filter published
      * - Limit jumlah hasil
-     * 
-     * @param int $limit - jumlah galeri yang diambil (default: 6)
+     *
+     * @param  int  $limit  - jumlah galeri yang diambil (default: 6)
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getLatest($limit = 6)
@@ -51,9 +50,9 @@ class GaleriRepository extends BaseRepository
      * Mengambil galeri berdasarkan kategori tertentu
      * - Filter by kategori (kegiatan, pembangunan, budaya, keagamaan, sosial, lainnya)
      * - Include relasi dan filter published
-     * 
-     * @param string $kategori - nama kategori
-     * @param int $perPage - jumlah item per halaman
+     *
+     * @param  string  $kategori  - nama kategori
+     * @param  int  $perPage  - jumlah item per halaman
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getByKategori($kategori, $perPage = 24)
@@ -69,7 +68,7 @@ class GaleriRepository extends BaseRepository
     /**
      * Mengambil daftar kategori beserta jumlah galeri per kategori
      * Untuk filter/navigation di halaman public
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getCategoriesWithCount()
@@ -84,9 +83,9 @@ class GaleriRepository extends BaseRepository
     /**
      * Mengambil galeri berdasarkan admin yang upload
      * Untuk halaman "Galeri Saya" di admin panel
-     * 
-     * @param int $adminId - ID admin
-     * @param int $perPage - jumlah item per halaman
+     *
+     * @param  int  $adminId  - ID admin
+     * @param  int  $perPage  - jumlah item per halaman
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getByAdmin($adminId, $perPage = 15)
@@ -101,10 +100,10 @@ class GaleriRepository extends BaseRepository
     /**
      * Mengambil galeri dalam rentang tanggal tertentu
      * Untuk filter berdasarkan periode waktu
-     * 
-     * @param string $startDate - tanggal mulai
-     * @param string $endDate - tanggal akhir
-     * @param int $perPage - jumlah item per halaman
+     *
+     * @param  string  $startDate  - tanggal mulai
+     * @param  string  $endDate  - tanggal akhir
+     * @param  int  $perPage  - jumlah item per halaman
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getByDateRange($startDate, $endDate, $perPage = 24)
@@ -120,8 +119,8 @@ class GaleriRepository extends BaseRepository
     /**
      * Mengambil galeri terbaru yang memiliki tanggal
      * Sort berdasarkan tanggal galeri (bukan created_at)
-     * 
-     * @param int $limit - jumlah galeri yang diambil
+     *
+     * @param  int  $limit  - jumlah galeri yang diambil
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getRecent($limit = 12)
@@ -134,6 +133,4 @@ class GaleriRepository extends BaseRepository
             ->limit($limit)
             ->get();
     }
-
 }
-

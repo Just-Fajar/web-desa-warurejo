@@ -25,22 +25,22 @@ class PengaduanFactory extends Factory
 
     public function menunggu(): static
     {
-        return $this->state(fn() => ['status' => Pengaduan::STATUS_MENUNGGU]);
+        return $this->state(fn () => ['status' => Pengaduan::STATUS_MENUNGGU]);
     }
 
     public function diproses(): static
     {
-        return $this->state(fn() => ['status' => Pengaduan::STATUS_DIPROSES]);
+        return $this->state(fn () => ['status' => Pengaduan::STATUS_DIPROSES]);
     }
 
     public function selesai(): static
     {
-        return $this->state(fn() => ['status' => Pengaduan::STATUS_SELESAI]);
+        return $this->state(fn () => ['status' => Pengaduan::STATUS_SELESAI]);
     }
 
     public function ditolak(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => Pengaduan::STATUS_DITOLAK,
             'alasan_penolakan' => fake()->sentence(),
         ]);
@@ -48,6 +48,6 @@ class PengaduanFactory extends Factory
 
     public function withLampiran(): static
     {
-        return $this->state(fn() => ['lampiran' => 'pengaduan/' . fake()->uuid() . '.jpg']);
+        return $this->state(fn () => ['lampiran' => 'pengaduan/'.fake()->uuid().'.jpg']);
     }
 }

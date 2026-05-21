@@ -5,7 +5,6 @@ namespace Tests\Unit\Middleware;
 use App\Models\Admin;
 use App\Models\Berita;
 use App\Models\Galeri;
-use App\Models\PotensiDesa;
 use App\Models\Publikasi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
@@ -35,6 +34,7 @@ class PublishScheduledContentTest extends TestCase
             'status' => 'scheduled',
             'published_at' => $overrides['published_at'] ?? now()->subHour(),
         ]);
+
         return $berita->fresh();
     }
 
@@ -47,6 +47,7 @@ class PublishScheduledContentTest extends TestCase
             'status' => 'scheduled',
             'published_at' => $overrides['published_at'] ?? now()->subHour(),
         ]);
+
         return $pub->fresh();
     }
 

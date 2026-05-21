@@ -12,7 +12,7 @@ return [
     | PENTING: Set di .env file untuk production
     | Development: sqlite (lebih mudah setup)
     | Production: mysql atau mariadb (lebih robust)
-    | 
+    |
     | Pastikan DB_CONNECTION di .env sesuai dengan environment:
     | - Local development: sqlite
     | - Production server: mysql
@@ -48,7 +48,7 @@ return [
 
         /**
          * MySQL Connection - Untuk Production Server
-         * 
+         *
          * SETUP:
          * 1. Buat database: CREATE DATABASE nama_database;
          * 2. Set di .env:
@@ -59,7 +59,7 @@ return [
          *    DB_USERNAME=root (atau user lain)
          *    DB_PASSWORD=password_aman
          * 3. Run: php artisan migrate
-         * 
+         *
          * SECURITY: Jangan gunakan user root di production!
          */
         'mysql' => [
@@ -167,7 +167,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-database-'),
+            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-database-'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 

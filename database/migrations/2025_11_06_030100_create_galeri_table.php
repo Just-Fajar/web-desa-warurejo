@@ -8,10 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * 
+     *
      * Tabel galeri untuk dokumentasi foto/video kegiatan desa
-     * 
-     * 
      */
     public function up(): void
     {

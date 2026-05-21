@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
 use App\Models\Admin;
 use App\Models\Berita;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class BeritaCrudTest extends TestCase
 {
@@ -274,7 +274,7 @@ class BeritaCrudTest extends TestCase
         $response->assertStatus(400);
         $response->assertJson([
             'success' => false,
-            'message' => 'Tidak ada berita yang dipilih.'
+            'message' => 'Tidak ada berita yang dipilih.',
         ]);
     }
 
@@ -362,8 +362,7 @@ class BeritaCrudTest extends TestCase
         $response->assertStatus(500);
         $response->assertJson([
             'success' => false,
-            'message' => 'Terjadi kesalahan: Bulk delete error'
+            'message' => 'Terjadi kesalahan: Bulk delete error',
         ]);
     }
 }
-

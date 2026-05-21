@@ -2,27 +2,24 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-
-// Models
 use App\Models\Berita;
+// Models
 use App\Models\Galeri;
 use App\Models\PotensiDesa;
 use App\Models\StrukturOrganisasi;
-
-// Repositories
 use App\Repositories\BeritaRepository;
+// Repositories
 use App\Repositories\GaleriRepository;
 use App\Repositories\PotensiDesaRepository;
 use App\Repositories\StrukturOrganisasiRepository;
-
-// Services
 use App\Services\BeritaService;
+// Services
 use App\Services\GaleriService;
+use App\Services\HtmlSanitizerService;
+use App\Services\ImageUploadService;
 use App\Services\PotensiDesaService;
 use App\Services\StrukturOrganisasiService;
-use App\Services\ImageUploadService;
-use App\Services\HtmlSanitizerService;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,29 +30,29 @@ class AppServiceProvider extends ServiceProvider
     {
         // Register Repositories
         $this->app->singleton(BeritaRepository::class, function ($app) {
-            return new BeritaRepository(new Berita());
+            return new BeritaRepository(new Berita);
         });
 
         $this->app->singleton(GaleriRepository::class, function ($app) {
-            return new GaleriRepository(new Galeri());
+            return new GaleriRepository(new Galeri);
         });
 
         $this->app->singleton(PotensiDesaRepository::class, function ($app) {
-            return new PotensiDesaRepository(new PotensiDesa());
+            return new PotensiDesaRepository(new PotensiDesa);
         });
 
         $this->app->singleton(StrukturOrganisasiRepository::class, function ($app) {
-            return new StrukturOrganisasiRepository(new StrukturOrganisasi());
+            return new StrukturOrganisasiRepository(new StrukturOrganisasi);
         });
 
         // Register ImageUploadService
         $this->app->singleton(ImageUploadService::class, function ($app) {
-            return new ImageUploadService();
+            return new ImageUploadService;
         });
 
         // Register HtmlSanitizerService
         $this->app->singleton(HtmlSanitizerService::class, function ($app) {
-            return new HtmlSanitizerService();
+            return new HtmlSanitizerService;
         });
 
         // Register Services

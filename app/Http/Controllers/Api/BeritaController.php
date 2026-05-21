@@ -11,8 +11,7 @@ class BeritaController extends Controller
 {
     /**
      * Display a listing of berita
-     * 
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
@@ -51,7 +50,7 @@ class BeritaController extends Controller
                     'slug' => $item->slug,
                     'konten' => strip_tags($item->konten),
                     'konten_html' => $item->konten,
-                    'gambar' => $item->gambar ? asset('storage/' . $item->gambar) : null,
+                    'gambar' => $item->gambar ? asset('storage/'.$item->gambar) : null,
                     'views' => $item->views,
                     'published_at' => $item->published_at?->toIso8601String(),
                     'author' => [
@@ -79,8 +78,7 @@ class BeritaController extends Controller
 
     /**
      * Display the specified berita
-     * 
-     * @param string $slug
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(string $slug)
@@ -100,7 +98,7 @@ class BeritaController extends Controller
                 'judul' => $berita->judul,
                 'slug' => $berita->slug,
                 'konten' => $berita->konten,
-                'gambar' => $berita->gambar ? asset('storage/' . $berita->gambar) : null,
+                'gambar' => $berita->gambar ? asset('storage/'.$berita->gambar) : null,
                 'views' => $berita->views,
                 'published_at' => $berita->published_at?->toIso8601String(),
                 'created_at' => $berita->created_at->toIso8601String(),
@@ -116,8 +114,7 @@ class BeritaController extends Controller
 
     /**
      * Get latest berita
-     * 
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function latest(Request $request)
@@ -138,7 +135,7 @@ class BeritaController extends Controller
                     'judul' => $item->judul,
                     'slug' => $item->slug,
                     'excerpt' => Str::limit(strip_tags($item->konten), 150),
-                    'gambar' => $item->gambar ? asset('storage/' . $item->gambar) : null,
+                    'gambar' => $item->gambar ? asset('storage/'.$item->gambar) : null,
                     'views' => $item->views,
                     'published_at' => $item->published_at?->toIso8601String(),
                     'author' => $item->admin->nama,
@@ -149,8 +146,7 @@ class BeritaController extends Controller
 
     /**
      * Get popular berita
-     * 
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function popular(Request $request)
@@ -171,7 +167,7 @@ class BeritaController extends Controller
                     'judul' => $item->judul,
                     'slug' => $item->slug,
                     'excerpt' => Str::limit(strip_tags($item->konten), 150),
-                    'gambar' => $item->gambar ? asset('storage/' . $item->gambar) : null,
+                    'gambar' => $item->gambar ? asset('storage/'.$item->gambar) : null,
                     'views' => $item->views,
                     'published_at' => $item->published_at?->toIso8601String(),
                     'author' => $item->admin->nama,

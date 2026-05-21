@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Berita;
-use App\Models\PotensiDesa;
 use App\Models\Galeri;
+use App\Models\PotensiDesa;
 use App\Models\Publikasi;
 use App\Services\VisitorStatisticsService;
 use Carbon\Carbon;
@@ -29,7 +29,7 @@ class DashboardController extends Controller
      * - Mengambil statistik pengunjung (hari ini, minggu, bulan, total)
      * - Menyiapkan data chart untuk visitor dan content statistics
      * - Mengambil recent activities dari semua konten
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function index()
@@ -170,8 +170,8 @@ class DashboardController extends Controller
     /**
      * AJAX: Mengambil data chart pengunjung berdasarkan tahun tertentu
      * Digunakan saat user mengubah filter tahun di chart visitor statistics
-     * 
-     * @param Request $request - berisi parameter 'year'
+     *
+     * @param  Request  $request  - berisi parameter 'year'
      * @return \Illuminate\Http\JsonResponse
      */
     public function getVisitorChartByYear(Request $request)
@@ -181,15 +181,15 @@ class DashboardController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $chartData
+            'data' => $chartData,
         ]);
     }
 
     /**
      * AJAX: Mengambil data chart konten (berita, potensi, galeri) berdasarkan tahun
      * Digunakan saat user mengubah filter tahun di chart content statistics
-     * 
-     * @param Request $request - berisi parameter 'year'
+     *
+     * @param  Request  $request  - berisi parameter 'year'
      * @return \Illuminate\Http\JsonResponse
      */
     public function getContentChartByYear(Request $request)
@@ -199,14 +199,14 @@ class DashboardController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $chartData
+            'data' => $chartData,
         ]);
     }
 
     /**
      * Private method: Menghitung statistik konten per bulan untuk 6 bulan terakhir
      * Menghasilkan data untuk chart content statistics (berita, potensi, galeri)
-     * 
+     *
      * @return array - berisi labels (bulan) dan data per kategori konten
      */
     private function getMonthlyStats()
@@ -248,7 +248,7 @@ class DashboardController extends Controller
      * AJAX: Mengambil jumlah pengunjung berdasarkan bulan/tahun tertentu
      * Digunakan saat user mengubah filter bulan/tahun di card statistik
      *
-     * @param Request $request - berisi parameter 'month' dan 'year'
+     * @param  Request  $request  - berisi parameter 'month' dan 'year'
      * @return \Illuminate\Http\JsonResponse
      */
     public function getVisitorsByPeriod(Request $request)
@@ -268,7 +268,7 @@ class DashboardController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $result
+            'data' => $result,
         ]);
     }
 }

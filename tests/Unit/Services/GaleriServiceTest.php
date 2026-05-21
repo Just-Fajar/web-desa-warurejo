@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\Galeri;
 use App\Repositories\GaleriRepository;
 use App\Services\GaleriService;
-use App\Models\Galeri;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Mockery;
@@ -13,6 +13,7 @@ use Tests\TestCase;
 class GaleriServiceTest extends TestCase
 {
     private $repository;
+
     private GaleriService $service;
 
     protected function setUp(): void
@@ -86,6 +87,7 @@ class GaleriServiceTest extends TestCase
             ->once()
             ->andReturnUsing(function ($data) {
                 $this->assertArrayHasKey('tanggal', $data);
+
                 return new Galeri($data);
             });
 
@@ -129,11 +131,12 @@ class GaleriServiceTest extends TestCase
     public function test_update_galeri_without_new_image()
     {
         $galeri = new Galeri(['gambar' => 'galeri/old.jpg', 'judul' => 'Old Title']);
-        
+
         $this->repository->shouldReceive('find')->once()->with(1)->andReturn($galeri);
         $this->repository->shouldReceive('update')->once()->with(1, Mockery::on(function ($data) {
             $this->assertArrayNotHasKey('gambar', $data);
             $this->assertEquals('New Title', $data['judul']);
+
             return true;
         }))->andReturn(true);
 
@@ -149,12 +152,13 @@ class GaleriServiceTest extends TestCase
         Storage::disk('public')->put('galeri/old.jpg', 'dummy');
 
         $galeri = new Galeri(['gambar' => 'galeri/old.jpg', 'judul' => 'Old Title']);
-        
+
         $this->repository->shouldReceive('find')->once()->with(1)->andReturn($galeri);
         $this->repository->shouldReceive('update')->once()->with(1, Mockery::on(function ($data) {
             $this->assertArrayHasKey('gambar', $data);
             $this->assertStringContainsString('galeri/', $data['gambar']);
             $this->assertEquals('New Title', $data['judul']);
+
             return true;
         }))->andReturn(true);
 

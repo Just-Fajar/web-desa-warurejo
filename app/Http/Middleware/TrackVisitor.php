@@ -2,13 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\DailyVisitorStat;
+use App\Models\Visitor;
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use App\Models\Visitor;
-use App\Models\DailyVisitorStat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class TrackVisitor
 {
@@ -21,12 +21,12 @@ class TrackVisitor
      * - Deteksi section halaman untuk breakdown per-section
      * - Skip route admin dan asset files
      * - Silent fail: error tidak mengganggu user experience
-     * 
+     *
      * PENTING: page_views dihitung SETIAP halaman dibuka (termasuk refresh)
      *          unique_visitors dihitung per device per hari
-     * 
+     *
      * PRIVACY: Tidak simpan data personal, hanya hash anonymous
-     * 
+     *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
@@ -47,7 +47,7 @@ class TrackVisitor
                 ->where('visit_date', '=', $today)
                 ->first();
 
-            if (!$visitor) {
+            if (! $visitor) {
                 // Visitor baru atau belum visit hari ini
                 // Langsung create tanpa user interaction
                 Visitor::create([
@@ -71,7 +71,7 @@ class TrackVisitor
             }
         } catch (\Exception $e) {
             // Silent fail - tidak mengganggu user experience
-            Log::error('Visitor tracking error: ' . $e->getMessage());
+            Log::error('Visitor tracking error: '.$e->getMessage());
         }
 
         // Lanjutkan request seperti biasa (user tidak tahu ada tracking)
@@ -88,8 +88,8 @@ class TrackVisitor
     {
         // Kombinasi IP + User-Agent + Accept-Language
         $data = ($request->ip() ?? 'unknown')
-            . '|' . ($request->userAgent() ?? 'unknown')
-            . '|' . ($request->header('Accept-Language') ?? 'unknown');
+            .'|'.($request->userAgent() ?? 'unknown')
+            .'|'.($request->header('Accept-Language') ?? 'unknown');
 
         // Hash SHA-256 (tidak bisa di-reverse engineer)
         return hash('sha256', $data);
@@ -102,15 +102,17 @@ class TrackVisitor
      */
     private function anonymizeIp(?string $ip): string
     {
-        if (!$ip) {
+        if (! $ip) {
             return '0.0.0.0';
         }
 
         $parts = explode('.', $ip);
         if (count($parts) === 4) {
             $parts[3] = '0'; // Hide last octet
+
             return implode('.', $parts);
         }
+
         return $ip;
     }
 
@@ -130,7 +132,7 @@ class TrackVisitor
                 $stat->increment('unique_visitors');
             }
         } catch (\Exception $e) {
-            Log::error('Daily stats update error: ' . $e->getMessage());
+            Log::error('Daily stats update error: '.$e->getMessage());
         }
     }
 }

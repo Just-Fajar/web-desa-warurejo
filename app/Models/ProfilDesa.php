@@ -74,14 +74,14 @@ class ProfilDesa extends Model
     public function getLogoUrlAttribute()
     {
         return $this->logo
-            ? asset('storage/' . $this->logo)
+            ? asset('storage/'.$this->logo)
             : asset('images/default-logo.png');
     }
 
     public function getGambarKantorUrlAttribute()
     {
         return $this->gambar_kantor
-            ? asset('storage/' . $this->gambar_kantor)
+            ? asset('storage/'.$this->gambar_kantor)
             : asset('images/default-kantor.jpg');
     }
 
@@ -98,6 +98,7 @@ class ProfilDesa extends Model
 
         // Split per baris
         $misi = preg_split('/\r\n|\r|\n/', $this->misi);
+
         return array_filter(array_map('trim', $misi));
     }
 

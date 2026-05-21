@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
 use App\Models\Admin;
 use App\Models\Publikasi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class PublikasiCrudTest extends TestCase
 {
@@ -149,7 +149,7 @@ class PublikasiCrudTest extends TestCase
 
         // bulkDelete returns JSON, not redirect
         $response = $this->postJson(route('admin.publikasi.bulk-delete'), [
-            'ids' => [$pub1->id, $pub2->id]
+            'ids' => [$pub1->id, $pub2->id],
         ]);
 
         $response->assertJson(['success' => true]);
@@ -372,12 +372,12 @@ class PublikasiCrudTest extends TestCase
         $this->actingAs($this->admin, 'admin');
 
         $response = $this->postJson(route('admin.publikasi.bulk-delete'), [
-            'ids' => []
+            'ids' => [],
         ]);
 
         $response->assertJson([
             'success' => false,
-            'message' => 'Tidak ada publikasi yang dipilih'
+            'message' => 'Tidak ada publikasi yang dipilih',
         ]);
     }
 
@@ -402,4 +402,3 @@ class PublikasiCrudTest extends TestCase
         $this->assertEquals(11, $publikasi->jumlah_download);
     }
 }
-

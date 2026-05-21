@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers\Public;
 
+use App\Helpers\SEOHelper;
 use App\Http\Controllers\Controller;
 use App\Models\ProfilDesa;
+use App\Repositories\GaleriRepository;
 use App\Services\BeritaService;
 use App\Services\PotensiDesaService;
 use App\Services\VisitorStatisticsService;
-use App\Repositories\GaleriRepository;
-use App\Helpers\SEOHelper;
 use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
     protected $beritaService;
+
     protected $potensiService;
+
     protected $galeriRepository;
+
     protected $visitorService;
 
     /**
@@ -44,7 +47,7 @@ class HomeController extends Controller
      * - Total counts: 1-6 jam
      * - Visitor stats: real-time (no cache)
      * - SEO data: 1 hari
-     * 
+     *
      * Route: GET /
      */
     public function index()
@@ -57,7 +60,7 @@ class HomeController extends Controller
                 'kabupaten' => 'Madiun',
                 'provinsi' => 'Jawa Timur',
                 'jumlah_penduduk' => 0,
-                'luas_wilayah' => 0
+                'luas_wilayah' => 0,
             ]);
         });
 
@@ -98,8 +101,8 @@ class HomeController extends Controller
                 'title' => 'Website Resmi Desa Warurejo',
                 'description' => 'Website resmi Desa Warurejo, Kecamatan Balerejo, Kabupaten Madiun sebagai pusat informasi publik yang menyajikan berita terkini, profil desa, potensi wilayah, dan galeri kegiatan masyarakat.',
                 'keywords' => "desa warurejo, {$profil->kecamatan}, {$profil->kabupaten}, profil desa, berita desa, potensi desa, galeri",
-                'image' => $profil->logo ? asset('storage/' . $profil->logo) : asset('images/logo.png'),
-                'type' => 'website'
+                'image' => $profil->logo ? asset('storage/'.$profil->logo) : asset('images/logo.png'),
+                'type' => 'website',
             ]);
         });
 

@@ -13,7 +13,7 @@ class RedirectIfAdmin
      * Middleware untuk prevent admin mengakses halaman login jika sudah login
      * Jika admin sudah login, redirect ke dashboard
      * Untuk route admin/login agar tidak bisa diakses saat sudah login
-     * 
+     *
      * Usage: Route::middleware('admin.guest')
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next

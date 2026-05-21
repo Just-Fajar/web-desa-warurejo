@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
-use App\Services\VisitorStatisticsService;
-use App\Models\Visitor;
 use App\Models\DailyVisitorStat;
+use App\Models\Visitor;
+use App\Services\VisitorStatisticsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class VisitorStatisticsServiceTest extends TestCase
 {
@@ -98,8 +98,8 @@ class VisitorStatisticsServiceTest extends TestCase
         for ($i = 1; $i <= 5; $i++) {
             Visitor::create([
                 'visit_date' => now()->toDateString(),
-                'device_fingerprint' => 'fingerprint' . $i,
-                'ip_address' => '127.0.0.' . $i,
+                'device_fingerprint' => 'fingerprint'.$i,
+                'ip_address' => '127.0.0.'.$i,
                 'page_url' => '/test',
                 'user_agent' => 'Mozilla/5.0',
                 'last_visit_at' => now(),

@@ -1,9 +1,9 @@
 <?php
 
+use App\Services\VisitorStatisticsService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
-use App\Services\VisitorStatisticsService;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -25,4 +25,3 @@ Schedule::call(function () {
 
 // Auto-publish konten yang dijadwalkan (cek setiap menit)
 Schedule::command('content:publish-scheduled')->everyMinute();
-

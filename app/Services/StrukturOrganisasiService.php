@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Repositories\StrukturOrganisasiRepository;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class StrukturOrganisasiService
 {
     protected $repository;
+
     protected $imageUploadService;
 
     /**
@@ -76,7 +77,7 @@ class StrukturOrganisasiService
 
             return $this->repository->create($data);
         } catch (\Exception $e) {
-            Log::error('Error creating struktur organisasi: ' . $e->getMessage());
+            Log::error('Error creating struktur organisasi: '.$e->getMessage());
             throw $e;
         }
     }
@@ -112,7 +113,7 @@ class StrukturOrganisasiService
 
             return $this->repository->update($id, $data);
         } catch (\Exception $e) {
-            Log::error('Error updating struktur organisasi: ' . $e->getMessage());
+            Log::error('Error updating struktur organisasi: '.$e->getMessage());
             throw $e;
         }
     }
@@ -133,7 +134,7 @@ class StrukturOrganisasiService
 
             return $this->repository->delete($id);
         } catch (\Exception $e) {
-            Log::error('Error deleting struktur organisasi: ' . $e->getMessage());
+            Log::error('Error deleting struktur organisasi: '.$e->getMessage());
             throw $e;
         }
     }
@@ -148,9 +149,10 @@ class StrukturOrganisasiService
             foreach ($ids as $id) {
                 $this->deleteStrukturOrganisasi($id);
             }
+
             return true;
         } catch (\Exception $e) {
-            Log::error('Error bulk deleting struktur organisasi: ' . $e->getMessage());
+            Log::error('Error bulk deleting struktur organisasi: '.$e->getMessage());
             throw $e;
         }
     }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Publikasi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class PublikasiController extends Controller
 {
@@ -22,7 +22,7 @@ class PublikasiController extends Controller
 
         // Search
         if ($request->has('search') && $request->search != '') {
-            $query->where('judul', 'like', '%' . $request->search . '%');
+            $query->where('judul', 'like', '%'.$request->search.'%');
         }
 
         // Filter kategori
@@ -71,7 +71,7 @@ class PublikasiController extends Controller
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'kategori' => 'required|in:APBDes,RPJMDes,RKPDes',
-            'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 5),
+            'tahun' => 'required|integer|min:2000|max:'.(date('Y') + 5),
             'deskripsi' => 'nullable|string',
             'file_dokumen' => 'required|file|mimes:pdf|max:10240', // 10MB max
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -117,6 +117,7 @@ class PublikasiController extends Controller
     public function show(string $id)
     {
         $publikasi = Publikasi::findOrFail($id);
+
         return view('admin.publikasi.show', compact('publikasi'));
     }
 
@@ -127,6 +128,7 @@ class PublikasiController extends Controller
     public function edit(string $id)
     {
         $publikasi = Publikasi::findOrFail($id);
+
         return view('admin.publikasi.edit', compact('publikasi'));
     }
 
@@ -141,11 +143,10 @@ class PublikasiController extends Controller
     {
         $publikasi = Publikasi::findOrFail($id);
 
-
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'kategori' => 'required|in:APBDes,RPJMDes,RKPDes',
-            'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 5),
+            'tahun' => 'required|integer|min:2000|max:'.(date('Y') + 5),
             'deskripsi' => 'nullable|string',
             'file_dokumen' => 'nullable|file|mimes:pdf|max:10240',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -155,7 +156,7 @@ class PublikasiController extends Controller
         ]);
 
         // Handle published_at based on status
-        if ($validated['status'] === 'published' && !$publikasi->published_at) {
+        if ($validated['status'] === 'published' && ! $publikasi->published_at) {
             $validated['published_at'] = now();
         } elseif ($validated['status'] === 'draft') {
             $validated['published_at'] = null;
@@ -250,6 +251,6 @@ class PublikasiController extends Controller
         Cache::forget('home.publikasi');
         Cache::forget('profil_desa');
 
-        return response()->json(['success' => true, 'message' => count($ids) . ' publikasi berhasil dihapus']);
+        return response()->json(['success' => true, 'message' => count($ids).' publikasi berhasil dihapus']);
     }
 }

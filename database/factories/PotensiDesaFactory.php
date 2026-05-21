@@ -30,12 +30,12 @@ class PotensiDesaFactory extends Factory
 
         return [
             'nama' => ucwords($nama),
-            'slug' => Str::slug($nama) . '-' . fake()->unique()->numberBetween(1, 1000),
+            'slug' => Str::slug($nama).'-'.fake()->unique()->numberBetween(1, 1000),
             'kategori' => $kategori,
             'deskripsi' => fake()->paragraphs(3, true),
             'gambar' => 'potensi/test-image.jpg',
             'lokasi' => fake()->address(),
-            'whatsapp' => '8' . fake()->numerify('##########'),
+            'whatsapp' => '8'.fake()->numerify('##########'),
             'nama_pengelola' => fake()->name(),
             'info_utama' => fake()->sentence(4),
             'status' => 'published',
@@ -49,7 +49,7 @@ class PotensiDesaFactory extends Factory
      */
     public function active(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'published',
             'published_at' => now(),
         ]);
@@ -60,7 +60,7 @@ class PotensiDesaFactory extends Factory
      */
     public function inactive(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'draft',
             'published_at' => null,
         ]);
@@ -71,7 +71,7 @@ class PotensiDesaFactory extends Factory
      */
     public function kategori(string $kategori): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'kategori' => $kategori,
         ]);
     }

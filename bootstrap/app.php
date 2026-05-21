@@ -2,10 +2,10 @@
 
 /**
  * Bootstrap Application - Laravel 11 Entry Point
- * 
+ *
  * File ini adalah titik awal aplikasi Laravel
  * Configure routing, middleware, dan exception handling
- * 
+ *
  * JANGAN UBAH file ini kecuali:
  * - Tambah custom middleware global
  * - Tambah route file baru
@@ -25,9 +25,9 @@ return Application::configure(basePath: dirname(__DIR__))
      * - health: Health check endpoint untuk monitoring (/up)
      */
     ->withRouting(
-        web: __DIR__ . '/../routes/web.php',
-        api: __DIR__ . '/../routes/api.php',
-        commands: __DIR__ . '/../routes/console.php',
+        web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
+        commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
     /**
@@ -36,7 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         /**
          * Middleware Aliases - Shortcut untuk protect routes
-         * 
+         *
          * Usage di routes/web.php:
          * - Route::middleware('admin')->group() untuk protect admin routes
          * - Route::middleware('admin.guest') untuk login page
@@ -50,7 +50,7 @@ return Application::configure(basePath: dirname(__DIR__))
         /**
          * TrackVisitor Middleware - OTOMATIS track semua visitor
          * Applied ke semua web routes (public pages)
-         * 
+         *
          * Features:
          * - Anonymous device fingerprinting
          * - Daily visitor counting (anti spam)

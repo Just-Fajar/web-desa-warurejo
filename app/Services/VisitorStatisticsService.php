@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Visitor;
 use App\Models\DailyVisitorStat;
+use App\Models\Visitor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +12,7 @@ class VisitorStatisticsService
     /**
      * Menghitung unique visitors hari ini
      * Menggunakan device_fingerprint untuk identify unique visitor
-     * 
+     *
      * @return int - jumlah pengunjung unik hari ini
      */
     public function getTodayVisitors(): int
@@ -24,7 +24,7 @@ class VisitorStatisticsService
 
     /**
      * Menghitung unique visitors 7 hari terakhir
-     * 
+     *
      * @return int - jumlah pengunjung unik minggu ini
      */
     public function getWeeklyVisitors(): int
@@ -36,7 +36,7 @@ class VisitorStatisticsService
 
     /**
      * Menghitung unique visitors 30 hari terakhir
-     * 
+     *
      * @return int - jumlah pengunjung unik bulan ini
      */
     public function getMonthlyVisitors(): int
@@ -48,7 +48,7 @@ class VisitorStatisticsService
 
     /**
      * Menghitung unique visitors tahun ini
-     * 
+     *
      * @return int - jumlah pengunjung unik tahun ini
      */
     public function getYearlyVisitors(): int
@@ -61,8 +61,8 @@ class VisitorStatisticsService
     /**
      * Menghitung unique visitors pada bulan & tahun tertentu
      *
-     * @param int $month - bulan (1-12)
-     * @param int $year - tahun (e.g. 2026)
+     * @param  int  $month  - bulan (1-12)
+     * @param  int  $year  - tahun (e.g. 2026)
      * @return int - jumlah pengunjung unik pada bulan tersebut
      */
     public function getVisitorsByMonth(int $month, int $year): int
@@ -76,7 +76,7 @@ class VisitorStatisticsService
     /**
      * Menghitung unique visitors pada tahun tertentu
      *
-     * @param int $year - tahun (e.g. 2026)
+     * @param  int  $year  - tahun (e.g. 2026)
      * @return int - jumlah pengunjung unik pada tahun tersebut
      */
     public function getVisitorsByYear(int $year): int
@@ -88,7 +88,7 @@ class VisitorStatisticsService
 
     /**
      * Menghitung total unique visitors sepanjang waktu
-     * 
+     *
      * @return int - total pengunjung unik all time
      */
     public function getTotalVisitors(): int
@@ -102,7 +102,7 @@ class VisitorStatisticsService
      * 1 orang buka beranda → 1 page view
      * Orang yang sama pindah ke berita → jadi 2 page views
      * Dia refresh → jadi 3 page views
-     * 
+     *
      * @return int - total halaman yang dikunjungi hari ini
      */
     public function getTodayPageViews(): int
@@ -114,8 +114,8 @@ class VisitorStatisticsService
      * Mengambil data chart pengunjung untuk periode tertentu
      * - Mengisi tanggal yang kosong dengan nilai 0
      * - Return format siap untuk Chart.js
-     * 
-     * @param int $days - jumlah hari yang ditampilkan (default: 30)
+     *
+     * @param  int  $days  - jumlah hari yang ditampilkan (default: 30)
      * @return array - berisi labels, visitors, dan pageViews
      */
     public function getChartData(int $days = 30): array
@@ -145,7 +145,7 @@ class VisitorStatisticsService
         }
 
         return [
-            'labels' => array_map(fn($s) => Carbon::parse($s['date'])->format('d M'), $filledStats),
+            'labels' => array_map(fn ($s) => Carbon::parse($s['date'])->format('d M'), $filledStats),
             'visitors' => array_column($filledStats, 'unique_visitors'),
             'pageViews' => array_column($filledStats, 'page_views'),
         ];
@@ -156,7 +156,7 @@ class VisitorStatisticsService
      * - Nilai positif = pertumbuhan
      * - Nilai negatif = penurunan
      * - Return 0 jika kemarin tidak ada visitor
-     * 
+     *
      * @return float - persentase pertumbuhan (misal: 25.5 atau -10.2)
      */
     public function getVisitorGrowth(): float
@@ -353,7 +353,7 @@ class VisitorStatisticsService
             'berita' => $beritaData,
             'potensi' => $potensiData,
             'galeri' => $galeriData,
-            'publikasi' => $publikasiData
+            'publikasi' => $publikasiData,
         ];
     }
 

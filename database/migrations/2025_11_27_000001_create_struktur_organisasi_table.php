@@ -8,9 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * 
+     *
      * Tabel struktur_organisasi untuk hierarki pemerintahan desa
-     * 
      */
     public function up(): void
     {

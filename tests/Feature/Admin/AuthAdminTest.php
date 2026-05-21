@@ -178,8 +178,6 @@ class AuthAdminTest extends TestCase
         $response->assertRedirect(route('admin.login'));
     }
 
-
-
     public function test_guest_cannot_access_profile_show()
     {
         $response = $this->get(route('admin.profile.show'));

@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
 use App\Models\Admin;
 use App\Models\Galeri;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class GaleriCrudTest extends TestCase
 {
@@ -156,7 +156,7 @@ class GaleriCrudTest extends TestCase
         $galeri3 = Galeri::factory()->create();
 
         $response = $this->postJson(route('admin.galeri.bulk-delete'), [
-            'ids' => [$galeri1->id, $galeri2->id]
+            'ids' => [$galeri1->id, $galeri2->id],
         ]);
 
         $response->assertStatus(200);
@@ -315,7 +315,7 @@ class GaleriCrudTest extends TestCase
         $response->assertStatus(400);
         $response->assertJson([
             'success' => false,
-            'message' => 'Tidak ada galeri yang dipilih'
+            'message' => 'Tidak ada galeri yang dipilih',
         ]);
     }
 
@@ -411,8 +411,7 @@ class GaleriCrudTest extends TestCase
         $response->assertStatus(500);
         $response->assertJson([
             'success' => false,
-            'message' => 'Terjadi kesalahan: Delete failed'
+            'message' => 'Terjadi kesalahan: Delete failed',
         ]);
     }
 }
-
