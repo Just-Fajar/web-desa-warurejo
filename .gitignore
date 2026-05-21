@@ -90,3 +90,5 @@ result.xml
 # AI Tools
 .gemini/
 
+# .md
+unit-testing.md

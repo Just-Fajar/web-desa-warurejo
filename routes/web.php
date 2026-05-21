@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BeritaController as AdminBeritaController;
 use App\Http\Controllers\Admin\PotensiController as AdminPotensiController;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
-use App\Http\Controllers\Admin\ProfilDesaController;
+
 use App\Http\Controllers\Admin\PublikasiController as AdminPublikasiController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\StrukturOrganisasiController;
@@ -156,11 +156,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('pengaduan/{id}/balas', [AdminPengaduanController::class, 'storeBalasan'])->name('pengaduan.balas');
         Route::delete('pengaduan/{id}', [AdminPengaduanController::class, 'destroy'])->name('pengaduan.destroy');
 
-        // Profil Desa Management
-        Route::prefix('profil-desa')->name('profil-desa.')->group(function () {
-            Route::get('/', [ProfilDesaController::class, 'edit'])->name('edit');
-            Route::put('/', [ProfilDesaController::class, 'update'])->name('update');
-        });
+
 
         // Admin Profile Management
         Route::prefix('profile')->name('profile.')->group(function () {

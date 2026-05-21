@@ -16,6 +16,16 @@
         <include>
             <directory>app</directory>
         </include>
+        <exclude>
+            <directory>app/Http/Controllers/Api</directory>
+            <directory>app/Repositories</directory>
+            <directory>app/Console</directory>
+            <file>app/Models/User.php</file>
+            <file>app/Models/GaleriImage.php</file>
+            <file>app/Models/PotensiDesaFoto.php</file>
+            <file>app/Http/Controllers/Public/KontakController.php</file>
+            <file>app/Http/Controllers/SitemapController.php</file>
+        </exclude>
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>

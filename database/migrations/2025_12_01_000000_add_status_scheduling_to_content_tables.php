@@ -10,7 +10,9 @@ return new class extends Migration
     public function up(): void
     {
         // 1. BERITA: Add 'scheduled' to status enum
-        DB::statement("ALTER TABLE berita MODIFY COLUMN status ENUM('draft', 'scheduled', 'published') DEFAULT 'draft'");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE berita MODIFY COLUMN status ENUM('draft', 'scheduled', 'published') DEFAULT 'draft'");
+        }
 
         // 2. GALERI: Add status + published_at, migrate is_active data, drop is_active
         Schema::table('galeri', function (Blueprint $table) {
@@ -57,13 +59,17 @@ return new class extends Migration
         });
 
         // 4. PUBLIKASIS: Add 'scheduled' to status enum
-        DB::statement("ALTER TABLE publikasis MODIFY COLUMN status ENUM('draft', 'scheduled', 'published') DEFAULT 'published'");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE publikasis MODIFY COLUMN status ENUM('draft', 'scheduled', 'published') DEFAULT 'published'");
+        }
     }
 
     public function down(): void
     {
         // Revert BERITA
-        DB::statement("ALTER TABLE berita MODIFY COLUMN status ENUM('draft', 'published') DEFAULT 'draft'");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE berita MODIFY COLUMN status ENUM('draft', 'published') DEFAULT 'draft'");
+        }
 
         // Revert GALERI
         Schema::table('galeri', function (Blueprint $table) {
@@ -92,6 +98,8 @@ return new class extends Migration
         });
 
         // Revert PUBLIKASIS
-        DB::statement("ALTER TABLE publikasis MODIFY COLUMN status ENUM('draft', 'published') DEFAULT 'published'");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE publikasis MODIFY COLUMN status ENUM('draft', 'published') DEFAULT 'published'");
+        }
     }
 };

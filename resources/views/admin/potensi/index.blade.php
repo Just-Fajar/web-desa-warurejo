@@ -204,15 +204,17 @@
                                 </td>
                                 <td class="px-6 py-4 max-w-[250px] sm:max-w-[350px]">
                                     <div class="flex items-center">
-                                        <div
-                                            class="shrink-0 h-16 w-16 mr-4 relative rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                                        <a href="{{ route('admin.potensi.show', $item->id) }}"
+                                            class="shrink-0 h-16 w-16 mr-4 relative rounded-xl overflow-hidden shadow-sm border border-gray-100 block hover:opacity-80 transition-opacity">
                                             <img class="h-16 w-16 object-cover" src="{{ $item->gambar_url }}"
                                                 alt="{{ $item->nama }}"
                                                 onerror="this.src='{{ asset('images/default-potensi.jpg') }}'">
-                                        </div>
+                                        </a>
                                         <div class="min-w-0 flex-1">
                                             <div class="text-sm font-bold text-gray-800 truncate" title="{{ $item->nama }}">
-                                                {{ Str::limit($item->nama, 60) }}
+                                                <a href="{{ route('admin.potensi.show', $item->id) }}" class="hover:text-primary-600 transition-colors">
+                                                    {{ Str::limit($item->nama, 60) }}
+                                                </a>
                                             </div>
                                             <div class="text-xs text-gray-500 mt-0.5 truncate" title="{{ strip_tags($item->deskripsi) }}">
                                                 {{ Str::limit(strip_tags($item->deskripsi), 80) }}
@@ -262,6 +264,16 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end gap-2">
+                                        <a href="{{ route('admin.potensi.show', $item->id) }}"
+                                            class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white transition-all duration-200"
+                                            title="Detail">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </a>
                                         <a href="{{ route('admin.potensi.edit', $item->id) }}"
                                             class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white transition-all duration-200"
                                             title="Edit">

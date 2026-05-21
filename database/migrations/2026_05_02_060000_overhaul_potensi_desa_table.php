@@ -17,7 +17,9 @@ return new class extends Migration
     public function up(): void
     {
         // 1. Update enum kategori — hapus 'kerajinan'
-        DB::statement("ALTER TABLE potensi_desa MODIFY COLUMN kategori ENUM('pertanian','peternakan','perikanan','umkm','wisata','lainnya') DEFAULT 'lainnya'");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE potensi_desa MODIFY COLUMN kategori ENUM('pertanian','peternakan','perikanan','umkm','wisata','lainnya') DEFAULT 'lainnya'");
+        }
 
         // 2. Tambah kolom baru
         Schema::table('potensi_desa', function (Blueprint $table) {
@@ -61,6 +63,8 @@ return new class extends Migration
         });
 
         // Restore kategori enum with kerajinan
-        DB::statement("ALTER TABLE potensi_desa MODIFY COLUMN kategori ENUM('pertanian','peternakan','perikanan','umkm','wisata','kerajinan','lainnya') DEFAULT 'lainnya'");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE potensi_desa MODIFY COLUMN kategori ENUM('pertanian','peternakan','perikanan','umkm','wisata','kerajinan','lainnya') DEFAULT 'lainnya'");
+        }
     }
 };

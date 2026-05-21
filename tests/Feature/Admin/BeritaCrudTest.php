@@ -246,4 +246,124 @@ class BeritaCrudTest extends TestCase
             'status' => 'published',
         ]);
     }
+
+    /**
+     * Test admin can view berita show page
+     */
+    public function test_admin_can_view_berita_show_page(): void
+    {
+        $this->actingAs($this->admin, 'admin');
+        $berita = Berita::factory()->create(['admin_id' => $this->admin->id]);
+
+        $response = $this->get(route('admin.berita.show', $berita));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.berita.show');
+        $response->assertViewHas('berita', $berita);
+    }
+
+    /**
+     * Test bulk delete validation with empty ids
+     */
+    public function test_admin_bulk_delete_requires_ids(): void
+    {
+        $this->actingAs($this->admin, 'admin');
+
+        $response = $this->postJson(route('admin.berita.bulk-delete'), ['ids' => []]);
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            'success' => false,
+            'message' => 'Tidak ada berita yang dipilih.'
+        ]);
+    }
+
+    /**
+     * Test exception handling in store
+     */
+    public function test_store_handles_exception(): void
+    {
+        $this->actingAs($this->admin, 'admin');
+
+        $this->mock(\App\Services\BeritaService::class, function ($mock) {
+            $mock->shouldReceive('createBerita')->andThrow(new \Exception('Database error'));
+        });
+
+        $data = [
+            'judul' => 'Test Berita',
+            'ringkasan' => 'Test ringkasan',
+            'konten' => 'Test konten',
+            'status' => 'draft',
+        ];
+
+        $response = $this->post(route('admin.berita.store'), $data);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('error', 'Terjadi kesalahan: Database error');
+    }
+
+    /**
+     * Test exception handling in update
+     */
+    public function test_update_handles_exception(): void
+    {
+        $this->actingAs($this->admin, 'admin');
+        $berita = Berita::factory()->create(['admin_id' => $this->admin->id]);
+
+        $this->mock(\App\Services\BeritaService::class, function ($mock) use ($berita) {
+            $mock->shouldReceive('getBeritaById')->andReturn($berita);
+            $mock->shouldReceive('updateBerita')->andThrow(new \Exception('Update error'));
+        });
+
+        $data = [
+            'judul' => 'Updated Berita',
+            'ringkasan' => 'Test ringkasan',
+            'konten' => 'Test konten',
+            'status' => 'draft',
+        ];
+
+        $response = $this->put(route('admin.berita.update', $berita), $data);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('error', 'Terjadi kesalahan: Update error');
+    }
+
+    /**
+     * Test exception handling in destroy
+     */
+    public function test_destroy_handles_exception(): void
+    {
+        $this->actingAs($this->admin, 'admin');
+        $berita = Berita::factory()->create(['admin_id' => $this->admin->id]);
+
+        $this->mock(\App\Services\BeritaService::class, function ($mock) {
+            $mock->shouldReceive('deleteBerita')->andThrow(new \Exception('Delete error'));
+        });
+
+        $response = $this->delete(route('admin.berita.destroy', $berita));
+
+        $response->assertRedirect();
+        $response->assertSessionHas('error', 'Terjadi kesalahan: Delete error');
+    }
+
+    /**
+     * Test exception handling in bulk delete
+     */
+    public function test_bulk_delete_handles_exception(): void
+    {
+        $this->actingAs($this->admin, 'admin');
+
+        $this->mock(\App\Services\BeritaService::class, function ($mock) {
+            $mock->shouldReceive('deleteBerita')->andThrow(new \Exception('Bulk delete error'));
+        });
+
+        $response = $this->postJson(route('admin.berita.bulk-delete'), ['ids' => [1, 2]]);
+
+        $response->assertStatus(500);
+        $response->assertJson([
+            'success' => false,
+            'message' => 'Terjadi kesalahan: Bulk delete error'
+        ]);
+    }
 }
+

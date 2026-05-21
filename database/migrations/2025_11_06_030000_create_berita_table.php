@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('ringkasan')->nullable();
             $table->longText('konten');
             $table->string('gambar_utama')->nullable();
-            $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->enum('status', ['draft', 'scheduled', 'published'])->default('draft');
             $table->integer('views')->default(0);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

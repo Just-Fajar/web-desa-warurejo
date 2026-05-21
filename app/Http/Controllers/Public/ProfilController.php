@@ -15,16 +15,7 @@ class ProfilController extends Controller
      */
     public function index()
     {
-        $profil = ProfilDesa::getInstance();
-
-        $seoData = SEOHelper::generateMetaTags([
-            'title' => 'Profil Desa - Desa Warurejo',
-            'description' => "Profil lengkap Desa Warurejo meliputi visi misi, sejarah, struktur organisasi, dan informasi desa.",
-            'keywords' => 'profil desa warurejo, visi misi desa, sejarah desa, struktur organisasi',
-            'type' => 'website'
-        ]);
-
-        return view('public.profil.index', compact('profil', 'seoData'));
+        return redirect()->route('profil.visi-misi');
     }
 
     /**

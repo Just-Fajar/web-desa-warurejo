@@ -13,11 +13,14 @@ class DailyVisitorStat extends Model
         'page_views',
     ];
 
-    protected $casts = [
-        'date' => 'date',
-        'unique_visitors' => 'integer',
-        'page_views' => 'integer',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date' => \App\Casts\DailyVisitorDateCast::class,
+            'unique_visitors' => 'integer',
+            'page_views' => 'integer',
+        ];
+    }
 
     /**
      * Scope untuk query stats dalam rentang tanggal

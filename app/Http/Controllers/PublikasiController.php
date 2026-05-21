@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Publikasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PublikasiController extends Controller
 {
@@ -98,12 +99,10 @@ class PublikasiController extends Controller
         $publikasi = Publikasi::published()->findOrFail($id);
         $publikasi->incrementDownload();
 
-        $filePath = storage_path('app/public/' . $publikasi->file_dokumen);
-
-        if (!file_exists($filePath)) {
+        if (!Storage::disk('public')->exists($publikasi->file_dokumen)) {
             abort(404, 'File tidak ditemukan');
         }
 
-        return response()->download($filePath, $publikasi->judul . '.pdf');
+        return Storage::disk('public')->download($publikasi->file_dokumen, $publikasi->judul . '.pdf');
     }
 }

@@ -138,10 +138,82 @@ class HtmlSanitizerServiceTest extends TestCase
     public function test_sanitizer_adds_rel_to_external_links(): void
     {
         $html = '<a href="https://external.com" target="_blank">External</a>';
-
         $sanitized = $this->sanitizer->sanitize($html);
-
         $this->assertStringContainsString('rel="noopener noreferrer"', $sanitized);
         $this->assertStringContainsString('target="_blank"', $sanitized);
+    }
+
+    /**
+     * Test sanitizer with existing rel attribute in external links
+     */
+    public function test_sanitizer_with_existing_rel(): void
+    {
+        $html = '<a href="https://external.com" target="_blank" rel="nofollow">External</a>';
+        $sanitized = $this->sanitizer->sanitize($html);
+        $this->assertStringContainsString('rel="nofollow noopener noreferrer"', $sanitized);
+
+        $html2 = '<a href="https://external.com" target="_blank" rel="noopener">External</a>';
+        $sanitized2 = $this->sanitizer->sanitize($html2);
+        $this->assertStringContainsString('rel="noopener noreferrer"', $sanitized2);
+    }
+
+    /**
+     * Test sanitizer clean image tags
+     */
+    public function test_sanitizer_clean_image_tags(): void
+    {
+        $html = '<img src="image.jpg">';
+        $sanitized = $this->sanitizer->sanitize($html);
+        $this->assertStringContainsString('alt=""', $sanitized);
+        $this->assertStringContainsString('loading="lazy"', $sanitized);
+
+        $html2 = '<img src="image.jpg" alt="Description" loading="eager">';
+        $sanitized2 = $this->sanitizer->sanitize($html2);
+        $this->assertStringContainsString('alt="Description"', $sanitized2);
+        $this->assertStringContainsString('loading="eager"', $sanitized2);
+    }
+
+    /**
+     * Test sanitizeForPreview method
+     */
+    public function test_sanitize_for_preview(): void
+    {
+        // Empty/null
+        $this->assertNull($this->sanitizer->sanitizeForPreview(null));
+        $this->assertEquals('', $this->sanitizer->sanitizeForPreview(''));
+
+        // HTML stripping
+        $html = '<p>Hello <strong>World</strong>!</p>';
+        $this->assertEquals('Hello World!', $this->sanitizer->sanitizeForPreview($html));
+
+        // Length limit
+        $htmlLong = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.';
+        $preview = $this->sanitizer->sanitizeForPreview($htmlLong, 20);
+        $this->assertEquals('Lorem ipsum dolor si...', $preview);
+    }
+
+    /**
+     * Test isDangerous method
+     */
+    public function test_is_dangerous(): void
+    {
+        // Empty/null
+        $this->assertFalse($this->sanitizer->isDangerous(null));
+        $this->assertFalse($this->sanitizer->isDangerous(''));
+
+        // Safe
+        $this->assertFalse($this->sanitizer->isDangerous('<p>Safe content</p>'));
+
+        // Dangerous script
+        $this->assertTrue($this->sanitizer->isDangerous('<script>alert(1)</script>'));
+
+        // Dangerous event handler
+        $this->assertTrue($this->sanitizer->isDangerous('<p onclick="alert(1)">Click</p>'));
+
+        // Dangerous javascript protocol
+        $this->assertTrue($this->sanitizer->isDangerous('<a href="javascript:alert(1)">Link</a>'));
+
+        // Dangerous iframe
+        $this->assertTrue($this->sanitizer->isDangerous('<iframe></iframe>'));
     }
 }

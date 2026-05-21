@@ -36,9 +36,7 @@ class PublikasiFactory extends Factory
             // Dummy thumbnail agar semua data punya gambar
             'thumbnail' => 'publikasi/thumbnails/dummy.jpg',
 
-            'tanggal_publikasi' => $status === 'published'
-                ? fake()->dateTimeBetween('-1 year', 'now')
-                : null,
+            'tanggal_publikasi' => fake()->dateTimeBetween('-1 year', 'now'),
 
             'status' => $status,
             'jumlah_download' => fake()->numberBetween(0, 500),
@@ -64,7 +62,7 @@ class PublikasiFactory extends Factory
     {
         return $this->state(fn(array $attributes) => [
             'status' => 'draft',
-            'tanggal_publikasi' => null,
+            'tanggal_publikasi' => fake()->dateTimeBetween('-1 year', 'now'),
         ]);
     }
 

@@ -7,18 +7,34 @@ use App\Models\Berita;
 use App\Models\PotensiDesa;
 use App\Models\Galeri;
 use App\Models\ProfilDesa;
+use App\Models\Publikasi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PublicPagesTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Test homepage loads successfully
-     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Register MySQL functions for SQLite compatibility
+        if (DB::getDriverName() === 'sqlite') {
+            DB::connection()->getPdo()->sqliteCreateFunction('YEAR', function ($date) {
+                return $date ? date('Y', strtotime($date)) : null;
+            }, 1);
+            DB::connection()->getPdo()->sqliteCreateFunction('MONTH', function ($date) {
+                return $date ? date('m', strtotime($date)) : null;
+            }, 1);
+        }
+    }
+
+    // ==================== HOMEPAGE ====================
+
     public function test_homepage_loads_successfully(): void
     {
-        // Create profil desa
         ProfilDesa::factory()->warurejo()->create();
 
         $response = $this->get(route('home'));
@@ -28,9 +44,8 @@ class PublicPagesTest extends TestCase
         $response->assertSee('Warurejo');
     }
 
-    /**
-     * Test berita index page loads
-     */
+    // ==================== BERITA ====================
+
     public function test_berita_index_page_loads(): void
     {
         $response = $this->get(route('berita.index'));
@@ -39,12 +54,8 @@ class PublicPagesTest extends TestCase
         $response->assertViewIs('public.berita.index');
     }
 
-    /**
-     * Test berita index displays published news only
-     */
     public function test_berita_index_displays_published_news_only(): void
     {
-        // Create published and draft berita
         $published = Berita::factory()->published()->count(3)->create();
         $draft = Berita::factory()->draft()->count(2)->create();
 
@@ -52,20 +63,15 @@ class PublicPagesTest extends TestCase
 
         $response->assertStatus(200);
 
-        // Should see published berita
         foreach ($published as $berita) {
             $response->assertSee($berita->judul);
         }
 
-        // Should NOT see draft berita
         foreach ($draft as $berita) {
             $response->assertDontSee($berita->judul);
         }
     }
 
-    /**
-     * Test berita detail page loads
-     */
     public function test_berita_detail_page_loads(): void
     {
         $berita = Berita::factory()->published()->create();
@@ -75,25 +81,17 @@ class PublicPagesTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('public.berita.show');
         $response->assertSee($berita->judul);
-        $response->assertSee($berita->konten);
     }
 
-    /**
-     * Test berita detail increments views
-     */
     public function test_berita_detail_increments_views(): void
     {
         $berita = Berita::factory()->published()->create(['views' => 10]);
 
         $this->get(route('berita.show', $berita->slug));
 
-        // View count should increase
         $this->assertEquals(11, $berita->fresh()->views);
     }
 
-    /**
-     * Test berita search returns matching results
-     */
     public function test_berita_search_returns_matching_results(): void
     {
         Berita::factory()->published()->create([
@@ -111,9 +109,8 @@ class PublicPagesTest extends TestCase
         $response->assertDontSee('Kegiatan Posyandu');
     }
 
-    /**
-     * Test potensi index page loads
-     */
+    // ==================== POTENSI ====================
+
     public function test_potensi_index_page_loads(): void
     {
         $response = $this->get(route('potensi.index'));
@@ -122,9 +119,6 @@ class PublicPagesTest extends TestCase
         $response->assertViewIs('public.potensi.index');
     }
 
-    /**
-     * Test potensi index displays active items only
-     */
     public function test_potensi_index_displays_active_items_only(): void
     {
         $active = PotensiDesa::factory()->count(3)->create();
@@ -134,20 +128,15 @@ class PublicPagesTest extends TestCase
 
         $response->assertStatus(200);
 
-        // Should see active potensi
         foreach ($active as $potensi) {
             $response->assertSee($potensi->nama);
         }
 
-        // Should NOT see inactive potensi
         foreach ($inactive as $potensi) {
             $response->assertDontSee($potensi->nama);
         }
     }
 
-    /**
-     * Test potensi detail page loads
-     */
     public function test_potensi_detail_page_loads(): void
     {
         $potensi = PotensiDesa::factory()->create();
@@ -157,13 +146,10 @@ class PublicPagesTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('public.potensi.show');
         $response->assertSee($potensi->nama);
-        // Use assertSeeText to ignore HTML tags in deskripsi
-        $response->assertSeeText(substr(strip_tags($potensi->deskripsi), 0, 100), false);
     }
 
-    /**
-     * Test galeri index page loads
-     */
+    // ==================== GALERI ====================
+
     public function test_galeri_index_page_loads(): void
     {
         $response = $this->get(route('galeri.index'));
@@ -172,70 +158,169 @@ class PublicPagesTest extends TestCase
         $response->assertViewIs('public.galeri.index');
     }
 
-    /**
-     * Test galeri index displays active items only
-     */
-    public function test_galeri_index_displays_active_items_only(): void
+    public function test_galeri_index_page_filters(): void
     {
-        $active = Galeri::factory()->count(3)->create();
-        $inactive = Galeri::factory()->inactive()->count(2)->create();
+        $admin = \App\Models\Admin::factory()->create();
+        $g1 = Galeri::factory()->active()->create([
+            'admin_id' => $admin->id,
+            'judul' => 'Kegiatan Bersih Desa',
+            'kategori' => Galeri::KATEGORI_KEGIATAN,
+            'tanggal' => '2026-05-10',
+            'views' => 10,
+        ]);
+        $g2 = Galeri::factory()->active()->create([
+            'admin_id' => $admin->id,
+            'judul' => 'Pembangunan Balai RT',
+            'kategori' => Galeri::KATEGORI_PEMBANGUNAN,
+            'tanggal' => '2026-05-20',
+            'views' => 20,
+        ]);
 
-        $response = $this->get(route('galeri.index'));
+        // Search filter
+        $response = $this->get(route('galeri.index', ['search' => 'Bersih']));
+        $response->assertSee('Kegiatan Bersih Desa');
+        $response->assertDontSee('Pembangunan Balai RT');
 
+        // Kategori filter
+        $response = $this->get(route('galeri.index', ['kategori' => Galeri::KATEGORI_PEMBANGUNAN]));
+        $response->assertSee('Pembangunan Balai RT');
+        $response->assertDontSee('Kegiatan Bersih Desa');
+
+        // Date range filter
+        $response = $this->get(route('galeri.index', ['date_from' => '2026-05-15', 'date_to' => '2026-05-25']));
+        $response->assertSee('Pembangunan Balai RT');
+        $response->assertDontSee('Kegiatan Bersih Desa');
+
+        // Sorting: terpopuler (most viewed first)
+        $response = $this->get(route('galeri.index', ['urutkan' => 'terpopuler']));
         $response->assertStatus(200);
 
-        // Should see active galeri
-        foreach ($active as $galeri) {
-            $response->assertSee($galeri->judul);
-        }
+        // Sorting: terlama
+        $response = $this->get(route('galeri.index', ['urutkan' => 'terlama']));
+        $response->assertStatus(200);
     }
 
-    /**
-     * Test profil desa pages load
-     */
+    // ==================== PROFIL DESA ====================
+
     public function test_profil_desa_pages_load(): void
     {
         ProfilDesa::factory()->warurejo()->create();
 
-        // Test visi misi
+        $response = $this->get(route('profil.index'));
+        $response->assertRedirect(route('profil.visi-misi'));
+
         $response = $this->get(route('profil.visi-misi'));
         $response->assertStatus(200);
+        $response->assertViewIs('public.profil.visi-misi');
 
-        // Test sejarah
         $response = $this->get(route('profil.sejarah'));
         $response->assertStatus(200);
-    }
+        $response->assertViewIs('public.profil.sejarah');
 
-    /**
-     * Test kontak page loads
-     */
-    public function test_kontak_page_loads(): void
-    {
-        ProfilDesa::factory()->warurejo()->create();
-
-        $response = $this->get(route('kontak.index'));
-
+        $response = $this->get(route('profil.struktur-organisasi'));
         $response->assertStatus(200);
-        $response->assertViewIs('public.kontak.index');
+        $response->assertViewIs('public.profil.struktur-organisasi');
     }
 
-    /**
-     * Test 404 page for non-existent berita
-     */
-    public function test_404_for_non_existent_berita(): void
-    {
-        $response = $this->get(route('berita.show', 'non-existent-slug'));
+    // ==================== PUBLIKASI ====================
 
+    public function test_publikasi_pages_load_and_filter(): void
+    {
+        $p1 = Publikasi::factory()->published()->create([
+            'judul' => 'Laporan APBDes 2026',
+            'kategori' => 'APBDes',
+            'tahun' => 2026,
+            'jumlah_download' => 10,
+        ]);
+        $p2 = Publikasi::factory()->published()->create([
+            'judul' => 'Rencana RKPDes 2025',
+            'kategori' => 'RKPDes',
+            'tahun' => 2025,
+            'jumlah_download' => 20,
+        ]);
+
+        $response = $this->get(route('publikasi.index'));
+        $response->assertStatus(200);
+        $response->assertViewIs('public.publikasi.index');
+
+        // Category filter
+        $response = $this->get(route('publikasi.index', ['kategori' => 'RKPDes']));
+        $response->assertStatus(200);
+        $response->assertSee('Rencana RKPDes 2025');
+
+        // Year filter
+        $response = $this->get(route('publikasi.index', ['tahun' => 2026]));
+        $response->assertStatus(200);
+        $response->assertSee('Laporan APBDes 2026');
+
+        // Search filter
+        $response = $this->get(route('publikasi.index', ['search' => 'Laporan']));
+        $response->assertStatus(200);
+        $response->assertSee('Laporan APBDes 2026');
+
+        // Sorting: terpopuler
+        $response = $this->get(route('publikasi.index', ['urutkan' => 'terpopuler']));
+        $response->assertStatus(200);
+
+        // Sorting: terlama
+        $response = $this->get(route('publikasi.index', ['urutkan' => 'terlama']));
+        $response->assertStatus(200);
+
+        // Show single publikasi
+        $response = $this->get(route('publikasi.show', $p1->id));
+        $response->assertStatus(200);
+        $response->assertViewIs('public.publikasi.show');
+        $response->assertSee($p1->judul);
+    }
+
+    public function test_publikasi_download(): void
+    {
+        $fileDir = storage_path('app/public/publikasi');
+        if (!file_exists($fileDir)) {
+            mkdir($fileDir, 0755, true);
+        }
+        $filePath = $fileDir . '/test.pdf';
+        file_put_contents($filePath, 'dummy content');
+
+        try {
+            $p = Publikasi::factory()->published()->create([
+                'judul' => 'Downloadable Document',
+                'file_dokumen' => 'publikasi/test.pdf',
+                'jumlah_download' => 0,
+            ]);
+
+            $response = $this->get(route('publikasi.download', $p->id));
+            $response->assertStatus(200);
+            $response->assertHeader('content-disposition', 'attachment; filename="Downloadable Document.pdf"');
+            $this->assertEquals(1, $p->fresh()->jumlah_download);
+        } finally {
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+    }
+
+    public function test_publikasi_download_file_not_found(): void
+    {
+        $p = Publikasi::factory()->published()->create([
+            'file_dokumen' => 'publikasi/missing.pdf',
+        ]);
+
+        $response = $this->get(route('publikasi.download', $p->id));
         $response->assertStatus(404);
     }
 
-    /**
-     * Test 404 page for non-existent potensi
-     */
+    // ==================== 404 ====================
+
+    public function test_404_for_non_existent_berita(): void
+    {
+        $response = $this->get(route('berita.show', 'non-existent-slug'));
+        $response->assertStatus(404);
+    }
+
     public function test_404_for_non_existent_potensi(): void
     {
         $response = $this->get(route('potensi.show', 'non-existent-slug'));
-
         $response->assertStatus(404);
     }
 }

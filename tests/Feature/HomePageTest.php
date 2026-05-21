@@ -56,7 +56,7 @@ class HomePageTest extends TestCase
     {
         $potensi = PotensiDesa::factory()
             ->count(3)
-            ->create(['is_active' => true]);
+            ->create(['status' => 'published', 'published_at' => now()]);
 
         $response = $this->get(route('home'));
 
@@ -77,7 +77,7 @@ class HomePageTest extends TestCase
         $galeri = Galeri::factory()
             ->count(3)
             ->for($admin)
-            ->create(['is_active' => true]);
+            ->create(['status' => 'published', 'published_at' => now()]);
 
         $response = $this->get(route('home'));
 

@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests;
+namespace Tests\Traits;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\DB;
 
-abstract class TestCase extends BaseTestCase
+trait RegistersSqliteFunctions
 {
-    protected function setUp(): void
+    /**
+     * Register MySQL-compatible functions for SQLite testing.
+     * Call this in setUp() for any test that may trigger MySQL-specific SQL functions.
+     */
+    protected function registerSqliteFunctions(): void
     {
-        parent::setUp();
-
-        // Register MySQL-compatible functions for SQLite testing environment
         if (DB::getDriverName() === 'sqlite') {
             $pdo = DB::connection()->getPdo();
             $pdo->sqliteCreateFunction('YEAR', function ($date) {

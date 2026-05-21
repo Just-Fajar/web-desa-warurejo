@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('file_dokumen'); // Path ke file PDF
             $table->string('thumbnail')->nullable(); // Optional thumbnail
             $table->date('tanggal_publikasi');
-            $table->enum('status', ['draft', 'published'])->default('published');
+            $table->enum('status', ['draft', 'scheduled', 'published'])->default('published');
             $table->integer('jumlah_download')->default(0);
             $table->timestamps();
 

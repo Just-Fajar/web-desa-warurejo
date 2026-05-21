@@ -59,6 +59,7 @@ class TrackVisitor
                     'page_url' => $request->fullUrl(),
                     'referer' => $request->header('referer'),
                 ]);
+                $this->updateDailyStats($today, true);
             } else {
                 // Update last visit dan increment visit_count
                 $visitor->update([
@@ -66,6 +67,7 @@ class TrackVisitor
                     'page_url' => $request->fullUrl(),
                     'visit_count' => DB::raw('visit_count + 1'),
                 ]);
+                $this->updateDailyStats($today, false);
             }
         } catch (\Exception $e) {
             // Silent fail - tidak mengganggu user experience
@@ -114,19 +116,19 @@ class TrackVisitor
 
     /**
      * Update daily visitor statistics
-
      */
-    private function updateDailyStats(string $date): void
+    private function updateDailyStats(string $date, bool $isUnique): void
     {
         try {
-
-            DailyVisitorStat::updateOrCreate(
+            $stat = DailyVisitorStat::firstOrCreate(
                 ['date' => $date],
-                [
-                    'unique_visitors' => DB::raw('unique_visitors + 1'),
-                    'page_views' => DB::raw('page_views + 1'),
-                ]
+                ['unique_visitors' => 0, 'page_views' => 0]
             );
+
+            $stat->increment('page_views');
+            if ($isUnique) {
+                $stat->increment('unique_visitors');
+            }
         } catch (\Exception $e) {
             Log::error('Daily stats update error: ' . $e->getMessage());
         }
