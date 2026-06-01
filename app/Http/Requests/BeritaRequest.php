@@ -29,12 +29,12 @@ class BeritaRequest extends FormRequest
 
         // Validation for create
         if ($this->isMethod('post')) {
-            $rules['gambar_utama'] = 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048';
+            $rules['gambar_utama'] = 'nullable|image|mimes:jpeg,jpg,png,webp|mimetypes:image/jpeg,image/png,image/webp|max:2048';
         }
 
         // Validation for update
         if ($this->isMethod('put') || $this->isMethod('patch')) {
-            $rules['gambar_utama'] = 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048';
+            $rules['gambar_utama'] = 'nullable|image|mimes:jpeg,jpg,png,webp|mimetypes:image/jpeg,image/png,image/webp|max:2048';
         }
 
         return $rules;

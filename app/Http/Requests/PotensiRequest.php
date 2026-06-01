@@ -28,8 +28,8 @@ class PotensiRequest extends FormRequest
             'kategori' => 'required|in:pertanian,peternakan,perikanan,umkm,wisata,lainnya',
             'deskripsi' => 'required|string',
             'gambar' => $potensiId
-                ? 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
-                : 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+                ? 'nullable|image|mimes:jpeg,png,jpg,webp|mimetypes:image/jpeg,image/png,image/webp|max:2048'
+                : 'required|image|mimes:jpeg,png,jpg,webp|mimetypes:image/jpeg,image/png,image/webp|max:2048',
             'lokasi' => 'nullable|string|max:255',
             'info_utama' => 'nullable|string|max:255',
             'nama_pengelola' => 'required|string|max:255',
@@ -38,7 +38,7 @@ class PotensiRequest extends FormRequest
             'status' => 'required|in:draft,scheduled,published',
             'published_at' => 'nullable|date',
             'foto_galeri' => 'nullable|array',
-            'foto_galeri.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'foto_galeri.*' => 'image|mimes:jpeg,png,jpg,webp|mimetypes:image/jpeg,image/png,image/webp|max:2048',
         ];
 
         // Jika status scheduled, published_at wajib dan harus di masa depan

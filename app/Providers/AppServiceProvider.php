@@ -28,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Load helpers
+        require_once app_path('Helpers/SecurityHelper.php');
+
         // Register Repositories
         $this->app->singleton(BeritaRepository::class, function ($app) {
             return new BeritaRepository(new Berita);
@@ -92,5 +95,23 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
+
+        // Register custom blade directive for CSP nonce
+        \Illuminate\Support\Facades\Blade::directive('nonce', function () {
+            return 'nonce="<?php echo csp_nonce(); ?>"';
+        });
+
+        // Integrate CSP nonce with Vite compiler
+        \Illuminate\Support\Facades\Vite::useCspNonce(csp_nonce());
+
+        // Define rate limiter for public forms (pengaduan submission)
+        \Illuminate\Support\Facades\RateLimiter::for('public-forms', function (\Illuminate\Http\Request $request) {
+            return \Illuminate\Cache\RateLimiting\Limit::perMinute(5)->by($request->ip());
+        });
+
+        // Define rate limiter for public page views (anti-scraping)
+        \Illuminate\Support\Facades\RateLimiter::for('public-pages', function (\Illuminate\Http\Request $request) {
+            return \Illuminate\Cache\RateLimiting\Limit::perMinute(60)->by($request->ip());
+        });
     }
 }

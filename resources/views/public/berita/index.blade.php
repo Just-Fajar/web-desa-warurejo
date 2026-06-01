@@ -147,7 +147,7 @@
                                         {{ number_format($item->views) }} kali dilihat
                                     </span>
                                     @if($item->admin)
-                                        <span class="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5 border border-gray-100 shrink-0 max-w-[160px]" title="Dipublikasikan oleh {{ $item->admin->name ?? $item->admin->username }}">
+                                        <span class="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5 border border-gray-100 shrink-0 max-w-40" title="Dipublikasikan oleh {{ $item->admin->name ?? $item->admin->username }}">
                                             <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                             <span class="truncate">{{ $item->admin->name ?? $item->admin->username }}</span>
                                         </span>

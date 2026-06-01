@@ -45,6 +45,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminAuthenticate::class,
             'admin.guest' => \App\Http\Middleware\RedirectIfAdmin::class,
             'auto.publish' => \App\Http\Middleware\PublishScheduledContent::class,
+            'api.cache' => \App\Http\Middleware\ApiCacheMiddleware::class,
+            'api.version' => \App\Http\Middleware\ApiVersionNotice::class,
         ]);
 
         /**
@@ -59,6 +61,7 @@ return Application::configure(basePath: dirname(__DIR__))
          */
         $middleware->web(append: [
             \App\Http\Middleware\TrackVisitor::class,
+            \App\Http\Middleware\SecurityHeaders::class,
         ]);
 
         /**
@@ -70,8 +73,47 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     /**
      * Exception Handling
-     * Custom error handling bisa ditambahkan disini
+     * Custom error handling untuk API routes
      */
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Illuminate\Validation\ValidationException $e, $request) {
+            if ($request->is('api/*')) {
+                return \App\Http\Responses\ApiResponse::error(
+                    $e->getMessage(),
+                    422,
+                    $e->errors()
+                );
+            }
+        });
+
+        $exceptions->render(function (\Illuminate\Database\Eloquent\ModelNotFoundException $e, $request) {
+            if ($request->is('api/*')) {
+                return \App\Http\Responses\ApiResponse::error(
+                    'Resource not found',
+                    404
+                );
+            }
+        });
+
+        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, $request) {
+            if ($request->is('api/*')) {
+                return \App\Http\Responses\ApiResponse::error(
+                    'Unauthenticated',
+                    401
+                );
+            }
+        });
+
+        $exceptions->render(function (\Throwable $e, $request) {
+            if ($request->is('api/*')) {
+                $code = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
+                $message = $e->getMessage() ?: 'Internal Server Error';
+                
+                if ($code === 500 && !config('app.debug')) {
+                    $message = 'An unexpected error occurred.';
+                }
+                
+                return \App\Http\Responses\ApiResponse::error($message, $code);
+            }
+        });
     })->create();

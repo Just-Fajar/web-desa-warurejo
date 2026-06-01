@@ -61,7 +61,7 @@
 
                                 {{-- Delete Button --}}
                                 @if($admin->avatar)
-                                    <button type="button" onclick="deletePhoto()"
+                                    <button type="button" id="btnDeletePhoto"
                                         class="absolute -top-2 -right-2 bg-rose-500 hover:bg-rose-600 text-white rounded-full p-2.5 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-200"
                                         title="Hapus Foto">
                                         <i class="fas fa-trash-alt text-xs"></i>
@@ -77,7 +77,7 @@
                                 <input type="file" id="photoInput" accept="image/jpeg,image/jpg,image/png" class="hidden">
 
                                 {{-- Upload Button --}}
-                                <button type="button" onclick="document.getElementById('photoInput').click()"
+                                <button type="button" id="btnSelectPhoto"
                                     class="px-5 py-2.5 bg-primary-50 text-primary-600 hover:bg-primary-600 hover:text-white rounded-xl font-medium transition-all shadow-sm border border-primary-100 hover:border-primary-600 inline-flex items-center gap-2">
                                     <i class="fas fa-camera"></i>
                                     <span>{{ $admin->avatar ? 'Ubah Foto Profil' : 'Upload Foto Baru' }}</span>
@@ -104,11 +104,11 @@
                                             <p class="text-xs text-gray-500 mt-0.5" id="fileSize"></p>
                                         </div>
                                         <div class="flex flex-col sm:flex-row gap-2">
-                                            <button type="button" onclick="uploadPhoto()" id="btnUpload"
+                                            <button type="button" id="btnUpload"
                                                 class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
                                                 <i class="fas fa-check"></i> Upload
                                             </button>
-                                            <button type="button" onclick="cancelPreview()"
+                                            <button type="button" id="btnCancelPreview"
                                                 class="px-4 py-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 text-sm font-medium rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
                                                 Batal
                                             </button>
@@ -350,7 +350,7 @@
                                  alt="Foto Profil" 
                                  class="w-32 h-32 rounded-full object-cover border-4 border-gray-200 shadow-md">
                             <button type="button" 
-                                    onclick="deletePhoto()"
+                                    id="btnDeletePhoto"
                                     class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                                     title="Hapus Foto">
                                 <i class="fas fa-trash-alt text-xs"></i>
@@ -478,6 +478,36 @@
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
         }
+
+        // Attach event listeners for CSP compliance
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnSelectPhoto = document.getElementById('btnSelectPhoto');
+            if (btnSelectPhoto) {
+                btnSelectPhoto.addEventListener('click', function () {
+                    document.getElementById('photoInput').click();
+                });
+            }
+
+            const btnUpload = document.getElementById('btnUpload');
+            if (btnUpload) {
+                btnUpload.addEventListener('click', uploadPhoto);
+            }
+
+            const btnCancelPreview = document.getElementById('btnCancelPreview');
+            if (btnCancelPreview) {
+                btnCancelPreview.addEventListener('click', cancelPreview);
+            }
+
+            const currentPhotoContainer = document.getElementById('currentPhotoContainer');
+            if (currentPhotoContainer) {
+                currentPhotoContainer.addEventListener('click', function (e) {
+                    const btn = e.target.closest('#btnDeletePhoto');
+                    if (btn) {
+                        deletePhoto();
+                    }
+                });
+            }
+        });
     </script>
 
 @endsection

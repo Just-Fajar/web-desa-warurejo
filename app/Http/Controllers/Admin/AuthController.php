@@ -44,9 +44,21 @@ class AuthController extends Controller
         if (Auth::guard('admin')->attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
+            \Illuminate\Support\Facades\Log::channel('security')->info('Admin login successful', [
+                'email' => $credentials['email'],
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+
             return redirect()->intended(route('admin.dashboard'))
                 ->with('success', 'Selamat datang, '.Auth::guard('admin')->user()->name);
         }
+
+        \Illuminate\Support\Facades\Log::channel('security')->warning('Admin login failed', [
+            'email' => $credentials['email'],
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
 
         return back()
             ->withInput($request->only('email'))
@@ -65,6 +77,14 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        $admin = Auth::guard('admin')->user();
+        if ($admin) {
+            \Illuminate\Support\Facades\Log::channel('security')->info('Admin logout', [
+                'email' => $admin->email,
+                'ip' => $request->ip(),
+            ]);
+        }
+
         Auth::guard('admin')->logout();
 
         $request->session()->invalidate();

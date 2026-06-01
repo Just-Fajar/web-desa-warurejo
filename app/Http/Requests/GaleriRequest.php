@@ -41,11 +41,11 @@ class GaleriRequest extends FormRequest
         if ($galeriId) {
             // Update: images optional
             $rules['images'] = 'nullable|array|min:1';
-            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,webp|max:2048';
+            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,webp|mimetypes:image/jpeg,image/png,image/webp|max:2048';
         } else {
             // Create: images required
             $rules['images'] = 'required|array|min:1';
-            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,webp|max:2048';
+            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,webp|mimetypes:image/jpeg,image/png,image/webp|max:2048';
         }
 
         return $rules;

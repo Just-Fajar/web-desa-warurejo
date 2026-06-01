@@ -21,12 +21,15 @@ class PublicPagesTest extends TestCase
 
         // Register MySQL functions for SQLite compatibility
         if (DB::getDriverName() === 'sqlite') {
-            DB::connection()->getPdo()->sqliteCreateFunction('YEAR', function ($date) {
-                return $date ? date('Y', strtotime($date)) : null;
-            }, 1);
-            DB::connection()->getPdo()->sqliteCreateFunction('MONTH', function ($date) {
-                return $date ? date('m', strtotime($date)) : null;
-            }, 1);
+            $pdo = DB::connection()->getPdo();
+            if (method_exists($pdo, 'sqliteCreateFunction')) {
+                call_user_func([$pdo, 'sqliteCreateFunction'], 'YEAR', function ($date) {
+                    return $date ? date('Y', strtotime($date)) : null;
+                }, 1);
+                call_user_func([$pdo, 'sqliteCreateFunction'], 'MONTH', function ($date) {
+                    return $date ? date('m', strtotime($date)) : null;
+                }, 1);
+            }
         }
     }
 
@@ -321,5 +324,23 @@ class PublicPagesTest extends TestCase
     {
         $response = $this->get(route('potensi.show', 'non-existent-slug'));
         $response->assertStatus(404);
+    }
+
+    // ==================== SEO Routes ====================
+
+    public function test_sitemap_xml_loads(): void
+    {
+        $response = $this->get(route('sitemap'));
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/xml');
+    }
+
+    public function test_robots_txt_loads(): void
+    {
+        $response = $this->get(route('robots'));
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
+        $response->assertSee('User-agent: *');
+        $response->assertSee('Sitemap: ');
     }
 }

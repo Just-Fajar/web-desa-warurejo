@@ -143,11 +143,11 @@
                                 {{-- Image Wrapper --}}
                                 <a href="{{ route('potensi.show', $item->slug) }}"
                                     class="relative block h-56 rounded-xl overflow-hidden mb-4">
-                                    <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : asset('images/default-potensi.jpg') }}"
+                                    <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : asset('images/logo-web-desa.webp') }}"
                                         alt="{{ $item->nama }}"
                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                         loading="lazy" decoding="async"
-                                        onerror="this.src='{{ asset('images/logo-web-desa.jpg') }}'">
+                                        onerror="this.src='{{ asset('images/logo-web-desa.webp') }}'">
 
                                     {{-- Gradient Overlay --}}
                                     <div
@@ -182,7 +182,7 @@
                                         </span>
                                         @if($item->lokasi)
                                             <span
-                                                class="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5 border border-gray-100 shrink-0 max-w-[160px]"
+                                                class="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-md text-xs font-medium flex items-center gap-1.5 border border-gray-100 shrink-0 max-w-40"
                                                 title="{{ $item->lokasi }}">
                                                 <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

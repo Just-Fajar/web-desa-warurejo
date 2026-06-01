@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin - Desa Warurejo</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/Logo-Kabupaten.png') }}">
+    <link rel="icon" type="image/webp" href="{{ asset('images/Logo-Kabupaten.webp') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
@@ -107,7 +107,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/90 via-emerald-900/40 to-transparent"></div>
 
             <div class="relative z-10 flex items-center gap-3">
-                <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo"
+                <img src="{{ asset('images/Logo-Kabupaten.webp') }}" alt="Logo"
                     class="w-10 h-10 object-contain drop-shadow-lg">
                 <span class="text-xl font-bold tracking-wide">SID - Warurejo</span>
             </div>
@@ -147,7 +147,7 @@
 
                 <!-- Mobile Header (Visible only on mobile) -->
                 <div class="lg:hidden text-center mb-8">
-                    <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo"
+                    <img src="{{ asset('images/Logo-Kabupaten.webp') }}" alt="Logo"
                         class="w-16 h-16 mx-auto mb-4 drop-shadow-lg">
                     <h2 class="text-2xl font-bold text-white">Login Admin</h2>
                     <p class="text-emerald-100/70 text-sm mt-1">Desa Warurejo</p>

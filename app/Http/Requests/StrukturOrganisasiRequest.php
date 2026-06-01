@@ -33,12 +33,12 @@ class StrukturOrganisasiRequest extends FormRequest
 
         // Validation for create
         if ($this->isMethod('post')) {
-            $rules['foto'] = 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048';
+            $rules['foto'] = 'nullable|image|mimes:jpeg,jpg,png,webp|mimetypes:image/jpeg,image/png,image/webp|max:2048';
         }
 
         // Validation for update
         if ($this->isMethod('put') || $this->isMethod('patch')) {
-            $rules['foto'] = 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048';
+            $rules['foto'] = 'nullable|image|mimes:jpeg,jpg,png,webp|mimetypes:image/jpeg,image/png,image/webp|max:2048';
         }
 
         return $rules;

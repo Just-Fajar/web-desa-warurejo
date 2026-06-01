@@ -1,13 +1,13 @@
 <nav x-data="{ mobileMenuOpen: false, scrolled: {{ request()->routeIs('home') ? 'false' : 'true' }} }"
     x-init="if({{ request()->routeIs('home') ? 'true' : 'false' }}) { scrolled = window.scrollY > 50; window.addEventListener('scroll', () => { scrolled = window.scrollY > 50 }) }"
     :class="scrolled ? 'bg-white shadow-md' : 'bg-transparent backdrop-blur-md'"
-    class="fixed top-0 left-0 right-0 w-full z-[100] transition-all duration-500 navbar-slide-down">
+    class="fixed top-0 left-0 right-0 w-full z-100 transition-all duration-500 navbar-slide-down">
     <div class="container mx-auto px-4">
         <div class="flex justify-between items-center py-4">
             <!-- Logo dan Judul dengan Animasi -->
             <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
                 <div class="relative">
-                    <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo Desa"
+                    <img src="{{ asset('images/Logo-Kabupaten.webp') }}" alt="Logo Desa" width="48" height="48"
                         class="h-12 w-12 transition-all duration-300 ease-out group-hover:scale-105 group-active:rotate-6">
                 </div>
                 <div>
@@ -80,7 +80,7 @@
                         </a>
                         <a href="{{ route('peta-desa') }}" class="dropdown-item">
                             <span class="dropdown-item-icon"></span>
-                            Tentang Kami
+                            Peta Desa
                         </a>
                         <a href="{{ route('pengaduan.index') }}" class="dropdown-item">
                             <span class="dropdown-item-icon"></span>
@@ -193,7 +193,7 @@
                     </a>
                     <a href="{{ route('peta-desa') }}" class="mobile-menu-item pl-10" @click="mobileMenuOpen = false">
                         <span class="text-lg"></span>
-                        Tentang Kami
+                        Peta Desa
                     </a>
                     <a href="{{ route('pengaduan.index') }}" class="mobile-menu-item pl-10"
                         @click="mobileMenuOpen = false">

@@ -36,13 +36,31 @@ class ImageUploadService
      * @param  int  $quality  - kualitas JPEG/WebP 0-100 (default: 85)
      * @return string|null - path file yang tersimpan atau null jika gagal
      */
-    public function upload($image, $folder = 'uploads', $maxWidth = 1200, $maxHeight = null, $quality = 85)
+    public function upload($image, $folder = 'uploads', $maxWidth = 1200, $maxHeight = null, $quality = null)
     {
         if (! $image || ! $image->isValid()) {
             return null;
         }
 
         try {
+            // Apply folder-specific defaults if quality is not explicitly specified
+            if ($quality === null) {
+                if ($folder === 'logo') {
+                    $maxWidth = 400;
+                    $quality = 85;
+                } elseif (in_array($folder, ['berita', 'galeri', 'galleries'])) {
+                    $quality = 80;
+                } elseif (in_array($folder, ['profil', 'profile', 'struktur_organisasi'])) {
+                    $quality = 90;
+                } else {
+                    $quality = 85; // fallback default
+                }
+            }
+
+            if ($folder === 'logo') {
+                $maxWidth = 400;
+            }
+
             // Generate unique filename
             $filename = $this->generateFilename($image);
 
@@ -67,33 +85,30 @@ class ImageUploadService
                 }
             }
 
-            // Encode with quality optimization
-            $extension = strtolower($image->getClientOriginalExtension());
-
-            switch ($extension) {
-                case 'png':
-                    // PNG: use optimization level (0-9)
-                    $encoded = $imageResource->toPng();
-                    break;
-                case 'webp':
-                    // WebP: excellent compression with good quality
-                    $encoded = $imageResource->toWebp(quality: $quality);
-                    break;
-                case 'jpg':
-                case 'jpeg':
-                    // JPEG: standard compression
-                    $encoded = $imageResource->toJpeg(quality: $quality);
-                    break;
-                default:
-                    // Default to JPEG for unknown formats
-                    $encoded = $imageResource->toJpeg(quality: $quality);
-                    break;
-            }
+            // Always encode as WebP for performance
+            $encoded = $imageResource->toWebp(quality: $quality);
 
             // Save to storage
             Storage::disk('public')->put($path, (string) $encoded);
 
             Log::info("Image uploaded successfully: {$path} (Original: {$originalWidth}x{$originalHeight}, Quality: {$quality})");
+
+            // Auto-generate thumbnail (400px) for list/card views (berita/galeri)
+            if (in_array($folder, ['berita', 'galeri', 'galleries'])) {
+                try {
+                    $thumbFolder = 'thumbnails/'.$folder;
+                    $thumbPath = $thumbFolder.'/'.$filename;
+                    
+                    $thumbResource = $this->manager->read((string) $encoded);
+                    $thumbResource->cover(400, 300);
+                    $thumbEncoded = $thumbResource->toWebp(quality: 80);
+                    
+                    Storage::disk('public')->put($thumbPath, (string) $thumbEncoded);
+                    Log::info("Auto-generated thumbnail: {$thumbPath}");
+                } catch (\Exception $thumbEx) {
+                    Log::error("Failed to generate auto-thumbnail: ".$thumbEx->getMessage());
+                }
+            }
 
             return $path;
         } catch (\Exception $e) {
@@ -184,7 +199,7 @@ class ImageUploadService
      */
     protected function generateFilename($image)
     {
-        $extension = $image->getClientOriginalExtension();
+        $extension = 'webp';
         $timestamp = time();
         $random = Str::random(10);
 

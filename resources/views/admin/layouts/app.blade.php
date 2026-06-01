@@ -8,7 +8,7 @@
     <title>@yield('title', 'Admin') - Desa Warurejo</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/Logo-Kabupaten.png') }}">
+    <link rel="icon" type="image/webp" href="{{ asset('images/Logo-Kabupaten.webp') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -40,7 +40,7 @@
 
                     <div class="relative flex items-center gap-3 z-10">
                         <div class="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center p-1.5">
-                            <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo Kabupaten" class="w-full h-full object-contain">
+                            <img src="{{ asset('images/Logo-Kabupaten.webp') }}" alt="Logo Kabupaten" class="w-full h-full object-contain">
                         </div>
                         <h1 class="text-xl font-bold tracking-wide">Desa<span
                                 class="font-normal opacity-80">Warurejo</span></h1>

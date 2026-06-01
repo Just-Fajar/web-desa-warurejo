@@ -72,7 +72,7 @@
                     <div class="mb-8">
                         <!-- Logo -->
                         <div class="flex items-center space-x-3 mb-6">
-                            <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo Desa"
+                            <img src="{{ asset('images/Logo-Kabupaten.webp') }}" alt="Logo Desa"
                                 class="h-16 w-16 bg-white rounded-full p-2">
                             <div>
                                 <h2 class="text-2xl font-bold">Desa Warurejo</h2>

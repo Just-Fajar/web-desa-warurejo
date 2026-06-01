@@ -56,6 +56,18 @@ use Illuminate\Routing\Controller as BaseController;
  *     name="Galeri",
  *     description="Endpoints untuk mengelola dan mengakses galeri foto"
  * )
+ * @OA\Tag(
+ *     name="Profil Desa",
+ *     description="Endpoints untuk mengakses informasi profil desa"
+ * )
+ * @OA\Tag(
+ *     name="Statistik",
+ *     description="Endpoints untuk mengakses data statistik desa dan analitik pengunjung"
+ * )
+ * @OA\Tag(
+ *     name="Publikasi",
+ *     description="Endpoints untuk mengakses dokumen publikasi resmi (APBDes, RPJMDes, RKPDes)"
+ * )
  */
 class Controller extends BaseController
 {

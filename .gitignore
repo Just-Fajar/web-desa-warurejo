@@ -17,6 +17,7 @@ yarn-error.log
 /.phpunit.cache
 /storage/*.key
 /storage/pail
+/storage/api-docs
 /bootstrap/cache/*
 !/bootstrap/cache/.gitkeep
 
@@ -92,3 +93,10 @@ result.xml
 
 # .md
 unit-testing.md
+web-perfomance.md
+web-security.md
+web-db-query.md
+web-Monitoring-Reliability.md
+web-caching.md
+web-api-optimation.md
+perintah.md

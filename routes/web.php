@@ -22,6 +22,37 @@ use Illuminate\Support\Facades\Route;
 
 // SEO Routes
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', function () {
+    $content = "User-agent: *\n";
+    $content .= "Allow: /\n";
+    $content .= "Disallow: /admin/\n";
+    $content .= "Disallow: /admin/*\n";
+    $content .= "Disallow: /storage/private/\n\n";
+    $content .= "Sitemap: " . route('sitemap') . "\n\n";
+    $content .= "Crawl-delay: 1\n\n";
+    $content .= "User-agent: Googlebot\n";
+    $content .= "Allow: /\n\n";
+    $content .= "User-agent: Bingbot\n";
+    $content .= "Allow: /\n\n";
+    $content .= "User-agent: Slurp\n";
+    $content .= "Allow: /\n\n";
+    $content .= "User-agent: DuckDuckBot\n";
+    $content .= "Allow: /\n\n";
+    $content .= "User-agent: Baiduspider\n";
+    $content .= "Allow: /\n\n";
+    $content .= "User-agent: YandexBot\n";
+    $content .= "Allow: /\n\n";
+    $content .= "User-agent: MJ12bot\n";
+    $content .= "Disallow: /\n\n";
+    $content .= "User-agent: AhrefsBot\n";
+    $content .= "Disallow: /\n\n";
+    $content .= "User-agent: SemrushBot\n";
+    $content .= "Disallow: /\n";
+
+    return response($content, 200, [
+        'Content-Type' => 'text/plain',
+    ]);
+})->name('robots');
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -33,27 +64,27 @@ Route::prefix('profil')->name('profil.')->group(function () {
     Route::get('/struktur-organisasi', [ProfilController::class, 'strukturOrganisasi'])->name('struktur-organisasi');
 });
 
-Route::prefix('berita')->name('berita.')->group(function () {
+Route::prefix('berita')->name('berita.')->middleware('throttle:public-pages')->group(function () {
     Route::get('/', [BeritaController::class, 'index'])->name('index');
     Route::get('/autocomplete', [BeritaController::class, 'autocomplete'])->name('autocomplete');
     Route::get('/{slug}', [BeritaController::class, 'show'])->name('show');
 });
 
-Route::prefix('potensi')->name('potensi.')->group(function () {
+Route::prefix('potensi')->name('potensi.')->middleware('throttle:public-pages')->group(function () {
     Route::get('/', [PotensiController::class, 'index'])->name('index');
     Route::get('/{slug}', [PotensiController::class, 'show'])->name('show');
 });
 
-Route::prefix('galeri')->name('galeri.')->group(function () {
+Route::prefix('galeri')->name('galeri.')->middleware('throttle:public-pages')->group(function () {
     Route::get('/', [GaleriController::class, 'index'])->name('index');
 });
 
-Route::prefix('kontak')->name('kontak.')->group(function () {
+Route::prefix('kontak')->name('kontak.')->middleware('throttle:public-pages')->group(function () {
     Route::get('/', [KontakController::class, 'index'])->name('index');
 });
 
 // Publikasi Routes
-Route::prefix('publikasi')->name('publikasi.')->group(function () {
+Route::prefix('publikasi')->name('publikasi.')->middleware('throttle:public-pages')->group(function () {
     Route::get('/', [PublikasiController::class, 'index'])->name('index');
     Route::get('/{id}', [PublikasiController::class, 'show'])->name('show');
     Route::get('/{id}/download', [PublikasiController::class, 'download'])->name('download');
@@ -62,13 +93,13 @@ Route::prefix('publikasi')->name('publikasi.')->group(function () {
 // Peta Desa
 Route::get('/peta-desa', function () {
     return view('public.peta-desa');
-})->name('peta-desa');
+})->name('peta-desa')->middleware('throttle:public-pages');
 
 // Pengaduan Publik
 Route::prefix('pengaduan')->name('pengaduan.')->group(function () {
-    Route::get('/', [PengaduanController::class, 'index'])->name('index');
-    Route::get('/{id}', [PengaduanController::class, 'show'])->name('show');
-    Route::post('/', [PengaduanController::class, 'store'])->name('store');
+    Route::get('/', [PengaduanController::class, 'index'])->name('index')->middleware('throttle:public-pages');
+    Route::get('/{id}', [PengaduanController::class, 'show'])->name('show')->middleware('throttle:public-pages');
+    Route::post('/', [PengaduanController::class, 'store'])->name('store')->middleware('throttle:public-forms');
 });
 
 // Admin Routes

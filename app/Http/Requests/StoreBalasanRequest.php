@@ -17,7 +17,7 @@ class StoreBalasanRequest extends FormRequest
             'isi' => 'nullable|string',
             'status' => 'required|in:Menunggu,Diproses,Selesai,Ditolak',
             'alasan_penolakan' => 'nullable|string|max:1000',
-            'lampiran_balasan' => 'nullable|file|mimes:jpg,jpeg,png|max:5120',
+            'lampiran_balasan' => 'nullable|file|mimes:jpg,jpeg,png|mimetypes:image/jpeg,image/png|max:5120',
         ];
     }
 

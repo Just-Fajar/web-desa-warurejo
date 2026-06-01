@@ -42,6 +42,8 @@ class ProfileController extends Controller
 
             return redirect()->route('admin.profile.show')
                 ->with('success', 'Profil berhasil diperbarui!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             Log::error('Error updating admin profile', [
                 'admin_id' => auth()->guard('admin')->id(),
@@ -52,7 +54,7 @@ class ProfileController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Terjadi kesalahan saat memperbarui profil: '.$e->getMessage());
+                ->with('error', 'Terjadi kesalahan saat memperbarui profil.');
         }
     }
 
@@ -65,11 +67,13 @@ class ProfileController extends Controller
             // Cek apakah mode lupa password
             $lupaPassword = $request->has('lupa_password');
 
+            $passwordRule = Password::min(8);
+
             if ($lupaPassword) {
                 // Mode LUPA PASSWORD: Verifikasi email, tidak perlu password lama
                 $validated = $request->validate([
                     'email_verifikasi' => 'required|email',
-                    'password' => ['required', 'confirmed', Password::min(8)],
+                    'password' => ['required', 'confirmed', $passwordRule],
                 ], [
                     'email_verifikasi.required' => 'Email wajib diisi untuk verifikasi',
                     'email_verifikasi.email' => 'Format email tidak valid',
@@ -83,7 +87,7 @@ class ProfileController extends Controller
                 // Mode NORMAL: Perlu password lama
                 $validated = $request->validate([
                     'current_password' => 'required',
-                    'password' => ['required', 'confirmed', Password::min(8)],
+                    'password' => ['required', 'confirmed', $passwordRule],
                 ]);
 
                 // Check current password
@@ -97,12 +101,21 @@ class ProfileController extends Controller
                 'password' => Hash::make($validated['password']),
             ]);
 
+            Log::channel('security')->info('Admin password updated', [
+                'admin_id' => $admin->id,
+                'email' => $admin->email,
+                'ip' => $request->ip(),
+                'mode' => $lupaPassword ? 'reset' : 'normal',
+            ]);
+
             $message = $lupaPassword
                 ? 'Password berhasil direset!'
                 : 'Password berhasil diubah!';
 
             return redirect()->route('admin.profile.show')
                 ->with('success', $message);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             Log::error('Error updating admin password', [
                 'admin_id' => auth()->guard('admin')->id(),
@@ -111,7 +124,7 @@ class ProfileController extends Controller
 
             return redirect()
                 ->back()
-                ->with('error', 'Terjadi kesalahan saat memperbarui password: '.$e->getMessage());
+                ->with('error', 'Terjadi kesalahan saat memperbarui password.');
         }
     }
 
@@ -122,11 +135,12 @@ class ProfileController extends Controller
             $admin = auth()->guard('admin')->user();
 
             $validated = $request->validate([
-                'photo' => 'required|image|mimes:jpeg,jpg,png|max:2048', // 2MB max
+                'photo' => 'required|image|mimes:jpeg,jpg,png|mimetypes:image/jpeg,image/png|max:2048', // 2MB max
             ], [
                 'photo.required' => 'Foto profil wajib diupload',
                 'photo.image' => 'File harus berupa gambar',
                 'photo.mimes' => 'Format foto harus jpeg, jpg, atau png',
+                'photo.mimetypes' => 'Format foto harus jpeg, jpg, atau png',
                 'photo.max' => 'Ukuran foto maksimal 2MB',
             ]);
 
@@ -153,11 +167,20 @@ class ProfileController extends Controller
             // Update admin photo path
             $admin->update(['avatar' => $path]);
 
+            Log::channel('security')->info('Admin profile photo updated', [
+                'admin_id' => $admin->id,
+                'email' => $admin->email,
+                'ip' => $request->ip(),
+                'path' => $path,
+            ]);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Foto profil berhasil diupdate!',
                 'photo_url' => asset('storage/'.$path),
             ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             Log::error('Error updating admin photo', [
                 'admin_id' => auth()->guard('admin')->id(),
@@ -167,12 +190,12 @@ class ProfileController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal mengupload foto: '.$e->getMessage(),
+                'message' => 'Gagal mengupload foto.',
             ], 500);
         }
     }
 
-    public function deletePhoto()
+    public function deletePhoto(Request $request)
     {
         try {
             /** @var \App\Models\Admin $admin */
@@ -183,6 +206,12 @@ class ProfileController extends Controller
             }
 
             $admin->update(['avatar' => null]);
+
+            Log::channel('security')->info('Admin profile photo deleted', [
+                'admin_id' => $admin->id,
+                'email' => $admin->email,
+                'ip' => $request->ip(),
+            ]);
 
             return response()->json([
                 'success' => true,
@@ -196,7 +225,7 @@ class ProfileController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menghapus foto: '.$e->getMessage(),
+                'message' => 'Gagal menghapus foto.',
             ], 500);
         }
     }

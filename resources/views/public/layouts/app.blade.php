@@ -40,22 +40,28 @@
 
     {{-- Structured Data (JSON-LD) --}}
     @if(isset($structuredData))
-        <script type="application/ld+json">
+        <script type="application/ld+json" @nonce>
                 {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
             </script>
     @else
         {{-- Default Organization Schema --}}
-        <script type="application/ld+json">
+        <script type="application/ld+json" @nonce>
                 {!! json_encode(SEOHelper::getOrganizationSchema(), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
             </script>
     @endif
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/Logo-Kabupaten.png') }}">
+    <link rel="icon" type="image/webp" href="{{ asset('images/Logo-Kabupaten.webp') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="preload" as="style" href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet">
+
+    {{-- LCP Preloading for Homepage --}}
+    @if(request()->routeIs('home') || request()->is('/'))
+        <link rel="preload" as="image" href="{{ asset('images/logo-web-desa.webp') }}" fetchpriority="high">
+    @endif
 
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])

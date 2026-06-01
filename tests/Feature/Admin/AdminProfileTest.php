@@ -231,9 +231,9 @@ class AdminProfileTest extends TestCase
                 'photo' => UploadedFile::fake()->create('doc.pdf', 100, 'application/pdf'),
             ]);
 
-        // Controller catches ValidationException in try-catch, returns 500 JSON
-        $response->assertStatus(500);
-        $response->assertJson(['success' => false]);
+        // ValidationException returns 422 JSON response with error messages
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['photo']);
     }
 
     // ==================== DELETE PHOTO ====================

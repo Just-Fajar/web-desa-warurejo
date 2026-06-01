@@ -4,7 +4,7 @@
 
             {{-- Kolom 1: Logo kiri pojok --}}
             <div class="flex justify-start items-center">
-                <img src="{{ asset('images/Logo-Kabupaten.png') }}" alt="Logo Kabupaten Madiun"
+                <img src="{{ asset('images/Logo-Kabupaten.webp') }}" alt="Logo Kabupaten Madiun" width="144" height="144"
                     class="h-28 w-28 md:h-32 md:w-32 lg:h-36 lg:w-36 object-contain">
             </div>
 
@@ -60,7 +60,7 @@
                     </li>
                     <li><a href="{{ route('profil.sejarah') }}" class="hover:text-white transition">Sejarah</a></li>
                     <li><a href="{{ route('profil.struktur-organisasi') }}" class="hover:text-white transition">Struktur
-                            Organisasi</a></li>
+                            Organisasi dan Tata Kerja</a></li>
                 </ul>
             </div>
 
@@ -71,7 +71,7 @@
                     <li><a href="{{ route('berita.index') }}" class="hover:text-white transition">Berita</a></li>
                     <li><a href="{{ route('potensi.index') }}" class="hover:text-white transition">Potensi</a></li>
                     <li><a href="{{ route('galeri.index') }}" class="hover:text-white transition">Dokumentasi</a></li>
-                    <li><a href="{{ route('peta-desa') }}" class="hover:text-white transition">Tentang Kami</a></li>
+                    <li><a href="{{ route('peta-desa') }}" class="hover:text-white transition">Peta Desa</a></li>
                     <li><a href="{{ route('pengaduan.index') }}" class="hover:text-white transition">Tanya
                             Jawab & Pengaduan</a></li>
                 </ul>
@@ -93,7 +93,7 @@
 
                     {{-- Instagram --}}
                     <a href="https://www.instagram.com/desawarurejo?igsh=Mjl6NHY0MXhvZXMw" target="_blank"
-                        rel="noopener noreferrer" class="w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 
+                        rel="noopener noreferrer" class="w-10 h-10 bg-linear-to-br from-purple-600 via-pink-600 to-orange-500 
                             text-white rounded-full flex items-center justify-center 
                             hover:opacity-90 transition transform hover:scale-110 shadow-md">
 

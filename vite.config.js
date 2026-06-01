@@ -10,4 +10,10 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    build: {
+        minify: 'esbuild',
+    },
+    esbuild: {
+        drop: ['console', 'debugger'],
+    },
 });

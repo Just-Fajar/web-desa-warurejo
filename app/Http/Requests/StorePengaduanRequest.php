@@ -19,7 +19,7 @@ class StorePengaduanRequest extends FormRequest
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
             'lokasi_kejadian' => 'required|string|max:255',
-            'lampiran' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120', // max 5MB
+            'lampiran' => 'nullable|file|mimes:jpg,jpeg,png,pdf|mimetypes:image/jpeg,image/png,application/pdf|max:5120', // max 5MB
         ];
     }
 

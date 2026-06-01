@@ -72,13 +72,21 @@ class ImageCompressionService
      *
      * @return string path file
      */
-    public function convertToWebP(UploadedFile $file, string $path = 'images', int $maxWidth = 1920, int $quality = 85): string
+    public function convertToWebP(mixed $file, string $path = 'images', int $maxWidth = 1920, int $quality = 85): string
     {
-        $filename = time().'_'.uniqid().'.webp';
-        $fullPath = $path.'/'.$filename;
+        if (is_string($file)) {
+            $pathInfo = pathinfo($file);
+            $filename = $pathInfo['filename'].'_'.time().'.webp';
+            $targetFolder = $pathInfo['dirname'] === '.' ? $path : $pathInfo['dirname'];
+            $fullPath = $targetFolder.'/'.$filename;
 
-        // Load and resize image
-        $image = $this->manager->read($file);
+            $absolutePath = Storage::disk('public')->path($file);
+            $image = $this->manager->read($absolutePath);
+        } else {
+            $filename = time().'_'.uniqid().'.webp';
+            $fullPath = $path.'/'.$filename;
+            $image = $this->manager->read($file);
+        }
 
         if ($image->width() > $maxWidth) {
             $image->scale(width: $maxWidth);

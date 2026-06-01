@@ -8,7 +8,7 @@
     <!-- Hero + Navbar dalam satu section -->
     <section
         class="relative flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat min-h-screen text-white"
-        style="background-image: url('{{ asset('images/logo-web-desa.jpg') }}');">
+        style="background-image: url('{{ asset('images/logo-web-desa.webp') }}');">
 
 
         <!-- Overlay agar teks dan navbar kontras -->
@@ -57,8 +57,9 @@
                             <!-- Photo Container -->
                             <div
                                 class="relative bg-gray-100 rounded-lg overflow-hidden shadow-2xl h-full min-h-[350px] lg:min-h-[450px] mt-6 mb-6 lg:mt-0 lg:mb-0">
-                                <img src="{{ asset('images/kades_warurejo.jpg') }}"
+                                <img src="{{ asset('images/kades_warurejo.webp') }}"
                                     alt="Kepala Desa {{ $profil->nama_desa }}"
+                                    width="366" height="576"
                                     class="max-w-xs md:max-w-sm lg:max-w-md h-auto mx-auto object-contain" loading="lazy"
                                     decoding="async">
                             </div>
@@ -263,7 +264,7 @@
                         <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-none mb-4">Potensi Desa</h2>
                         <p class="text-gray-500 text-lg md:text-xl">Kekayaan dan potensi yang dimiliki {{ $profil->nama_desa }}</p>
                     </div>
-                    @if($potensi->count() > 0)
+                    @if(count($potensi ?? []) > 0)
                         <a href="{{ route('potensi.index') }}"
                             class="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full font-medium hover:bg-black transition-all shrink-0">
                             Lihat Semua Potensi
@@ -277,7 +278,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-stretch card-grid content-grid mobile-slider">
-                @forelse($potensi->take(3) as $item)
+                @forelse(($potensi ?? collect())->take(3) as $item)
 
                     {{-- NEW MODERN CARD DESIGN --}}
                     <div
@@ -450,7 +451,7 @@
                         'kategori' => $kat['nama'],
                         'desc' => $kat['desc'],
                         'color' => $kat['color'],
-                        'image' => $matched ? $matched->gambar_url : asset('images/logo-web-desa.jpg'),
+                        'image' => $matched ? $matched->gambar_url : asset('images/logo-web-desa.webp'),
                         'judul' => $matched ? ($matched->judul ?? $kat['nama']) : $kat['nama']
                     ];
                 }
@@ -458,7 +459,7 @@
 
             <div class="flex flex-col md:flex-row w-full h-[600px] gap-2 md:gap-4 scroll-reveal" id="gallery-accordion">
                 @foreach($galeriDisplay as $index => $item)
-                    <div class="gallery-item relative overflow-hidden rounded-2xl md:rounded-[2rem] transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] cursor-pointer {{ $index == 0 ? 'flex-[4] active' : 'flex-1' }}"
+                    <div class="gallery-item relative overflow-hidden rounded-2xl md:rounded-4xl transition-all duration-700 ease-in-out cursor-pointer {{ $index == 0 ? 'flex-4 active' : 'flex-1' }}"
                         onmouseenter="activateGalleryItem(this)" onclick="openImageModal('{{ $item['image'] }}')">
 
                         <img src="{{ $item['image'] }}" alt="{{ $item['kategori'] }}"
@@ -466,7 +467,7 @@
 
                         {{-- Gradient Overlay --}}
                         <div
-                            class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-gray-900/10 transition-opacity duration-700">
+                            class="absolute inset-0 bg-linear-to-t from-gray-900/90 via-gray-900/40 to-gray-900/10 transition-opacity duration-700">
                         </div>
 
                         {{-- Vertical Content (Muncul saat tidak di-hover) --}}
@@ -480,7 +481,7 @@
 
                         {{-- Horizontal Content (Muncul saat di-hover/aktif) --}}
                         <div
-                            class="content-horizontal absolute bottom-0 left-0 p-6 md:p-10 w-full bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col justify-end opacity-0 transform translate-y-8 transition-all duration-500 delay-100 pointer-events-none">
+                            class="content-horizontal absolute bottom-0 left-0 p-6 md:p-10 w-full bg-linear-to-t from-black via-black/80 to-transparent flex flex-col justify-end opacity-0 transform translate-y-8 transition-all duration-500 delay-100 pointer-events-none">
                             <div class="flex items-center gap-4 mb-3 md:mb-4">
                                 <div class="w-10 h-1 {{ $item['color'] }} rounded-full"></div>
                                 <h3 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white whitespace-nowrap truncate">
@@ -501,7 +502,7 @@
 
         <!-- Image Modal -->
         <div id="imageModal"
-            class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-[100] transition-opacity">
+            class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden items-center justify-center z-100 transition-opacity">
             <div class="relative max-w-5xl w-full mx-4">
                 <button onclick="closeImageModal()"
                     class="absolute -top-12 md:-top-10 right-0 text-white/70 hover:text-white text-4xl font-bold transition-colors">
@@ -513,7 +514,7 @@
 
     </section>
 
-    <style>
+    <style @nonce>
         /* Gallery Accordion Styles */
         .writing-vertical {
             writing-mode: vertical-rl;
@@ -544,16 +545,16 @@
         }
     </style>
 
-    <script>
+    <script @nonce>
         function activateGalleryItem(element) {
             // Only apply hover logic if it's desktop, or if you want it on mobile too
             const items = document.querySelectorAll('.gallery-item');
             items.forEach(item => {
-                item.classList.remove('flex-[4]', 'active');
+                item.classList.remove('flex-4', 'active');
                 item.classList.add('flex-1');
             });
             element.classList.remove('flex-1');
-            element.classList.add('flex-[4]', 'active');
+            element.classList.add('flex-4', 'active');
         }
     </script>
 
@@ -720,7 +721,7 @@
         }
     </style>
 
-    <script>
+    <script @nonce>
         // Scroll-triggered animation observer
         document.addEventListener('DOMContentLoaded', function () {
             const observerOptions = {
@@ -771,17 +772,20 @@
         });
     </script>
 
-    <script>
+    <script @nonce>
         function openImageModal(imageUrl) {
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
 
             modalImage.src = imageUrl;
             modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         function closeImageModal() {
-            document.getElementById('imageModal').classList.add('hidden');
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         // Tutup modal jika klik area gelap
