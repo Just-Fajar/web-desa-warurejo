@@ -17,7 +17,7 @@ class BeritaResource extends JsonResource
             'excerpt' => $this->excerpt ?? Str::limit(strip_tags($this->konten), 150),
             'konten' => strip_tags($this->konten),
             'konten_html' => $this->konten,
-            'gambar' => $this->gambar ? asset('storage/' . $this->gambar) : null,
+            'gambar' => $this->gambar_utama ? asset('storage/' . $this->gambar_utama) : null,
             'views' => (int) $this->views,
             'published_at' => $this->published_at ? $this->published_at->toIso8601String() : null,
             'created_at' => $this->created_at ? $this->created_at->toIso8601String() : null,

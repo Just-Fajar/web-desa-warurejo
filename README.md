@@ -48,7 +48,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - **🔒 Security Hardened:** Custom HTML Sanitizer, Rate Limiting, CSRF Protection
 - **⚡ High Performance:** Multi-layer caching system dengan auto-invalidation
 - **🧪 Comprehensive Testing:** 468 test methods dalam 39 file test
-- **🌐 REST API Ready:** 17 endpoints dengan autentikasi Laravel Sanctum
+- **🌐 REST API Ready:** 22 endpoints dengan autentikasi Laravel Sanctum
 - **📅 Scheduled Publishing:** Auto-publish konten terjadwal via middleware
 - **📊 Visitor Analytics:** Tracking pengunjung harian dengan chart interaktif
 - **📢 Forum Pengaduan:** Sistem pengaduan masyarakat dengan balasan admin
@@ -190,11 +190,14 @@ app/
 │   │   │   ├── PengaduanController
 │   │   │   ├── StrukturOrganisasiController
 │   │   │   └── ProfileController
-│   │   ├── Api/                # 5 API Controllers
+│   │   ├── Api/V1/             # 7 API Controllers
 │   │   │   ├── AuthController
 │   │   │   ├── BeritaController
 │   │   │   ├── GaleriController
-│   │   │   └── PotensiController
+│   │   │   ├── PotensiController
+│   │   │   ├── ProfilDesaController
+│   │   │   ├── PublikasiController
+│   │   │   └── StatistikController
 │   │   └── Public/             # 7 Public Controllers
 │   │       ├── HomeController
 │   │       ├── BeritaController
@@ -207,7 +210,10 @@ app/
 │   │   ├── AdminAuthenticate
 │   │   ├── RedirectIfAdmin
 │   │   ├── PublishScheduledContent  ← Auto-publish terjadwal
-│   │   └── TrackVisitor             ← Visitor analytics
+│   │   ├── TrackVisitor             ← Visitor analytics
+│   │   ├── ApiCacheMiddleware       ← Cache API responses
+│   │   ├── ApiVersionNotice         ← API versioning header
+│   │   └── SecurityHeaders          ← Security response headers
 │   └── Requests/               # 6 Form Requests
 ├── Models/                     # 14 Eloquent Models
 ├── Repositories/               # 5 Repositories + Contracts
@@ -383,12 +389,11 @@ php artisan test --parallel
 ### Test Infrastructure
 
 ```
-Total Test Files: 39
-Total Test Methods: 468
+Total Test Files: 40
 
 tests/
 ├── TestCase.php                        # Base test (SQLite YEAR/MONTH function registration)
-├── Feature/                            # 17 test files
+├── Feature/                            # 19 test files
 │   ├── Admin/                          # 9 admin CRUD & auth test files
 │   │   ├── AuthAdminTest               # Login, logout, guard protection
 │   │   ├── DashboardTest               # Dashboard access, AJAX charts
@@ -399,6 +404,11 @@ tests/
 │   │   ├── PengaduanAdminTest          # Reply, lampiran upload
 │   │   ├── StrukturOrganisasiCrudTest  # Hierarchical CRUD
 │   │   └── AdminProfileTest            # Profile update, password, photo
+│   ├── Api/V1/                         # 2 API test files
+│   │   ├── ApiEndpointsV1Test          # All API endpoint responses
+│   │   └── ApiPerformanceV1Test        # API response time & rate limiting
+│   ├── Security/                       # 1 security test file
+│   │   └── SecurityHardeningTest       # Security headers, XSS, CSRF
 │   ├── HomePageTest                    # Homepage rendering & data
 │   ├── BeritaPageTest                  # Public berita pages
 │   ├── GaleriPageTest                  # Public galeri pages
@@ -407,7 +417,7 @@ tests/
 │   ├── PublicPagesTest                 # All public page accessibility
 │   └── ExampleTest
 │
-└── Unit/                               # 22 test files
+└── Unit/                               # 21 test files
     ├── Models/                         # 10 model test files
     │   ├── AdminModelTest
     │   ├── BeritaModelTest
@@ -477,10 +487,10 @@ Production:  https://warurejo.desa.id/api/v1
 | Method | Endpoint | Deskripsi |
 |--------|----------|-----------|
 | `POST` | `/api/v1/login` | Get API token |
-| `POST` | `/api/v1/logout` | Revoke token |
-| `POST` | `/api/v1/logout-all` | Revoke all tokens |
-| `GET` | `/api/v1/me` | User info |
-| `GET` | `/api/v1/tokens` | List tokens |
+| `POST` | `/api/v1/logout` | Revoke token 🔒 |
+| `POST` | `/api/v1/logout-all` | Revoke all tokens 🔒 |
+| `GET` | `/api/v1/me` | User info 🔒 |
+| `GET` | `/api/v1/tokens` | List tokens 🔒 |
 
 **Berita:**
 
@@ -507,6 +517,23 @@ Production:  https://warurejo.desa.id/api/v1
 | `GET` | `/api/v1/galeri/latest` | Latest galleries |
 | `GET` | `/api/v1/galeri/categories` | Available categories |
 | `GET` | `/api/v1/galeri/{id}` | Single gallery |
+
+**Publikasi:**
+
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| `GET` | `/api/v1/publikasi` | List dokumen |
+| `GET` | `/api/v1/publikasi/categories` | Kategori dokumen |
+| `GET` | `/api/v1/publikasi/years` | Tahun tersedia |
+| `GET` | `/api/v1/publikasi/{id}` | Detail dokumen |
+| `GET` | `/api/v1/publikasi/{id}/download` | Download file |
+
+**Profil & Statistik:**
+
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| `GET` | `/api/v1/profil` | Profil desa |
+| `GET` | `/api/v1/statistik/summary` | Ringkasan statistik |
 
 ### Authentication Example
 
@@ -552,7 +579,7 @@ php artisan l5-swagger:generate
 | **Authentication** | Custom admin guard, bcrypt hashing (cost 12) |
 | **HTTPS Redirect** | `URL::forceScheme('https')` di production |
 
-📖 **Detail lengkap:** [SECURITY_HARDENING.md](SECURITY_HARDENING.md)
+
 
 ---
 
@@ -570,7 +597,7 @@ php artisan l5-swagger:generate
 | **Lazy Loading** | `loading="lazy"` pada semua images |
 | **Asset Bundling** | Vite build dengan minification & code splitting |
 
-📖 **Detail lengkap:** [PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md)
+
 
 ---
 
@@ -612,10 +639,8 @@ sudo certbot --nginx -d warurejo.desa.id
 - [ ] `APP_ENV=production` & `APP_DEBUG=false`
 - [ ] Generate new `APP_KEY`
 - [ ] Configure production database (MySQL)
-- [ ] Setup Redis cache (recommended)
 - [ ] Install SSL certificate
 - [ ] Setup cron job untuk scheduler
-- [ ] Configure backup automation
 - [ ] Test all features
 
 📖 **Detail lengkap:** [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
@@ -625,20 +650,15 @@ sudo certbot --nginx -d warurejo.desa.id
 ## 📊 Project Statistics
 
 ```
-Source Files (app/):        67 PHP files
-Blade Views:                51 templates
-Database Migrations:        27 migrations
-Database Seeders:           9 seeders
-Model Factories:            10 factories
 Eloquent Models:            14
-Controllers:                24 (9 Admin + 7 Public + 5 API + 3 Shared)
+Controllers:                25 (9 Admin + 7 Public + 7 API + 2 Shared)
 Services:                   8
 Repositories:               5
 Form Requests:              6
-Custom Middleware:           4
-Test Files:                 39
-Test Methods:               468
-Total Lines of Code:        ~35,000+
+Custom Middleware:           7
+Database Seeders:           9
+Model Factories:            10
+Test Files:                 40
 ```
 
 ---
@@ -648,14 +668,7 @@ Total Lines of Code:        ~35,000+
 | Dokumen | Deskripsi |
 |---------|-----------|
 | [API_DOCUMENTATION.md](API_DOCUMENTATION.md) | Dokumentasi lengkap REST API |
-| [SECURITY_HARDENING.md](SECURITY_HARDENING.md) | Panduan keamanan aplikasi |
-| [PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md) | Optimasi performa |
-| [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | Panduan deployment |
-| [ANALYTICS_SETUP.md](ANALYTICS_SETUP.md) | Setup visitor analytics |
-| [SEO_IMPLEMENTATION.md](SEO_IMPLEMENTATION.md) | Implementasi SEO |
-| [UAT_TESTING_GUIDE.md](UAT_TESTING_GUIDE.md) | Panduan UAT testing |
-| [BACKUP_SCRIPTS.md](BACKUP_SCRIPTS.md) | Script backup otomatis |
-| [MONITORING_SETUP.md](MONITORING_SETUP.md) | Setup monitoring server |
+| [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | Panduan deployment production |
 
 ---
 
