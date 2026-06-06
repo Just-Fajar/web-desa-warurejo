@@ -197,7 +197,7 @@
                                         class="w-12 h-12 rounded-xl overflow-hidden bg-gray-50 shadow-sm border border-gray-100">
                                         <img src="{{ $item->foto_url }}" alt="{{ $item->nama }}"
                                             class="w-full h-full object-cover"
-                                            onerror="this.src='{{ asset('images/default-avatar.png') }}'">
+                                            data-fallback="{{ asset('images/default-avatar.png') }}">
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
@@ -301,7 +301,7 @@
 
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
+        <script @nonce>
             document.addEventListener('DOMContentLoaded', function () {
                 const searchInput = document.getElementById('searchInput');
                 const levelFilter = document.getElementById('levelFilter');

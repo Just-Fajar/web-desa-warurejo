@@ -168,7 +168,7 @@
                                             class="shrink-0 h-16 w-16 mr-4 relative rounded-xl overflow-hidden shadow-sm border border-gray-100 block hover:opacity-80 transition-opacity">
                                             <img class="h-16 w-16 object-cover" src="{{ $item->gambar_utama_url }}"
                                                 alt="{{ $item->judul }}"
-                                                onerror="this.src='{{ asset('images/default-berita.jpg') }}'">
+                                                data-fallback="{{ asset('images/default-berita.jpg') }}">
                                         </a>
                                         <div>
                                             <div class="text-sm font-bold text-gray-800">
@@ -276,7 +276,7 @@
 
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
+        <script @nonce>
             // Search and Filter functionality
             const searchInput = document.getElementById('searchInput');
             const statusFilter = document.getElementById('statusFilter');

@@ -32,9 +32,17 @@ class PotensiController extends Controller
     {
         $kategori = $request->get('kategori');
         $search = $request->get('search');
-        $urutkan = $request->get('urutkan', 'terbaru');
+        $sort = $request->get('sort', 'latest');
         $date_from = $request->get('date_from');
         $date_to = $request->get('date_to');
+
+        // Map sort query parameter to urutkan parameter expected by the service/repository
+        $sortMap = [
+            'latest' => 'terbaru',
+            'oldest' => 'terlama',
+            'popular' => 'terpopuler',
+        ];
+        $urutkan = $sortMap[$sort] ?? 'terbaru';
 
         // Build query with filters
         if ($kategori || $search || $urutkan !== 'terbaru' || $date_from || $date_to) {

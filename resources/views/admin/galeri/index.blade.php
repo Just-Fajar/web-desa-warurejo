@@ -22,14 +22,14 @@
             <div
                 class="bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded mb-4 flex items-center justify-between">
                 <span><i class="fas fa-check-circle mr-2"></i>{{ session('success') }}</span>
-                <button onclick="this.parentElement.remove()" class="text-green-700">&times;</button>
+                <button type="button" class="alert-dismiss-btn text-green-700">&times;</button>
             </div>
         @endif
 
         @if(session('error'))
             <div class="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded mb-4 flex items-center justify-between">
                 <span><i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}</span>
-                <button onclick="this.parentElement.remove()" class="text-red-700">&times;</button>
+                <button type="button" class="alert-dismiss-btn text-red-700">&times;</button>
             </div>
         @endif
 
@@ -173,7 +173,7 @@
                             <a href="{{ route('admin.galeri.show', $item->id) }}" class="block w-full h-full">
                                 <img src="{{ $item->images->first()->image_url }}" alt="{{ $item->judul }}"
                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                    onerror="this.style.display='none'; this.parentElement.classList.add('bg-gray-100')">
+                                    data-hide-on-error="true">
                             </a>
 
                             {{-- Multiple Images Badge --}}

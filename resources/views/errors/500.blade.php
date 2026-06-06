@@ -135,7 +135,7 @@
 
                     <!-- Action Buttons -->
                     <div class="space-y-3">
-                        <button onclick="location.reload()"
+                        <button id="reloadBtn"
                             class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-linear-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                             <i class="fas fa-sync-alt text-xl"></i>
                             <span>Muat Ulang Halaman</span>
@@ -147,7 +147,7 @@
                             <span>Kembali ke Beranda</span>
                         </a>
 
-                        <button onclick="window.history.back()"
+                        <button id="backBtn"
                             class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
                             <i class="fas fa-arrow-left text-xl text-red-600"></i>
                             <span>Halaman Sebelumnya</span>
@@ -198,6 +198,22 @@
             </p>
         </div>
     </div>
+    <script @nonce>
+        document.addEventListener('DOMContentLoaded', function() {
+            const reloadBtn = document.getElementById('reloadBtn');
+            if (reloadBtn) {
+                reloadBtn.addEventListener('click', function() {
+                    location.reload();
+                });
+            }
+            const backBtn = document.getElementById('backBtn');
+            if (backBtn) {
+                backBtn.addEventListener('click', function() {
+                    window.history.back();
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

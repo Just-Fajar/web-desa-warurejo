@@ -86,7 +86,7 @@
                                         class="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
                                         <span>Upload file</span>
                                         <input id="gambar_utama" name="gambar_utama" type="file" class="sr-only"
-                                            accept="image/*" onchange="previewImage(this)">
+                                            accept="image/*">
                                     </label>
                                     <p class="pl-1">atau drag and drop</p>
                                 </div>
@@ -98,7 +98,7 @@
                         <div id="imagePreview" class="hidden mt-4">
                             <div class="relative inline-block">
                                 <img id="preview" src="" alt="Preview" class="h-48 rounded-lg shadow-md">
-                                <button type="button" onclick="removeImage()"
+                                <button type="button" id="removeImageBtn"
                                     class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -257,6 +257,12 @@
                 document.getElementById('imagePreview').classList.add('hidden');
                 document.getElementById('preview').src = '';
             }
+
+            document.getElementById('gambar_utama').addEventListener('change', function() {
+                previewImage(this);
+            });
+
+            document.getElementById('removeImageBtn').addEventListener('click', removeImage);
 
 
             // Client-side validation

@@ -201,8 +201,8 @@
                             </a>
 
                             {{-- Excerpt Expandable --}}
-                            <div class="relative mb-4 grow cursor-pointer group/desc"
-                                onclick="this.classList.toggle('is-expanded')" title="Klik untuk memperluas teks">
+                            <div class="relative mb-4 grow cursor-pointer group/desc desc-expandable"
+                                 title="Klik untuk memperluas teks">
                                 <div
                                     class="text-sm text-gray-600 leading-relaxed overflow-hidden max-h-[2.8rem] transition-all duration-500 custom-scrollbar pr-2 desc-text">
                                     {{ $berita->excerpt }}
@@ -332,8 +332,8 @@
                             </a>
 
                             {{-- Deskripsi Expandable --}}
-                            <div class="relative mb-4 grow cursor-pointer group/desc"
-                                onclick="this.classList.toggle('is-expanded')" title="Klik untuk memperluas teks">
+                            <div class="relative mb-4 grow cursor-pointer group/desc desc-expandable"
+                                 title="Klik untuk memperluas teks">
                                 <div
                                     class="text-sm text-gray-600 leading-relaxed overflow-hidden max-h-[2.8rem] transition-all duration-500 custom-scrollbar pr-2 desc-text">
                                     {{ Str::limit(strip_tags($item->deskripsi), 300) }}
@@ -460,7 +460,7 @@
             <div class="flex flex-col md:flex-row w-full h-[600px] gap-2 md:gap-4 scroll-reveal" id="gallery-accordion">
                 @foreach($galeriDisplay as $index => $item)
                     <div class="gallery-item relative overflow-hidden rounded-2xl md:rounded-4xl transition-all duration-700 ease-in-out cursor-pointer {{ $index == 0 ? 'flex-4 active' : 'flex-1' }}"
-                        onmouseenter="activateGalleryItem(this)" onclick="openImageModal('{{ $item['image'] }}')">
+                         data-image="{{ $item['image'] }}">
 
                         <img src="{{ $item['image'] }}" alt="{{ $item['kategori'] }}"
                             class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-1000 gallery-img group-hover:scale-105">
@@ -504,7 +504,7 @@
         <div id="imageModal"
             class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden items-center justify-center z-100 transition-opacity">
             <div class="relative max-w-5xl w-full mx-4">
-                <button onclick="closeImageModal()"
+                <button id="closeImageModalBtn"
                     class="absolute -top-12 md:-top-10 right-0 text-white/70 hover:text-white text-4xl font-bold transition-colors">
                     &times;
                 </button>
@@ -545,18 +545,7 @@
         }
     </style>
 
-    <script @nonce>
-        function activateGalleryItem(element) {
-            // Only apply hover logic if it's desktop, or if you want it on mobile too
-            const items = document.querySelectorAll('.gallery-item');
-            items.forEach(item => {
-                item.classList.remove('flex-4', 'active');
-                item.classList.add('flex-1');
-            });
-            element.classList.remove('flex-1');
-            element.classList.add('flex-4', 'active');
-        }
-    </script>
+
 
     <style>
         /* Navbar slide-down animation */
@@ -722,8 +711,8 @@
     </style>
 
     <script @nonce>
-        // Scroll-triggered animation observer
         document.addEventListener('DOMContentLoaded', function () {
+            // Scroll-triggered animation observer
             const observerOptions = {
                 root: null,
                 threshold: 0.1,
@@ -769,28 +758,59 @@
             document.querySelectorAll('.count').forEach(el => {
                 counterObserver.observe(el);
             });
-        });
-    </script>
 
-    <script @nonce>
-        function openImageModal(imageUrl) {
+            // Expandable Description logic
+            document.querySelectorAll('.desc-expandable').forEach(el => {
+                el.addEventListener('click', function() {
+                    this.classList.toggle('is-expanded');
+                });
+            });
+
+            // Gallery Accordion & Modal Logic
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    galleryItems.forEach(i => {
+                        i.classList.remove('flex-4', 'active');
+                        i.classList.add('flex-1');
+                    });
+                    this.classList.remove('flex-1');
+                    this.classList.add('flex-4', 'active');
+                });
+                item.addEventListener('click', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    openImageModal(imageUrl);
+                });
+            });
+
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
+            const closeImageModalBtn = document.getElementById('closeImageModalBtn');
 
-            modalImage.src = imageUrl;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
+            function openImageModal(imageUrl) {
+                if (modalImage && modal) {
+                    modalImage.src = imageUrl;
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                }
+            }
 
-        function closeImageModal() {
-            const modal = document.getElementById('imageModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
+            function closeImageModal() {
+                if (modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+            }
 
-        // Tutup modal jika klik area gelap
-        document.getElementById('imageModal').addEventListener('click', function (e) {
-            if (e.target === this) closeImageModal();
+            if (closeImageModalBtn) {
+                closeImageModalBtn.addEventListener('click', closeImageModal);
+            }
+
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) closeImageModal();
+                });
+            }
         });
     </script>
 

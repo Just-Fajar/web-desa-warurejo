@@ -86,6 +86,18 @@
         @include('public.partials.whatsapp-fab')
     @endif
 
+    <!-- Global Image Load Error Handler -->
+    <script @nonce>
+        window.addEventListener('error', function(e) {
+            if (e.target && e.target.tagName === 'IMG') {
+                const fallback = e.target.getAttribute('data-fallback');
+                if (fallback && e.target.src !== fallback) {
+                    e.target.src = fallback;
+                }
+            }
+        }, true);
+    </script>
+
     <!-- Scripts -->
     @stack('scripts')
 </body>

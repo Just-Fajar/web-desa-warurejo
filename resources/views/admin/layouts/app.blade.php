@@ -233,8 +233,32 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Global SweetAlert2 Notifications -->
-    <script>
+    <script @nonce>
+        // Global image loading error fallback
+        window.addEventListener('error', function(e) {
+            if (e.target && e.target.tagName === 'IMG') {
+                const fallback = e.target.getAttribute('data-fallback');
+                if (fallback && e.target.src !== fallback) {
+                    e.target.src = fallback;
+                    return;
+                }
+                if (e.target.getAttribute('data-hide-on-error') === 'true') {
+                    e.target.style.display = 'none';
+                    if (e.target.parentElement) {
+                        e.target.parentElement.classList.add('bg-gray-100');
+                    }
+                }
+            }
+        }, true);
+
         document.addEventListener('DOMContentLoaded', function () {
+            // Global alert dismissal
+            document.addEventListener('click', function(e) {
+                if (e.target && e.target.classList.contains('alert-dismiss-btn')) {
+                    e.target.parentElement.remove();
+                }
+            });
+
             // Success notification
             @if(session('success'))
                 Swal.fire({
@@ -372,7 +396,7 @@
     </script>
 
     <!-- Double-Submit Prevention: Disable button setelah klik pertama -->
-    <script>
+    <script @nonce>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('form').forEach(function(form) {
                 // Skip delete forms (handled by SweetAlert)
@@ -421,7 +445,7 @@
     </script>
 
     <!-- Real-time Auto-Publish Polling: Cek setiap 60 detik -->
-    <script>
+    <script @nonce>
         (function() {
             const POLL_INTERVAL = 60000; // 60 detik
             const AUTO_PUBLISH_URL = '{{ route("admin.auto-publish") }}';

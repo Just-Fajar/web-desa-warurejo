@@ -10,10 +10,6 @@ class SecurityHeaders
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -36,6 +32,7 @@ class SecurityHeaders
                         if (str_contains($matches[1], 'type=') && !str_contains($matches[1], 'type="application/javascript"') && !str_contains($matches[1], 'type="module"') && !str_contains($matches[1], 'type="application/ld+json"')) {
                             return $matches[0];
                         }
+
                         return "<script{$matches[1]} nonce=\"{$nonce}\">";
                     }, $content);
 
@@ -51,7 +48,7 @@ class SecurityHeaders
                         $laravelResponse = $response;
                         $original = $laravelResponse->original;
                     }
-                    
+
                     $response->setContent($content);
 
                     if ($original !== null && $response instanceof \Illuminate\Http\Response) {
@@ -80,20 +77,20 @@ class SecurityHeaders
             if (config('app.env') === 'local') {
                 $scriptSrc .= " http: https: 'unsafe-inline'";
                 $styleSrc .= " http: https: 'unsafe-inline'";
-                $connectSrc .= " http: https: ws: wss:";
+                $connectSrc .= ' http: https: ws: wss:';
             }
 
             $csp = "default-src 'self'; " .
-                   "{$scriptSrc}; " .
-                   "{$styleSrc}; " .
-                   "font-src 'self' fonts.bunny.net cdnjs.cloudflare.com fonts.gstatic.com data:; " .
-                   "img-src 'self' data: https: http:; " .
-                   "frame-src 'self' maps.google.com https://www.google.com; " .
-                   "{$connectSrc}; " .
-                   "object-src 'none'; " .
-                   "base-uri 'self'; " .
-                   "form-action 'self';";
-            
+                "{$scriptSrc}; " .
+                "{$styleSrc}; " .
+                "font-src 'self' fonts.bunny.net cdnjs.cloudflare.com fonts.gstatic.com data:; " .
+                "img-src 'self' data: https: http:; " .
+                "frame-src 'self' maps.google.com https://www.google.com; " .
+                "{$connectSrc}; " .
+                "object-src 'none'; " .
+                "base-uri 'self'; " .
+                "form-action 'self';";
+
             $response->headers->set('Content-Security-Policy', $csp);
         }
 

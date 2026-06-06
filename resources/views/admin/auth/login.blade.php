@@ -18,23 +18,7 @@
         }
 
         .bg-animated {
-            background: linear-gradient(-45deg, #064e3b, #0f766e, #047857, #1e3a8a);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
+            background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
         }
 
         .glass-panel {
@@ -83,18 +67,18 @@
 
     <!-- Decorative background elements -->
     <div
-        class="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-50 animate-blob pointer-events-none">
+        class="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-50 pointer-events-none">
     </div>
     <div
-        class="fixed top-[20%] right-[-10%] w-[500px] h-[500px] bg-teal-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-50 animate-blob animation-delay-2000 pointer-events-none">
+        class="fixed top-[20%] right-[-10%] w-[500px] h-[500px] bg-teal-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-50 pointer-events-none">
     </div>
     <div
-        class="fixed bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-blob animation-delay-4000 pointer-events-none">
+        class="fixed bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 pointer-events-none">
     </div>
 
     <!-- Main Container -->
     <div
-        class="w-full max-w-[1000px] flex rounded-[2rem] glass-panel shadow-2xl relative z-10 mx-4 overflow-hidden transform transition-all duration-700 animate-[fadeInUp_0.8s_ease-out]">
+        class="w-full max-w-[1000px] flex rounded-[2rem] glass-panel shadow-2xl relative z-10 mx-4 overflow-hidden transform">
 
         <!-- Left Side: Branding / Welcome (Hidden on mobile) -->
         <div
@@ -130,7 +114,7 @@
 
             <div class="relative z-10 mt-8">
                 <p
-                    class="text-sm text-emerald-100/60 flex items-center gap-2 bg-black/20 fit-content px-4 py-2 rounded-full inline-flex backdrop-blur-md border border-white/5">
+                    class="text-sm text-emerald-100/60 inline-flex items-center gap-2 bg-black/20 fit-content px-4 py-2 rounded-full backdrop-blur-md border border-white/5">
                     <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
@@ -246,10 +230,9 @@
 
                     <!-- Button -->
                     <button type="submit"
-                        class="w-full mt-8 py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 
-                               hover:from-emerald-400 hover:to-teal-300 text-white font-bold text-sm tracking-wide
-                               shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:shadow-[0_0_30px_rgba(52,211,153,0.5)] 
-                               transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden group">
+                        class="w-full mt-8 py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 
+                               hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm tracking-wide
+                               shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 relative overflow-hidden group">
                         <span class="relative z-10 flex items-center justify-center gap-2">
                             MASUK SEKARANG
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none"
@@ -258,10 +241,6 @@
                                     d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </span>
-                        <!-- Button hover glare effect -->
-                        <div
-                            class="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover:animate-[glare_0.6s_ease-out]">
-                        </div>
                     </button>
                 </form>
 
@@ -289,50 +268,6 @@
         </p>
     </div>
 
-    <style>
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px) scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes blob {
-            0% {
-                transform: translate(0px, 0px) scale(1);
-            }
-
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-
-            100% {
-                transform: translate(0px, 0px) scale(1);
-            }
-        }
-
-        .animation-delay-2000 {
-            animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-            animation-delay: 4s;
-        }
-
-        @keyframes glare {
-            100% {
-                transform: translateX(100%);
-            }
-        }
     </style>
 </body>
 

@@ -115,7 +115,7 @@
                                 class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition h-full flex flex-col justify-center">
                                 <i class="fas fa-file-pdf text-4xl text-gray-400 mb-3"></i>
                                 <input type="file" id="file_dokumen" name="file_dokumen" accept=".pdf" class="hidden"
-                                    onchange="displayFileName('file_dokumen', 'file-name')" required>
+                                    required>
                                 <label for="file_dokumen" class="cursor-pointer">
                                     <span class="text-primary-600 hover:text-primary-700 font-semibold">Pilih File
                                         PDF</span>
@@ -138,7 +138,7 @@
                                 class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition h-full flex flex-col justify-center">
                                 <i class="fas fa-image text-4xl text-gray-400 mb-3"></i>
                                 <input type="file" id="thumbnail" name="thumbnail" accept="image/jpeg,image/png,image/jpg"
-                                    class="hidden" onchange="displayFileName('thumbnail', 'thumbnail-name')">
+                                    class="hidden">
                                 <label for="thumbnail" class="cursor-pointer">
                                     <span class="text-primary-600 hover:text-primary-700 font-semibold">Pilih Gambar</span>
                                     <span class="text-gray-600"> atau drag & drop</span>
@@ -212,13 +212,27 @@
                 const input = document.getElementById(inputId);
                 const display = document.getElementById(displayId);
 
-                if (input.files.length > 0) {
+                if (input && display && input.files.length > 0) {
                     const fileName = input.files[0].name;
                     const fileSize = (input.files[0].size / 1024 / 1024).toFixed(2);
                     display.textContent = `${fileName} (${fileSize} MB)`;
-                } else {
+                } else if (display) {
                     display.textContent = '';
                 }
+            }
+
+            const fileDokumenInput = document.getElementById('file_dokumen');
+            if (fileDokumenInput) {
+                fileDokumenInput.addEventListener('change', function() {
+                    displayFileName('file_dokumen', 'file-name');
+                });
+            }
+
+            const thumbnailInput = document.getElementById('thumbnail');
+            if (thumbnailInput) {
+                thumbnailInput.addEventListener('change', function() {
+                    displayFileName('thumbnail', 'thumbnail-name');
+                });
             }
 
             // Auto-generate slug from judul

@@ -139,6 +139,45 @@ class PublicPagesTest extends TestCase
         }
     }
 
+    public function test_potensi_index_page_filters(): void
+    {
+        $p1 = PotensiDesa::factory()->create([
+            'nama' => 'Potensi Wisata Indah',
+            'kategori' => 'wisata',
+            'created_at' => '2026-05-10 10:00:00',
+            'views' => 10,
+        ]);
+        $p2 = PotensiDesa::factory()->create([
+            'nama' => 'Potensi Kuliner Lezat',
+            'kategori' => 'umkm',
+            'created_at' => '2026-05-20 10:00:00',
+            'views' => 20,
+        ]);
+
+        // Search filter
+        $response = $this->get(route('potensi.index', ['search' => 'Wisata']));
+        $response->assertSee('Potensi Wisata Indah');
+        $response->assertDontSee('Potensi Kuliner Lezat');
+
+        // Kategori filter
+        $response = $this->get(route('potensi.index', ['kategori' => 'umkm']));
+        $response->assertSee('Potensi Kuliner Lezat');
+        $response->assertDontSee('Potensi Wisata Indah');
+
+        // Date range filter
+        $response = $this->get(route('potensi.index', ['date_from' => '2026-05-15', 'date_to' => '2026-05-25']));
+        $response->assertSee('Potensi Kuliner Lezat');
+        $response->assertDontSee('Potensi Wisata Indah');
+
+        // Sorting: popular (most viewed first)
+        $response = $this->get(route('potensi.index', ['sort' => 'popular']));
+        $response->assertStatus(200);
+
+        // Sorting: oldest
+        $response = $this->get(route('potensi.index', ['sort' => 'oldest']));
+        $response->assertStatus(200);
+    }
+
     public function test_potensi_detail_page_loads(): void
     {
         $potensi = PotensiDesa::factory()->create();
@@ -193,8 +232,8 @@ class PublicPagesTest extends TestCase
         $response->assertSee('Pembangunan Balai RT');
         $response->assertDontSee('Kegiatan Bersih Desa');
 
-        // Sorting: terpopuler (most viewed first)
-        $response = $this->get(route('galeri.index', ['urutkan' => 'terpopuler']));
+        // Sorting: terbaru
+        $response = $this->get(route('galeri.index', ['urutkan' => 'terbaru']));
         $response->assertStatus(200);
 
         // Sorting: terlama
@@ -260,8 +299,8 @@ class PublicPagesTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Laporan APBDes 2026');
 
-        // Sorting: terpopuler
-        $response = $this->get(route('publikasi.index', ['urutkan' => 'terpopuler']));
+        // Sorting: terbaru
+        $response = $this->get(route('publikasi.index', ['urutkan' => 'terbaru']));
         $response->assertStatus(200);
 
         // Sorting: terlama
@@ -273,6 +312,63 @@ class PublicPagesTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('public.publikasi.show');
         $response->assertSee($p1->judul);
+    }
+
+    public function test_publikasi_sorting(): void
+    {
+        // p1: newer publication date, but created earlier
+        $p1 = Publikasi::factory()->published()->create([
+            'judul' => 'Publikasi A',
+            'kategori' => 'APBDes',
+            'tanggal_publikasi' => now()->subDays(5)->format('Y-m-d'),
+            'created_at' => now()->subDays(10),
+        ]);
+        // p2: older publication date, but created later
+        $p2 = Publikasi::factory()->published()->create([
+            'judul' => 'Publikasi B',
+            'kategori' => 'APBDes',
+            'tanggal_publikasi' => now()->subDays(10)->format('Y-m-d'),
+            'created_at' => now()->subDays(5),
+        ]);
+
+        // Terbaru: p1 (newer) should be first, then p2 (older)
+        $response = $this->get(route('publikasi.index', ['urutkan' => 'terbaru']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder(['Publikasi A', 'Publikasi B']);
+
+        // Terlama: p2 (older) should be first, then p1 (newer)
+        $response = $this->get(route('publikasi.index', ['urutkan' => 'terlama']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder(['Publikasi B', 'Publikasi A']);
+    }
+
+    public function test_galeri_sorting(): void
+    {
+        $admin = \App\Models\Admin::factory()->create();
+        // g1: newer event date, but created earlier
+        $g1 = Galeri::factory()->active()->create([
+            'admin_id' => $admin->id,
+            'judul' => 'Galeri A',
+            'tanggal' => now()->subDays(5)->format('Y-m-d H:i:s'),
+            'created_at' => now()->subDays(10),
+        ]);
+        // g2: older event date, but created later
+        $g2 = Galeri::factory()->active()->create([
+            'admin_id' => $admin->id,
+            'judul' => 'Galeri B',
+            'tanggal' => now()->subDays(10)->format('Y-m-d H:i:s'),
+            'created_at' => now()->subDays(5),
+        ]);
+
+        // Terbaru: g1 (newer) should be first, then g2 (older)
+        $response = $this->get(route('galeri.index', ['urutkan' => 'terbaru']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder(['Galeri A', 'Galeri B']);
+
+        // Terlama: g2 (older) should be first, then g1 (newer)
+        $response = $this->get(route('galeri.index', ['urutkan' => 'terlama']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder(['Galeri B', 'Galeri A']);
     }
 
     public function test_publikasi_download(): void

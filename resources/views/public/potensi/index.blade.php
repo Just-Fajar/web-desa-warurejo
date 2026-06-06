@@ -147,7 +147,7 @@
                                         alt="{{ $item->nama }}"
                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                         loading="lazy" decoding="async"
-                                        onerror="this.src='{{ asset('images/logo-web-desa.webp') }}'">
+                                        data-fallback="{{ asset('images/logo-web-desa.webp') }}">
 
                                     {{-- Gradient Overlay --}}
                                     <div
@@ -216,8 +216,8 @@
                                     @endif
 
                                     {{-- Deskripsi Expandable --}}
-                                    <div class="relative mb-4 grow cursor-pointer group/desc"
-                                        onclick="this.classList.toggle('is-expanded')" title="Klik untuk memperluas teks">
+                                    <div class="relative mb-4 grow cursor-pointer group/desc desc-expandable"
+                                         title="Klik untuk memperluas teks">
                                         <div
                                             class="text-sm text-gray-600 leading-relaxed overflow-hidden max-h-[2.8rem] transition-all duration-500 custom-scrollbar pr-2 desc-text">
                                             {{ Str::limit(strip_tags($item->deskripsi), 300) }}
@@ -356,7 +356,7 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
-    <script>
+    <script @nonce>
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize Datepicker
             flatpickr('.datepicker', {
@@ -381,6 +381,13 @@
             }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
             document.querySelectorAll('.scroll-reveal, .scroll-reveal-stagger').forEach(el => observer.observe(el));
+
+            // Expandable description logic
+            document.querySelectorAll('.desc-expandable').forEach(el => {
+                el.addEventListener('click', function() {
+                    this.classList.toggle('is-expanded');
+                });
+            });
         });
     </script>
 @endpush

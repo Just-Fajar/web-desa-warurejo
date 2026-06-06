@@ -80,7 +80,7 @@
                             class="bg-white border border-gray-100 rounded-2xl md:rounded-[2rem] shadow-lg overflow-hidden relative z-10 transition duration-300">
                             <div class="aspect-w-3 aspect-h-4 bg-gray-100 relative">
                                 <img src="{{ $struktur['kepala']->foto_url ?: asset('images/default-avatar.png') }}"
-                                    onerror="this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('{{ $struktur['kepala']->nama ?? 'NN' }}') + '&color=7F9CF5&background=EBF4FF&size=512'"
+                                    data-fallback="https://ui-avatars.com/api/?name={{ urlencode($struktur['kepala']->nama ?? 'NN') }}&color=7F9CF5&background=EBF4FF&size=512"
                                     alt="{{ $struktur['kepala']->nama }}" class="w-full h-full object-cover">
                                 <!-- Elegant fade overlay at bottom of image -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent">
@@ -91,7 +91,7 @@
                                         class="inline-block bg-primary-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
                                         KEPALA DESA</div>
                                     <h3 class="text-2xl font-extrabold mb-1">{{ strtoupper($struktur['kepala']->nama) }}</h3>
-                                    <p class="text-gray-200 text-sm">{{ $struktur['kepala']->jabatan }}</p>
+                                     <p class="text-gray-200 text-sm">{{ $struktur['kepala']->jabatan }}</p>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                             class="bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden relative z-10 transition duration-300">
                             <div class="aspect-w-1 aspect-h-1 bg-gray-100 relative">
                                 <img src="{{ $struktur['sekretaris']->foto_url ?: asset('images/default-avatar.png') }}"
-                                    onerror="this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('{{ $struktur['sekretaris']->nama ?? 'NN' }}') + '&color=34D399&background=ECFDF5&size=512'"
+                                    data-fallback="https://ui-avatars.com/api/?name={{ urlencode($struktur['sekretaris']->nama ?? 'NN') }}&color=34D399&background=ECFDF5&size=512"
                                     alt="{{ $struktur['sekretaris']->nama }}" class="w-full h-full object-cover">
                                 <!-- Elegant fade overlay at bottom of image -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent">
@@ -165,7 +165,7 @@
                                     class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-yellow-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
                                         <img src="{{ $kaur->foto_url ?: asset('images/default-avatar.png') }}"
-                                            onerror="this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('{{ $kaur->nama ?? 'NN' }}') + '&color=FBBF24&background=FFFBEB&size=256'"
+                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($kaur->nama ?? 'NN') }}&color=FBBF24&background=FFFBEB&size=256"
                                             alt="{{ $kaur->nama }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
@@ -192,7 +192,7 @@
                                     class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-blue-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
                                         <img src="{{ $kasi->foto_url ?: asset('images/default-avatar.png') }}"
-                                            onerror="this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('{{ $kasi->nama ?? 'NN' }}') + '&color=60A5FA&background=EFF6FF&size=256'"
+                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($kasi->nama ?? 'NN') }}&color=60A5FA&background=EFF6FF&size=256"
                                             alt="{{ $kasi->nama }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
@@ -229,7 +229,7 @@
                                     class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-gray-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
                                         <img src="{{ $staff->foto_url ?: asset('images/default-avatar.png') }}"
-                                            onerror="this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('{{ $staff->nama ?? 'NN' }}') + '&color=9CA3AF&background=F3F4F6&size=256'"
+                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($staff->nama ?? 'NN') }}&color=9CA3AF&background=F3F4F6&size=256"
                                             alt="{{ $staff->nama }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
@@ -251,7 +251,30 @@
                                     class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-gray-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
                                         <img src="{{ $staff->foto_url ?: asset('images/default-avatar.png') }}"
-                                            onerror="this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('{{ $staff->nama ?? 'NN' }}') + '&color=9CA3AF&background=F3F4F6&size=256'"
+                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($staff->nama ?? 'NN') }}&color=9CA3AF&background=F3F4F6&size=256"
+                                            alt="{{ $staff->nama }}" class="w-full h-full object-cover">
+                                    </div>
+                                    <div>
+                                        <span
+                                            class="inline-block px-2.5 py-0.5 bg-gray-100 text-gray-700 rounded text-[10px] font-bold uppercase tracking-wider mb-1.5">Staff</span>
+                                        <h4
+                                            class="font-bold text-gray-900 mb-0.5 text-base sm:text-lg group-hover:text-gray-600 transition">
+                                            {{ strtoupper($staff->nama) }}</h4>
+                                        <p class="text-gray-500 text-xs sm:text-sm">{{ $staff->jabatan }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+
+                        {{-- Staff Kasi --}}
+                        {{-- Staff Kasi --}}
+                        @if(isset($struktur['staff_kasi']))
+                            @foreach($struktur['staff_kasi'] as $staff)
+                                <div
+                                    class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-gray-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
+                                    <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
+                                        <img src="{{ $staff->foto_url ?: asset('images/default-avatar.png') }}"
+                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($staff->nama ?? 'NN') }}&color=9CA3AF&background=F3F4F6&size=256"
                                             alt="{{ $staff->nama }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
@@ -285,7 +308,7 @@
         }
     </style>
 
-    <script>
+    <script @nonce>
         // Scroll-triggered animation observer
         document.addEventListener('DOMContentLoaded', function () {
             const observerOptions = {

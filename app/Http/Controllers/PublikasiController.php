@@ -39,15 +39,14 @@ class PublikasiController extends Controller
 
         // Apply sorting
         switch ($urutkan) {
-            case 'terpopuler':
-                $query->orderBy('jumlah_download', 'desc');
-                break;
             case 'terlama':
-                $query->oldest();
+                $query->orderBy('tanggal_publikasi', 'asc')
+                    ->orderBy('created_at', 'asc');
                 break;
             case 'terbaru':
             default:
-                $query->latest();
+                $query->orderBy('tanggal_publikasi', 'desc')
+                    ->orderBy('created_at', 'desc');
                 break;
         }
 
@@ -56,7 +55,8 @@ class PublikasiController extends Controller
         // Get sidebar publikasi (other categories)
         $sidebarPublikasi = Publikasi::published()
             ->where('kategori', '!=', $kategori)
-            ->latest()
+            ->orderBy('tanggal_publikasi', 'desc')
+            ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
 
@@ -84,7 +84,8 @@ class PublikasiController extends Controller
         $relatedPublikasi = Publikasi::published()
             ->byKategori($publikasi->kategori)
             ->where('id', '!=', $id)
-            ->latest()
+            ->orderBy('tanggal_publikasi', 'desc')
+            ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
 

@@ -95,11 +95,13 @@ class PublikasiController extends Controller
                 $query->orderBy('jumlah_download', 'desc');
                 break;
             case 'terlama':
-                $query->oldest();
+                $query->orderBy('tanggal_publikasi', 'asc')
+                    ->orderBy('created_at', 'asc');
                 break;
             case 'terbaru':
             default:
-                $query->latest();
+                $query->orderBy('tanggal_publikasi', 'desc')
+                    ->orderBy('created_at', 'desc');
                 break;
         }
 

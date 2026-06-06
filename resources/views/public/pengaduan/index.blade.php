@@ -23,7 +23,7 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center gap-4">
-                    <button onclick="document.getElementById('formModal').classList.remove('hidden')"
+                    <button id="btnOpenModal"
                         class="group w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl font-semibold hover:bg-slate-800 transition-all duration-300 shadow-[0_8px_20px_rgb(15,23,42,0.2)] hover:shadow-[0_10px_25px_rgb(15,23,42,0.3)] hover:-translate-y-0.5">
                         <div class="bg-white/10 p-2 rounded-lg group-hover:bg-white/20 transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
@@ -208,7 +208,7 @@
                         </svg>
                         <h3 class="text-lg font-bold text-gray-400 mb-2">Belum ada pengaduan</h3>
                         <p class="text-gray-400 text-sm mb-6">Jadilah yang pertama menyampaikan aspirasi Anda.</p>
-                        <button onclick="document.getElementById('formModal').classList.remove('hidden')"
+                        <button id="btnOpenModalEmpty"
                             class="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-full font-bold hover:bg-slate-800 shadow-md transition-all">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -233,14 +233,14 @@
     ============================ --}}
     <div id="formModal" class="fixed inset-0 z-[110] hidden">
         {{-- Backdrop --}}
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="document.getElementById('formModal').classList.add('hidden')"></div>
+        <div id="modalBackdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
         {{-- Modal Content --}}
         <div class="relative flex items-center justify-center min-h-screen p-4">
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
 
                 {{-- Close Button --}}
-                <button onclick="document.getElementById('formModal').classList.add('hidden')"
+                <button id="btnCloseModal"
                     class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors z-10">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -250,7 +250,17 @@
                 {{-- Header --}}
                 <div class="p-6 pb-0">
                     <h2 class="text-2xl font-extrabold text-gray-800 mb-1">Buat Pengaduan</h2>
-                    <p class="text-sm text-gray-500">Sampaikan aspirasi atau keluhan Anda. Lengkapi data diri dengan jelas dan menggunakan informasi yang valid agar pengaduan dapat diverifikasi serta diproses dengan baik.</p>
+                    <p class="text-sm text-gray-500 mb-4">Sampaikan aspirasi atau keluhan Anda. Lengkapi data diri dengan jelas dan menggunakan informasi yang valid agar pengaduan dapat diverifikasi serta diproses dengan baik.</p>
+                    
+                    {{-- Warning Box --}}
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex gap-3 text-amber-800">
+                        <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <div class="text-xs sm:text-sm leading-relaxed">
+                            <strong class="font-bold">Perhatian:</strong> Layanan pengaduan ini hanya ditujukan bagi masyarakat Desa Warurejo. Mohon menyampaikan pengaduan secara sopan, jujur, dan bertanggung jawab. Pengaduan yang mengandung laporan palsu, spam, bahasa kasar atau tidak pantas, fitnah, provokasi, ujaran kebencian, maupun informasi yang tidak dapat diverifikasi berhak ditolak atau dihapus oleh administrator.
+                        </div>
+                    </div>
                 </div>
 
                 {{-- Form --}}
@@ -376,6 +386,26 @@
 <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Modal logic to avoid CSP inline violations
+        const formModal = document.getElementById('formModal');
+        const btnOpenModal = document.getElementById('btnOpenModal');
+        const btnOpenModalEmpty = document.getElementById('btnOpenModalEmpty');
+        const btnCloseModal = document.getElementById('btnCloseModal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+
+        function openModal() {
+            if (formModal) formModal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            if (formModal) formModal.classList.add('hidden');
+        }
+
+        if (btnOpenModal) btnOpenModal.addEventListener('click', openModal);
+        if (btnOpenModalEmpty) btnOpenModalEmpty.addEventListener('click', openModal);
+        if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+        if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+
         // Initialize Datepicker
         flatpickr('.datepicker', {
             locale: 'id',

@@ -62,15 +62,14 @@ class GaleriController extends Controller
 
         // Apply sorting
         switch ($urutkan) {
-            case 'terpopuler':
-                $query->orderBy('views', 'desc');
-                break;
             case 'terlama':
-                $query->oldest();
+                $query->orderBy('tanggal', 'asc')
+                    ->orderBy('created_at', 'asc');
                 break;
             case 'terbaru':
             default:
-                $query->latest();
+                $query->orderBy('tanggal', 'desc')
+                    ->orderBy('created_at', 'desc');
                 break;
         }
 

@@ -63,7 +63,8 @@
                         </div>
 
                         {{-- Content --}}
-                        <div class="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-[#333] leading-relaxed break-words overflow-hidden mb-8">
+                        <div
+                            class="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-[#333] leading-relaxed break-words overflow-hidden mb-8">
                             <span class="font-bold">Madiun</span> - {!! $potensi->deskripsi !!}
                         </div>
                         {{-- Informasi Potensi --}}
@@ -72,13 +73,18 @@
                                 <h3 class="text-xl font-bold text-[#003366] mb-5 border-b-2 border-[#003366] pb-2 inline-block">
                                     Informasi Potensi
                                 </h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 divide-y sm:divide-y-0 divide-gray-200 text-sm">
+                                <div
+                                    class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 divide-y sm:divide-y-0 divide-gray-200 text-sm">
                                     @if($potensi->lokasi)
                                         <div class="flex items-start gap-3 pt-4 sm:pt-0">
-                                            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 border border-gray-200">
-                                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 border border-gray-200">
+                                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                             </div>
                                             <div>
@@ -89,7 +95,8 @@
                                                     <div class="mt-1">
                                                         <a href="{{ $mapsUrl }}" target="_blank" rel="noopener"
                                                             class="inline-flex items-center text-[#003366] hover:text-blue-700 text-xs font-semibold transition-colors">
-                                                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg" class="w-3 h-3 mr-1.5" alt="Google Maps">
+                                                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg"
+                                                                class="w-3 h-3 mr-1.5" alt="Google Maps">
                                                             Lihat di Google Maps
                                                         </a>
                                                     </div>
@@ -100,9 +107,12 @@
 
                                     @if($potensi->info_utama)
                                         <div class="flex items-start gap-3 pt-4 sm:pt-0">
-                                            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 border border-gray-200">
-                                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 border border-gray-200">
+                                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
                                             </div>
                                             <div>
@@ -114,9 +124,12 @@
 
                                     @if($potensi->nama_pengelola)
                                         <div class="flex items-start gap-3 pt-4 sm:pt-0 sm:mt-4 sm:border-t sm:border-gray-200">
-                                            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 border border-gray-200">
-                                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 border border-gray-200">
+                                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                 </svg>
                                             </div>
                                             <div>
@@ -128,9 +141,11 @@
 
                                     @if($potensi->whatsapp)
                                         <div class="flex items-start gap-3 pt-4 sm:pt-0 sm:mt-4 sm:border-t sm:border-gray-200">
-                                            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 border border-gray-200">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 border border-gray-200">
                                                 <svg class="w-4 h-4 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                                                    <path
+                                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
                                                 </svg>
                                             </div>
                                             <div>
@@ -153,8 +168,8 @@
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                     @foreach($potensi->fotoGaleri as $index => $foto)
                                         @if($index < 6)
-                                            <div class="relative rounded-lg overflow-hidden cursor-pointer group h-32 sm:h-40"
-                                                onclick="openLightbox({{ $index }})">
+                                            <div class="relative rounded-lg overflow-hidden cursor-pointer group h-32 sm:h-40 gallery-trigger"
+                                                data-index="{{ $index }}">
                                                 <img src="{{ $foto->foto_url }}" alt="Galeri {{ $index + 1 }}"
                                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                                                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition"></div>
@@ -208,7 +223,7 @@
                                 </a>
                                 <!-- Instagram -->
                                 <a href="#"
-                                    onclick="event.preventDefault(); navigator.clipboard.writeText(window.location.href); alert('Tautan halaman ini tersalin ke clipboard! Silahkan buka aplikasi Instagram Anda.');"
+                                    id="btnShareInstagram"
                                     class="w-10 h-10 rounded-full flex items-center justify-center bg-linear-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white hover:opacity-80 transition hover:-translate-y-1 hover:shadow-md"
                                     title="Bagikan ke Instagram (Salin Tautan)">
                                     <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
@@ -278,7 +293,8 @@
                                         </div>
                                         @php $lainnyaColors = $kategoriBadgeColors[$lainnya->kategori] ?? ['bg' => '#F1EFE8', 'text' => '#444441']; @endphp
                                         <p class="text-[13px] mb-1 font-semibold" style="color: {{ $lainnyaColors['text'] }}">
-                                            {{ ucfirst($lainnya->kategori) }}</p>
+                                            {{ ucfirst($lainnya->kategori) }}
+                                        </p>
                                         <h3
                                             class="text-[15px] font-bold text-gray-900 group-hover:text-[#003366] leading-tight line-clamp-2">
                                             {{ $lainnya->nama }}
@@ -334,12 +350,11 @@
 
     {{-- Lightbox (for Gallery) --}}
     @if($potensi->fotoGaleri && $potensi->fotoGaleri->count() > 0)
-        <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center"
-            onclick="closeLightbox(event)">
-            <button onclick="closeLightbox()"
+        <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center">
+            <button id="closeLightboxBtn"
                 class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 z-10">&times;</button>
-            <button onclick="prevSlide()" class="absolute left-4 text-white text-4xl hover:text-gray-300 z-10">&#8249;</button>
-            <button onclick="nextSlide()" class="absolute right-4 text-white text-4xl hover:text-gray-300 z-10">&#8250;</button>
+            <button id="prevSlideBtn" class="absolute left-4 text-white text-4xl hover:text-gray-300 z-10">&#8249;</button>
+            <button id="nextSlideBtn" class="absolute right-4 text-white text-4xl hover:text-gray-300 z-10">&#8250;</button>
             <img id="lightboxImg" src="" class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg shadow-2xl">
             <div class="absolute bottom-4 text-white text-sm" id="lightboxCounter"></div>
         </div>
@@ -358,11 +373,12 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        .prose img, .prose iframe {
+        .prose img,
+        .prose iframe {
             max-width: 100% !important;
             height: auto;
         }
-        
+
         .prose table {
             display: block;
             width: 100%;
@@ -381,7 +397,7 @@
         }
     </style>
 
-    <script>
+    <script @nonce>
         document.addEventListener('DOMContentLoaded', function () {
             const observerOptions = { root: null, threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
             const observer = new IntersectionObserver((entries) => {
@@ -395,18 +411,114 @@
             document.querySelectorAll('.scroll-reveal').forEach(el => {
                 observer.observe(el);
             });
-        });
 
-        // Gallery Lightbox Logic
-        @if($potensi->fotoGaleri && $potensi->fotoGaleri->count() > 0)
-            const galeriImages = @json($potensi->fotoGaleri->pluck('foto_url'));
-            let currentSlide = 0;
-            function openLightbox(i) { currentSlide = i; document.getElementById('lightbox').classList.remove('hidden'); document.getElementById('lightbox').classList.add('flex'); updateLightbox(); document.body.style.overflow = 'hidden'; }
-            function closeLightbox(e) { if (e && e.target !== e.currentTarget && !e.target.closest('button')) return; document.getElementById('lightbox').classList.add('hidden'); document.getElementById('lightbox').classList.remove('flex'); document.body.style.overflow = ''; }
-            function nextSlide() { currentSlide = (currentSlide + 1) % galeriImages.length; updateLightbox(); }
-            function prevSlide() { currentSlide = (currentSlide - 1 + galeriImages.length) % galeriImages.length; updateLightbox(); }
-            function updateLightbox() { document.getElementById('lightboxImg').src = galeriImages[currentSlide]; document.getElementById('lightboxCounter').textContent = (currentSlide + 1) + ' / ' + galeriImages.length; }
-            document.addEventListener('keydown', function (e) { if (document.getElementById('lightbox').classList.contains('hidden')) return; if (e.key === 'Escape') closeLightbox(); if (e.key === 'ArrowRight') nextSlide(); if (e.key === 'ArrowLeft') prevSlide(); });
-        @endif
+            // Instagram/Web Share API sharing logic to avoid CSP inline onclick violation
+            const btnShareInstagram = document.getElementById('btnShareInstagram');
+            if (btnShareInstagram) {
+                btnShareInstagram.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (navigator.share) {
+                        navigator.share({
+                            title: "{{ $potensi->nama }}",
+                            text: "Lihat potensi desa Warurejo: {{ $potensi->nama }}",
+                            url: window.location.href
+                        }).catch(err => {
+                            console.log('Share cancelled or failed: ', err);
+                        });
+                    } else {
+                        // Fallback for desktop/browsers without native share
+                        navigator.clipboard.writeText(window.location.href)
+                            .then(() => {
+                                alert('Tautan halaman ini berhasil tersalin ke clipboard! Silakan buka aplikasi Instagram Anda untuk membagikannya.');
+                            })
+                            .catch(err => {
+                                console.error('Gagal menyalin tautan: ', err);
+                            });
+                    }
+                });
+            }
+
+            // Gallery Lightbox Logic
+            @if($potensi->fotoGaleri && $potensi->fotoGaleri->count() > 0)
+                const galeriImages = @json($potensi->fotoGaleri->pluck('foto_url'));
+                let currentSlide = 0;
+
+                function openLightbox(i) {
+                    currentSlide = i;
+                    const lightbox = document.getElementById('lightbox');
+                    lightbox.classList.remove('hidden');
+                    lightbox.classList.add('flex');
+                    updateLightbox();
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeLightbox(e) {
+                    if (e && e.target !== e.currentTarget && !e.target.closest('button')) return;
+                    const lightbox = document.getElementById('lightbox');
+                    lightbox.classList.add('hidden');
+                    lightbox.classList.remove('flex');
+                    document.body.style.overflow = '';
+                }
+
+                function nextSlide() {
+                    currentSlide = (currentSlide + 1) % galeriImages.length;
+                    updateLightbox();
+                }
+
+                function prevSlide() {
+                    currentSlide = (currentSlide - 1 + galeriImages.length) % galeriImages.length;
+                    updateLightbox();
+                }
+
+                function updateLightbox() {
+                    document.getElementById('lightboxImg').src = galeriImages[currentSlide];
+                    document.getElementById('lightboxCounter').textContent = (currentSlide + 1) + ' / ' + galeriImages.length;
+                }
+
+                // Bind click event to triggers
+                document.querySelectorAll('.gallery-trigger').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'), 10);
+                        openLightbox(index);
+                    });
+                });
+
+                // Bind controls
+                const closeBtn = document.getElementById('closeLightboxBtn');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        closeLightbox();
+                    });
+                }
+
+                const lightboxEl = document.getElementById('lightbox');
+                if (lightboxEl) {
+                    lightboxEl.addEventListener('click', function(e) {
+                        closeLightbox(e);
+                    });
+                }
+
+                const prevBtn = document.getElementById('prevSlideBtn');
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', function() {
+                        prevSlide();
+                    });
+                }
+
+                const nextBtn = document.getElementById('nextSlideBtn');
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function() {
+                        nextSlide();
+                    });
+                }
+
+                document.addEventListener('keydown', function (e) {
+                    if (document.getElementById('lightbox').classList.contains('hidden')) return;
+                    if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowRight') nextSlide();
+                    if (e.key === 'ArrowLeft') prevSlide();
+                });
+            @endif
+        });
     </script>
 @endsection

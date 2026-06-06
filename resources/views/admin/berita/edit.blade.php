@@ -78,7 +78,6 @@
                             <label for="gambar_utama" class="block text-sm font-bold text-gray-900 mb-2">Gambar Utama</label>
                             <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center min-h-[12rem]">
                                 <input type="file" id="gambar_utama" name="gambar_utama" accept="image/*"
-                                    onchange="previewImage(event)"
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
 
                                 <!-- Placeholder -->
@@ -247,7 +246,7 @@
 
                     reader.readAsDataURL(file);
                 }
-            }
+            document.getElementById('gambar_utama').addEventListener('change', previewImage);
 
 
             // Client-side validation

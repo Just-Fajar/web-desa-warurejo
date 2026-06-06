@@ -150,7 +150,7 @@
                 <span class="text-primary-700 font-semibold">
                     <span id="selected-count">0</span> publikasi dipilih
                 </span>
-                <button onclick="bulkDelete()"
+                <button id="bulkDeleteBtn"
                     class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition">
                     <i class="fas fa-trash mr-2"></i>
                     Hapus Terpilih
@@ -314,6 +314,11 @@
             document.querySelectorAll('.row-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', updateBulkActions);
             });
+
+            const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+            if (bulkDeleteBtn) {
+                bulkDeleteBtn.addEventListener('click', bulkDelete);
+            }
 
             function updateBulkActions() {
                 const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');

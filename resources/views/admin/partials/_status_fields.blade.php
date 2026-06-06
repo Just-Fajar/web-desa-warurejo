@@ -20,7 +20,7 @@
         </label>
         <select name="status" id="status"
             class="w-full px-5 py-3 bg-white border border-gray-300 shadow-sm rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:bg-white transition-all duration-200 text-sm font-medium @error('status') border-red-300 @enderror"
-            required onchange="handleStatusChange(this.value)">
+            required>
             @foreach($statusList as $value => $label)
                 <option value="{{ $value }}" {{ $currentStatus === $value ? 'selected' : '' }}>
                     {{ $label }}
@@ -152,8 +152,13 @@
 
     // Initialize state on page load
     document.addEventListener("DOMContentLoaded", function() {
-        const currentStatus = document.getElementById('status').value;
-        handleStatusChange(currentStatus);
+        const statusEl = document.getElementById('status');
+        if (statusEl) {
+            statusEl.addEventListener('change', function() {
+                handleStatusChange(this.value);
+            });
+            handleStatusChange(statusEl.value);
+        }
     });
 </script>
 @endpush

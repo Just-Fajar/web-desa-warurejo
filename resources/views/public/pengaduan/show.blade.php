@@ -54,7 +54,7 @@
 
                         {{-- Featured Image (Lampiran if image) --}}
                         @if($pengaduan->lampiran && $pengaduan->isImage())
-                            <div class="relative w-full mb-3 cursor-pointer group" onclick="openLampiranModal('{{ $pengaduan->lampiran_url }}')">
+                            <div class="relative w-full mb-3 cursor-pointer group lampiran-trigger" data-url="{{ $pengaduan->lampiran_url }}">
                                 <img src="{{ $pengaduan->lampiran_url }}" alt="{{ $pengaduan->judul }}"
                                     class="w-full object-cover rounded-sm group-hover:opacity-90 transition-opacity" loading="lazy">
                             </div>
@@ -130,7 +130,7 @@
                                                 @if($balasan->lampiran && $balasan->isImage())
                                                     <div class="mt-4 border-t border-gray-200 pt-3">
                                                         <div class="text-[11px] text-gray-500 italic mb-2">Lampiran Bukti dari Admin:</div>
-                                                        <div class="rounded-lg overflow-hidden border border-gray-200 max-w-sm cursor-pointer hover:opacity-90 transition-opacity" onclick="openLampiranModal('{{ $balasan->lampiran_url }}')">
+                                                        <div class="rounded-lg overflow-hidden border border-gray-200 max-w-sm cursor-pointer hover:opacity-90 transition-opacity lampiran-trigger" data-url="{{ $balasan->lampiran_url }}">
                                                             <img src="{{ $balasan->lampiran_url }}" alt="Bukti dari admin" class="w-full object-cover">
                                                         </div>
                                                     </div>
@@ -218,23 +218,13 @@
     {{-- Lampiran Image Modal --}}
     <div id="lampiranModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center hidden z-[100]">
         <div class="relative max-w-5xl w-full mx-4">
-            <button onclick="document.getElementById('lampiranModal').classList.add('hidden')"
+            <button id="closeLampiranModalBtn"
                 class="absolute -top-12 right-0 text-white/70 hover:text-white text-4xl font-bold transition-colors">&times;</button>
             <img id="lampiranModalImage" src="" class="w-full max-h-[85vh] object-contain rounded-xl shadow-2xl">
         </div>
     </div>
-    
-    <script>
-        function openLampiranModal(url) {
-            document.getElementById('lampiranModalImage').src = url;
-            document.getElementById('lampiranModal').classList.remove('hidden');
-        }
-        document.getElementById('lampiranModal').addEventListener('click', function (e) {
-            if (e.target === this) this.classList.add('hidden');
-        });
-    </script>
 
-    <style>
+    <style @nonce>
         /* Detik.com inspired typography */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
@@ -254,8 +244,9 @@
         }
     </style>
 
-    <script>
+    <script @nonce>
         document.addEventListener('DOMContentLoaded', function () {
+            // Intersection Observer
             const observerOptions = { root: null, threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -268,6 +259,37 @@
             document.querySelectorAll('.scroll-reveal').forEach(el => {
                 observer.observe(el);
             });
+
+            // Lampiran Modal Logic
+            const lampiranModal = document.getElementById('lampiranModal');
+            const lampiranModalImage = document.getElementById('lampiranModalImage');
+
+            function openLampiranModal(url) {
+                if (lampiranModalImage && lampiranModal) {
+                    lampiranModalImage.src = url;
+                    lampiranModal.classList.remove('hidden');
+                }
+            }
+
+            document.querySelectorAll('.lampiran-trigger').forEach(el => {
+                el.addEventListener('click', function() {
+                    const url = this.getAttribute('data-url');
+                    openLampiranModal(url);
+                });
+            });
+
+            const closeBtn = document.getElementById('closeLampiranModalBtn');
+            if (closeBtn && lampiranModal) {
+                closeBtn.addEventListener('click', function() {
+                    lampiranModal.classList.add('hidden');
+                });
+            }
+
+            if (lampiranModal) {
+                lampiranModal.addEventListener('click', function (e) {
+                    if (e.target === this) this.classList.add('hidden');
+                });
+            }
         });
     </script>
 @endsection

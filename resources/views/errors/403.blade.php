@@ -157,7 +157,7 @@
                             <span>Login Admin</span>
                         </a>
 
-                        <button onclick="window.history.back()"
+                        <button id="backBtn"
                             class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
                             <i class="fas fa-arrow-left text-xl text-red-600"></i>
                             <span>Halaman Sebelumnya</span>
@@ -212,7 +212,16 @@
                 Error Code: 403 - Forbidden Access
             </p>
         </div>
-    </div>
+    <script @nonce>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backBtn = document.getElementById('backBtn');
+            if (backBtn) {
+                backBtn.addEventListener('click', function() {
+                    window.history.back();
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -208,7 +208,7 @@
                                             class="shrink-0 h-16 w-16 mr-4 relative rounded-xl overflow-hidden shadow-sm border border-gray-100 block hover:opacity-80 transition-opacity">
                                             <img class="h-16 w-16 object-cover" src="{{ $item->gambar_url }}"
                                                 alt="{{ $item->nama }}"
-                                                onerror="this.src='{{ asset('images/default-potensi.jpg') }}'">
+                                                data-fallback="{{ asset('images/default-potensi.jpg') }}">
                                         </a>
                                         <div class="min-w-0 flex-1">
                                             <div class="text-sm font-bold text-gray-800 truncate" title="{{ $item->nama }}">
@@ -328,7 +328,7 @@
 
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
+        <script @nonce>
             // Search functionality
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {

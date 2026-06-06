@@ -100,7 +100,7 @@
                         <div>
                             <label for="gambar" class="block text-sm font-bold text-gray-900 mb-2">Gambar Galeri</label>
                             <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center min-h-[12rem]">
-                                <input type="file" id="gambar" name="gambar" accept="image/*" onchange="previewImage(event)"
+                                <input type="file" id="gambar" name="gambar" accept="image/*"
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
 
                                 <!-- Placeholder -->
@@ -195,18 +195,21 @@
                 locale: "id"
             });
 
-            function previewImage(event) {
-                const file = event.target.files[0];
+            const gambarInput = document.getElementById('gambar');
+            if (gambarInput) {
+                gambarInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
 
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        document.getElementById('imagePreview').src = e.target.result;
-                        document.getElementById('uploadPlaceholder').classList.add('hidden');
-                        document.getElementById('previewContainer').classList.remove('hidden');
-                    };
-                    reader.readAsDataURL(file);
-                }
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            document.getElementById('imagePreview').src = e.target.result;
+                            document.getElementById('uploadPlaceholder').classList.add('hidden');
+                            document.getElementById('previewContainer').classList.remove('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
             }
 
             // Auto-generate slug from judul

@@ -223,8 +223,8 @@
                             <div class="position-relative">
                                 <img src="${e.target.result}" class="img-fluid rounded shadow-sm" style="width: 100%; height: 150px; object-fit: cover;">
                                 <button type="button" 
-                                        onclick="removeImage(${index})" 
-                                        class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
+                                        data-index="${index}" 
+                                        class="remove-img-btn btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
                                     <i class="fas fa-times"></i>
                                 </button>
                                 <div class="badge bg-primary position-absolute bottom-0 start-0 m-1">${index + 1}</div>
@@ -238,6 +238,18 @@
                     previewGrid.style.display = 'none';
                     placeholder.style.display = 'block';
                 }
+            }
+
+            // Event delegation to remove images without inline onclick handlers
+            const previewGridEl = document.getElementById('previewGrid');
+            if (previewGridEl) {
+                previewGridEl.addEventListener('click', function(e) {
+                    const button = e.target.closest('.remove-img-btn');
+                    if (button) {
+                        const index = parseInt(button.getAttribute('data-index'));
+                        removeImage(index);
+                    }
+                });
             }
 
             function removeImage(index) {

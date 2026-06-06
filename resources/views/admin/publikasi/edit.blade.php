@@ -121,8 +121,7 @@
                             <div
                                 class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary-500 transition relative cursor-pointer flex flex-col justify-center h-48">
                                 <input type="file" id="file_dokumen" name="file_dokumen" accept=".pdf"
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                    onchange="displayFileName('file_dokumen', 'file-name')">
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                                 <i class="fas fa-file-pdf text-4xl text-gray-400 mb-3"></i>
                                 <p class="text-primary-600 hover:text-primary-700 font-semibold text-sm">Pilih File PDF Baru
                                 </p>
@@ -142,8 +141,7 @@
                                 class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-400 transition cursor-pointer flex flex-col justify-center h-48">
                                 <input type="file" id="thumbnail" name="thumbnail"
                                     accept="image/jpeg,image/png,image/jpg,image/webp"
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                    onchange="previewThumbnail(event)">
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
 
                                 <!-- Placeholder -->
                                 <div id="thumbnailPlaceholder" class="{{ $publikasi->thumbnail ? 'hidden' : '' }}">
@@ -249,29 +247,39 @@
                 const input = document.getElementById(inputId);
                 const display = document.getElementById(displayId);
 
-                if (input.files.length > 0) {
+                if (input && display && input.files.length > 0) {
                     const fileName = input.files[0].name;
                     const fileSize = (input.files[0].size / 1024 / 1024).toFixed(2);
                     display.textContent = `${fileName} (${fileSize} MB)`;
-                } else {
+                } else if (display) {
                     display.textContent = '';
                 }
             }
 
-            function previewThumbnail(event) {
-                const reader = new FileReader();
-                reader.onload = function () {
-                    const output = document.getElementById('thumbnailPreview');
-                    const container = document.getElementById('thumbnailPreviewContainer');
-                    const placeholder = document.getElementById('thumbnailPlaceholder');
+            const fileDokumenInput = document.getElementById('file_dokumen');
+            if (fileDokumenInput) {
+                fileDokumenInput.addEventListener('change', function() {
+                    displayFileName('file_dokumen', 'file-name');
+                });
+            }
 
-                    output.src = reader.result;
-                    container.classList.remove('hidden');
-                    if (placeholder) placeholder.classList.add('hidden');
-                };
-                if (event.target.files[0]) {
-                    reader.readAsDataURL(event.target.files[0]);
-                }
+            const thumbnailInput = document.getElementById('thumbnail');
+            if (thumbnailInput) {
+                thumbnailInput.addEventListener('change', function(event) {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const output = document.getElementById('thumbnailPreview');
+                        const container = document.getElementById('thumbnailPreviewContainer');
+                        const placeholder = document.getElementById('thumbnailPlaceholder');
+
+                        if (output) output.src = reader.result;
+                        if (container) container.classList.remove('hidden');
+                        if (placeholder) placeholder.classList.add('hidden');
+                    };
+                    if (event.target.files[0]) {
+                        reader.readAsDataURL(event.target.files[0]);
+                    }
+                });
             }
 
             // Auto-generate slug from judul
