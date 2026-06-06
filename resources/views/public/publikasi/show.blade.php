@@ -73,22 +73,39 @@
                         </a> --}}
                     </div>
 
-                    <!-- PDF Preview -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="bg-gray-100 px-6 py-3 border-b border-gray-200">
-                            <h3 class="text-lg font-semibold text-gray-900">Preview Dokumen</h3>
+                    <!-- PDF Preview (View Only) -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden select-none" oncontextmenu="return false;">
+                        <div class="bg-gray-100 px-6 py-3 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-2">
+                            <h3 class="text-lg font-semibold text-gray-900">Preview Dokumen (Hanya Lihat)</h3>
+                            
+                            <!-- PDF.js Controls -->
+                            <div class="flex items-center gap-2" id="pdf-controls" style="display: none;">
+                                <button id="zoom-out-btn" class="p-1.5 hover:bg-gray-200 rounded-lg text-gray-600 transition" title="Perkecil">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                                    </svg>
+                                </button>
+                                <span id="zoom-percent" class="text-sm font-semibold text-gray-700 min-w-[50px] text-center">125%</span>
+                                <button id="zoom-in-btn" class="p-1.5 hover:bg-gray-200 rounded-lg text-gray-600 transition" title="Perbesar">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                    </svg>
+                                </button>
+                                <span class="h-4 w-px bg-gray-300 mx-1"></span>
+                                <span id="pdf-page-indicator" class="text-sm text-gray-600 font-medium">Halaman 1 / 1</span>
+                            </div>
                         </div>
-                        <div class="p-4">
-                            <iframe src="{{ $publikasi->file_url }}" class="w-full h-[800px] border-0 rounded"
-                                title="{{ $publikasi->judul }}">
-                            </iframe>
-                            <p class="text-sm text-gray-500 text-center mt-2">
-                                {{-- Tidak bisa melihat preview?
-                                <a href="{{ route('publikasi.download', $publikasi->id) }}"
-                                    class="text-primary-600 hover:underline">
-                                    Unduh dokumen
-                                </a> --}}
-                            </p>
+                        <div class="p-4 bg-gray-100 relative">
+                            <!-- Loading State -->
+                            <div id="pdf-loading" class="flex flex-col items-center justify-center py-20">
+                                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-600"></div>
+                                <span class="mt-4 text-sm text-gray-500 font-medium">Memuat pratinjau dokumen...</span>
+                            </div>
+
+                            <!-- PDF Canvas Container (Scrollable) -->
+                            <div id="pdf-viewer-container" class="w-full h-[800px] overflow-y-auto flex flex-col items-center gap-6 p-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent" style="display: none;">
+                                <!-- Canvases will be generated here -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,7 +121,7 @@
                                 @foreach($relatedPublikasi as $doc)
                                     <a href="{{ route('publikasi.show', $doc->id) }}"
                                         class="flex gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors group">
-                                        <div class="flex-shrink-0">
+                                        <div class="shrink-0">
                                             <div
                                                 class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center group-hover:bg-primary-200 transition-colors">
                                                 <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor"
@@ -148,3 +165,173 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <!-- PDF.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.min.js"></script>
+    <script nonce="{{ csp_nonce() }}">
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configure PDF.js Worker using Blob to avoid cross-origin restrictions
+            const workerUrl = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/build/pdf.worker.min.js';
+            const workerBlob = new Blob(['importScripts("' + workerUrl + '");'], { type: 'application/javascript' });
+            pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(workerBlob);
+
+            const url = '{{ $publikasi->file_url }}';
+            const container = document.getElementById('pdf-viewer-container');
+            const loadingEl = document.getElementById('pdf-loading');
+            const controlsEl = document.getElementById('pdf-controls');
+            const pageIndicator = document.getElementById('pdf-page-indicator');
+            const zoomPercent = document.getElementById('zoom-percent');
+            const zoomInBtn = document.getElementById('zoom-in-btn');
+            const zoomOutBtn = document.getElementById('zoom-out-btn');
+
+            let pdfDoc = null;
+            let currentScale = 1.25; // default scale
+            const minScale = 0.5;
+            const maxScale = 2.5;
+
+            // Load the PDF document
+            pdfjsLib.getDocument(url).promise.then(function (pdf) {
+                pdfDoc = pdf;
+                renderPdf();
+            }).catch(function (error) {
+                console.error('Error loading PDF:', error);
+                loadingEl.innerHTML = `
+                    <div class="text-center text-red-500 py-10">
+                        <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <p class="font-semibold text-base">Gagal memuat dokumen</p>
+                        <p class="text-sm text-gray-500 mt-1">Silakan refresh halaman atau hubungi administrator.</p>
+                    </div>
+                `;
+            });
+
+            async function renderPdf() {
+                container.innerHTML = '';
+                
+                // Render pages sequentially for performance
+                for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                    try {
+                        const page = await pdfDoc.getPage(pageNum);
+                        const viewport = page.getViewport({ scale: currentScale });
+
+                        // Create page wrapper
+                        const pageWrapper = document.createElement('div');
+                        pageWrapper.className = 'relative shadow-md border border-gray-200 bg-white mx-auto rounded select-none';
+                        pageWrapper.style.width = '100%';
+                        pageWrapper.style.maxWidth = `${viewport.width}px`;
+                        pageWrapper.style.aspectRatio = `${viewport.width} / ${viewport.height}`;
+
+                        // Create canvas
+                        const canvas = document.createElement('canvas');
+                        canvas.className = 'w-full h-full block pointer-events-none';
+                        
+                        const context = canvas.getContext('2d');
+                        
+                        // Retina support / High DPI
+                        const dpr = window.devicePixelRatio || 1;
+                        canvas.width = viewport.width * dpr;
+                        canvas.height = viewport.height * dpr;
+                        context.scale(dpr, dpr);
+
+                        pageWrapper.appendChild(canvas);
+                        container.appendChild(pageWrapper);
+
+                        const renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+                        
+                        await page.render(renderContext).promise;
+                    } catch (err) {
+                        console.error('Error rendering page ' + pageNum + ':', err);
+                    }
+                }
+                
+                // Show viewer, hide loading
+                loadingEl.style.display = 'none';
+                container.style.display = 'flex';
+                controlsEl.style.display = 'flex';
+                
+                updatePageIndicator();
+            }
+
+            function updatePageIndicator() {
+                const wrapperChildren = container.children;
+                if (!wrapperChildren.length) return;
+                
+                let activePage = 1;
+                const containerTop = container.getBoundingClientRect().top;
+                
+                for (let i = 0; i < wrapperChildren.length; i++) {
+                    const child = wrapperChildren[i];
+                    const rect = child.getBoundingClientRect();
+                    
+                    // If page top has passed the top region of scroll view
+                    if (rect.top - containerTop <= 100) {
+                        activePage = i + 1;
+                    }
+                }
+                
+                pageIndicator.textContent = `Halaman ${activePage} / ${pdfDoc.numPages}`;
+            }
+
+            // Scroll listener to update page counter
+            container.addEventListener('scroll', updatePageIndicator);
+
+            // Zoom in
+            zoomInBtn.addEventListener('click', function () {
+                if (currentScale < maxScale) {
+                    currentScale = Math.min(maxScale, currentScale + 0.25);
+                    zoomPercent.textContent = `${Math.round(currentScale * 100)}%`;
+                    
+                    // Show loading state while re-rendering
+                    container.style.display = 'none';
+                    loadingEl.style.display = 'flex';
+                    
+                    renderPdf();
+                }
+            });
+
+            // Zoom out
+            zoomOutBtn.addEventListener('click', function () {
+                if (currentScale > minScale) {
+                    currentScale = Math.max(minScale, currentScale - 0.25);
+                    zoomPercent.textContent = `${Math.round(currentScale * 100)}%`;
+                    
+                    // Show loading state while re-rendering
+                    container.style.display = 'none';
+                    loadingEl.style.display = 'flex';
+                    
+                    renderPdf();
+                }
+            });
+
+            // Block Drag & Drop on canvases
+            container.addEventListener('dragstart', function (e) {
+                e.preventDefault();
+            });
+
+            // Anti-save / Anti-print keyboard shortcuts
+            window.addEventListener('keydown', function (e) {
+                const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+                const isSave = (isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === 's';
+                const isPrint = (isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === 'p';
+                const isInspect = (isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === 'u';
+
+                if (isSave) {
+                    e.preventDefault();
+                    alert('Dokumen ini dilindungi dan tidak diperbolehkan untuk disimpan.');
+                }
+                if (isPrint) {
+                    e.preventDefault();
+                    alert('Dokumen ini dilindungi dan tidak diperbolehkan untuk dicetak.');
+                }
+                if (isInspect) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+@endpush

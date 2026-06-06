@@ -69,7 +69,7 @@ class SecurityHeaders
             $response->headers->set('Cross-Origin-Opener-Policy', 'same-origin');
 
             // Setup Content Security Policy
-            $scriptSrc = "script-src 'self' 'unsafe-eval' 'nonce-{$nonce}' cdn.tiny.cloud cdn.jsdelivr.net cdn.ckeditor.com npmcdn.com";
+            $scriptSrc = "script-src 'self' 'unsafe-eval' 'nonce-{$nonce}' cdn.tiny.cloud cdn.jsdelivr.net cdn.ckeditor.com npmcdn.com blob:";
             $styleSrc = "style-src 'self' 'unsafe-inline' fonts.bunny.net cdn.tiny.cloud cdn.jsdelivr.net cdnjs.cloudflare.com fonts.googleapis.com";
             $connectSrc = "connect-src 'self' cdn.tiny.cloud https://*.tiny.cloud";
 
