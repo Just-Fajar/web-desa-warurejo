@@ -28,7 +28,7 @@
                 <div class="flex items-start gap-3">
                     <div class="text-red-600"><i class="fas fa-exclamation-circle"></i></div>
                     <div class="text-sm text-red-700">{{ session('error') }}</div>
-                    <button type="button" class="ml-auto text-red-500 hover:text-red-700" onclick="this.closest('div.bg-red-50').remove()">&times;</button>
+                    <button type="button" class="close-alert-btn ml-auto text-red-500 hover:text-red-700">&times;</button>
                 </div>
             </div>
         @endif
@@ -107,7 +107,7 @@
                         <!-- Foto Utama -->
                         <div>
                             <label for="gambar" class="block text-sm font-bold text-gray-900 mb-2">Foto Utama</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center h-48">
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center w-full aspect-video overflow-hidden bg-gray-50">
                                 <input type="file" id="gambar" name="gambar" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                                 <div id="uploadPlaceholder" class="{{ $potensi && $potensi->gambar ? 'hidden' : '' }}">
                                     <i class="fas fa-image text-4xl text-gray-400 mb-3"></i>
@@ -128,7 +128,7 @@
                         <div>
                             <label for="foto_galeri" class="block text-sm font-bold text-gray-900 mb-2">Foto Galeri <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
 
-                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center h-48">
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center w-full aspect-video overflow-hidden bg-gray-50">
                                 <input type="file" id="foto_galeri" name="foto_galeri[]" accept="image/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                                 <div>
                                     <i class="fas fa-images text-4xl text-gray-400 mb-3"></i>
@@ -185,9 +185,13 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
-    <script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js" nonce="{{ csp_nonce() }}"></script>
+    <script nonce="{{ csp_nonce() }}">
         $(document).ready(function () {
+            // Close alert button handler
+            $(document).on('click', '.close-alert-btn', function() {
+                $(this).closest('div.bg-red-50').remove();
+            });
             // Auto-generate slug from nama
             $('#nama').on('input', function () {
                 const nama = $(this).val();

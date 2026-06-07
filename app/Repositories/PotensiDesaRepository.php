@@ -24,7 +24,7 @@ class PotensiDesaRepository extends BaseRepository
         return $this->model
             ->published()
             ->with('fotoGaleri')
-            ->latest()
+            ->latest('published_at')
             ->paginate(12);
     }
 
@@ -38,7 +38,7 @@ class PotensiDesaRepository extends BaseRepository
             ->published()
             ->byKategori($kategori)
             ->with('fotoGaleri')
-            ->latest()
+            ->latest('published_at')
             ->paginate(12);
     }
 
@@ -155,10 +155,10 @@ class PotensiDesaRepository extends BaseRepository
 
         // Filter by date range
         if (! empty($filters['date_from'])) {
-            $query->whereDate('created_at', '>=', $filters['date_from']);
+            $query->whereDate('published_at', '>=', $filters['date_from']);
         }
         if (! empty($filters['date_to'])) {
-            $query->whereDate('created_at', '<=', $filters['date_to']);
+            $query->whereDate('published_at', '<=', $filters['date_to']);
         }
 
         // Sort by
@@ -168,11 +168,11 @@ class PotensiDesaRepository extends BaseRepository
                 $query->orderBy('views', 'desc');
                 break;
             case 'terlama':
-                $query->oldest();
+                $query->oldest('published_at');
                 break;
             case 'terbaru':
             default:
-                $query->latest();
+                $query->latest('published_at');
                 break;
         }
 

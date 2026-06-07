@@ -394,11 +394,9 @@ class PublikasiCrudTest extends TestCase
 
         $response = $this->get(route('publikasi.download', $publikasi->id));
 
-        $response->assertStatus(200);
-        $this->assertStringContainsString('attachment', $response->headers->get('content-disposition'));
+        $response->assertStatus(403);
 
         $publikasi->refresh();
-        // Downloads counter should increment
-        $this->assertEquals(11, $publikasi->jumlah_download);
+        $this->assertEquals(10, $publikasi->jumlah_download);
     }
 }

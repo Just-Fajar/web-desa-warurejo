@@ -31,11 +31,27 @@ class StrukturOrganisasiRepository extends BaseRepository
      * Get all struktur organisasi dengan pagination untuk admin list
      * Include inactive untuk management
      */
-    public function getPaginated($perPage = 15)
+    public function getPaginated(array $filters = [], $perPage = 15)
     {
-        return $this->model
-            ->ordered()
-            ->paginate($perPage);
+        $query = $this->model->ordered();
+
+        if (!empty($filters['search'])) {
+            $search = $filters['search'];
+            $query->where(function($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('jabatan', 'like', "%{$search}%");
+            });
+        }
+
+        if (isset($filters['status']) && $filters['status'] !== '') {
+            $query->where('is_active', $filters['status']);
+        }
+
+        if (isset($filters['level']) && $filters['level'] !== '') {
+            $query->where('level', $filters['level']);
+        }
+
+        return $query->paginate($perPage);
     }
 
     /**
@@ -128,10 +144,18 @@ class StrukturOrganisasiRepository extends BaseRepository
     }
 
     /**
-     * Get data terstruktur untuk tampilan hierarki organisasi
-     * Return array dengan keys: kepala, sekretaris, kaur, staff_kaur, kasi, staff_kasi
-     * Untuk display di halaman public dengan hierarki jelas
+     * Get semua Kepala Dusun (Kadus)
+     * Return collection, sorted by urutan
      */
+    public function getKadus()
+    {
+        return $this->model
+            ->active()
+            ->kadus()
+            ->ordered()
+            ->get();
+    }
+
     public function getStructuredData()
     {
         return [
@@ -141,6 +165,7 @@ class StrukturOrganisasiRepository extends BaseRepository
             'staff_kaur' => $this->getStaffKaur(),
             'kasi' => $this->getKasi(),
             'staff_kasi' => $this->getStaffKasi(),
+            'kadus' => $this->getKadus(),
         ];
     }
 

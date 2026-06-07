@@ -76,30 +76,18 @@
 
                         <div class="text-gray-700 space-y-4 text-justify leading-relaxed text-sm md:text-base">
                             <p class="font-medium">Assalamu'alaikum warahmatullahi wabarakatuh,</p>
-                            <p>Salam sejahtera bagi kita semua,</p>
+                            <p>Salam sejahtera bagi kita semua.</p>
 
                             <p>
-                                Dengan penuh rasa syukur, saya menyambut seluruh warga serta para pengunjung di website
-                                resmi {{ $profil->nama_desa }}.
-                                Kehadiran website ini merupakan bagian dari komitmen kami dalam mewujudkan transparansi,
-                                keterbukaan informasi publik, dan pelayanan yang lebih cepat serta mudah diakses oleh
-                                masyarakat.
+                                Selamat datang di Website Resmi {{ $profil->nama_desa }}. Website ini hadir sebagai sarana informasi, transparansi, dan pelayanan publik yang dapat diakses oleh seluruh masyarakat.
                             </p>
 
                             <p>
-                                Pemerintah {{ $profil->nama_desa }} terus berupaya meningkatkan kualitas pelayanan,
-                                pembangunan, dan pemberdayaan masyarakat.
-                                Melalui pemanfaatan teknologi informasi, kami berharap website ini menjadi sarana yang
-                                efektif dalam menyampaikan informasi, program kerja, kegiatan desa, serta wadah partisipasi
-                                masyarakat dalam proses pembangunan.
+                                Melalui platform ini, kami berupaya menyampaikan informasi mengenai kegiatan, program pembangunan, potensi desa, serta berbagai layanan yang tersedia bagi masyarakat.
                             </p>
 
                             <p>
-                                Besar harapan kami, platform ini dapat memperkuat hubungan antara pemerintah desa dan
-                                masyarakat, sekaligus menjadi ruang bersama untuk membangun {{ $profil->nama_desa }} yang
-                                lebih maju, mandiri, dan sejahtera.
-                                Semoga melalui sinergi dan kebersamaan, kita mampu menjadikan desa kita sebagai tempat yang
-                                membawa manfaat bagi seluruh warga.
+                                Kami berharap website ini dapat menjadi jembatan komunikasi antara pemerintah desa dan warga dalam mewujudkan {{ $profil->nama_desa }} yang maju, mandiri, dan sejahtera.
                             </p>
 
                             <p class="font-medium">Wassalamu'alaikum warahmatullahi wabarakatuh.</p>
@@ -131,7 +119,7 @@
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                     <div>
                         <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-none mb-4">Berita Terkini</h2>
-                        <p class="text-gray-500 text-lg md:text-xl">Informasi dan kabar terbaru dari {{ $profil->nama_desa }}</p>
+                        <p class="text-gray-500 text-lg md:text-xl">Berita, informasi, dan perkembangan terbaru dari Desa Warurejo</p>
                     </div>
                     @if($latest_berita->count() > 0)
                         <a href="{{ route('berita.index') }}"
@@ -262,7 +250,7 @@
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                     <div>
                         <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-none mb-4">Potensi Desa</h2>
-                        <p class="text-gray-500 text-lg md:text-xl">Kekayaan dan potensi yang dimiliki {{ $profil->nama_desa }}</p>
+                        <p class="text-gray-500 text-lg md:text-xl">Beragam potensi dan sumber daya unggulan yang dimiliki Desa Warurejo</p>
                     </div>
                     @if(count($potensi ?? []) > 0)
                         <a href="{{ route('potensi.index') }}"
@@ -391,8 +379,7 @@
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                     <div>
                         <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-none mb-4">Galeri Desa</h2>
-                        <p class="text-gray-500 text-lg md:text-xl">Potret keindahan, kegiatan warga, dan pembangunan di
-                            {{ $profil->nama_desa }}.
+                        <p class="text-gray-500 text-lg md:text-xl">Dokumentasi kegiatan, pembangunan, dan berbagai aktivitas masyarakat Desa Warurejo
                         </p>
                     </div>
                     <a href="{{ route('galeri.index') }}"
@@ -409,12 +396,12 @@
             @php
                 // Kategori Sesuai Permintaan
                 $kategoriList = [
-                    ['nama' => 'Kegiatan', 'desc' => 'Potret aktivitas dan kegiatan keseharian warga desa.', 'color' => 'bg-blue-500'],
-                    ['nama' => 'Pembangunan', 'desc' => 'Perkembangan pembangunan dan fasilitas umum di desa.', 'color' => 'bg-amber-500'],
-                    ['nama' => 'Budaya', 'desc' => 'Melestarikan warisan leluhur dan kegiatan kebudayaan warga.', 'color' => 'bg-rose-500'],
-                    ['nama' => 'Keagamaan', 'desc' => 'Kegiatan keagamaan dan perayaan hari besar agama.', 'color' => 'bg-emerald-500'],
-                    ['nama' => 'Sosial', 'desc' => 'Kegiatan sosial dan gotong royong masyarakat desa.', 'color' => 'bg-purple-500'],
-                    ['nama' => 'Lainnya', 'desc' => 'Berbagai dokumentasi menarik dan momen spesial lainnya.', 'color' => 'bg-gray-400'],
+                    ['nama' => 'Kegiatan', 'desc' => 'Potret berbagai aktivitas dan kehidupan sehari-hari warga Desa Warurejo', 'color' => 'bg-blue-500'],
+                    ['nama' => 'Pembangunan', 'desc' => 'Potret perkembangan infrastruktur dan fasilitas umum Desa Warurejo', 'color' => 'bg-amber-500'],
+                    ['nama' => 'Budaya', 'desc' => 'Dokumentasi tradisi, seni, dan kegiatan budaya masyarakat Desa Warurejo', 'color' => 'bg-rose-500'],
+                    ['nama' => 'Keagamaan', 'desc' => 'Dokumentasi kegiatan keagamaan dan peringatan hari besar keagamaan di Desa Warurejo', 'color' => 'bg-emerald-500'],
+                    ['nama' => 'Sosial', 'desc' => 'Dokumentasi kegiatan sosial, gotong royong, dan kepedulian masyarakat Desa Warurejo', 'color' => 'bg-purple-500'],
+                    ['nama' => 'Lainnya', 'desc' => 'Dokumentasi berbagai kegiatan dan momen lainnya di Desa Warurejo', 'color' => 'bg-gray-400'],
                 ];
 
                 $galeriDisplay = [];

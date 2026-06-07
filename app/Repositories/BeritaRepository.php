@@ -195,4 +195,28 @@ class BeritaRepository extends BaseRepository
                 ];
             });
     }
+
+    /**
+     * Get paginated berita with filters for admin list
+     */
+    public function getPaginatedWithFilters($perPage = 10, array $filters = [])
+    {
+        $query = $this->model->with('admin');
+
+        if (! empty($filters['search'])) {
+            $keyword = $filters['search'];
+            $query->where(function ($q) use ($keyword) {
+                $q->where('judul', 'like', "%{$keyword}%")
+                  ->orWhere('ringkasan', 'like', "%{$keyword}%")
+                  ->orWhere('konten', 'like', "%{$keyword}%");
+            });
+        }
+
+        if (! empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        return $query->latest()->paginate($perPage);
+    }
 }
+

@@ -293,7 +293,7 @@ class GaleriCrudTest extends TestCase
             'kategori' => $galeri->kategori,
             'status' => 'published',
             'tanggal' => $galeri->tanggal->format('Y-m-d'),
-            'gambar' => UploadedFile::fake()->image('new_image.jpg'),
+            'images' => [UploadedFile::fake()->image('new_image.jpg')],
         ]);
 
         $response->assertRedirect(route('admin.galeri.index'));
@@ -369,7 +369,7 @@ class GaleriCrudTest extends TestCase
             'kategori' => $galeri->kategori,
             'status' => 'published',
             'tanggal' => $galeri->tanggal->format('Y-m-d'),
-            'gambar' => UploadedFile::fake()->image('new_image.jpg'),
+            'images' => [UploadedFile::fake()->image('new_image.jpg')],
         ]);
 
         $response->assertRedirect();

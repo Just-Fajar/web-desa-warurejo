@@ -15,11 +15,11 @@
                 
                 <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
                     <span class="text-slate-900 block">Layanan Pengaduan</span>
-                    <span class="text-slate-400 block">Masyarakat.</span>
+                    <span class="text-slate-400 block">Masyarakat</span>
                 </h1>
                 
                 <p class="text-slate-600 text-lg leading-relaxed mb-10 max-w-2xl">
-                    Sampaikan aspirasi, keluhan, dan saran Anda untuk membangun Desa Harapan yang lebih baik. Kami siap mendengar dan menindaklanjuti.
+                    Sampaikan aspirasi, keluhan, dan saran Anda untuk mendukung pembangunan Desa Warurejo yang lebih baik
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center gap-4">

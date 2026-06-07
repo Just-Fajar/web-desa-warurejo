@@ -127,11 +127,11 @@
         <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
             <!-- Table Header with Bulk Actions -->
             <div class="p-5 border-b border-gray-100 bg-white">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <form method="GET" action="{{ route('admin.potensi.index') }}" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <!-- Search -->
                     <div class="flex-1 max-w-md">
                         <div class="relative">
-                            <input type="text" id="searchInput" placeholder="Cari potensi desa..."
+                            <input type="text" name="search" id="searchInput" value="{{ request('search') }}" placeholder="Cari potensi desa..."
                                 class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
                             <svg class="w-5 h-5 text-gray-600 absolute left-4 top-3" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
@@ -143,25 +143,34 @@
 
                     <!-- Filter -->
                     <div class="flex gap-2">
-                        <select id="kategoriFilter"
+                        <select name="kategori" id="kategoriFilter"
                             class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
                             <option value="">Semua Kategori</option>
-                            <option value="pertanian">Pertanian</option>
-                            <option value="peternakan">Peternakan</option>
-                            <option value="perikanan">Perikanan</option>
-                            <option value="umkm">UMKM</option>
-                            <option value="wisata">Wisata</option>
-                            <option value="lainnya">Lainnya</option>
+                            <option value="pertanian" {{ request('kategori') === 'pertanian' ? 'selected' : '' }}>Pertanian</option>
+                            <option value="peternakan" {{ request('kategori') === 'peternakan' ? 'selected' : '' }}>Peternakan</option>
+                            <option value="perikanan" {{ request('kategori') === 'perikanan' ? 'selected' : '' }}>Perikanan</option>
+                            <option value="umkm" {{ request('kategori') === 'umkm' ? 'selected' : '' }}>UMKM</option>
+                            <option value="wisata" {{ request('kategori') === 'wisata' ? 'selected' : '' }}>Wisata</option>
+                            <option value="lainnya" {{ request('kategori') === 'lainnya' ? 'selected' : '' }}>Lainnya</option>
                         </select>
-                        <select id="statusFilter"
+                        <select name="status" id="statusFilter"
                             class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
                             <option value="">Semua Status</option>
-                            <option value="published">Published</option>
-                            <option value="draft">Draft</option>
-                            <option value="scheduled">Dijadwalkan</option>
+                            <option value="published" {{ request('status') === 'published' ? 'selected' : '' }}>Published</option>
+                            <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="scheduled" {{ request('status') === 'scheduled' ? 'selected' : '' }}>Dijadwalkan</option>
                         </select>
+                        <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-white border-2 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900 text-sm font-semibold rounded-xl transition shrink-0 cursor-pointer">
+                            Cari
+                        </button>
+                        @if(request('search') || request('kategori') || request('status'))
+                            <a href="{{ route('admin.potensi.index') }}"
+                                class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-xl transition flex items-center shrink-0">
+                                Reset
+                            </a>
+                        @endif
                     </div>
-                </div>
+                </form>
             </div>
 
             <!-- Table -->
@@ -317,6 +326,11 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Pagination -->
+            <div class="px-6 py-4 border-t border-gray-100 bg-white">
+                {{ $potensi->appends(request()->query())->links() }}
+            </div>
         </div>
     </div>
 
@@ -329,63 +343,36 @@
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script @nonce>
-            // Search functionality
-            const searchInput = document.getElementById('searchInput');
-            if (searchInput) {
-                searchInput.addEventListener('keyup', function () {
-                    filterTable();
-                });
-            }
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchInput = document.getElementById('searchInput');
+                const statusFilter = document.getElementById('statusFilter');
+                const kategoriFilter = document.getElementById('kategoriFilter');
 
-            // Kategori and Status filters
-            const kategoriFilter = document.getElementById('kategoriFilter');
-            const statusFilter = document.getElementById('statusFilter');
-
-            const applyFilters = () => filterTable();
-
-            if (kategoriFilter) {
-                kategoriFilter.addEventListener('change', applyFilters);
-            }
-            if (statusFilter) {
-                statusFilter.addEventListener('change', applyFilters);
-            }
-
-            function filterTable() {
-                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-                const selectedKategori = kategoriFilter ? kategoriFilter.value : '';
-                const selectedStatus = statusFilter ? statusFilter.value : '';
-                const rows = document.querySelectorAll('.potensi-row');
-
-                rows.forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    const kategori = row.dataset.kategori;
-                    const rowStatus = row.dataset.status ? row.dataset.status.toLowerCase() : '';
-
-                    const matchSearch = text.includes(searchTerm);
-                    const matchKategori = !selectedKategori || kategori === selectedKategori;
-                    const matchStatus = !selectedStatus || rowStatus === selectedStatus;
-
-                    row.style.display = (matchSearch && matchKategori && matchStatus) ? '' : 'none';
-                });
-            }
-
-            // Individual Checkboxes
-            document.querySelectorAll('.potensi-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', updateBulkDeleteButton);
-            });
-
-            function updateBulkDeleteButton() {
-                const checkedBoxes = document.querySelectorAll('.potensi-checkbox:checked');
-                const bulkActions = document.getElementById('bulk-actions');
-                const selectedCount = document.getElementById('selectedCount');
-
-                if (checkedBoxes.length > 0) {
-                    bulkActions.classList.remove('hidden');
-                    selectedCount.textContent = checkedBoxes.length;
-                } else {
-                    bulkActions.classList.add('hidden');
+                // Keep cursor at the end of the search input on reload
+                if (searchInput && searchInput.value) {
+                    searchInput.focus();
+                    const val = searchInput.value;
+                    searchInput.value = '';
+                    searchInput.value = val;
                 }
-            }
+
+                // Individual Checkboxes
+                document.querySelectorAll('.potensi-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', updateBulkDeleteButton);
+                });
+
+                function updateBulkDeleteButton() {
+                    const checkedBoxes = document.querySelectorAll('.potensi-checkbox:checked');
+                    const bulkActions = document.getElementById('bulk-actions');
+                    const selectedCount = document.getElementById('selectedCount');
+
+                    if (checkedBoxes.length > 0) {
+                        bulkActions.classList.remove('hidden');
+                        selectedCount.textContent = checkedBoxes.length;
+                    } else {
+                        bulkActions.classList.add('hidden');
+                    }
+                }
 
             // Bulk Delete
             document.getElementById('bulkDeleteBtn').addEventListener('click', function () {

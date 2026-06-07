@@ -58,8 +58,7 @@
                     <div class="relative z-10 mt-6 pt-6 border-t border-gray-50">
                         <span
                             class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-sm font-medium border border-emerald-100 shadow-sm">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            Akun Aktif
+                            Status Aktif
                         </span>
                     </div>
                 </div>
@@ -104,7 +103,7 @@
                         <div class="flex flex-col sm:flex-row gap-2 sm:gap-6">
                             <div
                                 class="w-40 text-sm font-bold text-gray-400 uppercase tracking-wide flex items-center gap-2">
-                                <i class="fas fa-calendar-alt mb-0.5"></i> Tanggal Jadi Admin
+                                <i class="fas fa-calendar-alt mb-0.5"></i> Tanggal Dibuat
                             </div>
                             <div class="flex-1 text-gray-800 font-medium">
                                 {{ $admin->created_at->format('d F Y') }} <span
@@ -112,39 +111,6 @@
                             </div>
                         </div>
 
-                    </div>
-                </div>
-
-                <!-- Catatan Keamanan / Login -->
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center">
-                            <i class="fas fa-shield-alt text-sm"></i>
-                        </div>
-                        <h2 class="text-lg font-bold text-gray-800">
-                            Riwayat Akses & Sistem
-                        </h2>
-                    </div>
-
-                    <div class="p-6 md:p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <i class="fas fa-sign-in-alt text-gray-400"></i>
-                                    <span class="text-sm font-bold text-gray-500 uppercase tracking-wide">Terakhir
-                                        Login</span>
-                                </div>
-                                <p class="text-lg font-semibold text-gray-800 truncate">Sesi Aktif Saat Ini</p>
-                            </div>
-                            <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <i class="fas fa-key text-gray-400"></i>
-                                    <span class="text-sm font-bold text-gray-500 uppercase tracking-wide">Privilese
-                                        Keamanan</span>
-                                </div>
-                                <p class="text-lg font-semibold text-gray-800">Akses Penuh</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
 

@@ -15,7 +15,7 @@
                 Berita <span class="text-primary-600">Desa</span>
             </h1>
             <p class="text-base sm:text-lg text-gray-500 max-w-2xl">
-                Pusat Informasi dan Kabar Terbaru dari Desa Warurejo
+                Informasi, kegiatan, dan perkembangan terbaru dari Desa Warurejo
             </p>
         </div>
     </div>
@@ -162,7 +162,7 @@
                                 </a>
 
                                 {{-- Deskripsi Expandable --}}
-                                <div class="relative mb-4 grow cursor-pointer group/desc" onclick="this.classList.toggle('is-expanded')" title="Klik untuk memperluas teks">
+                                <div class="relative mb-4 grow cursor-pointer group/desc desc-container" title="Klik untuk memperluas teks">
                                     <div class="text-sm text-gray-600 leading-relaxed overflow-hidden max-h-[2.8rem] transition-all duration-500 custom-scrollbar pr-2 desc-text">
                                         {{ $item->excerpt ?? Str::limit(strip_tags($item->konten), 300) }}
                                     </div>
@@ -225,9 +225,9 @@
 @endpush
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr" nonce="{{ csp_nonce() }}"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js" nonce="{{ csp_nonce() }}"></script>
+<script nonce="{{ csp_nonce() }}">
     document.addEventListener('DOMContentLoaded', function() {
         flatpickr('.datepicker', {
             locale: 'id',
@@ -242,7 +242,7 @@
 @endpush
 
 @push('scripts')
-<script>
+<script nonce="{{ csp_nonce() }}">
 function searchAutocomplete() {
     return {
         searchQuery: '{{ request("search") }}',
@@ -303,7 +303,7 @@ function searchAutocomplete() {
 .is-expanded .fade-overlay, .is-expanded .fade-hint { opacity: 0 !important; pointer-events: none; }
 </style>
 
-<script>
+<script nonce="{{ csp_nonce() }}">
 // Scroll-triggered animation observer
 document.addEventListener('DOMContentLoaded', function() {
     const observerOptions = {
@@ -323,6 +323,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Observe all elements with scroll-reveal classes
     document.querySelectorAll('.scroll-reveal, .scroll-reveal-stagger').forEach(el => {
         observer.observe(el);
+    });
+
+    // Expandable description handler
+    document.querySelectorAll('.desc-container').forEach(el => {
+        el.addEventListener('click', function() {
+            this.classList.toggle('is-expanded');
+        });
     });
 });
 </script>

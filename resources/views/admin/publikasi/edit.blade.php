@@ -119,7 +119,7 @@
                             @endif
 
                             <div
-                                class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary-500 transition relative cursor-pointer flex flex-col justify-center h-48">
+                                class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary-500 transition relative cursor-pointer flex flex-col justify-center w-full aspect-video overflow-hidden bg-gray-50">
                                 <input type="file" id="file_dokumen" name="file_dokumen" accept=".pdf"
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                                 <i class="fas fa-file-pdf text-4xl text-gray-400 mb-3"></i>
@@ -133,62 +133,58 @@
 
                         <!-- Thumbnail -->
                         <div>
-                            <label for="thumbnail" class="block text-sm font-bold text-gray-900 mb-2">
+                            <label class="block text-sm font-bold text-gray-900 mb-3">
                                 Thumbnail (Opsional)
                             </label>
 
-                            <div
-                                class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-400 transition cursor-pointer flex flex-col justify-center h-48">
-                                <input type="file" id="thumbnail" name="thumbnail"
-                                    accept="image/jpeg,image/png,image/jpg,image/webp"
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-
-                                <!-- Placeholder -->
-                                <div id="thumbnailPlaceholder" class="{{ $publikasi->thumbnail ? 'hidden' : '' }}">
-                                    <i class="fas fa-image text-4xl text-gray-400 mb-3"></i>
-                                    <p class="text-primary-600 hover:text-primary-700 font-semibold text-sm">Pilih Gambar
-                                        Baru</p>
-                                    <p class="text-xs text-gray-500 mt-2">Format JPG, PNG, WEBP — Max 2MB</p>
-                                    <p id="thumbnail-name" class="text-sm text-gray-700 font-semibold mt-2"></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- Thumbnail Saat Ini (Sebelum Edit) -->
+                                <div>
+                                    <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Gambar Saat Ini (Sebelum Edit)</span>
+                                    <div class="border border-gray-200 rounded-xl overflow-hidden bg-gray-50 w-full aspect-video flex items-center justify-center relative shadow-sm">
+                                        @if($publikasi->thumbnail)
+                                            <img src="{{ $publikasi->thumbnail_url }}" class="w-full h-full object-cover">
+                                        @else
+                                            <div class="text-center p-6 text-gray-400">
+                                                <i class="fas fa-image text-3xl mb-1"></i>
+                                                <p class="text-xs">Tidak ada gambar saat ini</p>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
 
-                                <!-- Preview -->
-                                <div id="thumbnailPreviewContainer" class="{{ $publikasi->thumbnail ? '' : 'hidden' }} absolute inset-0 w-full h-full p-2">
-                                    <img id="thumbnailPreview"
-                                        src="{{ $publikasi->thumbnail ? $publikasi->thumbnail_url : '' }}"
-                                        class="rounded-lg shadow w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-xl">
-                                        <p class="text-white text-sm font-medium">Ubah Gambar</p>
+                                <!-- Thumbnail Baru (Setelah Edit) -->
+                                <div>
+                                    <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Gambar Baru (Setelah Edit)</span>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-400 transition cursor-pointer flex flex-col justify-center w-full aspect-video overflow-hidden bg-gray-50 shadow-sm">
+                                        <input type="file" id="thumbnail" name="thumbnail"
+                                            accept="image/jpeg,image/png,image/jpg,image/webp"
+                                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+
+                                        <!-- Placeholder -->
+                                        <div id="thumbnailPlaceholder">
+                                            <i class="fas fa-image text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-primary-600 hover:text-primary-700 font-semibold text-xs">Pilih Gambar Baru</p>
+                                            <p class="text-[10px] text-gray-500 mt-1">Format JPG, PNG, WEBP — Max 2MB</p>
+                                        </div>
+
+                                        <!-- Preview -->
+                                        <div id="thumbnailPreviewContainer" class="hidden absolute inset-0 w-full h-full p-2 bg-gray-50">
+                                            <img id="thumbnailPreview" src=""
+                                                class="rounded-lg shadow w-full h-full object-cover">
+                                            <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-xl">
+                                                <p class="text-white text-xs font-medium mb-1">Ubah Gambar Baru</p>
+                                                <button type="button" id="btnBatalGantiThumbnail" class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white text-[10px] font-bold rounded transition-all focus:outline-none z-20">
+                                                    Batal Ganti
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             @error('thumbnail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
-
-                    <!-- Informasi Tambahan -->
-                    <div class="border-t border-gray-200 pt-6 mt-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Tambahan</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div>
-                                <p class="text-gray-500 font-medium mb-1">Dibuat</p>
-                                <p class="text-gray-800 font-semibold">{{ \Carbon\Carbon::parse($publikasi->created_at)->format('d M Y H:i') }}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 font-medium mb-1">Diupdate</p>
-                                <p class="text-gray-800 font-semibold">{{ \Carbon\Carbon::parse($publikasi->updated_at)->format('d M Y H:i') }}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 font-medium mb-1">Total Download</p>
-                                <p class="text-gray-800 font-semibold">{{ number_format($publikasi->jumlah_download ?? 0) }}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 font-medium mb-1">Pengunggah</p>
-                                <p class="text-gray-800 font-semibold">{{ $publikasi->admin->name ?? 'Desa Warurejo' }}</p>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Pengaturan Publikasi -->
                     <div class="border-t border-gray-200 pt-6 mt-6">
                         <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
@@ -212,6 +208,26 @@
                             ])
                         </div>
                     </div>
+
+                    <!-- Informasi Tambahan -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Tambahan</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Dibuat</p>
+                                <p class="text-gray-800 font-semibold">{{ \Carbon\Carbon::parse($publikasi->created_at)->format('d M Y H:i') }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Diupdate</p>
+                                <p class="text-gray-800 font-semibold">{{ \Carbon\Carbon::parse($publikasi->updated_at)->format('d M Y H:i') }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Pengunggah</p>
+                                <p class="text-gray-800 font-semibold">{{ $publikasi->admin->name ?? 'Desa Warurejo' }}</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Form Footer -->
@@ -263,7 +279,7 @@
                 });
             }
 
-            const thumbnailInput = document.getElementById('thumbnail');
+             const thumbnailInput = document.getElementById('thumbnail');
             if (thumbnailInput) {
                 thumbnailInput.addEventListener('change', function(event) {
                     const reader = new FileReader();
@@ -279,6 +295,17 @@
                     if (event.target.files[0]) {
                         reader.readAsDataURL(event.target.files[0]);
                     }
+                });
+            }
+
+            const btnBatalGantiThumbnail = document.getElementById('btnBatalGantiThumbnail');
+            if (btnBatalGantiThumbnail) {
+                btnBatalGantiThumbnail.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.getElementById('thumbnail').value = '';
+                    document.getElementById('thumbnailPlaceholder').classList.remove('hidden');
+                    document.getElementById('thumbnailPreviewContainer').classList.add('hidden');
                 });
             }
 

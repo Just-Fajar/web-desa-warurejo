@@ -182,15 +182,7 @@ class PublikasiController extends Controller
      */
     public function download($id)
     {
-        $publikasi = Publikasi::published()->findOrFail($id);
-        $publikasi->incrementDownload();
-
-        if (!Storage::disk('public')->exists($publikasi->file_dokumen)) {
-            return ApiResponse::error('File not found', 404);
-        }
-
-        $filePath = Storage::disk('public')->path($publikasi->file_dokumen);
-        return response()->download($filePath, $publikasi->judul.'.pdf');
+        return ApiResponse::error('Fitur unduh dokumen tidak tersedia. Dokumen hanya dapat dibaca secara online.', 403);
     }
 
     /**

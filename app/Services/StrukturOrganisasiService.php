@@ -24,12 +24,9 @@ class StrukturOrganisasiService
         $this->imageUploadService = $imageUploadService;
     }
 
-    /**
-     * Get all struktur organisasi dengan pagination untuk admin list
-     */
-    public function getPaginatedStrukturOrganisasi($perPage = 15)
+    public function getPaginatedStrukturOrganisasi(array $filters = [], $perPage = 15)
     {
-        return $this->repository->getPaginated($perPage);
+        return $this->repository->getPaginated($filters, $perPage);
     }
 
     /**
@@ -46,7 +43,9 @@ class StrukturOrganisasiService
      */
     public function getStructuredData()
     {
-        return $this->repository->getStructuredData();
+        return \Illuminate\Support\Facades\Cache::rememberForever('struktur_organisasi', function () {
+            return $this->repository->getStructuredData();
+        });
     }
 
     /**

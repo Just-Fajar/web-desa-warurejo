@@ -20,6 +20,8 @@ class StrukturOrganisasi extends Model
         'level',
         'atasan_id',
         'is_active',
+        'periode_jabatan',
+        'whatsapp',
     ];
 
     protected $casts = [
@@ -40,6 +42,8 @@ class StrukturOrganisasi extends Model
 
     const LEVEL_STAFF_KASI = 'staff_kasi';
 
+    const LEVEL_KADUS = 'kadus';
+
     /**
      * Get all available levels
      */
@@ -52,6 +56,7 @@ class StrukturOrganisasi extends Model
             self::LEVEL_STAFF_KAUR => 'Staff Kaur',
             self::LEVEL_KASI => 'Kepala Seksi',
             self::LEVEL_STAFF_KASI => 'Staff Kasi',
+            self::LEVEL_KADUS => 'Kepala Dusun',
         ];
     }
 
@@ -72,6 +77,33 @@ class StrukturOrganisasi extends Model
         return $this->foto
             ? asset('storage/'.$this->foto)
             : asset('images/default-avatar.png');
+    }
+
+    /**
+     * Get a level-specific avatar URL. If foto is null, generates a color-coded fallback from ui-avatars.com
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->foto) {
+            return asset('storage/'.$this->foto);
+        }
+
+        $colors = [
+            self::LEVEL_KEPALA => ['color' => '4F46E5', 'bg' => 'EEF2FF'],     // Indigo
+            self::LEVEL_SEKRETARIS => ['color' => '059669', 'bg' => 'ECFDF5'], // Emerald
+            self::LEVEL_KAUR => ['color' => 'D97706', 'bg' => 'FEF3C7'],       // Amber
+            self::LEVEL_KASI => ['color' => '2563EB', 'bg' => 'DBEAFE'],       // Blue
+            self::LEVEL_STAFF_KAUR => ['color' => 'EA580C', 'bg' => 'FFEDD5'], // Orange
+            self::LEVEL_STAFF_KASI => ['color' => '0D9488', 'bg' => 'E6FFFA'], // Teal
+            self::LEVEL_KADUS => ['color' => '8B5CF6', 'bg' => 'F5F3FF'],      // Purple
+        ];
+
+        $theme = $colors[$this->level] ?? ['color' => '4B5563', 'bg' => 'F3F4F6']; // Gray fallback
+
+        return "https://ui-avatars.com/api/?name=" . urlencode($this->nama ?? 'NN') .
+               "&color=" . $theme['color'] .
+               "&background=" . $theme['bg'] .
+               "&size=512";
     }
 
     public function getLevelLabelAttribute()
@@ -123,5 +155,10 @@ class StrukturOrganisasi extends Model
     public function scopeStaffKasi($query)
     {
         return $query->where('level', self::LEVEL_STAFF_KASI);
+    }
+
+    public function scopeKadus($query)
+    {
+        return $query->where('level', self::LEVEL_KADUS);
     }
 }

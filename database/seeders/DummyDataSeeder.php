@@ -28,6 +28,7 @@ class DummyDataSeeder extends Seeder
             PublikasiSeeder::class,
             PengaduanSeeder::class,
             VisitorDataSeeder::class,
+            StrukturOrganisasiSeeder::class,
         ]);
 
         $this->command->newLine();
@@ -41,6 +42,7 @@ class DummyDataSeeder extends Seeder
                 ['Publikasi', Publikasi::count()],
                 ['Pengaduan', Pengaduan::count()],
                 ['Visitor Stats', DailyVisitorStat::count().' hari'],
+                ['Struktur Organisasi', \App\Models\StrukturOrganisasi::count()],
             ]
         );
     }

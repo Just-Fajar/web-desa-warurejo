@@ -20,7 +20,7 @@
         </div>
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div
                 class="bg-white rounded-3xl shadow-sm border border-gray-100 p-5 hover:-translate-y-1 transition duration-300">
                 <div
@@ -34,25 +34,6 @@
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <div
-                class="bg-white rounded-3xl shadow-sm border border-gray-100 p-5 hover:-translate-y-1 transition duration-300">
-                <div
-                    class="flex items-center justify-between xl:flex-col xl:items-start xl:gap-3 2xl:flex-row 2xl:items-center">
-                    <div>
-                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Aktif</p>
-                        <h3 class="text-2xl font-black text-gray-800 mt-1">
-                            {{ $strukturOrganisasi->where('is_active', true)->count() }}</h3>
-                    </div>
-                    <div
-                        class="w-12 h-12 bg-emerald-50/80 text-emerald-600 rounded-2xl flex items-center justify-center shrink-0 border border-emerald-100/50">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-.997-6l7.07-7.071-1.414-1.414-5.656 5.657-2.829-2.829-1.414 1.414L11.003 16z" />
                         </svg>
                     </div>
                 </div>
@@ -115,11 +96,11 @@
         <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
             <!-- Table Header with Filters -->
             <div class="p-5 border-b border-gray-100 bg-white">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <form method="GET" action="{{ route('admin.struktur-organisasi.index') }}" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <!-- Search -->
                     <div class="flex-1 max-w-md">
                         <div class="relative">
-                            <input type="text" id="searchInput" placeholder="Cari nama atau jabatan..."
+                            <input type="text" name="search" id="searchInput" value="{{ request('search') }}" placeholder="Cari nama atau jabatan..."
                                 class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
                             <svg class="w-5 h-5 text-gray-600 absolute left-4 top-3" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
@@ -131,22 +112,25 @@
 
                     <!-- Filters -->
                     <div class="flex gap-2">
-                        <select id="levelFilter"
+                        <select name="level" id="levelFilter"
                             class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
-                            <option value="">Semua Level</option>
+                            <option value="">Pilih Jabatan</option>
                             @foreach($levels as $key => $label)
-                                <option value="{{ $key }}">{{ $label }}</option>
+                                <option value="{{ $key }}" {{ request('level') === $key ? 'selected' : '' }}>{{ $label }}</option>
                             @endforeach
                         </select>
 
-                        <select id="statusFilter"
-                            class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
-                            <option value="">Semua Status</option>
-                            <option value="1">Aktif</option>
-                            <option value="0">Tidak Aktif</option>
-                        </select>
+                        <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-white border-2 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900 text-sm font-semibold rounded-xl transition shrink-0 cursor-pointer">
+                            Cari
+                        </button>
+                        @if(request('search') || request('level'))
+                            <a href="{{ route('admin.struktur-organisasi.index') }}"
+                                class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-xl transition flex items-center shrink-0">
+                                Reset
+                            </a>
+                        @endif
                     </div>
-                </div>
+                </form>
             </div>
 
             <!-- Table -->
@@ -163,20 +147,17 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                Nama & Jabatan
+                                Nama
                             </th>
                             <th scope="col"
                                 class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                Level
+                                Jabatan
                             </th>
                             <th scope="col"
                                 class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
                                 Urutan
                             </th>
-                            <th scope="col"
-                                class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                Status
-                            </th>
+
                             <th scope="col"
                                 class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
                                 Aksi
@@ -185,8 +166,7 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-50">
                         @forelse($strukturOrganisasi as $item)
-                            <tr class="hover:bg-slate-50/50 transition-colors duration-150" data-level="{{ $item->level }}"
-                                data-status="{{ $item->is_active ? '1' : '0' }}">
+                            <tr class="hover:bg-slate-50/50 transition-colors duration-150" data-level="{{ $item->level }}">
                                 <td class="px-6 py-4">
                                     <input type="checkbox"
                                         class="item-checkbox rounded border-gray-300 text-primary-600 focus:ring-primary-500"
@@ -195,9 +175,9 @@
                                 <td class="px-6 py-4">
                                     <div
                                         class="w-12 h-12 rounded-xl overflow-hidden bg-gray-50 shadow-sm border border-gray-100">
-                                        <img src="{{ $item->foto_url }}" alt="{{ $item->nama }}"
+                                        <img src="{{ $item->avatar_url }}" alt="{{ $item->nama }}"
                                             class="w-full h-full object-cover"
-                                            data-fallback="{{ asset('images/default-avatar.png') }}">
+                                            data-fallback="{{ $item->avatar_url }}">
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
@@ -210,12 +190,14 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="px-2.5 py-1 text-[11px] font-bold uppercase rounded-full border 
-                                        @if($item->level == 'kepala') bg-purple-50 text-purple-600 border-purple-200
-                                        @elseif($item->level == 'sekretaris') bg-blue-50 text-blue-600 border-blue-200
-                                        @elseif($item->level == 'kaur') bg-amber-50 text-amber-600 border-amber-200
-                                        @elseif($item->level == 'staff_kaur') bg-orange-50 text-orange-600 border-orange-200
-                                        @elseif($item->level == 'kasi') bg-emerald-50 text-emerald-600 border-emerald-200
-                                        @else bg-gray-50 text-gray-600 border-gray-200
+                                        @if($item->level == 'kepala') bg-indigo-50 text-indigo-700 border-indigo-200
+                                        @elseif($item->level == 'sekretaris') bg-emerald-50 text-emerald-700 border-emerald-200
+                                        @elseif($item->level == 'kaur') bg-amber-50 text-amber-700 border-amber-200
+                                        @elseif($item->level == 'staff_kaur') bg-orange-50 text-orange-700 border-orange-200
+                                        @elseif($item->level == 'kasi') bg-blue-50 text-blue-700 border-blue-200
+                                        @elseif($item->level == 'staff_kasi') bg-teal-50 text-teal-700 border-teal-200
+                                        @elseif($item->level == 'kadus') bg-purple-50 text-purple-700 border-purple-200
+                                        @else bg-gray-50 text-gray-700 border-gray-200
                                         @endif">
                                         {{ $item->level_label }}
                                     </span>
@@ -223,19 +205,7 @@
                                 <td class="px-6 py-4 text-sm font-semibold text-gray-600">
                                     {{ $item->urutan }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    @if($item->is_active)
-                                        <span
-                                            class="px-2 inline-flex text-[11px] font-bold leading-5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100">
-                                            Aktif
-                                        </span>
-                                    @else
-                                        <span
-                                            class="px-2 inline-flex text-[11px] font-bold leading-5 rounded-full bg-rose-50 text-rose-600 border border-rose-100">
-                                            Tidak Aktif
-                                        </span>
-                                    @endif
-                                </td>
+
                                 <td class="px-6 py-4 text-right text-sm font-medium">
                                     <div class="flex items-center justify-end gap-2">
                                         <a href="{{ route('admin.struktur-organisasi.edit', $item->id) }}"
@@ -264,7 +234,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-6 py-12 text-center">
+                                <td colspan="6" class="px-6 py-12 text-center">
                                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -293,7 +263,7 @@
             <!-- Pagination -->
             @if($strukturOrganisasi->hasPages())
                 <div class="px-6 py-4 border-t border-gray-200">
-                    {{ $strukturOrganisasi->links() }}
+                    {{ $strukturOrganisasi->appends(request()->query())->links() }}
                 </div>
             @endif
         </div>
@@ -304,38 +274,20 @@
         <script @nonce>
             document.addEventListener('DOMContentLoaded', function () {
                 const searchInput = document.getElementById('searchInput');
-                const levelFilter = document.getElementById('levelFilter');
-                const statusFilter = document.getElementById('statusFilter');
                 const selectAll = document.getElementById('selectAll');
                 const itemCheckboxes = document.querySelectorAll('.item-checkbox');
                 const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
                 const selectedCount = document.getElementById('selectedCount');
                 const deleteForms = document.querySelectorAll('.delete-form');
 
-                // Search functionality
-                searchInput.addEventListener('input', filterTable);
-                levelFilter.addEventListener('change', filterTable);
-                statusFilter.addEventListener('change', filterTable);
+                const levelFilter = document.getElementById('levelFilter');
 
-                function filterTable() {
-                    const searchTerm = searchInput.value.toLowerCase();
-                    const selectedLevel = levelFilter.value;
-                    const selectedStatus = statusFilter.value;
-                    const rows = document.querySelectorAll('#strukturOrganisasiTable tbody tr');
-
-                    rows.forEach(row => {
-                        if (row.querySelector('td[colspan]')) return; // Skip empty state row
-
-                        const text = row.textContent.toLowerCase();
-                        const level = row.dataset.level;
-                        const status = row.dataset.status;
-
-                        const matchesSearch = text.includes(searchTerm);
-                        const matchesLevel = !selectedLevel || level === selectedLevel;
-                        const matchesStatus = !selectedStatus || status === selectedStatus;
-
-                        row.style.display = matchesSearch && matchesLevel && matchesStatus ? '' : 'none';
-                    });
+                // Keep cursor at the end of the search input on reload
+                if (searchInput && searchInput.value) {
+                    searchInput.focus();
+                    const val = searchInput.value;
+                    searchInput.value = '';
+                    searchInput.value = val;
                 }
 
                 // Individual checkbox

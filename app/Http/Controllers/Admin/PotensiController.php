@@ -30,9 +30,27 @@ class PotensiController extends Controller
      * Sort by created_at descending (terbaru dulu)
      * Route: GET /admin/potensi
      */
-    public function index()
+    public function index(Request $request)
     {
-        $potensi = PotensiDesa::orderBy('created_at', 'desc')->get();
+        $query = PotensiDesa::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('deskripsi', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->input('kategori'));
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        $potensi = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.potensi.index', compact('potensi'));
     }

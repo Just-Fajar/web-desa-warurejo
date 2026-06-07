@@ -44,6 +44,20 @@ class StrukturOrganisasiModelTest extends TestCase
         $this->assertStringContainsString('default-avatar', $item->foto_url);
     }
 
+    public function test_avatar_url_with_foto()
+    {
+        $item = StrukturOrganisasi::factory()->create(['foto' => 'struktur/foto.jpg']);
+        $this->assertStringContainsString('struktur/foto.jpg', $item->avatar_url);
+    }
+
+    public function test_avatar_url_without_foto_returns_ui_avatar_with_level_colors()
+    {
+        $item = StrukturOrganisasi::factory()->kepala()->create(['nama' => 'Budi']);
+        $this->assertStringContainsString('ui-avatars.com', $item->avatar_url);
+        $this->assertStringContainsString('color=4F46E5', $item->avatar_url);
+        $this->assertStringContainsString('background=EEF2FF', $item->avatar_url);
+    }
+
     public function test_level_label_kepala()
     {
         $item = StrukturOrganisasi::factory()->kepala()->create();
@@ -111,16 +125,17 @@ class StrukturOrganisasiModelTest extends TestCase
 
     // ==================== STATIC METHOD ====================
 
-    public function test_get_levels_returns_6_levels()
+    public function test_get_levels_returns_7_levels()
     {
         $levels = StrukturOrganisasi::getLevels();
-        $this->assertCount(6, $levels);
+        $this->assertCount(7, $levels);
         $this->assertArrayHasKey('kepala', $levels);
         $this->assertArrayHasKey('sekretaris', $levels);
         $this->assertArrayHasKey('kaur', $levels);
         $this->assertArrayHasKey('staff_kaur', $levels);
         $this->assertArrayHasKey('kasi', $levels);
         $this->assertArrayHasKey('staff_kasi', $levels);
+        $this->assertArrayHasKey('kadus', $levels);
     }
 
     // ==================== CONSTANTS ====================
@@ -133,6 +148,7 @@ class StrukturOrganisasiModelTest extends TestCase
         $this->assertEquals('staff_kaur', StrukturOrganisasi::LEVEL_STAFF_KAUR);
         $this->assertEquals('kasi', StrukturOrganisasi::LEVEL_KASI);
         $this->assertEquals('staff_kasi', StrukturOrganisasi::LEVEL_STAFF_KASI);
+        $this->assertEquals('kadus', StrukturOrganisasi::LEVEL_KADUS);
     }
 
     // ==================== CASTS ====================

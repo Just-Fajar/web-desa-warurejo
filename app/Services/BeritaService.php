@@ -48,9 +48,9 @@ class BeritaService
      * @param  int  $perPage  - jumlah item per halaman (default: 15)
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getPaginatedBerita($perPage = 15)
+    public function getPaginatedBerita($perPage = 15, array $filters = [])
     {
-        return \App\Models\Berita::with('admin')->orderBy('created_at', 'desc')->paginate($perPage);
+        return $this->beritaRepository->getPaginatedWithFilters($perPage, $filters);
     }
 
     /**

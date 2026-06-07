@@ -51,8 +51,7 @@
 
                 <p
                     class="text-gray-500 italic text-center max-w-3xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed mt-2">
-                    "Disusun berdasarkan pedoman SOTK untuk memberikan pelayanan publik yang optimal, profesional, dan
-                    transparan."
+                    "Struktur organisasi ini disusun berdasarkan pedoman SOTK guna mendukung pelayanan publik yang optimal, profesional, dan transparan."
                 </p>
             </div>
 
@@ -64,8 +63,7 @@
                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
-                    Struktur organisasi dan Tata Kerja perangkat Desa Warurejo disesuaikan dengan kebutuhan dan perkembangan daerah,
-                    berlandaskan prinsip gotong royong serta dedikasi untuk kesejahteraan bersama.
+                    Struktur Organisasi dan Tata Kerja Pemerintah Desa Warurejo disusun sesuai kebutuhan dan perkembangan desa dengan berlandaskan semangat gotong royong, profesionalisme, serta dedikasi untuk memberikan pelayanan terbaik dan meningkatkan kesejahteraan masyarakat.
                 </p>
             </div>
 
@@ -74,13 +72,10 @@
                 @if(isset($struktur['kepala']) && $struktur['kepala'])
                     <div class="max-w-md mx-auto relative group">
                         <div
-                            class="absolute inset-0 bg-primary-600 rounded-2xl md:rounded-[2rem] transform translate-y-3 translate-x-3 group-hover:translate-y-4 group-hover:translate-x-4 transition-transform duration-300">
-                        </div>
-                        <div
-                            class="bg-white border border-gray-100 rounded-2xl md:rounded-[2rem] shadow-lg overflow-hidden relative z-10 transition duration-300">
+                            class="bg-white border border-gray-100 rounded-2xl md:rounded-[2rem] shadow-lg hover:shadow-xl hover:-translate-y-1 overflow-hidden relative transition duration-300">
                             <div class="aspect-w-3 aspect-h-4 bg-gray-100 relative">
-                                <img src="{{ $struktur['kepala']->foto_url ?: asset('images/default-avatar.png') }}"
-                                    data-fallback="https://ui-avatars.com/api/?name={{ urlencode($struktur['kepala']->nama ?? 'NN') }}&color=7F9CF5&background=EBF4FF&size=512"
+                                <img src="{{ $struktur['kepala']->avatar_url }}"
+                                    data-fallback="{{ $struktur['kepala']->avatar_url }}"
                                     alt="{{ $struktur['kepala']->nama }}" class="w-full h-full object-cover">
                                 <!-- Elegant fade overlay at bottom of image -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent">
@@ -88,10 +83,20 @@
 
                                 <div class="absolute bottom-0 left-0 right-0 p-6 text-center text-white">
                                     <div
-                                        class="inline-block bg-primary-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                                        class="inline-block bg-indigo-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
                                         KEPALA DESA</div>
                                     <h3 class="text-2xl font-extrabold mb-1">{{ strtoupper($struktur['kepala']->nama) }}</h3>
-                                     <p class="text-gray-200 text-sm">{{ $struktur['kepala']->jabatan }}</p>
+                                     <p class="text-gray-200 text-sm mb-1">{{ $struktur['kepala']->jabatan }}</p>
+                                     @if($struktur['kepala']->periode_jabatan)
+                                         <p class="text-indigo-200 text-[11px] font-semibold mb-1">Periode: {{ $struktur['kepala']->periode_jabatan }}</p>
+                                     @endif
+                                     @if($struktur['kepala']->whatsapp)
+                                         <div class="mt-2 flex justify-center">
+                                             <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $struktur['kepala']->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500 hover:bg-emerald-600 text-white transition shadow-sm">
+                                                 <i class="fab fa-whatsapp mr-1.5 text-white"></i> {{ $struktur['kepala']->whatsapp }}
+                                             </a>
+                                         </div>
+                                     @endif
                                 </div>
                             </div>
                         </div>
@@ -111,13 +116,10 @@
                 @if(isset($struktur['sekretaris']) && $struktur['sekretaris'])
                     <div class="max-w-sm mx-auto relative group">
                         <div
-                            class="absolute inset-0 bg-green-600 rounded-2xl transform translate-y-2 translate-x-2 group-hover:translate-y-3 group-hover:translate-x-3 transition-transform duration-300">
-                        </div>
-                        <div
-                            class="bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden relative z-10 transition duration-300">
+                            class="bg-white border border-gray-100 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 overflow-hidden relative transition duration-300">
                             <div class="aspect-w-1 aspect-h-1 bg-gray-100 relative">
-                                <img src="{{ $struktur['sekretaris']->foto_url ?: asset('images/default-avatar.png') }}"
-                                    data-fallback="https://ui-avatars.com/api/?name={{ urlencode($struktur['sekretaris']->nama ?? 'NN') }}&color=34D399&background=ECFDF5&size=512"
+                                <img src="{{ $struktur['sekretaris']->avatar_url }}"
+                                    data-fallback="{{ $struktur['sekretaris']->avatar_url }}"
                                     alt="{{ $struktur['sekretaris']->nama }}" class="w-full h-full object-cover">
                                 <!-- Elegant fade overlay at bottom of image -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent">
@@ -125,10 +127,20 @@
 
                                 <div class="absolute bottom-0 left-0 right-0 p-5 text-center text-white">
                                     <div
-                                        class="inline-block bg-green-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                                        class="inline-block bg-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
                                         SEKRETARIS DESA</div>
                                     <h4 class="text-xl font-bold mb-1">{{ strtoupper($struktur['sekretaris']->nama) }}</h4>
-                                    <p class="text-gray-200 text-xs">{{ $struktur['sekretaris']->jabatan }}</p>
+                                    <p class="text-gray-200 text-xs mb-1">{{ $struktur['sekretaris']->jabatan }}</p>
+                                     @if($struktur['sekretaris']->periode_jabatan)
+                                         <p class="text-emerald-200 text-[11px] font-semibold mb-1">Periode: {{ $struktur['sekretaris']->periode_jabatan }}</p>
+                                     @endif
+                                     @if($struktur['sekretaris']->whatsapp)
+                                         <div class="mt-2 flex justify-center">
+                                             <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $struktur['sekretaris']->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500 hover:bg-emerald-600 text-white transition shadow-sm">
+                                                 <i class="fab fa-whatsapp mr-1.5 text-white"></i> {{ $struktur['sekretaris']->whatsapp }}
+                                             </a>
+                                         </div>
+                                     @endif
                                 </div>
                             </div>
                         </div>
@@ -162,19 +174,29 @@
                         <div class="flex flex-col gap-6">
                             @foreach($struktur['kaur'] as $kaur)
                                 <div
-                                    class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-yellow-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
+                                    class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-amber-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
-                                        <img src="{{ $kaur->foto_url ?: asset('images/default-avatar.png') }}"
-                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($kaur->nama ?? 'NN') }}&color=FBBF24&background=FFFBEB&size=256"
+                                        <img src="{{ $kaur->avatar_url }}"
+                                            data-fallback="{{ $kaur->avatar_url }}"
                                             alt="{{ $kaur->nama }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
                                         <span
-                                            class="inline-block px-2.5 py-0.5 bg-yellow-100 text-yellow-800 rounded text-[10px] font-bold uppercase tracking-wider mb-1.5">{{ $kaur->level_label }}</span>
+                                            class="inline-block px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded text-[10px] font-bold uppercase tracking-wider mb-1.5">{{ $kaur->level_label }}</span>
                                         <h4
-                                            class="font-bold text-gray-900 mb-0.5 text-base sm:text-lg group-hover:text-yellow-600 transition">
+                                            class="font-bold text-gray-900 mb-0.5 text-base sm:text-lg group-hover:text-amber-600 transition">
                                             {{ strtoupper($kaur->nama) }}</h4>
-                                        <p class="text-gray-500 text-xs sm:text-sm">{{ $kaur->jabatan }}</p>
+                                        <p class="text-gray-500 text-xs sm:text-sm mb-1">{{ $kaur->jabatan }}</p>
+                                        @if($kaur->periode_jabatan)
+                                            <p class="text-amber-700 text-[11px] font-semibold mb-1">Periode: {{ $kaur->periode_jabatan }}</p>
+                                        @endif
+                                        @if($kaur->whatsapp)
+                                            <div class="mt-1.5">
+                                                <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $kaur->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition">
+                                                    <i class="fab fa-whatsapp mr-1 text-emerald-600"></i> {{ $kaur->whatsapp }}
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach
@@ -191,8 +213,8 @@
                                 <div
                                     class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-blue-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
-                                        <img src="{{ $kasi->foto_url ?: asset('images/default-avatar.png') }}"
-                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($kasi->nama ?? 'NN') }}&color=60A5FA&background=EFF6FF&size=256"
+                                        <img src="{{ $kasi->avatar_url }}"
+                                            data-fallback="{{ $kasi->avatar_url }}"
                                             alt="{{ $kasi->nama }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
@@ -201,7 +223,17 @@
                                         <h4
                                             class="font-bold text-gray-900 mb-0.5 text-base sm:text-lg group-hover:text-blue-600 transition">
                                             {{ strtoupper($kasi->nama) }}</h4>
-                                        <p class="text-gray-500 text-xs sm:text-sm">{{ $kasi->jabatan }}</p>
+                                        <p class="text-gray-500 text-xs sm:text-sm mb-1">{{ $kasi->jabatan }}</p>
+                                        @if($kasi->periode_jabatan)
+                                            <p class="text-blue-700 text-[11px] font-semibold mb-1">Periode: {{ $kasi->periode_jabatan }}</p>
+                                        @endif
+                                        @if($kasi->whatsapp)
+                                            <div class="mt-1.5">
+                                                <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $kasi->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition">
+                                                    <i class="fab fa-whatsapp mr-1 text-emerald-600"></i> {{ $kasi->whatsapp }}
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach
@@ -226,19 +258,32 @@
                         @if(isset($struktur['staff_kaur']))
                             @foreach($struktur['staff_kaur'] as $staff)
                                 <div
-                                    class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-gray-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
+                                    class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-orange-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
-                                        <img src="{{ $staff->foto_url ?: asset('images/default-avatar.png') }}"
-                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($staff->nama ?? 'NN') }}&color=9CA3AF&background=F3F4F6&size=256"
+                                        <img src="{{ $staff->avatar_url }}"
+                                            data-fallback="{{ $staff->avatar_url }}"
                                             alt="{{ $staff->nama }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
                                         <span
-                                            class="inline-block px-2.5 py-0.5 bg-gray-100 text-gray-700 rounded text-[10px] font-bold uppercase tracking-wider mb-1.5">Staff</span>
+                                            class="inline-block px-2.5 py-0.5 bg-orange-100 text-orange-800 rounded text-[10px] font-bold uppercase tracking-wider mb-1.5">Staff Kaur</span>
                                         <h4
-                                            class="font-bold text-gray-900 mb-0.5 text-base sm:text-lg group-hover:text-gray-600 transition">
+                                            class="font-bold text-gray-900 mb-0.5 text-base sm:text-lg group-hover:text-orange-600 transition">
                                             {{ strtoupper($staff->nama) }}</h4>
-                                        <p class="text-gray-500 text-xs sm:text-sm">{{ $staff->jabatan }}</p>
+                                        <p class="text-gray-500 text-xs sm:text-sm mb-1">{{ $staff->jabatan }}</p>
+                                        @if($staff->periode_jabatan)
+                                            <p class="text-orange-700 text-[11px] font-semibold mb-1">Periode: {{ $staff->periode_jabatan }}</p>
+                                        @endif
+                                        @if($staff->whatsapp)
+                                            <div class="mt-1.5 mb-1">
+                                                <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $staff->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition">
+                                                    <i class="fab fa-whatsapp mr-1 text-emerald-600"></i> {{ $staff->whatsapp }}
+                                                </a>
+                                            </div>
+                                        @endif
+                                        @if($staff->atasan)
+                                            <p class="text-orange-700 text-[11px] font-medium mt-1">dibawah {{ $staff->atasan->nama }} - {{ $staff->atasan->jabatan }}</p>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach
@@ -248,42 +293,32 @@
                         @if(isset($struktur['staff_kasi']))
                             @foreach($struktur['staff_kasi'] as $staff)
                                 <div
-                                    class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-gray-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
+                                    class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-teal-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
-                                        <img src="{{ $staff->foto_url ?: asset('images/default-avatar.png') }}"
-                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($staff->nama ?? 'NN') }}&color=9CA3AF&background=F3F4F6&size=256"
+                                        <img src="{{ $staff->avatar_url }}"
+                                            data-fallback="{{ $staff->avatar_url }}"
                                             alt="{{ $staff->nama }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
                                         <span
-                                            class="inline-block px-2.5 py-0.5 bg-gray-100 text-gray-700 rounded text-[10px] font-bold uppercase tracking-wider mb-1.5">Staff</span>
+                                            class="inline-block px-2.5 py-0.5 bg-teal-100 text-teal-800 rounded text-[10px] font-bold uppercase tracking-wider mb-1.5">Staff Kasi</span>
                                         <h4
-                                            class="font-bold text-gray-900 mb-0.5 text-base sm:text-lg group-hover:text-gray-600 transition">
+                                            class="font-bold text-gray-900 mb-0.5 text-base sm:text-lg group-hover:text-teal-600 transition">
                                             {{ strtoupper($staff->nama) }}</h4>
-                                        <p class="text-gray-500 text-xs sm:text-sm">{{ $staff->jabatan }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-
-                        {{-- Staff Kasi --}}
-                        {{-- Staff Kasi --}}
-                        @if(isset($struktur['staff_kasi']))
-                            @foreach($struktur['staff_kasi'] as $staff)
-                                <div
-                                    class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-gray-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex items-center gap-4">
-                                    <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
-                                        <img src="{{ $staff->foto_url ?: asset('images/default-avatar.png') }}"
-                                            data-fallback="https://ui-avatars.com/api/?name={{ urlencode($staff->nama ?? 'NN') }}&color=9CA3AF&background=F3F4F6&size=256"
-                                            alt="{{ $staff->nama }}" class="w-full h-full object-cover">
-                                    </div>
-                                    <div>
-                                        <span
-                                            class="inline-block px-2.5 py-0.5 bg-gray-100 text-gray-700 rounded text-[10px] font-bold uppercase tracking-wider mb-1.5">Staff</span>
-                                        <h4
-                                            class="font-bold text-gray-900 mb-0.5 text-base sm:text-lg group-hover:text-gray-600 transition">
-                                            {{ strtoupper($staff->nama) }}</h4>
-                                        <p class="text-gray-500 text-xs sm:text-sm">{{ $staff->jabatan }}</p>
+                                        <p class="text-gray-500 text-xs sm:text-sm mb-1">{{ $staff->jabatan }}</p>
+                                        @if($staff->periode_jabatan)
+                                            <p class="text-teal-700 text-[11px] font-semibold mb-1">Periode: {{ $staff->periode_jabatan }}</p>
+                                        @endif
+                                        @if($staff->whatsapp)
+                                            <div class="mt-1.5 mb-1">
+                                                <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $staff->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition">
+                                                    <i class="fab fa-whatsapp mr-1 text-emerald-600"></i> {{ $staff->whatsapp }}
+                                                </a>
+                                            </div>
+                                        @endif
+                                        @if($staff->atasan)
+                                            <p class="text-teal-700 text-[11px] font-medium mt-1">dibawah {{ $staff->atasan->nama }} - {{ $staff->atasan->jabatan }}</p>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach
@@ -291,6 +326,51 @@
                     </div>
                 </div>
             @endif
+
+            {{-- LEVEL 5: KEPALA DUSUN --}}
+            @if(isset($struktur['kadus']) && count($struktur['kadus']) > 0)
+                <div class="mb-10 sm:mb-16 scroll-reveal mt-12 bg-purple-50/30 p-6 md:p-8 rounded-3xl border border-purple-100/50">
+                    <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-8 text-center uppercase tracking-wider">
+                        Kepala Dusun
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                        @foreach($struktur['kadus'] as $kadus)
+                            <div class="group bg-white rounded-2xl p-4 border border-gray-100 hover:border-purple-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition duration-300 flex flex-col items-center text-center">
+                                <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-100 relative mb-4 ring-4 ring-purple-50 group-hover:ring-purple-100 transition duration-300">
+                                    <img src="{{ $kadus->avatar_url }}"
+                                        data-fallback="{{ $kadus->avatar_url }}"
+                                        alt="{{ $kadus->nama }}" class="w-full h-full object-cover">
+                                </div>
+                                <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 rounded text-[10px] font-bold uppercase tracking-wider mb-2">
+                                    Kepala Dusun
+                                </span>
+                                <h4 class="font-bold text-gray-900 mb-1 text-base group-hover:text-purple-600 transition">
+                                    {{ strtoupper($kadus->nama) }}
+                                </h4>
+                                <p class="text-gray-500 text-xs mb-1">{{ $kadus->jabatan }}</p>
+                                @if($kadus->periode_jabatan)
+                                    <p class="text-purple-700 text-[11px] font-semibold mb-1">Periode: {{ $kadus->periode_jabatan }}</p>
+                                @endif
+                                @if($kadus->whatsapp)
+                                    <div class="mt-1.5">
+                                        <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $kadus->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition">
+                                            <i class="fab fa-whatsapp mr-1 text-emerald-600"></i> {{ $kadus->whatsapp }}
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            {{-- Catatan Perubahan --}}
+            <div class="mt-12 text-center scroll-reveal">
+                <p class="text-xs sm:text-sm text-gray-500 italic">
+                    * Struktur organisasi ini dapat diperbarui sewaktu-waktu sesuai kebutuhan dan perkembangan pemerintahan desa
+                </p>
+            </div>
 
     </section>
 

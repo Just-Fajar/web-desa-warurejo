@@ -19,6 +19,17 @@ class PengaduanController extends Controller
     {
         $query = Pengaduan::latest()->withCount('balasan');
 
+        // Filter search
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%")
+                  ->orWhere('isi', 'like', "%{$search}%")
+                  ->orWhere('nama_pelapor', 'like', "%{$search}%")
+                  ->orWhere('lokasi_kejadian', 'like', "%{$search}%");
+            });
+        }
+
         // Filter status
         if ($request->filled('status')) {
             $query->where('status', $request->status);

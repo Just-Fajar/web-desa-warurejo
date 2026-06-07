@@ -49,8 +49,6 @@
 
                 <!-- Navigation -->
                 <nav class="flex-1 overflow-y-auto py-6 px-3 space-y-1.5 custom-scrollbar">
-                    <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Menu Utama</p>
-
                     <a href="{{ route('admin.dashboard') }}"
                         class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.dashboard') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
                         <div
@@ -59,6 +57,12 @@
                         </div>
                         <span>Dashboard</span>
                     </a>
+
+                    <div class="py-2">
+                        <hr class="border-gray-100">
+                    </div>
+
+                    <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Konten Website</p>
 
                     <a href="{{ route('admin.berita.index') }}"
                         class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.berita.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
@@ -96,6 +100,21 @@
                         <span>Publikasi</span>
                     </a>
 
+                    <a href="{{ route('admin.struktur-organisasi.index') }}"
+                        class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.struktur-organisasi.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
+                        <div
+                            class="{{ request()->routeIs('admin.struktur-organisasi.*') ? 'bg-primary-100 text-primary-600 shadow-sm' : 'bg-white text-gray-500 shadow-sm group-hover:text-primary-600 group-hover:bg-primary-50 transition-colors border border-gray-100' }} w-8 h-8 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-sitemap text-sm"></i>
+                        </div>
+                        <span>Struktur Organisasi</span>
+                    </a>
+
+                    <div class="py-2">
+                        <hr class="border-gray-100">
+                    </div>
+
+                    <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Layanan Masyarakat</p>
+
                     <a href="{{ route('admin.pengaduan.index') }}"
                         class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.pengaduan.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
                         <div
@@ -103,21 +122,6 @@
                             <i class="fas fa-bullhorn text-sm"></i>
                         </div>
                         <span>Pengaduan</span>
-                    </a>
-
-                    <div class="py-2">
-                        <hr class="border-gray-100">
-                    </div>
-
-                    <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Sistem</p>
-
-                    <a href="{{ route('admin.struktur-organisasi.index') }}"
-                        class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.struktur-organisasi.*') ? 'bg-primary-50 text-primary-600 font-bold shadow-sm' : 'text-gray-700 font-medium hover:bg-primary-50 hover:text-primary-600' }}">
-                        <div
-                            class="{{ request()->routeIs('admin.struktur-organisasi.*') ? 'bg-primary-100 text-primary-600 shadow-sm' : 'bg-white text-gray-500 shadow-sm group-hover:text-primary-600 group-hover:bg-primary-50 transition-colors border border-gray-100' }} w-8 h-8 rounded-lg flex items-center justify-center mr-3">
-                            <i class="fas fa-sitemap text-sm"></i>
-                        </div>
-                        <span>Struktur Org.</span>
                     </a>
                 </nav>
 
@@ -399,8 +403,7 @@
     <script @nonce>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('form').forEach(function(form) {
-                // Skip delete forms (handled by SweetAlert)
-                if (form.classList.contains('delete-form')) return;
+                if (form.classList.contains('delete-form') || form.getAttribute('method')?.toLowerCase() === 'get') return;
 
                 let isSubmitting = false;
 

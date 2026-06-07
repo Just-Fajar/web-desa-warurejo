@@ -25,10 +25,12 @@ class StrukturOrganisasiRequest extends FormRequest
             'nama' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
             'deskripsi' => 'nullable|string|max:1000',
-            'level' => 'required|in:kepala,sekretaris,kaur,staff_kaur,kasi,staff_kasi',
+            'level' => 'required|in:kepala,sekretaris,kaur,staff_kaur,kasi,staff_kasi,kadus',
             'atasan_id' => 'nullable|exists:struktur_organisasi,id',
             'urutan' => 'nullable|integer|min:0',
             'is_active' => 'required|boolean',
+            'periode_jabatan' => 'nullable|string|max:100',
+            'whatsapp' => 'nullable|string|max:20',
         ];
 
         // Validation for create
@@ -60,6 +62,8 @@ class StrukturOrganisasiRequest extends FormRequest
             'atasan_id' => 'Atasan',
             'urutan' => 'Urutan',
             'is_active' => 'Status Aktif',
+            'periode_jabatan' => 'Periode Jabatan',
+            'whatsapp' => 'Nomor WhatsApp',
         ];
     }
 
@@ -86,6 +90,8 @@ class StrukturOrganisasiRequest extends FormRequest
             'urutan.min' => 'Urutan minimal 0',
             'is_active.required' => 'Status wajib dipilih',
             'is_active.boolean' => 'Status tidak valid',
+            'periode_jabatan.max' => 'Periode Jabatan maksimal 100 karakter',
+            'whatsapp.max' => 'Nomor WhatsApp maksimal 20 karakter',
         ];
     }
 }

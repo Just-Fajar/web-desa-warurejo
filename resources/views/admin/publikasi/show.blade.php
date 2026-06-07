@@ -61,10 +61,7 @@
                                     class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition text-sm font-semibold">
                                     <i class="fas fa-eye mr-2"></i> Lihat PDF
                                 </a>
-                                <a href="{{ route('publikasi.download', $publikasi->id) }}"
-                                    class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition text-sm font-semibold">
-                                    <i class="fas fa-download mr-2"></i> Download
-                                </a>
+
                             </div>
                         </div>
                     </div>
@@ -94,10 +91,7 @@
                             </span>
                         </div>
 
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">Total Download</span>
-                            <span class="font-semibold text-gray-800"><i class="fas fa-download mr-1"></i>{{ number_format($publikasi->jumlah_download ?? 0) }}</span>
-                        </div>
+
 
                         <div class="flex justify-between">
                             <span class="text-gray-500">Tanggal Dokumen</span>

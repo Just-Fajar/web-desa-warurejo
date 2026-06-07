@@ -100,10 +100,10 @@
         <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
             {{-- Table Header --}}
             <div class="p-5 border-b border-gray-100 bg-white">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <form method="GET" action="{{ route('admin.pengaduan.index') }}" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div class="flex-1 max-w-md">
                         <div class="relative">
-                            <input type="text" id="searchInput" placeholder="Cari pengaduan..."
+                            <input type="text" name="search" id="searchInput" value="{{ request('search') }}" placeholder="Cari pengaduan..."
                                 class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
                             <svg class="w-5 h-5 text-gray-600 absolute left-4 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <select id="statusFilter"
+                        <select name="status" id="statusFilter"
                             class="bg-white border-2 border-gray-300 text-gray-900 font-semibold text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full px-4 py-2.5 outline-none cursor-pointer">
                             <option value="">Semua Status</option>
                             <option value="Menunggu" {{ request('status') == 'Menunggu' ? 'selected' : '' }}>Menunggu</option>
@@ -119,8 +119,17 @@
                             <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                             <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
                         </select>
+                        <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-white border-2 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900 text-sm font-semibold rounded-xl transition shrink-0 cursor-pointer">
+                            Cari
+                        </button>
+                        @if(request('search') || request('status'))
+                            <a href="{{ route('admin.pengaduan.index') }}"
+                                class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-xl transition flex items-center shrink-0">
+                                Reset
+                            </a>
+                        @endif
                     </div>
-                </div>
+                </form>
             </div>
 
             {{-- Table --}}
@@ -227,110 +236,101 @@
             {{-- Pagination --}}
             @if($pengaduan->hasPages())
                 <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
-                    {{ $pengaduan->links() }}
+                    {{ $pengaduan->appends(request()->query())->links() }}
                 </div>
             @endif
         </div>
     </div>
 
     @push('scripts')
-        <script>
-            // Search and Filter
-            const searchInput = document.getElementById('searchInput');
-            const statusFilter = document.getElementById('statusFilter');
+        <script @nonce>
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchInput = document.getElementById('searchInput');
+                const statusFilter = document.getElementById('statusFilter');
 
-            const applyFilters = () => filterTable();
-
-            if (searchInput) searchInput.addEventListener('keyup', applyFilters);
-            if (statusFilter) statusFilter.addEventListener('change', applyFilters);
-
-            function filterTable() {
-                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-                const statusTerm = statusFilter ? statusFilter.value : '';
-                const rows = document.querySelectorAll('.pengaduan-row');
-
-                rows.forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    const rowStatus = row.dataset.status || '';
-
-                    const matchSearch = text.includes(searchTerm);
-                    const matchStatus = statusTerm === '' || rowStatus === statusTerm;
-
-                    row.style.display = (matchSearch && matchStatus) ? '' : 'none';
-                });
-            }
-
-            // Checkboxes
-            document.querySelectorAll('.pengaduan-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', updateBulkDeleteButton);
-            });
-
-            function updateBulkDeleteButton() {
-                const checkedBoxes = document.querySelectorAll('.pengaduan-checkbox:checked');
-                const bulkActions = document.getElementById('bulk-actions');
-                const selectedCount = document.getElementById('selectedCount');
-
-                if (checkedBoxes.length > 0) {
-                    bulkActions.classList.remove('hidden');
-                    selectedCount.textContent = checkedBoxes.length;
-                } else {
-                    bulkActions.classList.add('hidden');
+                // Keep cursor at the end of the search input on reload
+                if (searchInput && searchInput.value) {
+                    searchInput.focus();
+                    const val = searchInput.value;
+                    searchInput.value = '';
+                    searchInput.value = val;
                 }
-            }
 
-            // Bulk Delete
-            document.getElementById('bulkDeleteBtn').addEventListener('click', function() {
-                const checkedBoxes = document.querySelectorAll('.pengaduan-checkbox:checked');
-                const ids = Array.from(checkedBoxes).map(cb => cb.value);
-
-                Swal.fire({
-                    title: 'Hapus Pengaduan Terpilih?',
-                    html: `Anda akan menghapus <strong>${ids.length} pengaduan</strong> yang dipilih.<br>Data yang dihapus tidak dapat dikembalikan!`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#EF4444',
-                    cancelButtonColor: '#6B7280',
-                    confirmButtonText: '<i class="fas fa-trash mr-2"></i>Ya, Hapus Semua!',
-                    cancelButtonText: 'Batal',
-                    showClass: { popup: 'animate__animated animate__fadeInDown animate__faster' },
-                    hideClass: { popup: 'animate__animated animate__fadeOutUp animate__faster' }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Menghapus...',
-                            html: 'Mohon tunggu sebentar',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            didOpen: () => Swal.showLoading()
-                        });
-
-                        fetch('{{ route("admin.pengaduan.bulk-delete") }}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({ ids: ids })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil Dihapus!',
-                                    text: data.message,
-                                    confirmButtonColor: '#10B981',
-                                    showClass: { popup: 'animate__animated animate__bounceIn' }
-                                }).then(() => window.location.reload());
-                            } else {
-                                Swal.fire({ icon: 'error', title: 'Gagal!', text: data.message, confirmButtonColor: '#EF4444' });
-                            }
-                        })
-                        .catch(() => {
-                            Swal.fire({ icon: 'error', title: 'Error!', text: 'Terjadi kesalahan.', confirmButtonColor: '#EF4444' });
-                        });
-                    }
+                // Checkboxes
+                document.querySelectorAll('.pengaduan-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', updateBulkDeleteButton);
                 });
+
+                function updateBulkDeleteButton() {
+                    const checkedBoxes = document.querySelectorAll('.pengaduan-checkbox:checked');
+                    const bulkActions = document.getElementById('bulk-actions');
+                    const selectedCount = document.getElementById('selectedCount');
+
+                    if (checkedBoxes.length > 0) {
+                        bulkActions.classList.remove('hidden');
+                        selectedCount.textContent = checkedBoxes.length;
+                    } else {
+                        bulkActions.classList.add('hidden');
+                    }
+                }
+
+                // Bulk Delete
+                const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+                if (bulkDeleteBtn) {
+                    bulkDeleteBtn.addEventListener('click', function() {
+                        const checkedBoxes = document.querySelectorAll('.pengaduan-checkbox:checked');
+                        const ids = Array.from(checkedBoxes).map(cb => cb.value);
+
+                        Swal.fire({
+                            title: 'Hapus Pengaduan Terpilih?',
+                            html: `Anda akan menghapus <strong>${ids.length} pengaduan</strong> yang dipilih.<br>Data yang dihapus tidak dapat dikembalikan!`,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#EF4444',
+                            cancelButtonColor: '#6B7280',
+                            confirmButtonText: '<i class="fas fa-trash mr-2"></i>Ya, Hapus Semua!',
+                            cancelButtonText: 'Batal',
+                            showClass: { popup: 'animate__animated animate__fadeInDown animate__faster' },
+                            hideClass: { popup: 'animate__animated animate__fadeOutUp animate__faster' }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: 'Menghapus...',
+                                    html: 'Mohon tunggu sebentar',
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    didOpen: () => Swal.showLoading()
+                                });
+
+                                fetch('{{ route("admin.pengaduan.bulk-delete") }}', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                    body: JSON.stringify({ ids: ids })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Berhasil Dihapus!',
+                                            text: data.message,
+                                            confirmButtonColor: '#10B981',
+                                            showClass: { popup: 'animate__animated animate__bounceIn' }
+                                        }).then(() => window.location.reload());
+                                    } else {
+                                        Swal.fire({ icon: 'error', title: 'Gagal!', text: data.message, confirmButtonColor: '#EF4444' });
+                                    }
+                                })
+                                .catch(() => {
+                                    Swal.fire({ icon: 'error', title: 'Error!', text: 'Terjadi kesalahan.', confirmButtonColor: '#EF4444' });
+                                });
+                            }
+                        });
+                    });
+                }
             });
         </script>
     @endpush

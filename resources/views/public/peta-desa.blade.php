@@ -30,8 +30,7 @@
                     </h1>
 
                     <p class="text-lg text-gray-600 mb-10 leading-relaxed font-medium">
-                        Kami siap melayani kebutuhan administrasi warga pada jam kerja. Jangan ragu untuk menghubungi kami
-                        melalui kontak di bawah ini.
+                        Kami siap melayani kebutuhan administrasi dan informasi masyarakat selama jam operasional desa
                     </p>
 
                     <div class="space-y-8">

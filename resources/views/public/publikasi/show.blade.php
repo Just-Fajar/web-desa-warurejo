@@ -62,15 +62,7 @@
                             </div>
                         @endif
 
-                        <!-- Download Button (di-comment, user public tidak boleh download) -->
-                        {{-- <a href="{{ route('publikasi.download', $publikasi->id) }}"
-                            class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Unduh Dokumen (PDF)
-                        </a> --}}
+
                     </div>
 
                     <!-- PDF Preview (View Only) -->
@@ -137,9 +129,7 @@
                                             </p>
                                             <div class="flex items-center gap-2 mt-1">
                                                 <span class="text-xs text-gray-500">{{ $doc->tahun }}</span>
-                                                <span class="text-xs text-gray-400">•</span>
-                                                {{-- <span class="text-xs text-gray-500">{{ $doc->jumlah_download }} unduhan</span>
-                                                --}}
+
                                             </div>
                                         </div>
                                     </a>

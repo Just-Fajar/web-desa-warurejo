@@ -97,13 +97,6 @@ class PublikasiController extends Controller
      */
     public function download($id)
     {
-        $publikasi = Publikasi::published()->findOrFail($id);
-        $publikasi->incrementDownload();
-
-        if (! Storage::disk('public')->exists($publikasi->file_dokumen)) {
-            abort(404, 'File tidak ditemukan');
-        }
-
-        return Storage::disk('public')->download($publikasi->file_dokumen, $publikasi->judul.'.pdf');
+        abort(403, 'Fitur unduh dokumen tidak tersedia. Dokumen hanya dapat dibaca secara online.');
     }
 }

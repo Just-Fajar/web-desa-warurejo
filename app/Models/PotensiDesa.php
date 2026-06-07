@@ -155,7 +155,7 @@ class PotensiDesa extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('urutan', 'asc')
-            ->orderBy('created_at', 'desc');
+            ->orderBy('published_at', 'desc');
     }
 
     // ==================== CONSTANTS ====================

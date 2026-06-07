@@ -15,7 +15,7 @@
                     Publikasi <span class="text-primary-600">Desa</span>
                 </h1>
                 <p class="text-base sm:text-lg text-gray-500 max-w-2xl">
-                    Arsip Dokumen {{ $kategori }} Resmi Desa Warurejo
+                    Menyediakan dokumen {{ $kategori }} secara terbuka sebagai bentuk transparansi informasi dan akuntabilitas Pemerintah Desa Warurejo
                 </p>
             </div>
         </div>
@@ -170,13 +170,7 @@
                                                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                 </svg>
                                                 {{ \Carbon\Carbon::parse($item->tanggal_publikasi)->format('d M Y') }}
-                                                <span class="mx-1.5 sm:mx-2">•</span>
-                                                {{-- <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1 shrink-0" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                                </svg>
-                                                {{ $item->jumlah_download }} unduhan --}}
+
                                             </div>
 
                                             <div class="flex flex-wrap gap-2 w-full sm:w-auto">
@@ -185,11 +179,7 @@
                                                     <i class="fas fa-eye mr-1"></i>
                                                     Lihat
                                                 </a>
-                                                {{-- <a href="{{ route('publikasi.download', $item->id) }}"
-                                                    class="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-xs sm:text-sm font-semibold transition duration-200 text-center">
-                                                    <i class="fas fa-download mr-1"></i>
-                                                    Unduh
-                                                </a> --}}
+
                                             </div>
                                         </div>
                                     </div>
@@ -259,27 +249,6 @@
                         </div>
                     </div>
 
-                    <!-- Info Box -->
-                    <div
-                        class="bg-primary-50 rounded-2xl shadow-sm border border-primary-100 p-6 mt-6 hover:shadow-md transition-all group">
-                        <div class="flex items-start gap-4">
-                            <div
-                                class="bg-white p-3 rounded-xl shadow-sm text-primary-600 shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-900 mb-2">Panduan Unduh</h3>
-                                <p class="text-sm text-gray-600 leading-relaxed">
-                                    Dokumen arsip dapat diakses gratis. Klik tombol <span
-                                        class="font-semibold text-primary-600">"Lihat"</span> untuk mereview atau
-                                    melanjutkan mengunduh dokumen publikasi asli ke perangkat Anda.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

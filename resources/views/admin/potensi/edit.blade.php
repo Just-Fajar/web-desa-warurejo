@@ -28,7 +28,7 @@
                 <div class="flex items-start gap-3">
                     <div class="text-red-600"><i class="fas fa-exclamation-circle"></i></div>
                     <div class="text-sm text-red-700">{{ session('error') }}</div>
-                    <button type="button" class="ml-auto text-red-500 hover:text-red-700" onclick="this.closest('div.bg-red-50').remove()">&times;</button>
+                    <button type="button" class="close-alert-btn ml-auto text-red-500 hover:text-red-700">&times;</button>
                 </div>
             </div>
         @endif
@@ -101,45 +101,51 @@
                         @error('link_maps') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
-                    <!-- Informasi Tambahan -->
-                    <div class="border-t border-gray-200 pt-6 mt-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Tambahan</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div>
-                                <p class="text-gray-500 font-medium mb-1">Dibuat</p>
-                                <p class="text-gray-800 font-semibold">{{ $potensi->created_at->format('d M Y H:i') }}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 font-medium mb-1">Diupdate</p>
-                                <p class="text-gray-800 font-semibold">{{ $potensi->updated_at->format('d M Y H:i') }}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 font-medium mb-1">Views</p>
-                                <p class="text-gray-800 font-semibold">{{ number_format($potensi->views ?? 0) }}</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 font-medium mb-1">Foto Galeri</p>
-                                <p class="text-gray-800 font-semibold">{{ $potensi->fotoGaleri->count() }} foto</p>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Media Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-gray-200 mt-6">
                         <!-- Foto Utama -->
                         <div>
-                            <label for="gambar" class="block text-sm font-bold text-gray-900 mb-2">Foto Utama</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center h-48">
-                                <input type="file" id="gambar" name="gambar" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                                <div id="uploadPlaceholder" class="{{ $potensi && $potensi->gambar ? 'hidden' : '' }}">
-                                    <i class="fas fa-image text-4xl text-gray-400 mb-3"></i>
-                                    <h3 class="text-primary-600 hover:text-primary-700 font-semibold text-sm">Upload Foto Utama</h3>
-                                    <p class="text-xs text-gray-500 mt-2">Format JPG, PNG, WEBP — Max 2MB</p>
+                            <label class="block text-sm font-bold text-gray-900 mb-3">Foto Utama</label>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- Foto Saat Ini (Sebelum Edit) -->
+                                <div>
+                                    <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Foto Saat Ini (Sebelum Edit)</span>
+                                    <div class="border border-gray-200 rounded-xl overflow-hidden bg-gray-50 w-full aspect-video flex items-center justify-center relative shadow-sm">
+                                        @if($potensi && $potensi->gambar)
+                                            <img src="{{ Storage::url($potensi->gambar) }}" class="w-full h-full object-cover">
+                                        @else
+                                            <div class="text-center p-6 text-gray-400">
+                                                <i class="fas fa-image text-3xl mb-1"></i>
+                                                <p class="text-xs">Tidak ada foto saat ini</p>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div id="previewContainer" class="{{ $potensi && $potensi->gambar ? '' : 'hidden' }} absolute inset-0 w-full h-full p-2">
-                                    <img id="preview" src="{{ $potensi && $potensi->gambar ? Storage::url($potensi->gambar) : '' }}" class="rounded-lg shadow w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-xl">
-                                        <p class="text-white text-sm font-medium">Ubah Gambar</p>
+
+                                <!-- Foto Baru (Setelah Edit) -->
+                                <div>
+                                    <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Foto Baru (Setelah Edit)</span>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center w-full aspect-video overflow-hidden bg-gray-50 shadow-sm">
+                                        <input type="file" id="gambar" name="gambar" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                        
+                                        <!-- Placeholder -->
+                                        <div id="uploadPlaceholder">
+                                            <i class="fas fa-image text-3xl text-gray-400 mb-2"></i>
+                                            <h3 class="text-primary-600 hover:text-primary-700 font-semibold text-xs">Pilih Foto Baru</h3>
+                                            <p class="text-[10px] text-gray-500 mt-1">Format JPG, PNG, WEBP — Max 2MB</p>
+                                        </div>
+
+                                        <!-- Preview -->
+                                        <div id="previewContainer" class="hidden absolute inset-0 w-full h-full p-2 bg-gray-50">
+                                            <img id="preview" src="" class="rounded-lg shadow w-full h-full object-cover">
+                                            <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-xl">
+                                                <p class="text-white text-xs font-medium mb-1">Ubah Gambar Baru</p>
+                                                <button type="button" id="btnBatalGanti" class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white text-[10px] font-bold rounded transition-all focus:outline-none z-20">
+                                                    Batal Ganti
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +156,7 @@
                         <div>
                             <label for="foto_galeri" class="block text-sm font-bold text-gray-900 mb-2">Foto Galeri <span class="text-xs text-gray-500 font-normal">(Opsional)</span></label>
 
-                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center h-48">
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center w-full aspect-video overflow-hidden bg-gray-50">
                                 <input type="file" id="foto_galeri" name="foto_galeri[]" accept="image/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                                 <div>
                                     <i class="fas fa-images text-4xl text-gray-400 mb-3"></i>
@@ -173,8 +179,8 @@
                                 <div class="relative group aspect-w-1 aspect-h-1 rounded-lg overflow-hidden border border-gray-200" id="foto-{{ $foto->id }}">
                                     <img src="{{ Storage::url($foto->foto) }}" class="w-full h-full object-cover">
                                     <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button type="button" onclick="hapusFotoGaleri({{ $foto->id }})"
-                                            class="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition shadow-sm">
+                                        <button type="button" data-id="{{ $foto->id }}"
+                                            class="hapus-foto-btn w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition shadow-sm">
                                             <i class="fas fa-trash-alt text-xs"></i>
                                         </button>
                                     </div>
@@ -207,6 +213,29 @@
                             ])
                         </div>
                     </div>
+
+                    <!-- Informasi Tambahan -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Tambahan</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Dibuat</p>
+                                <p class="text-gray-800 font-semibold">{{ $potensi->created_at->format('d M Y H:i') }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Diupdate</p>
+                                <p class="text-gray-800 font-semibold">{{ $potensi->updated_at->format('d M Y H:i') }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Views</p>
+                                <p class="text-gray-800 font-semibold">{{ number_format($potensi->views ?? 0) }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-medium mb-1">Foto Galeri</p>
+                                <p class="text-gray-800 font-semibold">{{ $potensi->fotoGaleri->count() }} foto</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Form Footer -->
@@ -227,9 +256,31 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
-    <script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js" nonce="{{ csp_nonce() }}"></script>
+    <script nonce="{{ csp_nonce() }}">
         $(document).ready(function () {
+            // Close alert button handler
+            $(document).on('click', '.close-alert-btn', function() {
+                $(this).closest('div.bg-red-50').remove();
+            });
+
+            // Hapus Foto Galeri handler
+            $(document).on('click', '.hapus-foto-btn', function() {
+                const fotoId = $(this).data('id');
+                if (!confirm('Hapus foto ini dari galeri?')) return;
+                $.ajax({
+                    url: '/admin/potensi/foto/' + fotoId,
+                    type: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#foto-' + fotoId).fadeOut(300, function() { $(this).remove(); });
+                        }
+                    },
+                    error: function() { alert('Gagal menghapus foto'); }
+                });
+            });
+
             // Auto-generate slug from nama
             $('#nama').on('input', function () {
                 const nama = $(this).val();
@@ -271,6 +322,14 @@
                     }
                     reader.readAsDataURL(file);
                 }
+            });
+
+            $('#btnBatalGanti').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $('#gambar').val('');
+                $('#uploadPlaceholder').removeClass('hidden');
+                $('#previewContainer').addClass('hidden');
             });
 
             // Foto Galeri Preview
@@ -322,21 +381,5 @@
                 return true;
             });
         });
-
-        // AJAX delete foto galeri (edit mode)
-        function hapusFotoGaleri(fotoId) {
-            if (!confirm('Hapus foto ini dari galeri?')) return;
-            $.ajax({
-                url: '/admin/potensi/foto/' + fotoId,
-                type: 'DELETE',
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                success: function(response) {
-                    if (response.success) {
-                        $('#foto-' + fotoId).fadeOut(300, function() { $(this).remove(); });
-                    }
-                },
-                error: function() { alert('Gagal menghapus foto'); }
-            });
-        }
     </script>
 @endpush

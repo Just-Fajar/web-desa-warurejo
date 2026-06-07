@@ -27,9 +27,10 @@ class StrukturOrganisasiController extends Controller
      * Include data levels untuk filter
      * Route: GET /admin/struktur-organisasi
      */
-    public function index()
+    public function index(Request $request)
     {
-        $strukturOrganisasi = $this->strukturOrganisasiService->getPaginatedStrukturOrganisasi(15);
+        $filters = $request->only(['search', 'status', 'level']);
+        $strukturOrganisasi = $this->strukturOrganisasiService->getPaginatedStrukturOrganisasi($filters, 15);
         $levels = StrukturOrganisasi::getLevels();
 
         return view('admin.struktur-organisasi.index', compact('strukturOrganisasi', 'levels'));

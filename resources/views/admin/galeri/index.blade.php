@@ -9,7 +9,7 @@
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800">Kelola Galeri</h1>
-                <p class="text-gray-500 text-sm">Manajemen foto dan video galeri desa</p>
+                <p class="text-gray-500 text-sm">Manajemen foto galeri desa</p>
             </div>
             <a href="{{ route('admin.galeri.create') }}"
                 class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg shadow font-medium flex items-center gap-2">
@@ -98,12 +98,11 @@
 
         <!-- Filter Section -->
         <div class="bg-white shadow-sm border border-gray-100 rounded-3xl p-5 mb-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+            <form method="GET" action="{{ route('admin.galeri.index') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                 <div>
-                    <label class="text-gray-500 text-sm font-semibold mb-2 block">Cari Galeri: <span id="filterCount"
-                            class="text-primary-600"></span></label>
+                    <label class="text-gray-500 text-sm font-semibold mb-2 block">Cari Galeri:</label>
                     <div class="relative">
-                        <input type="text" id="searchInput" placeholder="Ketik judul..."
+                        <input type="text" name="search" id="searchInput" value="{{ request('search') }}" placeholder="Ketik judul..."
                             class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
                         <svg class="w-5 h-5 text-gray-600 absolute left-4 top-3" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
@@ -115,29 +114,39 @@
 
                 <div>
                     <label class="text-gray-500 text-sm font-semibold mb-2 block">Filter Kategori:</label>
-                    <select id="filterKategori"
+                    <select name="kategori" id="filterKategori"
                         class="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all">
                         <option value="">Semua Kategori</option>
-                        <option value="kegiatan">Kegiatan</option>
-                        <option value="pembangunan">Pembangunan</option>
-                        <option value="budaya">Budaya</option>
-                        <option value="keagamaan">Keagamaan</option>
-                        <option value="sosial">Sosial</option>
-                        <option value="lainnya">Lainnya</option>
+                        <option value="kegiatan" {{ request('kategori') === 'kegiatan' ? 'selected' : '' }}>Kegiatan</option>
+                        <option value="pembangunan" {{ request('kategori') === 'pembangunan' ? 'selected' : '' }}>Pembangunan</option>
+                        <option value="budaya" {{ request('kategori') === 'budaya' ? 'selected' : '' }}>Budaya</option>
+                        <option value="keagamaan" {{ request('kategori') === 'keagamaan' ? 'selected' : '' }}>Keagamaan</option>
+                        <option value="sosial" {{ request('kategori') === 'sosial' ? 'selected' : '' }}>Sosial</option>
+                        <option value="lainnya" {{ request('kategori') === 'lainnya' ? 'selected' : '' }}>Lainnya</option>
                     </select>
                 </div>
 
-                <div>
-                    <label class="text-gray-500 text-sm font-semibold mb-2 block">Filter Status:</label>
-                    <select id="filterStatus"
-                        class="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all">
-                        <option value="">Semua Status</option>
-                        <option value="published">Published</option>
-                        <option value="draft">Draft</option>
-                        <option value="scheduled">Dijadwalkan</option>
-                    </select>
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <label class="text-gray-500 text-sm font-semibold mb-2 block">Filter Status:</label>
+                        <select name="status" id="filterStatus"
+                            class="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all">
+                            <option value="">Semua Status</option>
+                            <option value="published" {{ request('status') === 'published' ? 'selected' : '' }}>Published</option>
+                            <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="scheduled" {{ request('status') === 'scheduled' ? 'selected' : '' }}>Dijadwalkan</option>
+                        </select>
+                    </div>
+                    @if(request('search') || request('kategori') || request('status'))
+                        <div class="shrink-0 flex items-end">
+                            <a href="{{ route('admin.galeri.index') }}"
+                                class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-xl transition flex items-center h-[46px]">
+                                Reset
+                            </a>
+                        </div>
+                    @endif
                 </div>
-            </div>
+            </form>
         </div>
 
         <!-- Bulk Actions -->
@@ -290,6 +299,13 @@
                 </div>
             @endforelse
         </div>
+
+        <!-- Pagination -->
+        @if($galeri->hasPages())
+            <div class="mt-6 px-6 py-4 bg-white shadow-sm border border-gray-100 rounded-3xl">
+                {{ $galeri->appends(request()->query())->links() }}
+            </div>
+        @endif
 @endsection
 
     @push('styles')
@@ -309,67 +325,44 @@
         <!-- SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <script>
+        <script @nonce>
             document.addEventListener('DOMContentLoaded', function () {
-                // Filter functionality
-                function filterGaleri() {
-                    const searchInput = document.getElementById('searchInput');
-                    const kategoriFilter = document.getElementById('filterKategori');
-                    const statusFilter = document.getElementById('filterStatus');
+                const searchInput = document.getElementById('searchInput');
+                const filterKategori = document.getElementById('filterKategori');
+                const filterStatus = document.getElementById('filterStatus');
 
-                    const searchValue = searchInput ? searchInput.value.toLowerCase().trim() : '';
-                    const filterCategory = kategoriFilter ? kategoriFilter.value.toLowerCase() : '';
-                    const filterStatusValue = statusFilter ? statusFilter.value.toLowerCase() : '';
-
-                    let visibleCount = 0;
-
-                    document.querySelectorAll('.galeri-item').forEach(function (item) {
-                        const itemJudul = item.dataset.judul.toLowerCase();
-                        const itemKategori = item.dataset.kategori.toLowerCase();
-                        const itemStatus = item.dataset.status ? item.dataset.status.toLowerCase() : '';
-
-                        let showItem = true;
-
-                        // Filter by search
-                        if (searchValue && !itemJudul.includes(searchValue)) {
-                            showItem = false;
-                        }
-
-                        // Filter by kategori
-                        if (filterCategory && itemKategori !== filterCategory) {
-                            showItem = false;
-                        }
-
-                        // Filter by status
-                        if (filterStatusValue && itemStatus !== filterStatusValue) {
-                            showItem = false;
-                        }
-
-                        if (showItem) {
-                            item.style.display = '';
-                            visibleCount++;
-                        } else {
-                            item.style.display = 'none';
-                        }
+                // Auto-submit kategori filter on change
+                if (filterKategori) {
+                    filterKategori.addEventListener('change', function() {
+                        this.form.submit();
                     });
-
-                    // Update counter
-                    const totalItems = document.querySelectorAll('.galeri-item').length;
-                    document.getElementById('filterCount').textContent = `(${visibleCount}/${totalItems})`;
                 }
 
-                // Add event listeners
-                const searchInputEl = document.getElementById('searchInput');
-                if (searchInputEl) searchInputEl.addEventListener('keyup', filterGaleri);
+                // Auto-submit status filter on change
+                if (filterStatus) {
+                    filterStatus.addEventListener('change', function() {
+                        this.form.submit();
+                    });
+                }
 
-                const filterKategoriEl = document.getElementById('filterKategori');
-                if (filterKategoriEl) filterKategoriEl.addEventListener('change', filterGaleri);
+                // Auto-submit search with debounce (500ms)
+                let debounceTimer;
+                if (searchInput) {
+                    searchInput.addEventListener('input', function() {
+                        clearTimeout(debounceTimer);
+                        debounceTimer = setTimeout(() => {
+                            searchInput.form.submit();
+                        }, 500);
+                    });
 
-                const filterStatusEl = document.getElementById('filterStatus');
-                if (filterStatusEl) filterStatusEl.addEventListener('change', filterGaleri);
-
-                // Initialize counter
-                filterGaleri();
+                    // Keep cursor at the end of the search input on reload
+                    if (searchInput.value) {
+                        searchInput.focus();
+                        const val = searchInput.value;
+                        searchInput.value = '';
+                        searchInput.value = val;
+                    }
+                }
 
                 // Single Delete Confirmation
                 document.querySelectorAll('.delete-form').forEach(function (form) {
@@ -405,7 +398,7 @@
                             }
                         });
                     });
-                }, 5000);
+                });
 
                 // Individual Checkboxes
                 document.querySelectorAll('.galeri-checkbox').forEach(checkbox => {
@@ -481,7 +474,5 @@
                     });
                 });
             });
-
-
         </script>
     @endpush

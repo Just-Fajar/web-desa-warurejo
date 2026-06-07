@@ -30,9 +30,27 @@ class GaleriController extends Controller
      * Eager load admin dan images untuk prevent N+1 query
      * Route: GET /admin/galeri
      */
-    public function index()
+    public function index(Request $request)
     {
-        $galeri = Galeri::with(['admin', 'images'])->latest()->get(); // Eager load admin and images to prevent N+1
+        $query = Galeri::with(['admin', 'images']);
+
+        if ($request->filled('search')) {
+            $keyword = $request->input('search');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('judul', 'like', "%{$keyword}%")
+                  ->orWhere('deskripsi', 'like', "%{$keyword}%");
+            });
+        }
+
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->input('kategori'));
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        $galeri = $query->latest()->paginate(12);
 
         return view('admin.galeri.index', compact('galeri'));
     }
@@ -136,19 +154,9 @@ class GaleriController extends Controller
         try {
             $data = $request->validated();
 
-            // Handle image update
-            if ($request->hasFile('gambar')) {
-                // Delete old image
-                if ($galeri->gambar) {
-                    $this->imageUploadService->delete($galeri->gambar);
-                }
-
-                // Upload new image
-                $data['gambar'] = $this->imageUploadService->upload(
-                    $request->file('gambar'),
-                    'galeri'
-                );
-            }
+            // Extract new images from validated request data
+            $newImages = $request->file('images', []);
+            unset($data['images']);
 
             // Handle status & published_at BEFORE update
             if ($data['status'] === 'published' && ! $galeri->published_at) {
@@ -159,6 +167,20 @@ class GaleriController extends Controller
             // scheduled: published_at comes from form input
 
             $galeri->update($data);
+
+            // Handle uploading new images
+            if (!empty($newImages)) {
+                $maxUrutan = $galeri->images()->max('urutan') ?? 0;
+                foreach ($newImages as $index => $image) {
+                    $imagePath = $this->imageUploadService->upload($image, 'galeri');
+
+                    GaleriImage::create([
+                        'galeri_id' => $galeri->id,
+                        'image_path' => $imagePath,
+                        'urutan' => $maxUrutan + $index + 1,
+                    ]);
+                }
+            }
 
             // Clear cache
             Cache::forget('home.galeri');
@@ -183,7 +205,12 @@ class GaleriController extends Controller
     public function destroy(Galeri $galeri)
     {
         try {
-            // Delete image
+            // Delete multiple images associated with this gallery
+            foreach ($galeri->images as $image) {
+                $this->imageUploadService->delete($image->image_path);
+            }
+
+            // Delete old single image if exists
             if ($galeri->gambar) {
                 $this->imageUploadService->delete($galeri->gambar);
             }
@@ -222,10 +249,13 @@ class GaleriController extends Controller
                 ], 400);
             }
 
-            $galeriList = Galeri::whereIn('id', $ids)->get();
+            $galeriList = Galeri::with('images')->whereIn('id', $ids)->get();
 
             // Delete image files
             foreach ($galeriList as $galeri) {
+                foreach ($galeri->images as $image) {
+                    $this->imageUploadService->delete($image->image_path);
+                }
                 if ($galeri->gambar) {
                     $this->imageUploadService->delete($galeri->gambar);
                 }
@@ -246,6 +276,33 @@ class GaleriController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: '.$e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * AJAX: Hapus satu foto galeri
+     * Route: DELETE /admin/galeri/foto/{id}
+     */
+    public function deleteFoto($id)
+    {
+        try {
+            $foto = GaleriImage::findOrFail($id);
+            $this->imageUploadService->delete($foto->image_path);
+            $foto->delete();
+
+            // Clear cache
+            Cache::forget('home.galeri');
+            Cache::forget('profil_desa');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Foto berhasil dihapus',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus foto: '.$e->getMessage(),
             ], 500);
         }
     }

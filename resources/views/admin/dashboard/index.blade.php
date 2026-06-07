@@ -38,8 +38,8 @@
             <div class="absolute bottom-[-20%] right-[15%] w-48 h-48 bg-primary-400 opacity-20 rounded-full blur-2xl pointer-events-none"></div>
             <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h1 class="text-3xl sm:text-4xl font-extrabold mb-2 tracking-tight">Selamat Datang, {{ auth()->guard('admin')->user()->name }}! <span class="inline-block hover:animate-wave cursor-default">👋</span></h1>
-                    <p class="text-primary-50/90 text-lg font-light">Kelola website, pantau statistik, dan berikan layanan terbaik untuk Desa Warurejo.</p>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold mb-2 tracking-tight">Selamat Datang, {{ auth()->guard('admin')->user()->name }}! <span class="inline-block hover:animate-wave cursor-default"></span></h1>
+                    <p class="text-primary-50/90 text-lg font-light">Kelola informasi publik, potensi desa, dokumen, galeri, serta pengaduan masyarakat secara efektif dan terintegrasi.</p>
                 </div>
                 <div class="hidden md:block">
                     <span class="bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-xl border border-white/20 text-sm font-medium flex items-center gap-2 shadow-inner">
@@ -230,7 +230,7 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-gray-50 gap-4">
                     <div>
                         <h2 class="text-xl font-bold text-gray-800 tracking-tight">Statistik Pengunjung</h2>
-                        <p class="text-sm text-gray-500 mt-1">Statistik pengunjung tahun <span id="visitorYearLabel" class="font-semibold">{{ $currentYear }}</span></p>
+                        <p class="text-sm text-gray-500 mt-1">Pengunjung tahun <span id="visitorYearLabel" class="font-semibold">{{ $currentYear }}</span></p>
                     </div>
 
                     <!-- Year Picker with Navigation -->
@@ -263,10 +263,6 @@
                         <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Hari Aktif</p>
                         <p class="text-xl font-bold text-slate-800">{{ number_format($allTimeStats['days_active']) }}</p>
                     </div>
-                    <div class="bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
-                        <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Kunjungan Pertama</p>
-                        <p class="text-sm font-bold text-slate-700 mt-1">{{ $allTimeStats['first_visit_date'] }}</p>
-                    </div>
                 </div>
 
                 <!-- Loading Overlay -->
@@ -276,7 +272,7 @@
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        <p class="text-sm font-medium text-emerald-800">Menyegarkan data...</p>
+                        <p class="text-sm font-medium text-emerald-800">Memuat data...</p>
                     </div>
                 </div>
 
@@ -289,7 +285,7 @@
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col justify-center">
                 <div>
                     <h2 class="text-xl font-bold text-gray-800 tracking-tight mb-2">Distribusi Potensi Desa</h2>
-                    <p class="text-xs text-gray-500 mb-6">Persentase potensi berdasarkan kategori</p>
+                    <p class="text-xs text-gray-500 mb-6">Menampilkan persentase dan sebaran potensi desa berdasarkan kategori yang telah dipublikasikan.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center flex-1">
                     <div class="relative h-[256px] w-full flex justify-center items-center">
@@ -329,7 +325,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 border-b border-gray-50 pb-4">
                     <div>
                         <h2 class="text-xl font-bold text-gray-800 tracking-tight">Statistik Konten</h2>
-                        <p class="text-sm text-gray-500 mt-1">Produksi konten tahun <span id="contentYearLabel" class="font-semibold">{{ $currentContentYear }}</span></p>
+                        <p class="text-sm text-gray-500 mt-1">Konten tahun <span id="contentYearLabel" class="font-semibold">{{ $currentContentYear }}</span></p>
                     </div>
 
                     <!-- Year Picker with Navigation -->
@@ -362,7 +358,7 @@
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            <p class="text-sm font-medium text-emerald-800">Mempersiapkan data...</p>
+                            <p class="text-sm font-medium text-emerald-800">Memuat data...</p>
                         </div>
                     </div>
                 </div>
@@ -372,7 +368,7 @@
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col justify-center">
                 <div>
                     <h2 class="text-xl font-bold text-gray-800 tracking-tight mb-2">Distribusi Galeri</h2>
-                    <p class="text-xs text-gray-500 mb-6">Persentase galeri berdasarkan kategori</p>
+                    <p class="text-xs text-gray-500 mb-6">Menampilkan persentase dan sebaran galeri berdasarkan kategori yang telah dipublikasikan.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center flex-1">
                     <div class="relative h-[256px] w-full flex justify-center items-center">
@@ -411,7 +407,7 @@
                 <div class="flex justify-between items-start mb-6">
                     <div>
                         <h2 id="topContentTitle" class="text-xl font-bold text-gray-800 tracking-tight mb-2">Top 5 Berita Populer</h2>
-                        <p id="topContentSubtitle" class="text-xs text-gray-500">Artikel dengan jumlah tayangan tertinggi</p>
+                        <p id="topContentSubtitle" class="text-xs text-gray-500">Jumlah pengunjung tertinggi</p>
                     </div>
                     <!-- Nav Tabs -->
                     <div class="flex space-x-1 bg-gray-50 p-1 rounded-xl border border-gray-100">
@@ -729,7 +725,6 @@
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tanggal</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Jumlah Lihat</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Total Unduh</th>
                             <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
@@ -782,10 +777,6 @@
                                     <i class="far fa-eye mr-1"></i>
                                     {{ number_format($publikasi->views) }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                    <i class="fas fa-download mr-1"></i>
-                                    {{ number_format($publikasi->jumlah_download) }}
-                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex items-center justify-end gap-3">
                                         <a href="{{ route('admin.publikasi.edit', $publikasi->id) }}" class="text-blue-600 hover:text-blue-900 transition-colors">
@@ -803,7 +794,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                                <td colspan="6" class="px-6 py-4 text-center text-gray-500">
                                     Belum ada publikasi
                                 </td>
                             </tr>
@@ -1410,10 +1401,10 @@
         const topContentCtx = document.getElementById('topContentChart').getContext('2d');
 
         const topContentData = {
-            berita: { title: "Top 5 Berita Populer", subtitle: "Artikel dengan jumlah tayangan tertinggi", rawTitles: {!! json_encode($topBerita->pluck('judul')->toArray()) !!}, labels: {!! json_encode($topBerita->pluck('judul')->map(fn($j) => \Illuminate\Support\Str::limit($j, 32))->toArray()) !!}, data: {!! json_encode($topBerita->pluck('views')->toArray()) !!}, colorStart: 'rgba(14, 165, 233, 0.9)', colorEnd: 'rgba(2, 132, 199, 0.9)', colorHover: 'rgba(2, 132, 199, 1)' },
-            potensi: { title: "Top 5 Potensi Populer", subtitle: "Potensi desa dengan jumlah tayangan tertinggi", rawTitles: {!! json_encode($topPotensi->pluck('judul')->toArray()) !!}, labels: {!! json_encode($topPotensi->pluck('judul')->map(fn($j) => \Illuminate\Support\Str::limit($j, 32))->toArray()) !!}, data: {!! json_encode($topPotensi->pluck('views')->toArray()) !!}, colorStart: 'rgba(16, 185, 129, 0.9)', colorEnd: 'rgba(5, 150, 105, 0.9)', colorHover: 'rgba(5, 150, 105, 1)' },
-            galeri: { title: "Top 5 Galeri Populer", subtitle: "Galeri dengan jumlah tayangan tertinggi", rawTitles: {!! json_encode($topGaleri->pluck('judul')->toArray()) !!}, labels: {!! json_encode($topGaleri->pluck('judul')->map(fn($j) => \Illuminate\Support\Str::limit($j, 32))->toArray()) !!}, data: {!! json_encode($topGaleri->pluck('views')->toArray()) !!}, colorStart: 'rgba(168, 85, 247, 0.9)', colorEnd: 'rgba(147, 51, 234, 0.9)', colorHover: 'rgba(147, 51, 234, 1)' },
-            publikasi: { title: "Top 5 Dokumen Populer", subtitle: "Publikasi dengan jumlah tayangan tertinggi", rawTitles: {!! json_encode($topPublikasi->pluck('judul')->toArray()) !!}, labels: {!! json_encode($topPublikasi->pluck('judul')->map(fn($j) => \Illuminate\Support\Str::limit($j, 32))->toArray()) !!}, data: {!! json_encode($topPublikasi->pluck('views')->toArray()) !!}, colorStart: 'rgba(59, 130, 246, 0.9)', colorEnd: 'rgba(37, 99, 235, 0.9)', colorHover: 'rgba(37, 99, 235, 1)' }
+            berita: { title: "Top 5 Berita Populer", subtitle: "Jumlah pengunjung terbanyak", rawTitles: {!! json_encode($topBerita->pluck('judul')->toArray()) !!}, labels: {!! json_encode($topBerita->pluck('judul')->map(fn($j) => \Illuminate\Support\Str::limit($j, 32))->toArray()) !!}, data: {!! json_encode($topBerita->pluck('views')->toArray()) !!}, colorStart: 'rgba(14, 165, 233, 0.9)', colorEnd: 'rgba(2, 132, 199, 0.9)', colorHover: 'rgba(2, 132, 199, 1)' },
+            potensi: { title: "Top 5 Potensi Populer", subtitle: "Jumlah pengunjung terbanyak", rawTitles: {!! json_encode($topPotensi->pluck('judul')->toArray()) !!}, labels: {!! json_encode($topPotensi->pluck('judul')->map(fn($j) => \Illuminate\Support\Str::limit($j, 32))->toArray()) !!}, data: {!! json_encode($topPotensi->pluck('views')->toArray()) !!}, colorStart: 'rgba(16, 185, 129, 0.9)', colorEnd: 'rgba(5, 150, 105, 0.9)', colorHover: 'rgba(5, 150, 105, 1)' },
+            galeri: { title: "Top 5 Galeri Populer", subtitle: "Jumlah pengunjung terbanyak", rawTitles: {!! json_encode($topGaleri->pluck('judul')->toArray()) !!}, labels: {!! json_encode($topGaleri->pluck('judul')->map(fn($j) => \Illuminate\Support\Str::limit($j, 32))->toArray()) !!}, data: {!! json_encode($topGaleri->pluck('views')->toArray()) !!}, colorStart: 'rgba(168, 85, 247, 0.9)', colorEnd: 'rgba(147, 51, 234, 0.9)', colorHover: 'rgba(147, 51, 234, 1)' },
+            publikasi: { title: "Top 5 Dokumen Populer", subtitle: "Jumlah pengunjung terbanyak", rawTitles: {!! json_encode($topPublikasi->pluck('judul')->toArray()) !!}, labels: {!! json_encode($topPublikasi->pluck('judul')->map(fn($j) => \Illuminate\Support\Str::limit($j, 32))->toArray()) !!}, data: {!! json_encode($topPublikasi->pluck('views')->toArray()) !!}, colorStart: 'rgba(59, 130, 246, 0.9)', colorEnd: 'rgba(37, 99, 235, 0.9)', colorHover: 'rgba(37, 99, 235, 1)' }
         };
 
         let currentTopContent = topContentData['berita'];

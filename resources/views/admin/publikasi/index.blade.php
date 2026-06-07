@@ -86,80 +86,60 @@
             </div>
         </div>
 
-        <!-- Filters -->
-        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-5 mb-6">
-            <form method="GET" action="{{ route('admin.publikasi.index') }}" class="grid grid-cols-1 md:grid-cols-6 gap-4">
-                <!-- Search -->
-                <div>
-                    <input type="text" name="search" placeholder="Cari judul..." value="{{ request('search') }}"
-                        class="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
-                </div>
-
-                <!-- Kategori Filter -->
-                <div>
-                    <select name="kategori"
-                        class="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all">
-                        <option value="">Semua Kategori</option>
-                        <option value="APBDes" {{ request('kategori') == 'APBDes' ? 'selected' : '' }}>APBDes</option>
-                        <option value="RPJMDes" {{ request('kategori') == 'RPJMDes' ? 'selected' : '' }}>RPJMDes</option>
-                        <option value="RKPDes" {{ request('kategori') == 'RKPDes' ? 'selected' : '' }}>RKPDes</option>
-                    </select>
-                </div>
-
-                <!-- Tahun Filter -->
-                <div>
-                    <select name="tahun"
-                        class="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all">
-                        <option value="">Semua Tahun</option>
-                        @foreach($availableYears as $year)
-                            <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Status Filter -->
-                <div>
-                    <select name="status"
-                        class="w-full px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all">
-                        <option value="">Semua Status</option>
-                        <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Published</option>
-                        <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                        <option value="scheduled" {{ request('status') == 'scheduled' ? 'selected' : '' }}>Dijadwalkan</option>
-                    </select>
-                </div>
-
-                <!-- Filter Button -->
-                <div class="flex gap-2">
-                    <button type="submit"
-                        class="flex-1 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2.5 rounded-xl font-semibold transition text-sm flex items-center justify-center">
-                        <i class="fas fa-search mr-1.5"></i>
-                        Filter
-                    </button>
-                    <a href="{{ route('admin.publikasi.index') }}"
-                        class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl transition flex items-center justify-center"
-                        title="Reset Reset">
-                        <i class="fas fa-redo"></i>
-                    </a>
-                </div>
-            </form>
-        </div>
-
-        <!-- Bulk Actions -->
-        <div id="bulk-actions" class="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-4 hidden">
-            <div class="flex items-center justify-between">
-                <span class="text-primary-700 font-semibold">
-                    <span id="selected-count">0</span> publikasi dipilih
-                </span>
-                <button id="bulkDeleteBtn"
-                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition">
-                    <i class="fas fa-trash mr-2"></i>
-                    Hapus Terpilih
-                </button>
-            </div>
-        </div>
-
         <!-- Table -->
         <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+            <!-- Table Header with Filters -->
+            <div class="p-5 border-b border-gray-100 bg-white">
+                <form method="GET" action="{{ route('admin.publikasi.index') }}" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <!-- Search -->
+                    <div class="flex-1 max-w-md">
+                        <div class="relative">
+                            <input type="text" name="search" id="searchInput" value="{{ request('search') }}" placeholder="Cari publikasi..."
+                                class="w-full pl-11 pr-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-sm font-semibold text-gray-900 placeholder-gray-500">
+                            <svg class="w-5 h-5 text-gray-600 absolute left-4 top-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Filter -->
+                    <div class="flex gap-2">
+                        <select name="kategori" id="kategoriFilter"
+                            class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
+                            <option value="">Semua Kategori</option>
+                            <option value="APBDes" {{ request('kategori') == 'APBDes' ? 'selected' : '' }}>APBDes</option>
+                            <option value="RPJMDes" {{ request('kategori') == 'RPJMDes' ? 'selected' : '' }}>RPJMDes</option>
+                            <option value="RKPDes" {{ request('kategori') == 'RKPDes' ? 'selected' : '' }}>RKPDes</option>
+                        </select>
+                        <select name="tahun" id="tahunFilter"
+                            class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
+                            <option value="">Semua Tahun</option>
+                            @foreach($availableYears as $year)
+                                <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                            @endforeach
+                        </select>
+                        <select name="status" id="statusFilter"
+                            class="px-4 py-2.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 text-sm font-semibold transition-all duration-200">
+                            <option value="">Semua Status</option>
+                            <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Published</option>
+                            <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="scheduled" {{ request('status') == 'scheduled' ? 'selected' : '' }}>Dijadwalkan</option>
+                        </select>
+                        <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-white border-2 border-gray-300 hover:bg-gray-50 text-gray-700 hover:text-gray-900 text-sm font-semibold rounded-xl transition shrink-0 cursor-pointer">
+                            Cari
+                        </button>
+                        @if(request('search') || request('kategori') || request('tahun') || request('status'))
+                            <a href="{{ route('admin.publikasi.index') }}"
+                                class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-xl transition flex items-center shrink-0">
+                                Reset
+                            </a>
+                        @endif
+                    </div>
+                </form>
+            </div>
+
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-100">
                     <thead class="bg-gray-50/50">
@@ -247,11 +227,6 @@
                                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
                                         </a>
-                                        <a href="{{ route('publikasi.show', $item->id) }}" target="_blank"
-                                            class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-500 hover:text-white transition-all duration-200"
-                                            title="Lihat Halaman Publik">
-                                            <i class="fas fa-external-link-alt text-xs"></i>
-                                        </a>
                                         <a href="{{ route('admin.publikasi.edit', $item->id) }}"
                                             class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white transition-all duration-200"
                                             title="Edit">
@@ -310,6 +285,18 @@
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchInput = document.getElementById('searchInput');
+
+                // Keep cursor at the end of the search input on reload
+                if (searchInput && searchInput.value) {
+                    searchInput.focus();
+                    const val = searchInput.value;
+                    searchInput.value = '';
+                    searchInput.value = val;
+                }
+            });
+
             // Individual Checkbox
             document.querySelectorAll('.row-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', updateBulkActions);

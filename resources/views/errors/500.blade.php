@@ -5,7 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>500 - Terjadi Kesalahan Server | Desa Warurejo</title>
+    <title>500 - Server Kena Mental | Desa Warurejo</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -14,191 +19,145 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            10%,
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: translateX(-10px);
-            }
-
-            20%,
-            40%,
-            60%,
-            80% {
-                transform: translateX(10px);
-            }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .shake-animation {
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes rotate-slow {
-            from {
+        @keyframes rotate-gear {
+            0% {
                 transform: rotate(0deg);
             }
-
-            to {
+            100% {
                 transform: rotate(360deg);
             }
         }
 
-        .rotate-slow {
-            animation: rotate-slow 10s linear infinite;
+        @keyframes pulse-slow {
+            0%, 100% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(1.05);
+            }
+        }
+
+        .spin-anim {
+            animation: rotate-gear 12s linear infinite;
+        }
+
+        .pulse-slow {
+            animation: pulse-slow 3s ease-in-out infinite;
         }
     </style>
 </head>
 
-<body class="bg-linear-to-br from-red-50 via-white to-orange-50 min-h-screen flex items-center justify-center p-4">
-    <!-- Background Decorations -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-            class="absolute top-10 right-10 w-72 h-72 bg-red-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse">
-        </div>
-        <div
-            class="absolute bottom-10 left-10 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000">
-        </div>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+    <!-- Abstract Background Decor -->
+    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute -top-[20%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-orange-200/40 blur-3xl pulse-slow"></div>
+        <div class="absolute -bottom-[20%] -right-[10%] w-[50vw] h-[50vw] rounded-full bg-amber-200/30 blur-3xl pulse-slow" style="animation-delay: 1.5s;"></div>
     </div>
 
-    <!-- Main Content -->
-    <div class="relative z-10 max-w-4xl w-full">
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-            <div class="grid md:grid-cols-2 gap-0">
-                <!-- Left Side - Error Info -->
-                <div class="p-12 flex flex-col justify-center bg-linear-to-br from-red-600 to-orange-600 text-white">
-                    <div class="mb-8">
-                        <!-- Logo -->
-                        <div class="flex items-center space-x-3 mb-6">
-                            <img src="{{ asset('images/Logo-Kabupaten.webp') }}" alt="Logo Desa"
-                                class="h-16 w-16 bg-white rounded-full p-2">
-                            <div>
-                                <h2 class="text-2xl font-bold">Desa Warurejo</h2>
-                                <p class="text-red-100 text-sm">Kabupaten Madiun</p>
-                            </div>
-                        </div>
-
-                        <!-- 500 Number with Icon -->
-                        <div class="mb-6">
-                            <div class="flex items-center space-x-4 mb-4">
-                                <div class="shake-animation">
-                                    <i class="fas fa-exclamation-triangle text-6xl text-yellow-300"></i>
-                                </div>
-                                <h1 class="text-7xl font-black text-white/90">500</h1>
-                            </div>
-                        </div>
-
-                        <h3 class="text-3xl font-bold mb-3">Terjadi Kesalahan Server</h3>
-                        <p class="text-red-100 text-lg leading-relaxed mb-6">
-                            Maaf, terjadi kesalahan pada server kami.
-                            Tim teknis kami telah diberitahu dan sedang bekerja untuk memperbaiki masalah ini.
-                        </p>
-
-                        <!-- Status Info -->
-                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-                            <div class="flex items-center space-x-3 mb-3">
-                                <div class="rotate-slow">
-                                    <i class="fas fa-cog text-2xl text-white"></i>
-                                </div>
-                                <div>
-                                    <div class="font-semibold text-sm">Status Server</div>
-                                    <div class="text-red-100 text-xs">Sedang dalam perbaikan</div>
-                                </div>
-                            </div>
-                            <div class="text-xs text-red-100">
-                                <i class="fas fa-clock mr-1"></i>
-                                Estimasi: 5-15 menit
-                            </div>
-                        </div>
+    <!-- Main Container -->
+    <div class="w-full max-w-4xl bg-white/80 backdrop-blur-md border border-slate-100 rounded-[32px] shadow-2xl p-8 md:p-12 relative z-10 grid md:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Illustration Col -->
+        <div class="md:col-span-5 flex flex-col items-center justify-center text-center">
+            <div class="relative">
+                <!-- 500 Text Background Glow -->
+                <span class="absolute inset-0 text-orange-100/70 text-[10rem] font-extrabold -translate-y-8 select-none z-0">500</span>
+                
+                <!-- Main Icon Card -->
+                <div class="relative z-10 w-44 h-44 bg-linear-to-tr from-orange-500 to-amber-600 rounded-[38px] shadow-xl shadow-orange-500/20 flex items-center justify-center border border-white/20">
+                    <div class="spin-anim flex items-center justify-center">
+                        <i class="fa-solid fa-gears text-white text-7xl"></i>
                     </div>
                 </div>
 
-                <!-- Right Side - Actions -->
-                <div class="p-12 flex flex-col justify-center bg-white">
-                    <div class="text-center mb-8">
-                        <div class="inline-block p-6 bg-red-50 rounded-full mb-6">
-                            <i class="fas fa-tools text-6xl text-red-600"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold text-gray-800 mb-3">Kami Sedang Memperbaiki</h4>
-                        <p class="text-gray-600 mb-8">
-                            Mohon maaf atas ketidaknyamanan ini.
-                            Silakan coba beberapa saat lagi atau kembali ke halaman utama.
-                        </p>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="space-y-3">
-                        <button id="reloadBtn"
-                            class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-linear-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                            <i class="fas fa-sync-alt text-xl"></i>
-                            <span>Muat Ulang Halaman</span>
-                        </button>
-
-                        <a href="{{ route('home') }}"
-                            class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
-                            <i class="fas fa-home text-xl text-red-600"></i>
-                            <span>Kembali ke Beranda</span>
-                        </a>
-
-                        <button id="backBtn"
-                            class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
-                            <i class="fas fa-arrow-left text-xl text-red-600"></i>
-                            <span>Halaman Sebelumnya</span>
-                        </button>
-                    </div>
-
-                    <!-- What You Can Do -->
-                    <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h5 class="font-semibold text-gray-800 mb-3 text-sm">Yang Bisa Anda Lakukan:</h5>
-                        <ul class="space-y-2 text-sm text-gray-600">
-                            <li class="flex items-start space-x-2">
-                                <i class="fas fa-check-circle text-green-500 mt-0.5"></i>
-                                <span>Tunggu beberapa menit dan coba lagi</span>
-                            </li>
-                            <li class="flex items-start space-x-2">
-                                <i class="fas fa-check-circle text-green-500 mt-0.5"></i>
-                                <span>Kembali ke halaman utama</span>
-                            </li>
-                            <li class="flex items-start space-x-2">
-                                <i class="fas fa-check-circle text-green-500 mt-0.5"></i>
-                                <span>Hubungi admin jika masalah berlanjut</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Contact -->
-                    <div class="mt-6 pt-6 border-t border-gray-200 text-center">
-                        <p class="text-sm text-gray-500">
-                            Masalah berlanjut?
-                            <a href="https://wa.me/62085168687700"
-                                class="text-red-600 hover:text-red-700 font-semibold hover:underline">
-                                Laporkan ke Admin
-                            </a>
-                        </p>
-                    </div>
+                <!-- Floating mini elements -->
+                <span class="absolute -top-3 -right-3 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center text-white text-sm shadow-md font-bold">!</span>
+                <span class="absolute -bottom-2 -left-2 w-10 h-10 bg-orange-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                </span>
+            </div>
+            
+            <div class="mt-6">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 text-orange-700 text-xs font-semibold uppercase tracking-wider border border-orange-100">
+                    <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+                    Server Bermasalah!
                 </div>
             </div>
         </div>
 
-        <!-- Footer Text -->
-        <div class="text-center mt-8">
-            <p class="text-gray-600">
-                <i class="fas fa-server mr-2"></i>
-                Error Code: 500 - Internal Server Error
-            </p>
-            <p class="text-gray-500 text-sm mt-2">
-                Reference ID: {{ uniqid('ERR-') }} | {{ date('Y-m-d H:i:s') }}
-            </p>
+        <!-- Right Content Col -->
+        <div class="md:col-span-7 flex flex-col justify-between h-full">
+            <div>
+                <!-- Headline -->
+                <span class="text-orange-600 font-bold text-sm tracking-wide block mb-2 uppercase">Aduh, Servernya Kena Mental...</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+                    Server Lagi Capek, Butuh Healing!
+                </h1>
+                
+                <p class="text-slate-600 text-base md:text-lg leading-relaxed mb-6">
+                    Ada masalah internal di server kami. Sistemnya lagi <span class="text-orange-600 font-semibold underline decoration-wavy">burnout</span> dan butuh waktu buat cooling down. Tim IT kami lagi gercep ngebenerin biar bisa sat-set lagi. Harap sabar, ini ujian!
+                </p>
+
+                <!-- Gen Z checklist pointers -->
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 mb-8">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Analisis Situasi:</span>
+                    <ul class="space-y-3 text-sm text-slate-600">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-battery-half text-orange-500"></i>
+                            <span>Servernya lagi overload/capek (kebanyakan beban pikiran)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-face-sad-tear text-orange-500"></i>
+                            <span>Sistem lagi ngambek dan butuh dirayu</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-mug-hot text-orange-500"></i>
+                            <span>IT support lagi ngopi sambil ngebenerin kodenya</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button id="reloadBtn" 
+                   class="inline-flex items-center justify-center gap-2 px-6 py-4 bg-linear-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white rounded-2xl font-bold transition-all duration-300 shadow-lg shadow-orange-500/10 hover:shadow-xl hover:shadow-orange-500/20 transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-arrows-rotate text-lg"></i>
+                    <span>Muat Ulang Halaman</span>
+                </button>
+                
+                <a href="{{ route('home') }}" 
+                   class="inline-flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-slate-200 hover:border-orange-600 text-slate-700 hover:text-orange-700 rounded-2xl font-bold transition-all duration-300 transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-house-chimney text-lg text-orange-600"></i>
+                    <span>Balik Ke Home</span>
+                </a>
+
+                <button id="backBtn" 
+                   class="inline-flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-slate-200 hover:border-orange-600 text-slate-700 hover:text-orange-700 rounded-2xl font-bold transition-all duration-300 transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-arrow-left text-lg text-orange-600"></i>
+                    <span>Kembali</span>
+                </button>
+            </div>
+
+            <!-- Mini footer -->
+            <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                <span>Desa Warurejo &copy; {{ date('Y') }}</span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                    Error Code 500
+                </span>
+            </div>
         </div>
+
     </div>
-    <script @nonce>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const reloadBtn = document.getElementById('reloadBtn');
             if (reloadBtn) {

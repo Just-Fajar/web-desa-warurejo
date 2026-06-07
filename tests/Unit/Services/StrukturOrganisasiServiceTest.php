@@ -38,7 +38,7 @@ class StrukturOrganisasiServiceTest extends TestCase
     public function test_get_paginated()
     {
         $expected = collect([new StrukturOrganisasi(['nama' => 'Test'])]);
-        $this->repository->shouldReceive('getPaginated')->once()->with(15)->andReturn($expected);
+        $this->repository->shouldReceive('getPaginated')->once()->with([], 15)->andReturn($expected);
         $result = $this->service->getPaginatedStrukturOrganisasi();
         $this->assertEquals($expected, $result);
     }
@@ -53,10 +53,17 @@ class StrukturOrganisasiServiceTest extends TestCase
 
     public function test_get_structured_data()
     {
+        \Illuminate\Support\Facades\Cache::flush();
         $expected = collect([new StrukturOrganisasi(['nama' => 'Test'])]);
         $this->repository->shouldReceive('getStructuredData')->once()->andReturn($expected);
+        
+        // Call first time (cache miss)
         $result = $this->service->getStructuredData();
         $this->assertEquals($expected, $result);
+
+        // Call second time (cache hit)
+        $result2 = $this->service->getStructuredData();
+        $this->assertEquals($expected, $result2);
     }
 
     public function test_get_by_id()

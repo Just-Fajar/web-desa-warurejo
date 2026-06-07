@@ -25,9 +25,10 @@ class BeritaController extends Controller
      * Tampilkan list semua berita dengan pagination
      * Route: GET /admin/berita
      */
-    public function index()
+    public function index(Request $request)
     {
-        $berita = $this->beritaService->getPaginatedBerita(10);
+        $filters = $request->only(['search', 'status']);
+        $berita = $this->beritaService->getPaginatedBerita(10, $filters);
 
         return view('admin.berita.index', compact('berita'));
     }

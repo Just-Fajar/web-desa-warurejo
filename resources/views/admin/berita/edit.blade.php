@@ -75,32 +75,67 @@
                     <div class="pt-6 border-t border-gray-200 mt-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">Media</h3>
                         <div>
-                            <label for="gambar_utama" class="block text-sm font-bold text-gray-900 mb-2">Gambar Utama</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center min-h-[12rem]">
-                                <input type="file" id="gambar_utama" name="gambar_utama" accept="image/*"
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-
-                                <!-- Placeholder -->
-                                <div id="uploadPlaceholder" class="{{ $berita->gambar_utama ? 'hidden' : '' }}">
-                                    <svg class="w-12 h-12 mx-auto mb-3 text-primary-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 48 48">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8M8 32l9.172-9.172a4 4 0 015.656 0L28 28l4 4m4-24h8m-4-4v8m-12 4h.02" />
-                                    </svg>
-                                    <h3 class="font-medium text-primary-600 hover:text-primary-700 text-sm">Upload / Ganti Gambar</h3>
-                                    <p class="text-xs text-gray-500 mt-2">Format JPG, PNG, WEBP — Max 2MB</p>
+                            <label class="block text-sm font-bold text-gray-900 mb-3">Gambar Utama</label>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Gambar Saat Ini (Kiri) -->
+                                <div>
+                                    <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Gambar Saat Ini</span>
+                                    <div class="border border-gray-200 rounded-xl overflow-hidden bg-gray-50 w-full aspect-video flex items-center justify-center relative shadow-sm">
+                                        @if($berita->gambar_utama)
+                                            <img src="{{ $berita->gambar_utama_url }}" class="w-full h-full object-cover">
+                                        @else
+                                            <div class="text-center p-6 text-gray-400">
+                                                <i class="fas fa-image text-4xl mb-2"></i>
+                                                <p class="text-sm">Tidak ada gambar saat ini</p>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
 
-                                <!-- Preview -->
-                                <div id="previewContainer" class="{{ $berita->gambar_utama ? '' : 'hidden' }} absolute inset-0 w-full h-full p-2">
-                                    <img id="imagePreview" src="{{ $berita->gambar_utama ? $berita->gambar_utama_url : '' }}"
-                                        class="rounded-lg shadow w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-xl">
-                                        <p class="text-white text-sm font-medium">Ubah Gambar</p>
+                                <!-- Gambar Baru (Kanan) -->
+                                <div>
+                                    <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Gambar Baru</span>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center w-full aspect-video overflow-hidden bg-gray-50 shadow-sm">
+                                        <input type="file" id="gambar_utama" name="gambar_utama" accept="image/*"
+                                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+
+                                        <!-- Placeholder -->
+                                        <div id="uploadPlaceholder">
+                                            <svg class="w-12 h-12 mx-auto mb-3 text-primary-400" fill="none" stroke="currentColor"
+                                                viewBox="0 0 48 48">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8M8 32l9.172-9.172a4 4 0 015.656 0L28 28l4 4m4-24h8m-4-4v8m-12 4h.02" />
+                                            </svg>
+                                            <h3 class="font-medium text-primary-600 hover:text-primary-700 text-sm">Pilih Gambar Baru</h3>
+                                            <p class="text-xs text-gray-500 mt-2">Format JPG, PNG, WEBP — Max 2MB</p>
+                                        </div>
+
+                                        <!-- Preview -->
+                                        <div id="previewContainer" class="hidden absolute inset-0 w-full h-full p-2 bg-gray-50">
+                                            <img id="imagePreview" src=""
+                                                class="rounded-lg shadow w-full h-full object-cover">
+                                            <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-xl">
+                                                <p class="text-white text-sm font-medium mb-2">Ubah Gambar Baru</p>
+                                                <button type="button" id="btnBatalGanti" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-all focus:outline-none z-20">
+                                                    Batal Ganti
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             @error('gambar_utama') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
+                     <!-- Pengaturan Publikasi -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
+                        <div class="space-y-6">
+                            @include('admin.partials._status_fields', [
+                                'currentStatus' => old('status', $berita->status),
+                                'publishedAt' => old('published_at', $berita->published_at ? $berita->published_at->format('Y-m-d H:i') : ''),
+                            ])
                         </div>
                     </div>
 
@@ -124,17 +159,6 @@
                                 <p class="text-gray-500 font-medium mb-1">Penulis</p>
                                 <p class="text-gray-800 font-semibold">{{ $berita->admin->name ?? 'Desa Warurejo' }}</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Pengaturan Publikasi -->
-                    <div class="border-t border-gray-200 pt-6 mt-6">
-                        <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
-                        <div class="space-y-6">
-                            @include('admin.partials._status_fields', [
-                                'currentStatus' => old('status', $berita->status),
-                                'publishedAt' => old('published_at', $berita->published_at ? $berita->published_at->format('Y-m-d H:i') : ''),
-                            ])
                         </div>
                     </div>
 
@@ -246,7 +270,19 @@
 
                     reader.readAsDataURL(file);
                 }
+            }
             document.getElementById('gambar_utama').addEventListener('change', previewImage);
+
+            const btnBatalGanti = document.getElementById('btnBatalGanti');
+            if (btnBatalGanti) {
+                btnBatalGanti.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.getElementById('gambar_utama').value = '';
+                    document.getElementById('uploadPlaceholder').classList.remove('hidden');
+                    document.getElementById('previewContainer').classList.add('hidden');
+                });
+            }
 
 
             // Client-side validation

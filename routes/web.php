@@ -169,6 +169,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Galeri Management
         Route::post('galeri/bulk-delete', [AdminGaleriController::class, 'bulkDelete'])->name('galeri.bulk-delete');
+        Route::delete('galeri/foto/{id}', [AdminGaleriController::class, 'deleteFoto'])->name('galeri.foto.delete');
         Route::resource('galeri', AdminGaleriController::class);
 
         // Publikasi Management
@@ -197,3 +198,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 });
+
+// Error Page Previews (Development Only)
+if (config('app.debug')) {
+    Route::get('/errors/403', function () {
+        return response()->view('errors.403', [], 403);
+    });
+    Route::get('/errors/404', function () {
+        return response()->view('errors.404', [], 404);
+    });
+    Route::get('/errors/500', function () {
+        return response()->view('errors.500', [], 500);
+    });
+}

@@ -144,12 +144,14 @@ class PublicPagesTest extends TestCase
         $p1 = PotensiDesa::factory()->create([
             'nama' => 'Potensi Wisata Indah',
             'kategori' => 'wisata',
+            'published_at' => '2026-05-10 10:00:00',
             'created_at' => '2026-05-10 10:00:00',
             'views' => 10,
         ]);
         $p2 = PotensiDesa::factory()->create([
             'nama' => 'Potensi Kuliner Lezat',
             'kategori' => 'umkm',
+            'published_at' => '2026-05-20 10:00:00',
             'created_at' => '2026-05-20 10:00:00',
             'views' => 20,
         ]);
@@ -373,29 +375,15 @@ class PublicPagesTest extends TestCase
 
     public function test_publikasi_download(): void
     {
-        $fileDir = storage_path('app/public/publikasi');
-        if (! file_exists($fileDir)) {
-            mkdir($fileDir, 0755, true);
-        }
-        $filePath = $fileDir.'/test.pdf';
-        file_put_contents($filePath, 'dummy content');
+        $p = Publikasi::factory()->published()->create([
+            'judul' => 'Downloadable Document',
+            'file_dokumen' => 'publikasi/test.pdf',
+            'jumlah_download' => 0,
+        ]);
 
-        try {
-            $p = Publikasi::factory()->published()->create([
-                'judul' => 'Downloadable Document',
-                'file_dokumen' => 'publikasi/test.pdf',
-                'jumlah_download' => 0,
-            ]);
-
-            $response = $this->get(route('publikasi.download', $p->id));
-            $response->assertStatus(200);
-            $response->assertHeader('content-disposition', 'attachment; filename="Downloadable Document.pdf"');
-            $this->assertEquals(1, $p->fresh()->jumlah_download);
-        } finally {
-            if (file_exists($filePath)) {
-                unlink($filePath);
-            }
-        }
+        $response = $this->get(route('publikasi.download', $p->id));
+        $response->assertStatus(403);
+        $this->assertEquals(0, $p->fresh()->jumlah_download);
     }
 
     public function test_publikasi_download_file_not_found(): void
@@ -405,7 +393,7 @@ class PublicPagesTest extends TestCase
         ]);
 
         $response = $this->get(route('publikasi.download', $p->id));
-        $response->assertStatus(404);
+        $response->assertStatus(403);
     }
 
     // ==================== 404 ====================

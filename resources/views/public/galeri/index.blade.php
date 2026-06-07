@@ -21,7 +21,7 @@
             </h1>
             
             <p class="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed font-medium">
-                Merekam jejak, kegiatan, dan momen berharga melalui lensa kamera di Desa Warurejo.
+                Dokumentasi kegiatan, pembangunan, dan berbagai momen berharga masyarakat Desa Warurejo
             </p>
         </div>
     </div>

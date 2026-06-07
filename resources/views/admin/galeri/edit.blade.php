@@ -21,7 +21,7 @@
             </a>
         </div>
 
-        <form action="{{ route('admin.galeri.update', $galeri->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.galeri.update', $galeri->id) }}" method="POST" enctype="multipart/form-data" id="galeriForm">
             @csrf
             @method('PUT')
 
@@ -97,34 +97,86 @@
                     <!-- Media Upload -->
                     <div class="pt-6 border-t border-gray-200 mt-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4">Media</h3>
-                        <div>
-                            <label for="gambar" class="block text-sm font-bold text-gray-900 mb-2">Gambar Galeri</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center relative hover:border-primary-500 transition cursor-pointer flex flex-col justify-center min-h-[12rem]">
-                                <input type="file" id="gambar" name="gambar" accept="image/*"
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                        
+                        <!-- Upload Foto Baru -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold text-gray-900 mb-2">
+                                Upload Foto Baru <span class="text-xs font-normal text-gray-500">(Bisa pilih banyak foto untuk ditambahkan)</span>
+                            </label>
+
+                            <div id="multiUploadArea"
+                                class="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center bg-gray-50 hover:border-primary-500 transition cursor-pointer relative">
+
+                                <input type="file" id="multiGambar" name="images[]" accept="image/*" multiple
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
 
                                 <!-- Placeholder -->
-                                <div id="uploadPlaceholder" class="{{ $galeri->gambar ? 'hidden' : '' }}">
-                                    <svg class="w-12 h-12 mx-auto mb-3 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 48 48">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M28 8H12a4 4 0 00-4 4v20m32-12v8M8 32l9.172-9.172a4 4 0 015.656 0L28 28l4 4m4-24h8m-4-4v8m-12 4h.02" />
-                                    </svg>
-                                    <h3 class="font-medium text-primary-600 hover:text-primary-700 text-sm">Upload / Ganti Gambar</h3>
-                                    <p class="text-xs text-gray-500 mt-2">Format JPG, PNG, WEBP — Max 2MB</p>
-                                </div>
-
-                                <!-- Preview -->
-                                <div id="previewContainer" class="{{ $galeri->gambar ? '' : 'hidden' }} absolute inset-0 w-full h-full p-2">
-                                    <img id="imagePreview"
-                                        src="{{ $galeri->gambar ? asset('storage/' . $galeri->gambar) : '' }}"
-                                        class="rounded-lg shadow w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-xl">
-                                        <p class="text-white text-sm font-medium">Ubah Gambar</p>
+                                <div id="multiUploadPlaceholder">
+                                    <div class="text-gray-400 mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto opacity-50 text-primary-500"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
                                     </div>
+                                    <p class="font-semibold text-gray-700 text-sm">Klik atau Tarik Gambar untuk Ditambahkan</p>
+                                    <p class="text-xs text-gray-500 mt-1">Format: JPG, PNG, WEBP (Max 2MB per file)</p>
                                 </div>
                             </div>
-                            @error('gambar')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+
+                            <!-- Preview Grid untuk Foto Baru -->
+                            <div id="previewGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4" style="display: none;"></div>
+
+                            @error('images')
+                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
+                            @error('images.*')
+                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Foto Galeri Saat Ini -->
+                        <div class="pt-6 border-t border-gray-100">
+                            <label class="block text-sm font-bold text-gray-900 mb-3">
+                                Foto Galeri Saat Ini
+                            </label>
+                            
+                            @if($galeri->images->count() > 0)
+                                <div id="existingGaleri" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                    @foreach ($galeri->images as $index => $image)
+                                        <div id="foto-{{ $image->id }}" class="relative group aspect-square rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 shadow-sm">
+                                            <img src="{{ $image->image_url }}" class="w-full h-full object-cover">
+                                            
+                                            <!-- Hover actions -->
+                                            <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button type="button" class="hapus-foto-btn p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all" data-id="{{ $image->id }}">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <div class="absolute bottom-0 left-0 bg-black/60 text-white text-xs px-2 py-1 m-2 rounded">
+                                                Foto {{ $index + 1 }}
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div id="existingGaleri" class="text-center py-6 text-gray-500 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                                    <p class="text-sm">Belum ada foto di galeri ini.</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Pengaturan Publikasi -->
+                    <div class="border-t border-gray-200 pt-6 mt-6">
+                        <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
+                        <div class="space-y-6">
+                            @include('admin.partials._status_fields', [
+                                'currentStatus' => old('status', $galeri->status),
+                                'publishedAt' => old('published_at', $galeri->published_at ? $galeri->published_at->format('Y-m-d H:i') : ''),
+                            ])
                         </div>
                     </div>
 
@@ -150,18 +202,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Pengaturan Publikasi -->
-                    <div class="border-t border-gray-200 pt-6 mt-6">
-                        <h3 class="text-lg font-semibold text-primary-600 mb-4">Pengaturan Publikasi</h3>
-                        <div class="space-y-6">
-                            @include('admin.partials._status_fields', [
-                                'currentStatus' => old('status', $galeri->status),
-                                'publishedAt' => old('published_at', $galeri->published_at ? $galeri->published_at->format('Y-m-d H:i') : ''),
-                            ])
-                        </div>
-                    </div>
-
                 </div>
 
                 <!-- Form Footer -->
@@ -188,40 +228,152 @@
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
         <script>
-            flatpickr("#tanggal", {
-                altInput: true,
-                altFormat: "j F Y",
-                dateFormat: "Y-m-d",
-                locale: "id"
-            });
+            $(document).ready(function () {
+                flatpickr("#tanggal", {
+                    altInput: true,
+                    altFormat: "j F Y",
+                    dateFormat: "Y-m-d",
+                    locale: "id"
+                });
 
-            const gambarInput = document.getElementById('gambar');
-            if (gambarInput) {
-                gambarInput.addEventListener('change', function(event) {
-                    const file = event.target.files[0];
+                // Hapus Foto Galeri handler via AJAX
+                $(document).on('click', '.hapus-foto-btn', function() {
+                    const fotoId = $(this).data('id');
+                    if (!confirm('Hapus foto ini dari galeri?')) return;
+                    $.ajax({
+                        url: '/admin/galeri/foto/' + fotoId,
+                        type: 'DELETE',
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        success: function(response) {
+                            if (response.success) {
+                                $('#foto-' + fotoId).fadeOut(300, function() {
+                                    $(this).remove();
+                                    // Check if existing gallery is now empty to show placeholder
+                                    if ($('#existingGaleri > div').length === 0) {
+                                        $('#existingGaleri').replaceWith(`
+                                            <div id="existingGaleri" class="text-center py-6 text-gray-500 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                                                <p class="text-sm">Belum ada foto di galeri ini.</p>
+                                            </div>
+                                        `);
+                                    }
+                                });
+                            }
+                        },
+                        error: function() { alert('Gagal menghapus foto'); }
+                    });
+                });
 
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            document.getElementById('imagePreview').src = e.target.result;
-                            document.getElementById('uploadPlaceholder').classList.add('hidden');
-                            document.getElementById('previewContainer').classList.remove('hidden');
-                        };
-                        reader.readAsDataURL(file);
+                let selectedFiles = [];
+
+                // MULTIPLE UPLOAD HANDLER
+                document.getElementById('multiGambar').addEventListener('change', function (event) {
+                    const files = Array.from(event.target.files);
+
+                    files.forEach(file => {
+                        if (file.size > 2048000) {
+                            alert(`File ${file.name} terlalu besar (max 2MB)`);
+                            return;
+                        }
+
+                        if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                            selectedFiles.push(file);
+                        }
+                    });
+
+                    updatePreviewGrid();
+                    updateFileInput();
+                });
+
+                function updatePreviewGrid() {
+                    const previewGrid = document.getElementById('previewGrid');
+                    const placeholder = document.getElementById('multiUploadPlaceholder');
+
+                    if (selectedFiles.length > 0) {
+                        previewGrid.style.display = 'grid';
+                        placeholder.style.display = 'none';
+
+                        previewGrid.innerHTML = '';
+
+                        selectedFiles.forEach((file, index) => {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                const col = document.createElement('div');
+                                col.className = 'relative group aspect-square rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 shadow-sm';
+                                col.innerHTML = `
+                                    <img src="${e.target.result}" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button type="button" 
+                                                data-index="${index}" 
+                                                class="remove-img-btn p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 bg-primary-600 text-white text-xs px-2 py-1 m-2 rounded">
+                                        Baru ${index + 1}
+                                    </div>
+                                `;
+                                previewGrid.appendChild(col);
+                            };
+                            reader.readAsDataURL(file);
+                        });
+                    } else {
+                        previewGrid.style.display = 'none';
+                        placeholder.style.display = 'block';
+                    }
+                }
+
+                // Event delegation to remove images without inline onclick handlers
+                const previewGridEl = document.getElementById('previewGrid');
+                if (previewGridEl) {
+                    previewGridEl.addEventListener('click', function(e) {
+                        const button = e.target.closest('.remove-img-btn');
+                        if (button) {
+                            const index = parseInt(button.getAttribute('data-index'));
+                            removeImage(index);
+                        }
+                    });
+                }
+
+                function removeImage(index) {
+                    selectedFiles.splice(index, 1);
+                    updatePreviewGrid();
+                    updateFileInput();
+                }
+
+                function updateFileInput() {
+                    const input = document.getElementById('multiGambar');
+                    const dataTransfer = new DataTransfer();
+
+                    selectedFiles.forEach(file => {
+                        dataTransfer.items.add(file);
+                    });
+
+                    input.files = dataTransfer.files;
+                }
+
+                // Form validation on submit
+                document.getElementById('galeriForm').addEventListener('submit', function (e) {
+                    const existingPhotosCount = $('#existingGaleri [id^="foto-"]').length;
+                    if (existingPhotosCount === 0 && selectedFiles.length === 0) {
+                        e.preventDefault();
+                        alert('Silakan pilih minimal 1 gambar!');
+                        return false;
                     }
                 });
-            }
 
-            // Auto-generate slug from judul
-            document.getElementById('judul').addEventListener('input', function () {
-                const judul = this.value;
-                const slug = judul
-                    .toLowerCase()
-                    .replace(/[^a-z0-9\s-]/g, '')
-                    .replace(/\s+/g, '-')
-                    .replace(/-+/g, '-')
-                    .trim();
-                document.getElementById('slug').value = slug;
+                // Auto-generate slug from judul
+                document.getElementById('judul').addEventListener('input', function () {
+                    const judul = this.value;
+                    const slug = judul
+                        .toLowerCase()
+                        .replace(/[^a-z0-9\s-]/g, '')
+                        .replace(/\s+/g, '-')
+                        .replace(/-+/g, '-')
+                        .trim();
+                    document.getElementById('slug').value = slug;
+                });
             });
         </script>
     @endpush

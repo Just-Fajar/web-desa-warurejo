@@ -5,7 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>403 - Akses Ditolak | Desa Warurejo</title>
+    <title>403 - Lu Gak Punya Akses, Rill! | Desa Warurejo</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -14,205 +19,150 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        @keyframes lock-shake {
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
 
-            0%,
-            100% {
-                transform: rotate(0deg);
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0) rotate(0deg);
             }
-
-            25% {
-                transform: rotate(-5deg);
+            15% {
+                transform: translateX(-8px) rotate(-3deg);
             }
-
+            30% {
+                transform: translateX(6px) rotate(2deg);
+            }
+            45% {
+                transform: translateX(-6px) rotate(-2deg);
+            }
+            60% {
+                transform: translateX(4px) rotate(1deg);
+            }
             75% {
-                transform: rotate(5deg);
+                transform: translateX(-2px) rotate(-1deg);
             }
         }
 
-        .lock-animation {
-            animation: lock-shake 0.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse-border {
-
-            0%,
-            100% {
-                border-color: rgb(239, 68, 68);
+        @keyframes pulse-slow {
+            0%, 100% {
+                opacity: 0.6;
+                transform: scale(1);
             }
-
             50% {
-                border-color: rgb(239, 68, 68, 0.5);
+                opacity: 0.9;
+                transform: scale(1.05);
             }
         }
 
-        .pulse-border {
-            animation: pulse-border 2s ease-in-out infinite;
+        .shake-anim {
+            animation: shake 0.8s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+
+        .pulse-slow {
+            animation: pulse-slow 3s ease-in-out infinite;
         }
     </style>
 </head>
 
-<body class="bg-linear-to-br from-red-50 via-white to-red-50 min-h-screen flex items-center justify-center p-4">
-    <!-- Background Decorations -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-            class="absolute top-10 left-10 w-72 h-72 bg-red-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse">
-        </div>
-        <div
-            class="absolute bottom-10 right-10 w-72 h-72 bg-red-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000">
-        </div>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+    <!-- Abstract Background Decor -->
+    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute -top-[20%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-red-200/40 blur-3xl pulse-slow"></div>
+        <div class="absolute -bottom-[20%] -right-[10%] w-[50vw] h-[50vw] rounded-full bg-rose-200/30 blur-3xl pulse-slow" style="animation-delay: 1.5s;"></div>
     </div>
 
-    <!-- Main Content -->
-    <div class="relative z-10 max-w-4xl w-full">
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-            <div class="grid md:grid-cols-2 gap-0">
-                <!-- Left Side - Error Info -->
-                <div class="p-12 flex flex-col justify-center bg-linear-to-br from-red-600 to-red-700 text-white">
-                    <div class="mb-8">
-                        <!-- Logo -->
-                        <div class="flex items-center space-x-3 mb-6">
-                            <img src="{{ asset('images/Logo-Kabupaten.webp') }}" alt="Logo Desa"
-                                class="h-16 w-16 bg-white rounded-full p-2">
-                            <div>
-                                <h2 class="text-2xl font-bold">Desa Warurejo</h2>
-                                <p class="text-red-100 text-sm">Kabupaten Madiun</p>
-                            </div>
-                        </div>
-
-                        <!-- 403 Number with Lock Icon -->
-                        <div class="mb-6">
-                            <div class="flex items-center space-x-4 mb-4">
-                                <div class="lock-animation">
-                                    <i class="fas fa-lock text-6xl text-white/90"></i>
-                                </div>
-                                <h1 class="text-7xl font-black text-white/90">403</h1>
-                            </div>
-                        </div>
-
-                        <h3 class="text-3xl font-bold mb-3">Akses Ditolak</h3>
-                        <p class="text-red-100 text-lg leading-relaxed mb-6">
-                            Maaf, Anda tidak memiliki izin untuk mengakses halaman ini.
-                            Halaman ini hanya dapat diakses oleh pengguna dengan hak akses tertentu.
-                        </p>
-
-                        <!-- Access Info -->
-                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 pulse-border">
-                            <div class="flex items-start space-x-3">
-                                <i class="fas fa-shield-alt text-2xl text-white mt-1"></i>
-                                <div>
-                                    <div class="font-semibold text-sm mb-2">Halaman Terlindungi</div>
-                                    <p class="text-red-100 text-xs leading-relaxed">
-                                        Halaman ini dilindungi untuk menjaga keamanan dan privasi data.
-                                        Jika Anda merasa ini adalah kesalahan, silakan hubungi administrator.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Why Blocked -->
-                    <div class="pt-6 border-t border-red-500/30">
-                        <h5 class="font-semibold text-sm mb-3">Kemungkinan Penyebab:</h5>
-                        <ul class="space-y-2 text-sm text-red-100">
-                            <li class="flex items-start space-x-2">
-                                <i class="fas fa-times-circle mt-0.5"></i>
-                                <span>Anda belum login sebagai admin</span>
-                            </li>
-                            <li class="flex items-start space-x-2">
-                                <i class="fas fa-times-circle mt-0.5"></i>
-                                <span>Hak akses Anda tidak mencukupi</span>
-                            </li>
-                            <li class="flex items-start space-x-2">
-                                <i class="fas fa-times-circle mt-0.5"></i>
-                                <span>Halaman khusus untuk administrator</span>
-                            </li>
-                        </ul>
-                    </div>
+    <!-- Main Container -->
+    <div class="w-full max-w-4xl bg-white/80 backdrop-blur-md border border-slate-100 rounded-[32px] shadow-2xl p-8 md:p-12 relative z-10 grid md:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Illustration Col -->
+        <div class="md:col-span-5 flex flex-col items-center justify-center text-center">
+            <div class="shake-anim relative">
+                <!-- 403 Text Background Glow -->
+                <span class="absolute inset-0 text-red-100/70 text-[10rem] font-extrabold -translate-y-8 select-none z-0">403</span>
+                
+                <!-- Main Icon -->
+                <div class="relative z-10 w-44 h-44 bg-linear-to-tr from-red-500 to-rose-600 rounded-[38px] shadow-xl shadow-red-500/20 flex items-center justify-center border border-white/20">
+                    <i class="fa-solid fa-user-shield text-white text-7xl"></i>
                 </div>
 
-                <!-- Right Side - Navigation -->
-                <div class="p-12 flex flex-col justify-center bg-white">
-                    <div class="text-center mb-8">
-                        <div class="inline-block p-6 bg-red-50 rounded-full mb-6">
-                            <i class="fas fa-hand-paper text-6xl text-red-600"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold text-gray-800 mb-3">Anda Tidak Diizinkan</h4>
-                        <p class="text-gray-600 mb-8">
-                            Silakan kembali ke area publik atau login sebagai admin jika Anda memiliki akun
-                        </p>
-                    </div>
-
-                    <!-- Navigation Links -->
-                    <div class="space-y-3">
-                        <a href="{{ route('home') }}"
-                            class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                            <i class="fas fa-home text-xl"></i>
-                            <span>Kembali ke Beranda</span>
-                        </a>
-
-                        <a href="{{ route('admin.login') }}"
-                            class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
-                            <i class="fas fa-sign-in-alt text-xl text-red-600"></i>
-                            <span>Login Admin</span>
-                        </a>
-
-                        <button id="backBtn"
-                            class="flex items-center justify-center space-x-3 w-full px-6 py-4 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-red-600 rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-0.5">
-                            <i class="fas fa-arrow-left text-xl text-red-600"></i>
-                            <span>Halaman Sebelumnya</span>
-                        </button>
-                    </div>
-
-                    <!-- Public Pages -->
-                    <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h5 class="font-semibold text-gray-800 mb-3 text-sm">Halaman Publik yang Tersedia:</h5>
-                        <div class="grid grid-cols-2 gap-2">
-                            <a href="{{ route('berita.index') }}"
-                                class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
-                                <i class="fas fa-newspaper text-green-600"></i>
-                                <span>Berita</span>
-                            </a>
-                            <a href="{{ route('potensi.index') }}"
-                                class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
-                                <i class="fas fa-seedling text-green-600"></i>
-                                <span>Potensi</span>
-                            </a>
-                            <a href="{{ route('galeri.index') }}"
-                                class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
-                                <i class="fas fa-images text-green-600"></i>
-                                <span>Galeri</span>
-                            </a>
-                            <a href="{{ route('profil.sejarah') }}"
-                                class="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm text-gray-700 transition">
-                                <i class="fas fa-info-circle text-green-600"></i>
-                                <span>Profil</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Contact -->
-                    <div class="mt-6 pt-6 border-t border-gray-200 text-center">
-                        <p class="text-sm text-gray-500">
-                            Butuh bantuan?
-                            <a href="https://wa.me/62085168687700"
-                                class="text-red-600 hover:text-red-700 font-semibold hover:underline">
-                                Hubungi Administrator
-                            </a>
-                        </p>
-                    </div>
+                <!-- Floating mini elements -->
+                <span class="absolute -top-3 -right-3 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center text-white text-sm shadow-md font-bold">!</span>
+                <span class="absolute -bottom-2 -left-2 w-10 h-10 bg-red-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                    <i class="fa-solid fa-lock"></i>
+                </span>
+            </div>
+            
+            <div class="mt-6">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 text-red-700 text-xs font-semibold uppercase tracking-wider border border-red-100">
+                    <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                    Akses Ditolak!
                 </div>
             </div>
         </div>
 
-        <!-- Footer Text -->
-        <div class="text-center mt-8">
-            <p class="text-gray-600">
-                <i class="fas fa-ban mr-2"></i>
-                Error Code: 403 - Forbidden Access
-            </p>
+        <!-- Right Content Col -->
+        <div class="md:col-span-7 flex flex-col justify-between h-full">
+            <div>
+                <!-- Headline -->
+                <span class="text-red-600 font-bold text-sm tracking-wide block mb-2 uppercase">Eits, Jangan Asal Terobos...</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+                    Lu Gak Punya Akses, Rill!
+                </h1>
+                
+                <p class="text-slate-600 text-base md:text-lg leading-relaxed mb-6">
+                    Halaman ini <span class="text-red-600 font-semibold underline decoration-wavy">private banget</span>, bukan buat konsumsi publik. Lu harus login admin dulu atau emang akun lu belum dikasih izin buat lewat sini. Gak usah maksain masuk, entar kena mental!
+                </p>
+
+                <!-- Gen Z checklist pointers -->
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-5 mb-8">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Penyebab Utama:</span>
+                    <ul class="space-y-3 text-sm text-slate-600">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-sign-in-alt text-red-500"></i>
+                            <span>Lu belum login admin (login dulu gih, gass!)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-key text-red-500"></i>
+                            <span>Role / Hak akses lu kurang tinggi buat nembus pintu ini</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-eye-slash text-red-500"></i>
+                            <span>Halaman rahasia internal admin Desa Warurejo</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <a href="{{ route('home') }}" 
+                   class="inline-flex items-center justify-center gap-2 px-6 py-4 bg-linear-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white rounded-2xl font-bold transition-all duration-300 shadow-lg shadow-red-500/10 hover:shadow-xl hover:shadow-red-500/20 transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-house-chimney text-lg"></i>
+                    <span>Balik Ke Home</span>
+                </a>
+
+                <button id="backBtn" 
+                   class="inline-flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-slate-200 hover:border-red-600 text-slate-700 hover:text-red-700 rounded-2xl font-bold transition-all duration-300 transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-arrow-left text-lg text-red-600"></i>
+                    <span>Kembali</span>
+                </button>
+            </div>
+
+            <!-- Mini footer -->
+            <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                <span>Desa Warurejo &copy; {{ date('Y') }}</span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                    Error Code 403
+                </span>
+            </div>
         </div>
-    <script @nonce>
+
+    </div>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const backBtn = document.getElementById('backBtn');
             if (backBtn) {
