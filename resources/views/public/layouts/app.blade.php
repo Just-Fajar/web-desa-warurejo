@@ -51,7 +51,7 @@
     @endif
 
     <!-- Favicon -->
-    <link rel="icon" type="image/webp" href="{{ asset('images/Logo-Kabupaten-copy.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicon.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

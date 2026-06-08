@@ -8,7 +8,7 @@
     <title>@yield('title', 'Admin') - Desa Warurejo</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/webp" href="{{ asset('images/Logo-Kabupaten.webp') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicon.png') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 

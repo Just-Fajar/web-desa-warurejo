@@ -72,32 +72,30 @@
                 @if(isset($struktur['kepala']) && $struktur['kepala'])
                     <div class="max-w-md mx-auto relative group">
                         <div
-                            class="bg-white border border-gray-100 rounded-2xl md:rounded-[2rem] shadow-lg hover:shadow-xl hover:-translate-y-1 overflow-hidden relative transition duration-300">
+                            class="bg-white border border-gray-100 rounded-2xl md:rounded-4xl shadow-lg hover:shadow-xl hover:-translate-y-1 overflow-hidden relative transition duration-300">
                             <div class="aspect-w-3 aspect-h-4 bg-gray-100 relative">
                                 <img src="{{ $struktur['kepala']->avatar_url }}"
                                     data-fallback="{{ $struktur['kepala']->avatar_url }}"
                                     alt="{{ $struktur['kepala']->nama }}" class="w-full h-full object-cover">
-                                <!-- Elegant fade overlay at bottom of image -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent">
+                                <div class="absolute top-4 left-4">
+                                    <span class="inline-block bg-indigo-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-white shadow-md">
+                                        KEPALA DESA
+                                    </span>
                                 </div>
-
-                                <div class="absolute bottom-0 left-0 right-0 p-6 text-center text-white">
-                                    <div
-                                        class="inline-block bg-indigo-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
-                                        KEPALA DESA</div>
-                                    <h3 class="text-2xl font-extrabold mb-1">{{ strtoupper($struktur['kepala']->nama) }}</h3>
-                                     <p class="text-gray-200 text-sm mb-1">{{ $struktur['kepala']->jabatan }}</p>
-                                     @if($struktur['kepala']->periode_jabatan)
-                                         <p class="text-indigo-200 text-[11px] font-semibold mb-1">Periode: {{ $struktur['kepala']->periode_jabatan }}</p>
-                                     @endif
-                                     @if($struktur['kepala']->whatsapp)
-                                         <div class="mt-2 flex justify-center">
-                                             <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $struktur['kepala']->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500 hover:bg-emerald-600 text-white transition shadow-sm">
-                                                 <i class="fab fa-whatsapp mr-1.5 text-white"></i> {{ $struktur['kepala']->whatsapp }}
-                                             </a>
-                                         </div>
-                                     @endif
-                                </div>
+                            </div>
+                            <div class="p-6 text-center bg-white border-t border-gray-50">
+                                <h3 class="text-2xl font-extrabold text-gray-900 mb-1.5">{{ strtoupper($struktur['kepala']->nama) }}</h3>
+                                <p class="text-gray-500 font-medium text-sm mb-1">{{ $struktur['kepala']->jabatan }}</p>
+                                @if($struktur['kepala']->periode_jabatan)
+                                    <p class="text-indigo-600 text-xs font-bold mb-2">Periode: {{ $struktur['kepala']->periode_jabatan }}</p>
+                                @endif
+                                @if($struktur['kepala']->whatsapp)
+                                    <div class="mt-3 flex justify-center">
+                                        <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $struktur['kepala']->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white transition shadow-sm">
+                                            <i class="fab fa-whatsapp mr-2 text-white"></i> {{ $struktur['kepala']->whatsapp }}
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -121,27 +119,25 @@
                                 <img src="{{ $struktur['sekretaris']->avatar_url }}"
                                     data-fallback="{{ $struktur['sekretaris']->avatar_url }}"
                                     alt="{{ $struktur['sekretaris']->nama }}" class="w-full h-full object-cover">
-                                <!-- Elegant fade overlay at bottom of image -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent">
+                                <div class="absolute top-4 left-4">
+                                    <span class="inline-block bg-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white shadow-md">
+                                        SEKRETARIS DESA
+                                    </span>
                                 </div>
-
-                                <div class="absolute bottom-0 left-0 right-0 p-5 text-center text-white">
-                                    <div
-                                        class="inline-block bg-emerald-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
-                                        SEKRETARIS DESA</div>
-                                    <h4 class="text-xl font-bold mb-1">{{ strtoupper($struktur['sekretaris']->nama) }}</h4>
-                                    <p class="text-gray-200 text-xs mb-1">{{ $struktur['sekretaris']->jabatan }}</p>
-                                     @if($struktur['sekretaris']->periode_jabatan)
-                                         <p class="text-emerald-200 text-[11px] font-semibold mb-1">Periode: {{ $struktur['sekretaris']->periode_jabatan }}</p>
-                                     @endif
-                                     @if($struktur['sekretaris']->whatsapp)
-                                         <div class="mt-2 flex justify-center">
-                                             <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $struktur['sekretaris']->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500 hover:bg-emerald-600 text-white transition shadow-sm">
-                                                 <i class="fab fa-whatsapp mr-1.5 text-white"></i> {{ $struktur['sekretaris']->whatsapp }}
-                                             </a>
-                                         </div>
-                                     @endif
-                                </div>
+                            </div>
+                            <div class="p-5 text-center bg-white border-t border-gray-50">
+                                <h4 class="text-xl font-bold text-gray-900 mb-1.5">{{ strtoupper($struktur['sekretaris']->nama) }}</h4>
+                                <p class="text-gray-500 font-medium text-xs mb-1">{{ $struktur['sekretaris']->jabatan }}</p>
+                                @if($struktur['sekretaris']->periode_jabatan)
+                                    <p class="text-emerald-600 text-[11px] font-bold mb-2">Periode: {{ $struktur['sekretaris']->periode_jabatan }}</p>
+                                @endif
+                                @if($struktur['sekretaris']->whatsapp)
+                                    <div class="mt-3 flex justify-center">
+                                        <a href="https://wa.me/{{ str_starts_with($num = preg_replace('/[^0-9]/', '', $struktur['sekretaris']->whatsapp), '0') ? '62' . substr($num, 1) : $num }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white transition shadow-sm">
+                                            <i class="fab fa-whatsapp mr-2 text-white"></i> {{ $struktur['sekretaris']->whatsapp }}
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
