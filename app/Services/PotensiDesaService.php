@@ -281,5 +281,6 @@ class PotensiDesaService
     {
         Cache::forget('home.potensi');
         Cache::forget('home.total_potensi');
+        Cache::forget('profil_desa');
     }
 }

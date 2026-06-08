@@ -113,9 +113,7 @@ class PotensiController extends Controller
             }
 
             // Clear cache
-            Cache::forget('home.potensi');
-            Cache::forget('home.total_potensi');
-            Cache::forget('profil_desa');
+            // Handled by service layer
 
             return redirect()
                 ->route('admin.potensi.index')
@@ -206,9 +204,7 @@ class PotensiController extends Controller
             }
 
             // Clear cache
-            Cache::forget('home.potensi');
-            Cache::forget('home.total_potensi');
-            Cache::forget('profil_desa');
+            // Handled by service layer
 
             return redirect()
                 ->route('admin.potensi.index')
@@ -242,9 +238,7 @@ class PotensiController extends Controller
             $potensi->delete();
 
             // Clear cache
-            Cache::forget('home.potensi');
-            Cache::forget('home.total_potensi');
-            Cache::forget('profil_desa');
+            // Handled by service layer
 
             return redirect()
                 ->route('admin.potensi.index')
@@ -313,9 +307,7 @@ class PotensiController extends Controller
             PotensiDesa::whereIn('id', $ids)->delete();
 
             // Clear cache
-            Cache::forget('home.potensi');
-            Cache::forget('home.total_potensi');
-            Cache::forget('profil_desa');
+            // Handled by service layer
 
             return response()->json([
                 'success' => true,

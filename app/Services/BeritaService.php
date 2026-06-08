@@ -133,6 +133,7 @@ class BeritaService
         Cache::forget('home.latest_berita');
         Cache::forget('berita.published');
         Cache::forget('home.seo_data');
+        Cache::forget('profil_desa');
 
         return $berita;
     }
@@ -214,6 +215,7 @@ class BeritaService
         Cache::forget('berita.published');
         Cache::forget('berita.'.$id);
         Cache::forget('home.seo_data');
+        Cache::forget('profil_desa');
 
         return $updatedBerita;
     }
@@ -248,6 +250,7 @@ class BeritaService
         Cache::forget('berita.published');
         Cache::forget('berita.'.$id);
         Cache::forget('home.seo_data');
+        Cache::forget('profil_desa');
 
         return $deleted;
     }

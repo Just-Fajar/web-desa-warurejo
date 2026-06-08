@@ -37,9 +37,9 @@ class AuthController extends Controller
         return ApiResponse::success([
             'admin' => [
                 'id' => $admin->id,
-                'nama' => $admin->nama,
+                'nama' => $admin->name,
                 'email' => $admin->email,
-                'username' => $admin->username,
+                'username' => $admin->email,
             ],
             'token' => $token,
             'token_type' => 'Bearer',
@@ -83,10 +83,10 @@ class AuthController extends Controller
 
         return ApiResponse::success([
             'id' => $admin->id,
-            'nama' => $admin->nama,
+            'nama' => $admin->name,
             'email' => $admin->email,
-            'username' => $admin->username,
-            'foto' => $admin->foto ? asset('storage/'.$admin->foto) : null,
+            'username' => $admin->email,
+            'foto' => $admin->avatar_url,
             'created_at' => $admin->created_at->toIso8601String(),
         ]);
     }

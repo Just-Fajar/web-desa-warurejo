@@ -57,10 +57,6 @@ class BeritaController extends Controller
 
             $this->beritaService->createBerita($data);
 
-            // Clear cache
-            Cache::forget('home.latest_berita');
-            Cache::forget('profil_desa');
-
             return redirect()
                 ->route('admin.berita.index')
                 ->with('success', 'Berita berhasil ditambahkan.');
@@ -107,10 +103,6 @@ class BeritaController extends Controller
             $data = $request->validated();
             $this->beritaService->updateBerita($id, $data);
 
-            // Clear cache
-            Cache::forget('home.latest_berita');
-            Cache::forget('profil_desa');
-
             return redirect()
                 ->route('admin.berita.index')
                 ->with('success', 'Berita berhasil diperbarui.');
@@ -131,10 +123,6 @@ class BeritaController extends Controller
     {
         try {
             $this->beritaService->deleteBerita($id);
-
-            // Clear cache
-            Cache::forget('home.latest_berita');
-            Cache::forget('profil_desa');
 
             return redirect()
                 ->route('admin.berita.index')
@@ -170,10 +158,6 @@ class BeritaController extends Controller
                 $this->beritaService->deleteBerita($id);
                 $count++;
             }
-
-            // Clear cache
-            Cache::forget('home.latest_berita');
-            Cache::forget('profil_desa');
 
             return response()->json([
                 'success' => true,

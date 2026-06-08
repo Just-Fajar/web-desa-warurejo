@@ -9,8 +9,8 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Production%20Ready-success?style=flat-square" alt="Status">
-  <img src="https://img.shields.io/badge/Tests-468%20Methods-brightgreen?style=flat-square" alt="Tests">
-  <img src="https://img.shields.io/badge/Test%20Files-39-brightgreen?style=flat-square" alt="Test Files">
+  <img src="https://img.shields.io/badge/Tests-495%20Methods-brightgreen?style=flat-square" alt="Tests">
+  <img src="https://img.shields.io/badge/Test%20Files-40-brightgreen?style=flat-square" alt="Test Files">
   <img src="https://img.shields.io/badge/Security-Hardened-blue?style=flat-square" alt="Security">
   <img src="https://img.shields.io/badge/API-REST%20v1-orange?style=flat-square" alt="API">
 </p>
@@ -47,7 +47,7 @@ Website Profil Desa Warurejo adalah aplikasi web modern yang dirancang khusus un
 - **🏗️ Arsitektur Enterprise:** Repository + Service Pattern untuk maintainability maksimal
 - **🔒 Security Hardened:** Custom HTML Sanitizer, Rate Limiting, CSRF Protection
 - **⚡ High Performance:** Multi-layer caching system dengan auto-invalidation
-- **🧪 Comprehensive Testing:** 468 test methods dalam 39 file test
+- **🧪 Comprehensive Testing:** 495 test methods dalam 40 file test
 - **🌐 REST API Ready:** 22 endpoints dengan autentikasi Laravel Sanctum
 - **📅 Scheduled Publishing:** Auto-publish konten terjadwal via middleware
 - **📊 Visitor Analytics:** Tracking pengunjung harian dengan chart interaktif
@@ -285,8 +285,8 @@ Buka browser: `http://localhost:8000`
 ### Default Admin Account
 
 ```
-Email: admin@warurejo.com
-Password: password
+Email: adminwarurejo@gmail.com
+Password: admin123
 ```
 
 **⚠️ PENTING:** Ganti password default setelah login pertama!
@@ -541,7 +541,7 @@ Production:  https://warurejo.desa.id/api/v1
 # Get token
 curl -X POST http://localhost:8000/api/v1/login \
   -H "Content-Type: application/json" \
-  -d '{"email": "admin@warurejo.com", "password": "password"}'
+  -d '{"email": "adminwarurejo@gmail.com", "password": "admin123"}'
 
 # Use token
 curl -X GET http://localhost:8000/api/v1/me \

@@ -63,8 +63,8 @@ POST /login
 **Request Body:**
 ```json
 {
-    "email": "admin@warurejo.desa.id",
-    "password": "password",
+    "email": "adminwarurejo@gmail.com",
+    "password": "admin123",
     "device_name": "MyApp"
 }
 ```
@@ -78,7 +78,7 @@ POST /login
         "admin": {
             "id": 1,
             "nama": "Administrator",
-            "email": "admin@warurejo.desa.id"
+            "email": "adminwarurejo@gmail.com"
         },
         "token": "1|xxxxxxxxxxxxxxxxxxxxxxxxxxx",
         "token_type": "Bearer"
@@ -328,7 +328,7 @@ Mengembalikan ringkasan statistik website.
 curl -X POST http://localhost:8000/api/v1/login \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
-  -d '{"email":"admin@warurejo.desa.id","password":"password","device_name":"cURL"}'
+  -d '{"email":"adminwarurejo@gmail.com","password":"admin123","device_name":"cURL"}'
 ```
 
 ### Get Berita (Public)

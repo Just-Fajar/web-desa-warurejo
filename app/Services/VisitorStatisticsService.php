@@ -315,6 +315,39 @@ class VisitorStatisticsService
         $galeriModel = app(\App\Models\Galeri::class);
         $publikasiModel = app(\App\Models\Publikasi::class);
 
+        // Fetch counts grouped by month
+        $beritaCounts = collect($beritaModel
+            ->selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->whereYear('created_at', $year)
+            ->groupByRaw('MONTH(created_at)')
+            ->pluck('count', 'month'))
+            ->mapWithKeys(fn($val, $key) => [(int)$key => $val])
+            ->toArray();
+
+        $potensiCounts = collect($potensiModel
+            ->selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->whereYear('created_at', $year)
+            ->groupByRaw('MONTH(created_at)')
+            ->pluck('count', 'month'))
+            ->mapWithKeys(fn($val, $key) => [(int)$key => $val])
+            ->toArray();
+
+        $galeriCounts = collect($galeriModel
+            ->selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->whereYear('created_at', $year)
+            ->groupByRaw('MONTH(created_at)')
+            ->pluck('count', 'month'))
+            ->mapWithKeys(fn($val, $key) => [(int)$key => $val])
+            ->toArray();
+
+        $publikasiCounts = collect($publikasiModel
+            ->selectRaw('MONTH(tanggal_publikasi) as month, count(*) as count')
+            ->whereYear('tanggal_publikasi', $year)
+            ->groupByRaw('MONTH(tanggal_publikasi)')
+            ->pluck('count', 'month'))
+            ->mapWithKeys(fn($val, $key) => [(int)$key => $val])
+            ->toArray();
+
         // Initialize arrays for 12 months
         $months = [];
         $beritaData = [];
@@ -326,26 +359,10 @@ class VisitorStatisticsService
             $monthName = Carbon::create($year, $month, 1)->format('M');
             $months[] = $monthName;
 
-            // Count content for each category in this month
-            $beritaData[] = $beritaModel
-                ->whereYear('created_at', $year)
-                ->whereMonth('created_at', $month)
-                ->count();
-
-            $potensiData[] = $potensiModel
-                ->whereYear('created_at', $year)
-                ->whereMonth('created_at', $month)
-                ->count();
-
-            $galeriData[] = $galeriModel
-                ->whereYear('created_at', $year)
-                ->whereMonth('created_at', $month)
-                ->count();
-
-            $publikasiData[] = $publikasiModel
-                ->whereYear('tanggal_publikasi', $year)
-                ->whereMonth('tanggal_publikasi', $month)
-                ->count();
+            $beritaData[] = $beritaCounts[$month] ?? 0;
+            $potensiData[] = $potensiCounts[$month] ?? 0;
+            $galeriData[] = $galeriCounts[$month] ?? 0;
+            $publikasiData[] = $publikasiCounts[$month] ?? 0;
         }
 
         return [

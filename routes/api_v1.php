@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public API Routes (No Authentication Required)
 Route::group([
-    'middleware' => ['api.version']
+    'middleware' => ['api.version', 'throttle:60,1']
 ], function () {
     
     // Authentication (login)
@@ -66,7 +66,7 @@ Route::group([
 
 // Protected API Routes (Authentication Required)
 Route::group([
-    'middleware' => ['auth:sanctum', 'api.version']
+    'middleware' => ['auth:sanctum', 'api.version', 'throttle:60,1']
 ], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.auth.logout');
     Route::post('/logout-all', [AuthController::class, 'logoutAll'])->name('api.auth.logout_all');
