@@ -22,6 +22,7 @@
 ## 📋 Daftar Isi
 
 - [Tentang Project](#-tentang-project)
+- [Screenshots](#-screenshots)
 - [Fitur Utama](#-fitur-utama)
 - [Tech Stack](#-tech-stack)
 - [Arsitektur](#-arsitektur)
@@ -35,6 +36,110 @@
 - [Deployment](#-deployment)
 - [Developer](#-developer)
 - [Lisensi](#-lisensi)
+
+---
+
+## 📸 Screenshots
+
+Berikut adalah dokumentasi visual lengkap dari Website Profil Desa Warurejo:
+
+### 🌐 Halaman Publik (Tampilan Warga)
+
+#### 🏠 Halaman Utama (Homepage)
+Menampilkan slider hero banner, profil singkat desa, berita terbaru, potensi unggulan, galeri foto dokumentasi terbaru, serta footer navigasi.
+![Halaman Utama](public/images/screenshots/homepage.png)
+
+#### 📋 Profil Desa: Visi & Misi
+Menampilkan visi, misi, dan nilai-nilai pedoman pembangunan desa.
+![Visi & Misi](public/images/screenshots/visi-misi.png)
+
+#### 📜 Profil Desa: Sejarah Desa
+Catatan sejarah perkembangan dan asal-usul Desa Warurejo.
+![Sejarah Desa](public/images/screenshots/sejarah.png)
+
+#### 👔 Profil Desa: Struktur Organisasi (SOTK)
+Bagan struktur kepengurusan desa dan profil perangkat desa yang menjabat.
+![Struktur Organisasi](public/images/screenshots/sotk.png)
+
+#### 📰 Informasi: Daftar Berita Desa
+Halaman daftar artikel berita dengan fitur pencarian dan autocomplete instan.
+![Daftar Berita Desa](public/images/screenshots/berita-list.png)
+
+#### 📖 Informasi: Detail Berita
+Tampilan lengkap isi artikel berita yang dilengkapi dengan metadata penulisan dan share button.
+![Detail Berita](public/images/screenshots/berita-detail.png)
+
+#### 🌟 Informasi: Potensi Desa
+Halaman daftar potensi ekonomi, pariwisata, dan kebudayaan Desa Warurejo.
+![Potensi Desa](public/images/screenshots/potensi-list.png)
+
+#### 🔍 Informasi: Detail Potensi
+Informasi rinci mengenai potensi desa beserta galeri dokumentasi foto pendukung dan CTA kontak WhatsApp pengelola.
+![Detail Potensi](public/images/screenshots/potensi-detail.png)
+
+#### 🖼️ Informasi: Dokumentasi / Galeri
+Galeri foto dokumentasi kegiatan desa dengan filter berbasis kategori.
+![Dokumentasi Desa](public/images/screenshots/galeri.png)
+
+#### 🗺️ Informasi: Peta Wilayah Desa
+Peta batas wilayah interaktif menggunakan integrasi Google Maps API.
+![Peta Desa](public/images/screenshots/peta-desa.png)
+
+#### 📄 Publikasi: Transparansi Dokumen (APBDes / RPJMDes)
+Halaman pengarsipan berkas PDF transparansi desa yang dapat dicari dan diunduh oleh masyarakat.
+![Transparansi Dokumen](public/images/screenshots/publikasi.png)
+
+#### 💬 Layanan: Pengaduan & Tanya Jawab Warga
+Formulir penyampaian aspirasi atau pengaduan warga secara online beserta daftar aduan publik yang telah ditanggapi oleh perangkat desa.
+![Pengaduan Warga](public/images/screenshots/pengaduan.png)
+
+---
+
+### 🔑 Panel Administrasi (Tampilan Admin)
+
+#### 🔒 Halaman Login Admin
+Form autentikasi khusus untuk administrator desa.
+![Login Admin](public/images/screenshots/admin-login.png)
+
+#### 📊 Dashboard Administrator
+Halaman utama panel admin yang menyajikan ringkasan statistik konten dan grafik statistik pengunjung secara real-time.
+![Dashboard Admin](public/images/screenshots/admin-dashboard.png)
+
+#### 📰 Kelola Berita: Tabel Konten Berita
+Daftar berita terbit, filter status, bulk delete, dan manajemen publikasi.
+![Tabel Berita](public/images/screenshots/admin-berita-list.png)
+
+#### ✏️ Kelola Berita: Form Tambah & Edit
+Formulir input berita yang terstruktur rapi ke dalam tiga tab (Konten, Media, Pengaturan).
+![Form Berita](public/images/screenshots/admin-berita-form.png)
+
+#### 🌟 Kelola Potensi Desa
+Manajemen potensi desa yang mendukung multi-upload foto produk/lokasi.
+![Tabel Potensi](public/images/screenshots/admin-potensi-list.png)
+
+#### 🖼️ Kelola Galeri Dokumentasi
+Sistem manajemen dokumentasi publikasi foto kegiatan desa.
+![Tabel Galeri](public/images/screenshots/admin-galeri-list.png)
+
+#### 📄 Kelola Publikasi Dokumen
+Manajemen file dokumen PDF transparansi desa (APBDes/RPJMDes/RKPDes).
+![Tabel Publikasi](public/images/screenshots/admin-publikasi-list.png)
+
+#### 👔 Kelola SOTK (Struktur Organisasi)
+Manajemen jabatan, nama, status dinas, dan foto profil perangkat desa.
+![Tabel SOTK](public/images/screenshots/admin-sotk-list.png)
+
+#### 💬 Kelola Pengaduan: Daftar Aduan Warga
+Tabel monitoring aduan yang masuk dari warga disertai status verifikasi dan tanggapan.
+![Tabel Pengaduan](public/images/screenshots/admin-pengaduan-list.png)
+
+#### 💬 Kelola Pengaduan: Form Balas & Tanggapi
+Detail pengaduan warga dan editor tanggapan resmi dari pihak desa beserta opsi unggah foto bukti penyelesaian.
+![Detail/Balas Pengaduan](public/images/screenshots/admin-pengaduan-detail.png)
+
+#### 👤 Profil Saya & Pengaturan Akun
+Halaman kustomisasi profil admin aktif (nama, email, foto avatar) dan ganti password keamanan.
+![Profil Saya](public/images/screenshots/admin-profile.png)
 
 ---
 
@@ -91,7 +196,19 @@ Konten (Berita, Galeri, Publikasi, Potensi) mendukung 3 status lifecycle:
 - **Scheduled** — Konten akan auto-publish pada tanggal/waktu yang ditentukan
 - **Published** — Konten sudah aktif dan tampil di halaman publik
 
-Auto-publishing dijalankan oleh middleware `PublishScheduledContent` yang memeriksa konten terjadwal setiap request admin, dengan throttle 60 detik untuk performa.
+Sistem penjadwalan konten menggunakan **Dual-Strategy** untuk memastikan keandalan penerbitan konten secara otomatis:
+1. **Artisan Command & Task Scheduler (Utama):** Command `content:publish-scheduled` berjalan setiap menit di server produksi via cron job untuk mempublikasikan konten secara background tanpa ketergantungan pada interaksi pengguna.
+2. **Middleware Fallback (Cadangan):** Middleware `PublishScheduledContent` memeriksa konten terjadwal saat administrator mengakses dashboard admin (dengan batasan throttle 60 detik agar tidak membebani server). Ini sangat berguna sebagai cadangan jika cron job di hosting mengalami kendala.
+
+### 📅 Daftar Scheduled Tasks
+
+Aplikasi memiliki beberapa tugas terjadwal yang dijalankan oleh Laravel Scheduler (dikonfigurasi di `routes/console.php`):
+
+| Task / Command | Frekuensi | Deskripsi |
+|----------------|-----------|-----------|
+| `content:publish-scheduled` | Setiap menit (`everyMinute()`) | Memeriksa dan mempublikasikan konten (Berita, Potensi, Galeri, Publikasi) yang telah mencapai tanggal rilis. |
+| `Schedule::call` (Visitor Cleanup) | Setiap hari pukul 06:00 (`dailyAt('06:00')`) | Menghapus log visitor mentah yang berusia lebih dari 90 hari untuk mencegah pembengkakan database. |
+| `Schedule::call` (Stats Aggregation) | Setiap hari pukul 06:05 (`dailyAt('06:05')`) | Melakukan agregasi data kunjungan kemarin dan menyimpannya ke tabel `daily_visitor_stats`. |
 
 ### 📊 Visitor Analytics
 
@@ -198,14 +315,16 @@ app/
 │   │   │   ├── ProfilDesaController
 │   │   │   ├── PublikasiController
 │   │   │   └── StatistikController
-│   │   └── Public/             # 7 Public Controllers
-│   │       ├── HomeController
-│   │       ├── BeritaController
-│   │       ├── PotensiController
-│   │       ├── GaleriController
-│   │       ├── ProfilController
-│   │       ├── PengaduanController
-│   │       └── KontakController
+│   │   ├── Public/             # 7 Public Controllers
+│   │   │   ├── HomeController
+│   │   │   ├── BeritaController
+│   │   │   ├── PotensiController
+│   │   │   ├── GaleriController
+│   │   │   ├── ProfilController
+│   │   │   ├── PengaduanController
+│   │   │   └── KontakController
+│   │   ├── PublikasiController.php  # Shared Controller
+│   │   └── SitemapController.php    # Shared Controller
 │   ├── Middleware/
 │   │   ├── AdminAuthenticate
 │   │   ├── RedirectIfAdmin
@@ -281,6 +400,21 @@ php artisan serve
 ```
 
 Buka browser: `http://localhost:8000`
+
+### 📊 Penjelasan Data Seeder
+
+Untuk mempermudah pengujian dan proses pengembangan, jalankan `php artisan db:seed` untuk mengisi database dengan data realistis berikut:
+
+| Seeder Class | Deskripsi |
+|--------------|-----------|
+| **`AdminSeeder`** | Membuat akun administrator default untuk login panel admin. |
+| **`StrukturOrganisasiSeeder`** | Membuat hierarki organisasi desa lengkap dari Kepala Desa hingga staf pendukung dengan deskripsi tugas terperinci. |
+| **`BeritaSeeder`** | Menghasilkan data berita fiktif dengan status Published, Draft, dan Scheduled. |
+| **`PotensiSeeder`** | Menghasilkan data 7 kategori potensi desa lengkap dengan kontak WA dan integrasi multi-foto. |
+| **`GaleriSeeder`** | Menghasilkan data galeri foto dengan kategori Kegiatan, Infrastruktur, Budaya, dan Umum. |
+| **`PublikasiSeeder`** | Mengisi dokumen publikasi resmi (APBDes, RPJMDes, RKPDes) berformat PDF fiktif. |
+| **`PengaduanSeeder`** | Mengisi data pengaduan masuk dari warga dengan alur status (Diajukan, Diproses, Selesai) lengkap beserta balasan administrator. |
+| **`VisitorDataSeeder`** | **Sangat Penting:** Menghasilkan 1 tahun data kunjungan harian realistis (daily traffic) sehingga chart pengunjung di dashboard admin langsung tampil interaktif dengan grafik fluktuasi bulanan. |
 
 ### Default Admin Account
 
@@ -627,10 +761,15 @@ sudo chmod -R 775 storage bootstrap/cache
 php artisan optimize
 php artisan storage:link
 
-# 5. Cron job
+# 5. Cron job (Scheduler)
 # * * * * * cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1
 
-# 6. SSL
+# 6. Queue Worker (Supervisor)
+# Aplikasi menggunakan background jobs untuk efisiensi performa (misalnya pencatatan view artikel).
+# Buat file konfigurasi Supervisor untuk memantau worker secara terus-menerus:
+# command=php /path/to/project/artisan queue:work database --sleep=3 --tries=3 --max-time=3600
+
+# 7. SSL
 sudo certbot --nginx -d warurejo.desa.id
 ```
 

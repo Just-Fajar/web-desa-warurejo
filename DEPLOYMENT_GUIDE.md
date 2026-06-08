@@ -145,7 +145,18 @@ cPanel → **Cron Jobs**, tambahkan:
 * * * * * cd /home/username/public_html/warurejo && php artisan schedule:run >> /dev/null 2>&1
 ```
 
-### Step 6: Test
+### Step 6: Setup Queue Worker (Shared Hosting)
+
+Karena aplikasi menggunakan *database queue* untuk pemrosesan background job (seperti pencatatan statistik view artikel secara asinkron), Anda perlu memproses antrean. 
+
+Di Shared Hosting, tambahkan cron job baru untuk memproses antrean job yang masuk setiap menit:
+
+```
+* * * * * cd /home/username/public_html/warurejo && php artisan queue:work --stop-when-empty >> /dev/null 2>&1
+```
+*Note: Perintah `--stop-when-empty` akan memproses antrean yang menumpuk lalu berhenti secara otomatis ketika antrean kosong untuk menghemat konsumsi RAM hosting Anda.*
+
+### Step 7: Test
 
 1. Buka `https://yourdomain.com` — homepage harus muncul
 2. Buka `https://yourdomain.com/admin/login` — login admin
@@ -297,6 +308,43 @@ sudo systemctl reload nginx
 (crontab -l; echo "* * * * * cd /var/www/warurejo && php artisan schedule:run >> /dev/null 2>&1") | crontab -
 ```
 
+### Step 6: Setup Queue Worker (Supervisor)
+
+Untuk memastikan background jobs (seperti `IncrementViewsJob`) terus diproses di background tanpa membebani request web utama, Anda disarankan menggunakan **Supervisor**:
+
+1. Install Supervisor di server:
+   ```bash
+   sudo apt install -y supervisor
+   ```
+
+2. Buat file konfigurasi worker baru:
+   ```bash
+   sudo nano /etc/supervisor/conf.d/warurejo-worker.conf
+   ```
+
+3. Isi file tersebut dengan konfigurasi berikut:
+   ```ini
+   [program:warurejo-worker]
+   process_name=%(program_name)s_%(process_num)02d
+   command=php /var/www/warurejo/artisan queue:work database --sleep=3 --tries=3 --max-time=3600
+   autostart=true
+   autorestart=true
+   stopasgroup=true
+   killasgroup=true
+   user=www-data
+   numprocs=2
+   redirect_stderr=true
+   stdout_logfile=/var/www/warurejo/storage/logs/worker.log
+   stopwaitsecs=3600
+   ```
+
+4. Simpan file (`Ctrl+O`, lalu `Enter` dan `Ctrl+X`), kemudian daftarkan dan jalankan worker:
+   ```bash
+   sudo supervisorctl reread
+   sudo supervisorctl update
+   sudo supervisorctl start warurejo-worker:*
+   ```
+
 ---
 
 ## 🔒 SSL Certificate (Let's Encrypt)
@@ -351,6 +399,7 @@ php artisan tinker
 - [ ] Database MySQL terkonfigurasi
 - [ ] SSL certificate aktif (HTTPS)
 - [ ] Cron job berjalan (`schedule:run`)
+- [ ] Queue worker aktif (`queue:work` atau Supervisor)
 - [ ] Homepage load dengan benar
 - [ ] Admin login berfungsi
 - [ ] CRUD operations berfungsi
