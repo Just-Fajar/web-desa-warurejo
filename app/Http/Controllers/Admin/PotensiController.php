@@ -113,7 +113,9 @@ class PotensiController extends Controller
             }
 
             // Clear cache
-            // Handled by service layer
+            Cache::forget('home.potensi');
+            Cache::forget('home.total_potensi');
+            Cache::forget('profil_desa');
 
             return redirect()
                 ->route('admin.potensi.index')
@@ -204,7 +206,9 @@ class PotensiController extends Controller
             }
 
             // Clear cache
-            // Handled by service layer
+            Cache::forget('home.potensi');
+            Cache::forget('home.total_potensi');
+            Cache::forget('profil_desa');
 
             return redirect()
                 ->route('admin.potensi.index')
@@ -238,7 +242,9 @@ class PotensiController extends Controller
             $potensi->delete();
 
             // Clear cache
-            // Handled by service layer
+            Cache::forget('home.potensi');
+            Cache::forget('home.total_potensi');
+            Cache::forget('profil_desa');
 
             return redirect()
                 ->route('admin.potensi.index')
@@ -259,7 +265,10 @@ class PotensiController extends Controller
         try {
             $foto = PotensiDesaFoto::findOrFail($id);
             Storage::disk('public')->delete($foto->foto);
-            $foto->delete();
+            // Clear cache
+            Cache::forget('home.potensi');
+            Cache::forget('home.total_potensi');
+            Cache::forget('profil_desa');
 
             return response()->json([
                 'success' => true,
@@ -307,7 +316,9 @@ class PotensiController extends Controller
             PotensiDesa::whereIn('id', $ids)->delete();
 
             // Clear cache
-            // Handled by service layer
+            Cache::forget('home.potensi');
+            Cache::forget('home.total_potensi');
+            Cache::forget('profil_desa');
 
             return response()->json([
                 'success' => true,
